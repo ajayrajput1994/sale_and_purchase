@@ -1,0 +1,284 @@
+ <!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)" >
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${title}"></title>
+<meta name="description" th:content="|${keyword}|"/>
+<meta name="keyword" th:content="|${description}|"/>
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" th:href="@{/../css/style.css}" /> 
+<link rel="stylesheet" th:href="@{/../css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/../css/mdb.min.css}" />
+<style>.navbar-brand a{font-size:2rem;}
+  header{height:3rem;}
+  header .logobox{margin-top:5px;margin-top: 1.5rem;}
+   header .select{height:2.8rem;border: solid black;}
+   header .currentloc{height:2rem;}
+   header .searchbox{height:2.8rem;}
+   header .searchbtn{height:2.8rem;width:3rem;background:black;color:#ffff;}
+   header .accountbox{margin-top: 1.5rem;color: black;}
+   header .accountbox ul li a{color: black;}
+</style>
+</head>
+<body class="fixed-sn white-skin">
+ <!-- Main Navigation -->
+  <header>
+    <div class="bg-white fixed-top">
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 col-4 order-md-first order-first mx-auto logobox px-0">
+      <div class="navbar-brandv font-weight-bold ">
+        <a href="" th:href="@{/}"><img th:src="@{'/image/logo.png'}"></a>
+      </div>
+    </div>
+     <div class="col-md-6  order-md-first order-last p-md-0 my-0 ">
+      <form th:action="@{/search}"  class="md-form md-outline"  >
+        <div class="input-group ">
+          <input type="text" name="keyword" id="keyword"  class="form-control rounded-0 searchbox mx-0"   style="height:2.8rem;border:black solid ;" placeholder="Search here" aria-label="Search here" aria-describedby="basic-addon2" required="">
+          <div class="input-group-append px-2 mx-0">
+            <span class="input-group-text p-0" id="basic-addon2"><button class="searchbtn p-0 " type="submit"><i class="fas fa-search"></i></button></span>
+          </div>
+        </div>
+    </form>
+  </div>
+    <div class="col-md-3 col-8 order-md-last order-first accountbox">
+
+        <ul class="d-flex justify-content-end list-unstyled">
+
+          <!-- Dropdown -->
+          <li class="nav-item">
+            <a th:href="@{/new-post}" class="nav-link waves-effect btn btn-warning btn-sm btn-rounded px-2" >
+              <span>free post</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/signin}" class="nav-link waves-effect"><i class="fas fa-sign-out-alt"></i> <span
+                class="clearfix d-none d-sm-inline-block">Login</span></a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/signup}" class="nav-link waves-effect"><i class="fas fa-user-plus"></i> <span
+                class="clearfix d-none d-sm-inline-block">Register</span></a>
+          </li>
+
+        </ul>
+    </div>
+
+  </div>
+ </div>
+</div>
+    
+
+  </header>
+  <!-- Main Navigation -->
+  <main class="my-1">
+<div th:replace="${content}"></div>
+<p id="demo"></p>
+</main>
+<!-- Footer -->
+  <footer class="page-footer pt-0 mt-5">
+  <!-- Section: Social media -->
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <!-- Left -->
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <!-- Left -->
+
+    <!-- Right -->
+    <div>
+      <a th:href="@{${social.facebook}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a th:href="@{${social.twitter}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a th:href="@{${social.gmail}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-google"></i>
+      </a>
+      <a th:href="@{${social.instagram}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a th:href="@{${social.linkedin}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a th:href="@{${social.gethub}}" target="blank" class="me-4 text-reset">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container  text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem me-3"></i> One to Z
+          </h6>
+          <p > <span th:text="@{${address.Address}}"></span>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Popular Location
+          </h6>
+          <p th:each="c : ${allstates}">
+            <a th:href="@{'/'+${c.stateName}}" class="text-reset"><span th:text="${c.stateName}"></span></a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Useful links
+          </h6>
+          <p>
+            <a href="/about" class="text-reset">About</a>
+          </p>
+          <p>
+            <a href="/contact" class="text-reset">Contact</a>
+          </p>
+          <p>
+            <a href="/privacy-policy" class="text-reset">Privacy Policy</a>
+          </p>
+          <p>
+            <a href="/term-and-condition" class="text-reset">Terms And Conditions</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Contact
+          </h6>
+          <p><i class="fas fa-envelope me-3"></i><span th:text="@{${address.infoEmail}}"></span></p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            <span th:text="@{${address.adminEmail}}"></span>
+          </p>
+          <p><i class="fas fa-phone me-3"></i><span th:text="@{${address.phone}}"></span></p>
+          <p><i class="fas fa-phone me-3"></i> <span th:text="@{${address.phone2}}"></span></p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2021 Copyright:
+    <a class="text-reset fw-bold" href="https://onetoz.com/">One To Z</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+  <!-- Footer -->
+
+<!-- js links -->
+<script th:src="@{/../js/popper.min.js}"></script>
+<script th:src="@{/../js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/../js/mdb.min.js}"></script>
+<script th:src="@{/../js/bootstrap.js}"></script>
+<script>
+
+    var container = document.querySelector('.custom-scrollbar');
+    var ps = new PerfectScrollbar(container, {
+      wheelSpeed: 2,
+      wheelPropagation: true,
+      minScrollbarLength: 20
+    });
+
+    // Material Select Initialization
+    $(document).ready(function () {
+      $('.mdb-select').material_select();
+    });
+
+    // Tooltips Initialization
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+<script>
+                 
+
+
+                  const search= () =>{
+                    let loc=$("#select").val();
+                     let c= $("#currentloc").val();
+                     var elem = document.getElementById("preloadbox");
+                   // console.log(loc);
+                    if(loc == ""){
+                      alert("not found location");
+                      $("#georesult").hide();
+                      $("#preloadbox").show();
+                    }
+                    else{
+                          
+                        var  value=loc.split(",");count=value.length;
+                        if(count==7){
+                          loc=value[count-3].trim();
+                        }
+                        let l=window.location;
+                        let url=`http://localhost:8080/geolocation/${loc}`;
+                        /*console.log(url);*/
+                        fetch(url).then((response)=> {
+                          return response.json();
+                        })
+                        .then((data) => {
+                          /*console.log(data);*/
+
+                          let text=`<div class='col-md-4'>`;
+                          data.forEach((blog) =>{
+                          text +=`<div class='card card-cascade narrower card-ecommerce mb-5'>`;
+                             text +=` <div class='view view-cascade overlay'>`;
+                              text +=`<img src='/image/${blog.image}' class='img-fluid' alt='${blog.title}'>`;
+                              text +=`<a href='/${blog.title}'> <div class='mask'></div></a>`;
+                            text +=`</div>`;
+                            text +=`<div class="card-body card-body-cascade text-center">`;
+                            text +=`<h4 class='card-title'><i class='fas fa-rupee-sign mr-1'></i>${blog.price}</h4>`;
+                              text +=`<p class='card-text'>${blog.title}</p>`;
+                            text +=`</div>`;
+                            text +=`<div class='card-footer links-light'>`;
+                          text +=`<span class='float-left pt-2'> <a><i class='fas fa-heart mr-2'></i></a> </span>`;
+                          text +=`<span class='float-right'>`;
+                            text +=`<a href="" class='waves-effect p-2'>${blog.city}`;
+                              text +=`<i class='fas fa-map-marker-alt ml-1'></i></a>`;
+                          text +=`</span>`;
+                        text +=`</div>`;
+
+                      text +=`</div>`;
+                            });
+                      text +=`</div>`;
+                      
+                      $("#georesult").html(text);
+                     
+                      if(!data.length){
+                        $("#georesult").html("<div class='col-12 mx-auto'><h5 class='text-center my-5'>Products Not found </h5></div>");
+                      }
+                      
+                        });
+                  $("#georesult").show();
+                  $("#preloadbox").hide();
+                   }
+                  };
+
+                  
+                  </script>
+                  
+</body>
+</html>

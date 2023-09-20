@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base-normal::layout(~{::div.container})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+<!-- Section: Inputs -->
+  <div class="row">
+    <div class="col-md-8 mx-auto ">
+      <section class="section card mb-5">
+
+        <div class="card-body post_form">
+          <div  th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
+          <p class="text-center" th:text="${session.message.content}"></p>
+          <th:block th:text="${#session.removeAttribute('message')}" ></th:block>
+        </div>
+          <form action="#" th:action="@{/process-post}" method="POST"  enctype="multipart/form-data" th:object="${blog}" >
+          <!-- Section heading -->
+          <h1 class="text-center my-5 h1">Create Post</h1>
+          <!-- Grid row -->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-12 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="title" id="title" class="form-control" required="">
+                <label for="title" class="">Enter Title</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+                <div class="md-form md-outline">
+                  <select name="mainCategory" id="mainCategory" onchange="myfun(this.value)" class="select form-control" >
+                    	<option disabled="" selected="">Select main Category</option>
+	                    <option th:value="${mc.mainCatalog}" th:each="mc : ${mainCates}"><span th:text="${mc.mainCatalog}"></span></option>
+	              </select>
+              </div>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <div class="md-form md-outline">
+                  <select name="category" id="category" class="select form-control"  required="">
+                  <option disabled="" selected="">Select sub Category</option>
+                </select>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="region" value="india" id="region" class="form-control">
+                <label class="active" for="region">Region</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+                <div class="md-form md-outline">
+                  <input type="text" name="regionState" id="regionState"  class=" form-control" required="">
+                  <label  for="regionState">State</label>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <div class="md-form md-outline">
+                  <input type="text"  name="city" id="city" class=" form-control"  required="">
+                  <label for="city">City</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-12 mb-4">
+
+              <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="number" name="price" id="price" class="form-control validate" required="">
+                <label for="price" data-error="wrong" data-success="right">Enter Price</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="file" name="multipartFile" id="multipartFile"  required="">
+              </div>
+              </div>
+              <div class="col-md-6 mb-4">
+				<div class="md-form md-outline">
+                <input type="file" name="multipartFile1" id="multipartFile1">
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+        <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <div class="md-form md-outline">
+                  <input type="file" name="multipartFile2" id="multipartFile2">
+                </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <!-- Email validation -->
+                <div class="md-form md-outline">
+                  <input type="file" name="multipartFile3" id="multipartFile3">
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="md-form md-outline">
+                <input type="file" name="multipartFile4" id="multipartFile4">
+              </div>
+
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="md-form md-outline">
+                <input type="file" name="multipartFile5" id="multipartFile5">
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-12 mb-4">
+
+              <!-- Basic textarea -->
+              <div class="md-form md-outline">
+                <textarea type="text" name="address" id="address" class="md-textarea form-control" rows="3" required=""></textarea>
+                <label for="address">Enter Address</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-12 mb-4">
+
+              <!-- Textarea with icon prefix -->
+              <div class="md-form md-outline">
+                <textarea type="text" name="description" id="description" class="md-textarea form-control" rows="3" required=""></textarea>
+                <label for="description">Enter Description</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <h4>Publisher information </h4><hr>
+          <div class="row">
+            <div class="col-md-6">
+                  <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="text" name="name" id="name" class="form-control validate" required="">
+                <label for="name" data-error="wrong" data-success="right">Enter name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+                  <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="email" name="email" id="email" class="form-control validate" required="">
+                <label for="email" data-error="wrong" data-success="right">Enter email</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+                  <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="number" name="phone" id="phone" class="form-control validate" required="">
+                <label for="phone" data-error="wrong" data-success="right">Enter phone</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+                  <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="number" name="other_number" id="other_number" class="form-control validate" >
+                <label for="other_number" data-error="wrong" data-success="right">Other Number</label>
+              </div>
+            </div>
+            
+          </div>
+          <!-- Grid row -->
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary btn-rounded  px-5 py-2">submit</button>
+            <button type="reset" class="btn btn-danger btn-rounded  px-5 py-2">reset</button>
+          </div>
+        </form>
+        </div>
+
+      </section>
+    </div>
+  </div>
+      <!-- Section: Inputs -->
+      <script type="text/javascript">
+        function myfun(cat){
+          var options="";
+         /* var pathurl=window.location+'/getSubByCat';*/
+              $.ajax({
+                  url:'/getSubByCat',
+                  type:'GET',
+                  data:{cat:cat},
+                  success:function(result){
+                    result.forEach(function(item) {
+                    options +='<option value="'+item.subCatalog+'">'+item.subCatalog+'</option>';
+                      // body...
+                    });
+                     $('#category').html(options);
+                     // alert(result);
+                  },
+                  error:function(result){
+                     $('#category').html("<option> Category not available</option>");
+                  }
+
+              });
+          }
+
+          function getCity(state){
+          var options="";
+         /* var pathurl=window.location+'/getCityByState';*/
+              $.ajax({
+                  url:'/getCityByState',
+                  type:'GET',
+                  data:{state:state},
+                  success:function(result){
+                    result.forEach(function(item) {
+                    options +='<option value="'+item.cityName+'">'+item.cityName+'</option>';
+                      // body...
+                    });
+                     $('#city').html(options);
+                     // alert(result);
+                  },
+                  error:function(result){
+                     $('#city').html("<option> City not available</option>");
+                  }
+
+              });
+          }
+      </script>
+</div>
+</body>
+</html>

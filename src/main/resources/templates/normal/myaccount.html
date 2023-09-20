@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::div.container})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+<!-- Section: Inputs -->
+      <section class="section card mb-5">
+
+        <div class="card-body">
+          <form action="#" th:action="@{/user/profile/update}" method="POST"   th:object="${user}" >
+          <!-- Section heading -->
+          <h1 class="text-center my-5 h1">Account Information</h1>
+          <!-- Grid row -->
+          <div class="row">
+			<input type="hidden" name="id" th:value="${user.id}">
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="name" id="name" th:value="${user.name}" class="form-control" required="">
+                <label for="name" class="">Enter Name</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="email" name="email" id="email"  th:value="${user.email}" class="form-control" disabled="">
+                <label class="active" for="email">email</label>
+              </div>
+
+            </div>
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row">
+
+            
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+                <div class="md-form md-outline">
+                  <input type="text" name="phone" id="phone" th:value="${user.phone}"  class="form-control" >
+                <label class="active" for="phone">phone</label>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="other_phone" id="other_phone" th:value="${user.other_phone}"  class="form-control" required="">
+                <label class="active" for="other_phone">other phone</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          
+
+    
+          <div class="float-right">
+            <button type="submit" class="btn btn-primary btn-rounded btn-sm px-5 py-2">submit</button>
+          </div>
+        </form>
+        </div>
+
+      </section>
+      <!-- Section: Inputs -->
+        <!-- Section: Inputs -->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+<!-- Section: Inputs -->
+      <section class="section card mb-5">
+
+        <div class="card-body">
+          <form action="#" th:action="@{/admin/post/update}" method="POST"  enctype="multipart/form-data" th:object="${blog}" >
+          <!-- Section heading -->
+          <h1 class="text-center my-5 h1">Update Post</h1>
+          <!-- Grid row -->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+              <input type="hidden" name="id" th:value="${blog.id}">
+              <div class="md-form md-outline">
+                <input type="text" name="title" th:value="${blog.title}" id="title" class="form-control" required="">
+                <label for="title" class="">Enter Title</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+                <div class="md-form md-outline">
+                   <select name="mainCategory" id="mainCategory" th:value="${blog.mainCategory}" onchange="myfun(this.value)" class="select form-control" >
+                      <option disabled="" selected="">Select main Category</option>
+                      <option th:value="${mc.mainCatalog}" th:each="mc : ${mainCates}"><span th:text="${mc.mainCatalog}"></span></option>
+                </select>
+              </div>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <div class="md-form md-outline">
+                 <div class="md-form md-outline">
+                  <select name="category" id="category" th:value="${blog.category}" class="select form-control"  required="">
+                  <option disabled="" selected="">Select sub Category</option>
+                </select>
+              </div>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="region" id="region" value="india" class="form-control" >
+                <label class="active" for="region">Region</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+                <div class="md-form md-outline">
+                  <input type="text" name="regionState" id="regionState" th:value="${blog.regionState}" class="form-control" required="">
+                <label class="active" for="regionState">State</label>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <div class="md-form md-outline">
+                <input type="text" name="city" id="city" th:value="${blog.city}" class="form-control" required="">
+                <label class="active" for="region">City</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="number" name="price" th:value="${blog.price}" id="price" class="form-control validate" required="">
+                <label for="price" data-error="wrong" data-success="right">Enter Price</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 mb-4">
+
+              <!-- Email validation -->
+              <div class="md-form md-outline">
+                <input type="file" name="multipartFile" id="multipartFile"  required="">
+              </div>
+              </div>
+              <div class="col-md-4 mb-4">
+        <div class="md-form md-outline">
+                <input type="file" name="multipartFile1" id="multipartFile1">
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+        <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-3 mb-4">
+
+              <div class="md-form md-outline">
+                  <input type="file" name="multipartFile2" id="multipartFile2">
+                </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 mb-4">
+
+              <!-- Email validation -->
+                <div class="md-form md-outline">
+                  <input type="file" name="multipartFile3" id="multipartFile3">
+                </div>
+              </div>
+              <div class="col-md-3 mb-4">
+                <div class="md-form md-outline">
+                <input type="file" name="multipartFile4" id="multipartFile4">
+              </div>
+
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="md-form md-outline">
+                <input type="file" name="multipartFile5" id="multipartFile5">
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row text-left">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <!-- Basic textarea -->
+              <div class="md-form md-outline">
+                <textarea type="text" name="address"  id="address"  th:text="${blog.address}" class="md-textarea form-control" rows="3" required=""></textarea>
+                <label for="address">Enter Address</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-4">
+
+              <!-- Textarea with icon prefix -->
+              <div class="md-form md-outline">
+                <textarea type="text" name="description" th:text="${blog.description}" id="description" class="md-textarea form-control" rows="3" required=""></textarea>
+                <label for="description">Enter Description</label>
+              </div>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+          <div class="float-right">
+            <button type="submit" class="btn btn-primary btn-rounded btn-sm px-5 py-2">update</button>
+          </div>
+        </form>
+        </div>
+
+      </section>
+      <!-- Section: Inputs -->
+        <!-- Section: Inputs -->
+      <script type="text/javascript">
+        function myfun(cat){
+          var options="";
+         /* var pathurl=window.location+'/getSubByCat';*/
+              $.ajax({
+                  url:'http://localhost:8080/getSubByCat',
+                  type:'GET',
+                  data:{cat:cat},
+                  success:function(result){
+                    result.forEach(function(item) {
+                    options +='<option value="'+item.subCatalog+'">'+item.subCatalog+'</option>';
+                      // body...
+                    });
+                     $('#category').html(options);
+                     // alert(result);
+                  },
+                  error:function(result){
+                     $('#category').html("<option> Category not available</option>");
+                  }
+
+              });
+          }
+
+          function getCity(state){
+          var options="";
+         /* var pathurl=window.location+'/getCityByState';*/
+              $.ajax({
+                  url:'http://localhost:8080/getCityByState',
+                  type:'GET',
+                  data:{state:state},
+                  success:function(result){
+                    result.forEach(function(item) {
+                    options +='<option value="'+item.cityName+'">'+item.cityName+'</option>';
+                      // body...
+                    });
+                     $('#city').html(options);
+                     // alert(result);
+                  },
+                  error:function(result){
+                     $('#city').html("<option> City not available</option>");
+                  }
+
+              });
+          }
+      </script>
+</div>
+</body>
+</html>

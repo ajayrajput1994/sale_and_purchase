@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Material Design Bootstrap</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="../static/css/mdb.min.css">
+
+  <!-- Your custom styles (optional) -->
+  <style>
+  header{height:3rem;}
+  header .logobox{margin-top:5px;}
+   header .select{height:2.8rem;border: solid black;}
+   header .searchbox{height:2.8rem;}
+   header .searchbtn{height:2.8rem;width:3rem;background:black;color:#ffff;}
+   header .accountbox{margin-top: 1.5rem;}
+  </style>
+</head>
+
+<body class="fixed-sn white-skin">
+
+  <!--Main Navigation-->
+  <header>
+<div class="bg-white fixed-top">
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-1 col-4 order-md-first order-first mx-auto logobox">
+      <div class="navbar-brandv font-weight-bold ml-2 mt-3 pt-2">
+        <p>Material</p>
+      </div>
+    </div>
+     <div class="col-md-7  order-md-first order-last p-md-0 my-0 ">
+      <div class="row">
+    <div class="col-md-4  mx-auto ml-0 p-md-0">
+      <select class="select rounded-0 md-form form-control">
+          <div class="seletbox">
+           <option id="option" value="1" selected="">
+            current location
+          </option>
+
+          <optgroup label="POPULAR LOCATION">
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+          </optgroup>
+        </div>
+        </select>
+      
+    </div>
+   
+    <div class="col-md-8 py-0">
+      <form action="#"  class=" md-form md-outline">
+        <div class="input-group  mb-3">
+          <input type="text" class="form-control rounded-0 searchbox" name="search" style="height:2.8rem;border:black solid ;" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append px-2">
+            <span class="input-group-text p-0" id="basic-addon2"><button class="searchbtn p-0 " type="submit"><i class="fas fa-search"></i></button></span>
+          </div>
+        </div>
+    </form>
+    </div>
+  </div>
+  </div>
+    <div class="col-md-3 col-8 order-md-last order-first accountbox">
+
+        <ul class="d-flex justify-content-end list-unstyled">
+
+          <!-- Dropdown -->
+          <li class="nav-item">
+            <a th:href="@{/new-post}" class="nav-link waves-effect btn btn-warning btn-sm btn-rounded px-2" >
+              <span>free post</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/signin}" class="nav-link waves-effect"><i class="fas fa-sign-out-alt"></i> <span
+                class="clearfix d-none d-sm-inline-block">Login</span></a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/signup}" class="nav-link waves-effect"><i class="fas fa-user-plus"></i> <span
+                class="clearfix d-none d-sm-inline-block">Register</span></a>
+          </li>
+
+        </ul>
+    </div>
+
+  </div>
+ </div>
+</div>
+
+  </header>
+  <!--Main Navigation-->
+
+  <!-- Main layout -->
+  <main>
+    <div class="container-fluid">
+
+
+
+    </div>
+  </main>
+  <!-- Main layout -->
+
+  <!-- Footer -->
+  <footer class="page-footer pt-0 mt-5">
+
+    <!-- Copyright -->
+    <div class="footer-copyright py-3 text-center">
+      <div class="container-fluid">
+        © 2019 Copyright: <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
+
+      </div>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
+
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script src="../static/js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../static/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../static/js/mdb.min.js"></script>
+  <!--Custom scripts-->
+  <script>
+    // SideNav Initialization
+    $(".button-collapse").sideNav();
+
+    var container = document.querySelector('.custom-scrollbar');
+    var ps = new PerfectScrollbar(container, {
+      wheelSpeed: 2,
+      wheelPropagation: true,
+      minScrollbarLength: 20
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container-fluid})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container-fluid">
+	<section>
+		<div class="row">
+			<div class="col-md-10 mx-auto">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title text-center">All Publisher</h4>
+						<table class="table">
+						  <thead>
+						    <tr>
+						      <th scope="col">#ID</th>
+						      <th scope="col">Name</th>
+						      <th scope="col">Email</th>
+						      <th scope="col">Phone</th>
+						      <th scope="col">Action</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="u : ${users}" th:style="${u.enabled}== FALSE ? 'background: red' : 'background: white'">
+						      <th scope="row"><span th:text="${u.id}"></span></th>
+						      <td><span  th:text="${u.name}"></span></td>
+						      <td><span th:text="${u.email}"></span></td>
+						      <td><span th:text="${u.phone}"></span></td>
+						      <td>
+						      	<a class="btn btn-info btn-sm btn-rounded ">edit</a>
+						      	<a th:href="@{'/admin/user/delete/'+${u.id}}" class="btn btn-danger btn-sm btn-rounded ">delete</a>
+						      </td>
+						    </tr>
+						  </tbody>
+						</table>
+						<!-- Pagination -->
+			            <nav class="my-4 d-flex justify-content-center">
+
+			              <ul class="pagination pagination-circle pg-blue mb-0">
+
+			                <!-- First -->
+			                <!-- Arrow left -->
+			                <li th:if="${currentpage != 0}" class="page-item">
+			                  <a th:href="@{'/admin/all-users/'+${currentpage-1}}" class="page-link" aria-label="Previous">
+			                    <span aria-hidden="true">Previous</span>
+			                    <span class="sr-only">Previous</span>
+			                  </a>
+			                </li>
+
+			                <!-- Numbers -->
+			                <li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}" class="page-item"><a href="" th:href="@{'/admin/all-users/'+${i-1}}" class="page-link"><span th:text="${i}"></span></a></li>
+			                <!-- Arrow right -->
+			                <li th:if="${currentpage+1 != totalpage}" class="page-item">
+			                  <a th:href="@{'/admin/all-users/'+${currentpage+1}}" class="page-link" aria-label="Next">
+			                    <span aria-hidden="true">Next</span>
+			                    <span class="sr-only">Next</span>
+			                  </a>
+			                </li>
+
+			                
+			              </ul>
+			            </nav>
+			            <!-- Pagination -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+</html>

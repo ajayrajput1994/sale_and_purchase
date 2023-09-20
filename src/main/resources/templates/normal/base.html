@@ -1,0 +1,71 @@
+ <!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)" >
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${title}"></title>
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" th:href="@{/../css/style.css}" /> 
+<link rel="stylesheet" th:href="@{/../css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/../css/mdb.min.css}" />
+<style>.navbar-brand a{font-size:2rem;}</style>
+</head>
+<body class="fixed-sn white-skin">
+ <!-- Main Navigation -->
+  <header >
+ <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav">
+
+
+      <!-- Breadcrumb -->
+      <div class="navbar-brand font-weight-bold ml-2">
+        <a href="" th:href="@{/user/index/0}"><img th:src="@{'/image/logo.png'}"></a>
+      </div>
+
+      <!-- Navbar links -->
+      <ul class="nav navbar-nav nav-flex-icons ml-auto">
+
+        
+
+        <li class="nav-item">
+          <a href="/contact" class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span class="clearfix d-none d-sm-inline-block">Contact</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-effect"><i class="far fa-comments"></i> <span class="clearfix d-none d-sm-inline-block">Support</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="/user/profile">My account</a>
+            <a class="dropdown-item" href="/user/update-password">Change password</a>
+            <a class="dropdown-item" th:href="@{/logout}">Log Out</a>
+          </div>
+        </li>
+
+      </ul>
+      <!-- Navbar links -->
+
+    </nav>
+    <!-- Navbar -->
+
+  </header>
+  <!-- Main Navigation -->
+  <main>
+  <div class="container text-center">
+  <div  th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
+		<p class="text-center" th:text="${session.message.content}"></p>
+		<th:block th:text="${#session.removeAttribute('message')}" ></th:block>
+	</div>
+  </div>
+<div th:replace="${content}"></div>
+
+</main>
+<!-- js links -->
+<script th:src="@{/../js/popper.min.js}"></script>
+<script th:src="@{/../js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/../js/mdb.min.js}"></script>
+<script th:src="@{/../js/bootstrap.js}"></script>
+
+</body>
+</html>

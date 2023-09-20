@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base-normal::layout(~{::div.container})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<main>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 col-12 mx-auto">
+				<div class="card px-3 py-2">
+				<h2 class="text-center">Login here</h2>
+				<div th:if="${param.error}" class="alert alert-danger text-center"   >
+				Invalid Username and password !
+				</div>
+				<div th:if="${param.logout}" class="alert alert-success text-center"  >
+				You have been logged out !
+				</div>
+					<form th:action="@{/login_process}" method="post" th:object="${logindata}">
+				  <!-- Email input -->
+				  <div class="form-group">
+				  <label class="form-label" for="email">Email address</label>
+				    <input type="text" name="username" id="email" th:value="${logindata.email}"  class="form-control " th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
+				   </div>
+				   <div th:each="e:${#fields.errors('email')}" th:text="${e}" id="validationServer05Feedback" class="invalid-feedback"></div>
+				
+					<!-- Password input -->
+				  <div class="form-group ">
+				  <label class="form-label" for="password">Password</label>
+				    <input type="password" name="password" id="password" th:value="${logindata.password}"  class="form-control" th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}" aria-describedby="validationServer0"  placeholder="Enter Password" />
+				   	</div>
+				 <div th:each="e:${#fields.errors('password')}" th:text="${e}" id="validationServer05" class="invalid-feedback"></div>
+				  <!-- 2 column grid layout for inline styling -->
+				  <div class="row mb-4">
+				    <div class="col d-flex justify-content-center">
+				      <!-- Checkbox -->
+				      <div class="form-check">
+				        <input class="form-check-input" type="checkbox" value="" id="form2Example34" checked />
+				        <label class="form-check-label" for="form2Example34"> Remember me </label>
+				      </div>
+				      
+				    </div>
+				
+				    <div class="col">
+				      <!-- Simple link -->
+				      <a href="#!">Forgot password?</a>
+				    </div>
+				  </div>
+				
+				  <!-- Submit button -->
+				  <button type="submit" class="btn btn-primary btn-block mb-2 btn-sm">Sign in</button>
+
+			  <!-- Register buttons -->
+			  <div class="text-center">
+			    <p>Not a member? <a href="/register">Register</a></p>
+			    <!-- <p>or sign up with:</p>
+			    <button type="button" class="btn btn-primary btn-floating mx-1">
+			      <i class="fab fa-facebook-f"></i>
+			    </button>
+			
+			    <button type="button" class="btn btn-primary btn-floating mx-1">
+			      <i class="fab fa-google"></i>
+			    </button>
+			
+			    <button type="button" class="btn btn-primary btn-floating mx-1">
+			      <i class="fab fa-twitter"></i>
+			    </button>
+			
+			    <button type="button" class="btn btn-primary btn-floating mx-1">
+			      <i class="fab fa-github"></i>
+			    </button> -->
+			  </div>
+			</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>
