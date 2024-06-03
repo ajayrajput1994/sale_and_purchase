@@ -103,19 +103,19 @@ public class BlogController {
 	@ModelAttribute
 	public void getCommonData(Model m) {
 		//all main calegories
-	List<MainCategory> mainCats=this.mainRepo.getMainCatalogs();
-	m.addAttribute("mainCates", mainCats);
-	
-	//all state 
-	List<RegionState> regstate=this.stateRepo.getAllStates();
-	m.addAttribute("allstates", regstate);	
-	
-	m.addAttribute("comment",new Comments());
-	
-	WebSiteSocial social=websocialRepo.getWebSocial();
-	m.addAttribute("social",social);
-	WebSiteAddress address=webaddressRepo.getSiteAddress();
-	m.addAttribute("address",address);
+		List<MainCategory> mainCats=this.mainRepo.getMainCatalogs();
+		m.addAttribute("mainCates", mainCats);
+		
+		//all state 
+		List<RegionState> regstate=this.stateRepo.getAllStates();
+		m.addAttribute("allstates", regstate);	
+		
+		m.addAttribute("comment",new Comments());
+		
+		WebSiteSocial social=websocialRepo.getWebSocial();
+		m.addAttribute("social",social);
+		WebSiteAddress address=webaddressRepo.getSiteAddress();
+		m.addAttribute("address",address);
 	
 	}
 	
@@ -148,13 +148,17 @@ public class BlogController {
 				return "citypage";
 				
 			}
-			HomeSeo home=this.homeRepo.getHomeSeo();
-			m.addAttribute("home",home);
-			m.addAttribute("title",home.getTitle());
-			m.addAttribute("keyword",home.getKeyword());
-			m.addAttribute("description",home.getDescription());
-			List<Blog> bls=this.blogRepo.getBlogs();
-			m.addAttribute("blogs",bls);
+			try{
+				HomeSeo home=this.homeRepo.getHomeSeo();
+				m.addAttribute("home",home);
+				m.addAttribute("title",home.getTitle()!=null?home.getTitle():"");
+				m.addAttribute("keyword",home.getKeyword()!=null?home.getKeyword():"");
+				m.addAttribute("description",home.getDescription()!=null?home.getDescription():"");
+				List<Blog> bls=this.blogRepo.getBlogs();
+				m.addAttribute("blogs",bls);
+			}catch(Exception e){
+				System.out.println("error:"+e);
+			}
 			//all main calegories
 			return "index";
 	}

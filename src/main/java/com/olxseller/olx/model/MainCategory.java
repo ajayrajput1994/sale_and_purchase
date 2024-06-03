@@ -12,27 +12,27 @@ public class MainCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mainId;
-	
+	@NotNull
 	@NotBlank(message="Category Name con't be empty !!")
 	private String mainCatalog;
-	
+	@NotNull
 	@NotBlank(message="Title con't be empty !!")
 	private String title;
-	
+	@NotNull
 	@NotBlank(message="Keyword con't be empty !!")
 	private String keyword;
-	
+	@NotNull
 	@NotBlank(message="Description con't be empty !!")
 	private String description;
-	
+	@NotNull
 	private String seoTitle;
-	
+	@NotNull
 	private String seoDescription;
-	
+	@NotNull
 	private String seoContent;
-	
+	@NotNull
 	private String image;
-	
+	@NotNull
 	private String path;
 	
 

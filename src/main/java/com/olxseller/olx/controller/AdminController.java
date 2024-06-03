@@ -19,8 +19,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.config.annotation.web.configurers.UrlAuthorizationConfigurer.StandardInterceptUrlRegistry;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.Message;
@@ -64,30 +61,40 @@ public class AdminController {
 	
 	@Autowired
 	private MainCatRepository mainRepo;
+	
 	@Autowired
 	private SubCatRepository subRepo;
+	
 	@Autowired
 	private RegionStateRepository stateRepo;
+	
 	@Autowired
 	private CityRepository cityRepo;
+	
 	@Autowired
 	private UserRepository userRepo;
+	
 	@Autowired
 	private BlogRepository blogRepo;
+
 	@Autowired
 	private HomeSeoRepository homeRepo;
+	
 	@Autowired
 	private WebSiteAddressRepository websiteRepo;
+	
 	@Autowired
 	private WebSiteSocialRepository websocialRepo;
+	
 	@Autowired
 	private WebPageRepositoy webpageRepo;
+	
 	@Autowired
 	private LogoRepository logoRepo;
+	
 	@Autowired
 	private BannerRepository bannerRepo;
-	@Autowired
-	private BCryptPasswordEncoder bycript;
+	
 	
 	@ModelAttribute
 	public void getCommonData(Model m) {
@@ -106,10 +113,6 @@ public class AdminController {
 		//all state 
 		List<RegionState> regstate=this.stateRepo.getAllStates();
 		m.addAttribute("allstates", regstate);
-		WebSiteSocial social=websocialRepo.getWebSocial();
-		m.addAttribute("social",social);
-		WebSiteAddress address=websiteRepo.getSiteAddress();
-		m.addAttribute("address",address);
 		
 	}
 	
@@ -182,36 +185,6 @@ public class AdminController {
 		this.userRepo.save(u);
 		session.setAttribute("message", new Message("disabled user successfully","alert-success"));
 		return "redirect:/admin/all-users/0";
-	}
-	@GetMapping("/update-password")
-	public String adminchangepass(Model m) {
-		m.addAttribute("title","change your password");
-		return "admin/change_password";
-	}
-	@PostMapping("/change-password")
-	public String updateAdminPassword(@RequestParam("new_password") String new_password,Principal principal,Model m,HttpSession session) {
-		String username=principal.getName();
-		User user=this.userRepo.getUserByUserName(username);
-		try {
-			boolean is=this.bycript.matches(new_password, user.getPassword());
-			System.out.println(is);
-			Date date=new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-			String dat=sdf.format(date);
-			if(is) {
-				session.setAttribute("message", new Message("You entered same password, can't change!","alert-danger"));
-			}else{
-				user.setUpdate_at(dat);
-				user.setPassword(this.bycript.encode(new_password));
-				User user2=this.userRepo.save(user);
-				session.setAttribute("message", new Message("update successfully !","alert-success"));
-			}
-			return "admin/admin_dashbord";
-		} catch (Exception e) {
-			session.setAttribute("message", new Message("Something went wrong try again !!","alert-danger"));
-			return "admin/admin_dashbord";
-		}
-		
 	}
 	
 	//main catalogs 
@@ -545,9 +518,9 @@ public class AdminController {
 	//create new main catalogs
 	@PostMapping("/create_maincategory")
 	public String createNewMainCategory(@Valid @ModelAttribute("maincat") MainCategory  maincategory,BindingResult result,Model m,HttpSession session) {
-		String pageurl="redirect:/admin/categories/0";
+		String pageurl="admin/categories";
 		try {
-		//System.out.println(maincategory);redirect:/admin/categories/0
+		//System.out.println(maincategory);
 		if(result.hasErrors()) {
 			System.out.print(result);
 			return pageurl;
@@ -575,7 +548,7 @@ public class AdminController {
 	//create new sub catalog
 	@PostMapping("/create_subcategory")
 	public String createNewSubCategory(@Valid @ModelAttribute("subcat") SubCategory  subcategory,BindingResult result,Model m,HttpSession session) {
-		String pageurl="redirect:/admin/sub-category/0";
+		String pageurl="admin/subcategory";
 		try {
 		//System.out.println(subcategory);
 		if(result.hasErrors()) {
@@ -605,7 +578,7 @@ public class AdminController {
 	//create new state
 	@PostMapping("/create_regionState")
 	public String createNewState(@Valid @ModelAttribute("regionState") RegionState  regionState,BindingResult result,Model m,HttpSession session) {
-		String pageurl="redirect:/admin/all-states/0";
+		String pageurl="admin/allStates";
 		try {
 		//System.out.println(RegionState);
 		if(result.hasErrors()) {
@@ -635,7 +608,7 @@ public class AdminController {
 	//create new city
 	@PostMapping("/create_city")
 	public String createNewCity(@Valid @ModelAttribute("cities") City  cities,BindingResult result,Model m,HttpSession session) {
-		String pageurl="redirect:/admin/all-cities/0";
+		String pageurl="admin/allCities";
 		try {
 		//System.out.println(cities);
 		if(result.hasErrors()) {

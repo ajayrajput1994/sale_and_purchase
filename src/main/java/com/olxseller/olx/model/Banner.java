@@ -15,9 +15,9 @@ public class Banner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//@NotNull
+	@NotNull
 	private String title;
-	//@NotNull
+	@NotNull
 	private String banner;
 	
 	@Transient

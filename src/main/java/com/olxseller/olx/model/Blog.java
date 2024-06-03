@@ -21,44 +21,44 @@ public class Blog {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	
+	@NotNull
 	private String mainCategory;
-	
+	@NotNull
 	private String category;
-	
+	@NotNull
 	private String Title;
-	
+	@NotNull
 	@Column(length=8000)
 	private String Description;
-	
+	@NotNull
 	private double price;
-	
+	@NotNull
 	private String image;
-	
+	@NotNull
 	private String image2;
-	
+	@NotNull
 	private String image3;
-	
+	@NotNull
 	private String image4;
-	
+	@NotNull
 	private String image5;
 
-	
+	@NotNull
 	private String image6;
 
-	
+	@NotNull
 	private String region;
 	
-	
+	@NotNull
 	private String regionState;
 
-	
+	@NotNull
 	private String city;
-	
+	@NotNull
 	private String address;
 
 	// seller info
-	
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private User user;
@@ -81,10 +81,10 @@ public class Blog {
 	@Transient
 	private MultipartFile multipartFile5;
 	
-	
+	@NotNull
 	private String create_at;
 	
-	
+	@NotNull
 	private String update_at;
 
 	public int getId() {

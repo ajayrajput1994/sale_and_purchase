@@ -12,21 +12,21 @@ public class WebSiteSocial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+	@NotNull
 	private String facebook;
-	
+	@NotNull
 	private String instagram;
-	
+	@NotNull
 	private String twitter;
-	
+	@NotNull
 	private String linkedin;
-	
+	@NotNull
 	private String gethub;
-	
+	@NotNull
 	private String Youtube;
-	
+	@NotNull
 	private String gmail;
-	
+	@NotNull
 	public int getId() {
 		return id;
 	}

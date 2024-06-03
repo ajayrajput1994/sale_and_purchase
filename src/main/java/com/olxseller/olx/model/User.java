@@ -12,11 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -24,39 +20,39 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-//	
-//	@NotBlank(message="Name con't be empty !!")
-	@Size(min=3, max=12,message="Name must be between 3-12 characters !")
+	@NotNull
+//@NotBlank(message="Name con't be empty !!")
+	//@Size(min=3, max=12,message="Name must be between 3-12 characters !")
 	private String name;
-//	
+	@NotNull
 	@Column(unique=true)
-	@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
+//@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
 	private String email;
-//	
-//	@NotBlank(message="Phone con't be empty !!")
-	@Size(min=10, max=10,message="Phone must be between 10 digits !")
+	@NotNull
+//@NotBlank(message="Phone con't be empty !!")
+	//@Size(min=10, max=10,message="Phone must be between 10 digits !")
 	private String phone;
-//	
+	@NotNull
 	private String other_phone;
-//	
-	@NotBlank(message="Password can't be empty !")
+	@NotNull
+	//@NotBlank(message="Password can't be empty !")
 	private String password;
-//	
+	@NotNull
 	private String image;
-//	
+	@NotNull
 	private String role;
-//	
+	@NotNull
 	private Boolean enabled;
-	@AssertTrue(message="Must agree term and conditions !!")
+	//@AssertTrue(message="Must agree term and conditions !!")
 	private Boolean agreed;
 	
-//	
+	@NotNull
 	private String create_at;
 	
-//	
+	@NotNull
 	private String update_at;
 	
-	
+	@NotNull
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
 	private List<Blog> blog=new ArrayList<>();
 

@@ -21,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.Message;
@@ -41,17 +39,11 @@ import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.MainCategory;
 import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.User;
-import com.olxseller.olx.model.WebSiteAddress;
-import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.repository.MainCatRepository;
 import com.olxseller.olx.repository.RegionStateRepository;
 import com.olxseller.olx.repository.UserRepository;
-import com.olxseller.olx.repository.WebSiteAddressRepository;
-import com.olxseller.olx.repository.WebSiteSocialRepository;
 import com.olxseller.olx.service.UserService;
-
-import net.bytebuddy.asm.Advice.This;
 
 @Controller
 @RequestMapping("/user")
@@ -69,12 +61,6 @@ public class UserController {
 	private MainCatRepository mainRepo;
 	@Autowired
 	private RegionStateRepository stateRepo;
-	@Autowired
-	private WebSiteAddressRepository websiteRepo;
-	@Autowired
-	private WebSiteSocialRepository websocialRepo;
-	@Autowired
-	private BCryptPasswordEncoder bycript;
 
 	@ModelAttribute
 	public void addCommonData(Model m, Principal principal) {
@@ -89,10 +75,6 @@ public class UserController {
 //		System.out.println(usrname);
 		User user = userRepo.getUserByUserName(usrname);
 		m.addAttribute("user", user);
-		WebSiteSocial social=websocialRepo.getWebSocial();
-		m.addAttribute("social",social);
-		WebSiteAddress address=websiteRepo.getSiteAddress();
-		m.addAttribute("address",address);
 	}
 
 	//user home dashboard
@@ -104,7 +86,7 @@ public class UserController {
 		User user = userRepo.getUserByUserName(usrname);
 		Pageable pageable=PageRequest.of(page, 6);
 		Page<Blog> blogs=this.blogRepo.findBlogsByUser(user.getId(),pageable);
-	//	System.out.println(user);
+		System.out.println(user);
 		model.addAttribute("blogs",blogs);
 		model.addAttribute("currentpage",page);
 		model.addAttribute("totalpage",blogs.getTotalPages());
@@ -117,14 +99,13 @@ public class UserController {
 		model.addAttribute("title", "user profile info");
 		return "normal/myaccount";
 	}
-	
 		
 	@PostMapping("/profile/update")
 	public String do_register(@Valid @ModelAttribute("user") User  user,Principal principal, Model m,HttpSession session) {
 		String pageurl="redirect:/user/index/0";
 		try {
 			
-			System.out.println("user value="+user);
+			
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 			String dat=sdf.format(date);
@@ -132,7 +113,7 @@ public class UserController {
 			user.setUpdate_at(dat);
 			
 			User u=this.userRepo.save(user);
-			//System.out.println(u);
+			System.out.println(u);
 			
 			  session.setAttribute("message",new Message("Successfully registered !!","alert-success"));
 			
@@ -147,44 +128,8 @@ public class UserController {
 		}
 		
 	}
-	// user password
-		@GetMapping("/update-password")
-		public String userpassword(Model model) {
-			model.addAttribute("title", "update your password");
-			return "normal/update_password";
-		}	
 		
 		
-		@PostMapping("/profile/update_password")
-	public String updatepassword(@RequestParam("new_password") String new_password,Principal principal, Model m,HttpSession session) {
-			String pageurl="redirect:/user/index/0";
-			String username = principal.getName();
-			User user = this.userRepo.getUserByUserName(username);
-			try {
-				
-				boolean is=bycript.matches(new_password,user.getPassword());
-				Date date = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-				String dat=sdf.format(date);
-				if(is){
-				session.setAttribute("message",new Message("You Entered same password !!","alert-danger"));
-				}else {
-				user.setUpdate_at(dat);
-				user.setPassword(this.bycript.encode(new_password));
-				User u=this.userRepo.save(user);
-				/* System.out.println(u); */
-				session.setAttribute("message",new Message("Successfully update !!","alert-success"));
-				}
-				  
-				return pageurl;
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			    m.addAttribute("user",user); session.setAttribute("message",new Message("Something went wrong!"+e.getMessage(),"alert-danger"));
-			    return pageurl;
-			}
-			
-		}
 		
 	// add new post
 	@GetMapping("/add-post")
@@ -377,7 +322,6 @@ public class UserController {
 
 			}else {blog.setImage6("");}
 			System.out.println(blog);
-			blog.setCreate_at(blog.getCreate_at());
 			blog.setUpdate_at(dat);
 		//check login user 
 			String username = principal.getName();

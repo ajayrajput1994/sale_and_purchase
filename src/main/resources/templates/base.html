@@ -2,9 +2,9 @@
 <html  lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)" >
 <head>
 <meta charset="ISO-8859-1">
-<title th:text="${title}"></title>
+<title th:text="${title}?${title}:'welcome to olx home'"></title>
 <meta name="description" th:content="|${keyword}|"/>
-<meta name="keyword" th:content="|${description}|"/>
+<meta name="keyword" th:content="|${description}?${description}:'welcome to olx home'|"/>
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 <link rel="stylesheet" th:href="@{/../css/style.css}" /> 
 <link rel="stylesheet" th:href="@{/../css/bootstrap.min.css}" />
@@ -20,7 +20,7 @@
    header .accountbox ul li a{color: black;}
 </style>
 </head>
-<body class="fixed-sn white-skin" onload="getLocation()">
+<body class="fixed-sn white-skin">
  <!-- Main Navigation -->
   <header>
     <div class="bg-white fixed-top">
@@ -43,7 +43,7 @@
           </option>
 
           <optgroup label="POPULAR LOCATION">
-            <option  th:each="c : ${allstates}" th:value="${c.stateName}"><span th:text="${c.stateName}"></span></option>
+            <option  th:each="c : ${allstates}" th:value="${c?.stateName}"><span th:text="${c?.stateName}"></span></option>
           </optgroup>
         </div>
         </select>
@@ -107,22 +107,22 @@
 
     <!-- Right -->
     <div>
-      <a th:href="@{${social.facebook}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.facebook}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-facebook-f"></i>
       </a>
-      <a th:href="@{${social.twitter}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.twitter}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-twitter"></i>
       </a>
-      <a th:href="@{${social.gmail}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.gmail}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-google"></i>
       </a>
-      <a th:href="@{${social.instagram}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.instagram}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-instagram"></i>
       </a>
-      <a th:href="@{${social.linkedin}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.linkedin}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a th:href="@{${social.gethub}}" target="blank" class="me-4 text-reset">
+      <a th:href="@{${social?.gethub}}" target="blank" class="me-4 text-reset">
         <i class="fab fa-github"></i>
       </a>
     </div>
@@ -141,7 +141,7 @@
           <h6 class="text-uppercase fw-bold mb-4">
             <i class="fas fa-gem me-3"></i> One to Z
           </h6>
-          <p > <span th:text="@{${address.Address}}"></span>
+          <p > <span th:text="@{${address?.Address}}"></span>
           </p>
         </div>
         <!-- Grid column -->
@@ -153,7 +153,7 @@
             Popular Location
           </h6>
           <p th:each="c : ${allstates}">
-            <a th:href="@{'/'+${c.stateName}}" class="text-reset"><span th:text="${c.stateName}"></span></a>
+            <a th:href="@{'/'+${c?.stateName}}" class="text-reset"><span th:text="${c?.stateName}"></span></a>
           </p>
         </div>
         <!-- Grid column -->
@@ -185,13 +185,13 @@
           <h6 class="text-uppercase fw-bold mb-4">
             Contact
           </h6>
-          <p><i class="fas fa-envelope me-3"></i><span th:text="@{${address.infoEmail}}"></span></p>
+          <p><i class="fas fa-envelope me-3"></i><span th:text="@{${address?.infoEmail}}"></span></p>
           <p>
             <i class="fas fa-envelope me-3"></i>
-            <span th:text="@{${address.adminEmail}}"></span>
+            <span th:text="@{${address?.adminEmail}}"></span>
           </p>
-          <p><i class="fas fa-phone me-3"></i><span th:text="@{${address.phone}}"></span></p>
-          <p><i class="fas fa-phone me-3"></i> <span th:text="@{${address.phone2}}"></span></p>
+          <p><i class="fas fa-phone me-3"></i><span th:text="@{${address?.phone}}"></span></p>
+          <p><i class="fas fa-phone me-3"></i> <span th:text="@{${address?.phone2}}"></span></p>
         </div>
         <!-- Grid column -->
       </div>
@@ -215,6 +215,7 @@
 <script th:src="@{/../js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{/../js/mdb.min.js}"></script>
 <script th:src="@{/../js/bootstrap.js}"></script>
+<script th:src="@{/../js/getGeoLocation.js}"></script>
 <script>
 
     var container = document.querySelector('.custom-scrollbar');
@@ -259,7 +260,7 @@
                       var geocoder = new google.maps.Geocoder();
                       geocoder.geocode({ 'latLng': latlng },  (results, status) =>{
                           if (status !== google.maps.GeocoderStatus.OK) {
-                              alert(status);
+                              console.log(status);
                           }
                           // This is checking to see if the Geoeode Status is OK before proceeding
                           if (status == google.maps.GeocoderStatus.OK) {
@@ -289,7 +290,7 @@
                      var elem = document.getElementById("preloadbox");
                    // console.log(loc);
                     if(loc == ""){
-                      alert("not found location");
+                      console.log("not found location");
                       $("#georesult").hide();
                       $("#preloadbox").show();
                     }

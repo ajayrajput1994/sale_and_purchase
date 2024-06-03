@@ -11,19 +11,19 @@ public class Comments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int commentId;
-	
+	@NotNull
 	private String name;
-	
+	@NotNull
 	private String email;
-	
+	@NotNull
 	private String subject;
-	
+	@NotNull
 	private String description;
-	
+	@NotNull
 	private String postid;
 	
 	//@ManyToOne(cascade=CascadeType.ALL)
-	
+	@NotNull
 	private String blog;
 
 	public int getCommentId() {

@@ -12,17 +12,17 @@ public class ContactToPublisher {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+	@NotNull
 	private String name;
-	
+	@NotNull
 	private String email;
-	
+	@NotNull
 	private String phone;
-	
+	@NotNull
 	private String subject;
-	
+	@NotNull
 	private String Description;
-	
+	@NotNull
 	private String Date;
 
 	public int getId() {

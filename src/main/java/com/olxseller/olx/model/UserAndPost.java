@@ -9,38 +9,38 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserAndPost {
 
 	private int id;
-	
+	@NotNull
 	private String mainCategory;
-	
+	@NotNull
 	private String category;
-	
+	@NotNull
 	private String Title;
-	
+	@NotNull
 	@Column(length=8000)
 	private String Description;
-	
+	@NotNull
 	private double price;
-	
+	@NotNull
 	private String image;
-	
+	@NotNull
 	private String image2;
-	
+	@NotNull
 	private String image3;
-	
+	@NotNull
 	private String image4;
-	
+	@NotNull
 	private String image5;
-	
+	@NotNull
 	private String image6;
-	
+	@NotNull
 	private String region;
 	
-	
+	@NotNull
 	private String regionState;
 
-	
+	@NotNull
 	private String city;
-	
+	@NotNull
 	private String address;
 	
 	@Transient
@@ -60,13 +60,13 @@ public class UserAndPost {
 	
 	@Transient
 	private MultipartFile multipartFile5;
-	
+	@NotNull
 	private String name;
-	
+	@NotNull
 	private String email;
-	
+	@NotNull
 	private String  phone;
-	
+	@NotNull
 	private String other_number;
 
 	public int getId() {

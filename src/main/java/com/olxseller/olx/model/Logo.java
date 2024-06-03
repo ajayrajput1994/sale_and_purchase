@@ -15,7 +15,7 @@ public class Logo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//@NotNull
+	@NotNull
 	private String logo;
 
 	@Transient

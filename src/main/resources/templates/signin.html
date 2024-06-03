@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base-normal::layout(~{::div.container})">
+<html lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base::layout(~{::div.container})">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
@@ -11,24 +11,24 @@
 			<div class="col-md-5 col-12 mx-auto">
 				<div class="card px-3 py-2">
 				<h2 class="text-center">Login here</h2>
-				<div th:if="${param.error}" class="alert alert-danger text-center"   >
+				<div th:if="${param?.error}" class="alert alert-danger text-center"   >
 				Invalid Username and password !
 				</div>
-				<div th:if="${param.logout}" class="alert alert-success text-center"  >
+				<div th:if="${param?.logout}" class="alert alert-success text-center"  >
 				You have been logged out !
 				</div>
 					<form th:action="@{/login_process}" method="post" th:object="${logindata}">
 				  <!-- Email input -->
 				  <div class="form-group">
 				  <label class="form-label" for="email">Email address</label>
-				    <input type="text" name="username" id="email" th:value="${logindata.email}"  class="form-control " th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
+				    <input type="text" name="username" id="email" th:value="${logindata?.email}"  class="form-control " th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
 				   </div>
 				   <div th:each="e:${#fields.errors('email')}" th:text="${e}" id="validationServer05Feedback" class="invalid-feedback"></div>
 				
 					<!-- Password input -->
 				  <div class="form-group ">
 				  <label class="form-label" for="password">Password</label>
-				    <input type="password" name="password" id="password" th:value="${logindata.password}"  class="form-control" th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}" aria-describedby="validationServer0"  placeholder="Enter Password" />
+				    <input type="password" name="password" id="password" th:value="${logindata?.password}"  class="form-control" th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}" aria-describedby="validationServer0"  placeholder="Enter Password" />
 				   	</div>
 				 <div th:each="e:${#fields.errors('password')}" th:text="${e}" id="validationServer05" class="invalid-feedback"></div>
 				  <!-- 2 column grid layout for inline styling -->

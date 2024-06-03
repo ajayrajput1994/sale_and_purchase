@@ -13,31 +13,31 @@ public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cityId;
-	
+	@NotNull
 	private String stateName;
-	
+	@NotNull
 	@NotBlank(message="City Name con't be empty !!")
 	private String cityName;
-	
+	@NotNull
 	@NotBlank(message="Title con't be empty !!")
 	private String title;
 	@NotBlank(message="keyword con't be empty !!")
 	private String keyword;
-	
+	@NotNull
 	@NotBlank(message="Description con't be empty !!")
 	private String description;
-	
+	@NotNull
 	@NotBlank(message="Seo Title con't be empty !!")
 	private String seoTitle;
-	
+	@NotNull
 	@NotBlank(message="Seo Description con't be empty !!")
 	private String seoDescription;
-	
+	@NotNull
 	@NotBlank(message="Seo Content con't be empty !!")
 	private String seoContent;
-	
+	@NotNull
 	private String path;
-	
+	@NotNull
 	private String image;
 
 

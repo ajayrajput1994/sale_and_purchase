@@ -105,37 +105,37 @@
 	    			<form action="" th:action="@{/admin/setup_homesocial}" method="post" th:object="${websocial}">
 					<div class="form-group">
 					    <label for="facebook">Facebook Link</label>
-					    <input type="text" name="facebook" th:value="${websocial.facebook}" class="form-control" th:classappend="${#fields.hasErrors('facebook')? 'is-invalid':''}" id="facebook"   placeholder="Enter Facebook Link"  />
+					    <input type="text" name="facebook" th:value="${websocial?.facebook}" class="form-control" th:classappend="${#fields.hasErrors('facebook')? 'is-invalid':''}" id="facebook"   placeholder="Enter Facebook Link"  />
 					    <div th:each="e : ${#fields.errors('facebook')}" th:text="${e}" class="invalid-feedback"></div>
 					  </div>
 					  <div class="form-group">
 					    <label for="instagram">Instagram Link</label>
-					    <input type="text" name="instagram" th:value="${websocial.instagram}"  class="form-control" th:classappend="${#fields.hasErrors('instagram')? 'is-invalid':''}" id="instagram"   placeholder="Enter Instagram Link"  />
+					    <input type="text" name="instagram" th:value="${websocial?.instagram}"  class="form-control" th:classappend="${#fields.hasErrors('instagram')? 'is-invalid':''}" id="instagram"   placeholder="Enter Instagram Link"  />
 					    <div th:each="e : ${#fields.errors('instagram')}" th:text="${e}" class="invalid-feedback"></div>
 					   </div>
 					   <div class="form-group">
 					    <label for="twitter">twitter Link </label>
-					    <input type="text" name="twitter" th:value="${websocial.twitter}"  class="form-control" th:classappend="${#fields.hasErrors('twitter')? 'is-invalid':''}" id="twitter"   placeholder="Enter Twitter Link"  />
+					    <input type="text" name="twitter" th:value="${websocial?.twitter}"  class="form-control" th:classappend="${#fields.hasErrors('twitter')? 'is-invalid':''}" id="twitter"   placeholder="Enter Twitter Link"  />
 					    <div th:each="e : ${#fields.errors('twitter')}" th:text="${e}"  class="invalid-feedback"></div>
 					   </div>
 					  <div class="form-group">
 					    <label for="linkedin">linkedin Link</label>
-					    <input type="text" name="linkedin" th:value="${websocial.linkedin}"  class="form-control" th:classappend="${#fields.hasErrors('linkedin')? 'is-invalid':''}"  id="linkedin" placeholder="Enter linkedin Link"  />
+					    <input type="text" name="linkedin" th:value="${websocial?.linkedin}"  class="form-control" th:classappend="${#fields.hasErrors('linkedin')? 'is-invalid':''}"  id="linkedin" placeholder="Enter linkedin Link"  />
 					  <div th:each="e : ${#fields.errors('linkedin')}" th:text="${e}" class="invalid-feedback"></div>
 					   </div>
 					   <div class="form-group">
 					    <label for="gethub">Github Link </label>
-					    <input type="text" name="gethub" th:value="${websocial.gethub}"  class="form-control" th:classappend="${#fields.hasErrors('gethub')? 'is-invalid':''}" id="gethub"   placeholder="Github Number "  />
+					    <input type="text" name="gethub" th:value="${websocial?.gethub}"  class="form-control" th:classappend="${#fields.hasErrors('gethub')? 'is-invalid':''}" id="gethub"   placeholder="Github Number "  />
 					    <div th:each="e : ${#fields.errors('gethub')}" th:text="${e}"  class="invalid-feedback"></div>
 					   </div>
 					   <div class="form-group">
 					    <label for="Youtube">Youtube Link</label>
-					    <input type="text" name="Youtube" th:value="${websocial.Youtube}"  class="form-control" th:classappend="${#fields.hasErrors('Youtube')? 'is-invalid':''}" id="Youtube"   placeholder="Youtube Link"  />
+					    <input type="text" name="Youtube" th:value="${websocial?.Youtube}"  class="form-control" th:classappend="${#fields.hasErrors('Youtube')? 'is-invalid':''}" id="Youtube"   placeholder="Youtube Link"  />
 					    <div th:each="e : ${#fields.errors('Youtube')}" th:text="${e}"  class="invalid-feedback"></div>
 					   </div>
 					   <div class="form-group">
 					    <label for="gmail">Gmail Link</label>
-					    <input type="text" name="gmail" th:value="${websocial.gmail}"  class="form-control" th:classappend="${#fields.hasErrors('gmail')? 'is-invalid':''}" id="gmail"   placeholder="Gmail Link"  />
+					    <input type="text" name="gmail" th:value="${websocial?.gmail}"  class="form-control" th:classappend="${#fields.hasErrors('gmail')? 'is-invalid':''}" id="gmail"   placeholder="Gmail Link"  />
 					    <div th:each="e : ${#fields.errors('gmail')}" th:text="${e}"  class="invalid-feedback"></div>
 					   </div>
 					   <div class="d-flex justify-content-between my-2">

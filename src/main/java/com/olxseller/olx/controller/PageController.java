@@ -175,20 +175,24 @@ public class PageController {
 	
 	  @GetMapping({"","/"}) 
 	  public String home(Model m){
-		  HomeSeo home=this.homeRepo.getHomeSeo();
-		  m.addAttribute("home",home);
-			m.addAttribute("title",home.getTitle());
-			m.addAttribute("keyword",home.getKeyword());
-			m.addAttribute("description",home.getDescription());
-		  List<Blog> blogs=this.blogRepository.getBlogs();
-		  m.addAttribute("blogs",blogs);
-			/* all main calegories*/			
-		  List<MainCategory> mainCats=this.mainRepo.getMainCatalogs();
-			m.addAttribute("mainCates", mainCats);
+			try{
+				HomeSeo home=this.homeRepo.getHomeSeo();
+				m.addAttribute("home",home);
+				m.addAttribute("title",home.getTitle());
+				m.addAttribute("keyword",home.getKeyword());
+				m.addAttribute("description",home.getDescription());
+				List<Blog> blogs=this.blogRepository.getBlogs();
+				m.addAttribute("blogs",blogs);
+				/* all main calegories*/			
+				List<MainCategory> mainCats=this.mainRepo.getMainCatalogs();
+				m.addAttribute("mainCates", mainCats);
+			}catch(Exception e){
+				System.out.println("error:"+e);
+			}
 			/* System.out.println(blogs); */
 		  return "index"; 
 	  }
-
+	 
 	
 	@GetMapping({"/signup","/register"})
 	public String register(Model m) {

@@ -12,17 +12,17 @@ public class HomeSeo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+	@NotNull
 	private String title;
-	
+	@NotNull
 	private String keyword;
-	
+	@NotNull
 	private String description;
-	
+	@NotNull
 	private String seoTitle;
-	
+	@NotNull
 	private String seoDescription;
-	
+	@NotNull
 	private String seoContent;
 
 	public int getId() {

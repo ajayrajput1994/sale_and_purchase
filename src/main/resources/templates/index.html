@@ -8,7 +8,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <!-- Intro section-->
+      <!-- Intro -->
         <section>
 
           <!-- Carousel Wrapper -->
@@ -65,8 +65,8 @@
           <!-- Side navigation links -->
           <!-- Simple link -->
               <li th:each="m : ${mainCates}">
-                <a th:href="@{'/'+${m.mainCatalog}}" class="collapsible-header waves-effect d-block">
-                  <i class="fas fa-angle-double-right"></i><span th:text="${m.mainCatalog}"></span></a>
+                <a th:href="@{'/'+${m?.mainCatalog}}" class="collapsible-header waves-effect d-block">
+                  <i class="fas fa-angle-double-right"></i><span th:text="${m?.mainCatalog}"></span></a>
               </li>
           <!-- Side navigation links -->
 
@@ -92,24 +92,24 @@
 
                         <!-- Card image -->
                         <div class="view view-cascade overlay">
-                          <img th:src="@{'/image/'+${b.image}}"  class="img-fluid"
+                          <img th:src="@{'/image/'+${b?.image}}"  class="img-fluid"
                             alt="">
-                          <a th:href="@{'/'+${b.title}}">
+                          <a th:href="@{'/'+${b?.title}}">
                             <div class="mask"></div>
                           </a>
                         </div>
 
                         <!-- Card content -->
                         <div class="card-body card-body-cascade text-center">
-                            <h4 class="card-title"><i class="fas fa-rupee-sign mr-1"></i><span th:text="${b.price}"></span></h4>
-                            <p class="card-text"><span th:text="${b.title}"></span> </p>
+                            <h4 class="card-title"><i class="fas fa-rupee-sign mr-1"></i><span th:text="${b?.price}"></span></h4>
+                            <p class="card-text"><span th:text="${b?.title}"></span> </p>
                           </div>
 
                         <!-- Card footer -->
                         <div class="card-footer links-light">
                           <span class="float-left pt-2"> <a><i class="fas fa-heart mr-2"></i></a> </span>
                           <span class="float-right">
-                            <a href="" class="waves-effect p-2"><span th:text="${b.city}"></span>
+                            <a href="" class="waves-effect p-2"><span th:text="${b?.city}"></span>
                               <i class="fas fa-map-marker-alt ml-1"></i></a>
                           </span>
                         </div>
@@ -182,9 +182,9 @@
     <div class="col-12 mb-2 mt-5 text-center">
       <div class="card">
         <div class="card-body py-2">
-          <div class="my-1"><span th:text="${home.seoTitle}"></span></div>
-          <div class="my-1"><span th:text="${home.seoDescription}"></span></div>
-          <div class="my-1"><span th:text="${home.seoContent}"></span></div>
+          <div class="my-1"><span th:text="${home?.seoTitle}"></span></div>
+          <div class="my-1"><span th:text="${home?.seoDescription}"></span></div>
+          <div class="my-1"><span th:text="${home?.seoContent}"></span></div>
         </div>
       </div>
     </div>
