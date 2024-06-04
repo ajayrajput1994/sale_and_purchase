@@ -14,17 +14,17 @@ public class ContactUs {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int contactId;
 	@NotNull
-	@NotBlank(message="Name con't be empty !!")
+	//@notblank(message="Name con't be empty !!")
 	private String name;
 	@NotNull
-	@NotBlank(message="Email con't be empty !!")
+	//@notblank(message="Email con't be empty !!")
 	@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
 	private String email;
 	@NotNull
-	@NotBlank(message="Subject con't be empty !!")
+	//@notblank(message="Subject con't be empty !!")
 	private String subject;
 	@NotNull
-	@NotBlank(message="Description con't be empty !!")
+	//@notblank(message="Description con't be empty !!")
 	private String Description;
 	@NotNull
 	private String Date;

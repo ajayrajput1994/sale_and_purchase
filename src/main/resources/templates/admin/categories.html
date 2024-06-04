@@ -1,131 +1,167 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container-fluid})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container-fluid">
-	<section>
-		<div class="row">
-			<div class="col-md-10 mx-auto">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Create Main Category</h2>
-	    			<form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}">
-	    				<div class="form-group">
-					    <label for="mainCatalog">Category Name</label>
-					    <input type="text" name="mainCatalog" th:value="${maincat.mainCatalog}" class="form-control" th:classappend="${#fields.hasErrors('mainCatalog')? 'is-invalid':''}" id="mainCatalog"   placeholder="Category Name"  />
-					    <div th:each="e : ${#fields.errors('mainCatalog')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="title">Title</label>
-					    <input type="text" name="title" th:value="${maincat.title}" class="form-control" th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}" id="title"   placeholder="Enter title"  />
-					    <div th:each="e : ${#fields.errors('title')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="keyword">Keyword</label>
-					    <input type="text" name="keyword" th:value="${maincat.keyword}"  class="form-control" th:classappend="${#fields.hasErrors('keyword')? 'is-invalid':''}" id="keyword"   placeholder="Enter keyword"  />
-					    <div th:each="e : ${#fields.errors('keyword')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="description">Description </label>
-					    <input type="text" name="description" th:value="${maincat.description}"  class="form-control" th:classappend="${#fields.hasErrors('description')? 'is-invalid':''}" id="description"   placeholder="Enter Description"  />
-					    <div th:each="e : ${#fields.errors('description')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					  <div class="form-group">
-					    <label for="seoTitle">Seo Title</label>
-					    <input type="text" name="seoTitle" th:value="${maincat.seoTitle}"  class="form-control" th:classappend="${#fields.hasErrors('seoTitle')? 'is-invalid':''}"  id="seoTitle" placeholder="Enter Seo Title"  />
-					  <div th:each="e : ${#fields.errors('seoTitle')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoDescription">Seo Description </label>
-					    <input type="text" name="seoDescription" th:value="${maincat.seoDescription}"  class="form-control" th:classappend="${#fields.hasErrors('seoDescription')? 'is-invalid':''}" id="seoDescription"   placeholder="Seo Description"  />
-					    <div th:each="e : ${#fields.errors('seoDescription')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoContent">Seo Content </label>
-					    <input type="text" name="seoContent" th:value="${maincat.seoContent}"  class="form-control" th:classappend="${#fields.hasErrors('seoContent')? 'is-invalid':''}" id="seoContent"   placeholder="Seo Content"  />
-					    <div th:each="e : ${#fields.errors('seoContent')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="d-flex justify-content-arround">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						  <button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
+
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<section>
+				<div class="row">
+					<div class="col-md-10 mx-auto">
+						<div class="card">
+							<div class="card-body">
+								<h2 class="text-center">Create Main Category</h2>
+								<form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}">
+									<div class="form-group">
+										<label for="mainCatalog">Category Name</label>
+										<input type="text" name="mainCatalog" th:value="${maincat.mainCatalog}" class="form-control"
+											th:classappend="${#fields.hasErrors('mainCatalog')? 'is-invalid':''}" id="mainCatalog"
+											placeholder="Category Name" />
+										<div th:each="e : ${#fields.errors('mainCatalog')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="form-group">
+										<label for="title">Title</label>
+										<input type="text" name="title" th:value="${maincat.title}" class="form-control"
+											th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}" id="title"
+											placeholder="Enter title" />
+										<div th:each="e : ${#fields.errors('title')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="form-group">
+										<label for="keyword">Keyword</label>
+										<input type="text" name="keyword" th:value="${maincat.keyword}" class="form-control"
+											th:classappend="${#fields.hasErrors('keyword')? 'is-invalid':''}" id="keyword"
+											placeholder="Enter keyword" />
+										<div th:each="e : ${#fields.errors('keyword')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="form-group">
+										<label for="description">Description </label>
+										<input type="text" name="description" th:value="${maincat.description}" class="form-control"
+											th:classappend="${#fields.hasErrors('description')? 'is-invalid':''}" id="description"
+											placeholder="Enter Description" />
+										<div th:each="e : ${#fields.errors('description')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="form-group">
+										<label for="seoTitle">Seo Title</label>
+										<input type="text" name="seoTitle" th:value="${maincat.seoTitle}" class="form-control"
+											th:classappend="${#fields.hasErrors('seoTitle')? 'is-invalid':''}" id="seoTitle"
+											placeholder="Enter Seo Title" />
+										<div th:each="e : ${#fields.errors('seoTitle')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="form-group">
+										<label for="seoDescription">Seo Description </label>
+										<input type="text" name="seoDescription" th:value="${maincat.seoDescription}" class="form-control"
+											th:classappend="${#fields.hasErrors('seoDescription')? 'is-invalid':''}" id="seoDescription"
+											placeholder="Seo Description" />
+										<div th:each="e : ${#fields.errors('seoDescription')}" th:text="${e}" class="invalid-feedback">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="seoContent">Seo Content </label>
+										<input type="text" name="seoContent" th:value="${maincat.seoContent}" class="form-control"
+											th:classappend="${#fields.hasErrors('seoContent')? 'is-invalid':''}" id="seoContent"
+											placeholder="Seo Content" />
+										<div th:each="e : ${#fields.errors('seoContent')}" th:text="${e}" class="invalid-feedback"></div>
+									</div>
+									<div class="d-flex justify-content-arround">
+										<button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
+										<button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
+									</div>
+								</form>
+
+							</div>
 						</div>
-					</form>
-
-	    		</div>
-				</div>
-			</div>
-			
-			<div class="col-md-10 mx-auto mt-3">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title text-center">All Catalogs</h4>
-						<table class="table">
-						  <thead>
-						    <tr>
-						      <th scope="col">#Name</th>
-						      <th scope="col">Title</th>
-						      <th scope="col">Keyword</th>
-						      <th scope="col">Seo Title</th>
-						      <th scope="col">Seo Description</th>
-						      <th scope="col">Seo Content</th>
-						      <th scope="col" colspan="2">Action</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr th:each="u : ${catalogs}" >
-						      <th scope="row"><span th:text="${u.mainCatalog}"></span></th>
-						      <td><span  th:text="${u.title}"></span></td>
-						      <td><span th:text="${u.description}"></span></td>
-						      <td><span th:text="${u.seoTitle}"></span></td>
-						      <td><span th:text="${u.seoDescription}"></span></td>
-						      <td><span th:text="${u.seoContent}"></span></td>
-						      <td>
-						      	<form th:action="@{'/admin/maincategory/edit/'+${u.mainId}}" method="post">
-						      	<button  class="btn btn-info btn-sm btn-rounded ">edit</button>
-						      </form>
-						  		</td><td>
-						      	<a th:href="@{'/admin/catalog/delete/'+${u.mainId}}" class="btn btn-danger btn-sm btn-rounded mt-1">delete</a>
-						      </td>
-						    </tr>
-						  </tbody>
-						</table>
-						<!-- Pagination -->
-			            <nav class="my-4 d-flex justify-content-center">
-
-			              <ul class="pagination pagination-circle pg-blue mb-0">
-
-			                <!-- First -->
-			                <!-- Arrow left -->
-			                <li th:if="${currentpage != 0}" class="page-item">
-			                  <a th:href="@{'/admin/all-users/'+${currentpage-1}}" class="page-link" aria-label="Previous">
-			                    <span aria-hidden="true">Previous</span>
-			                    <span class="sr-only">Previous</span>
-			                  </a>
-			                </li>
-
-			                <!-- Numbers -->
-			                <li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}" class="page-item"><a href="" th:href="@{'/admin/all-users/'+${i-1}}" class="page-link"><span th:text="${i}"></span></a></li>
-			                <!-- Arrow right -->
-			                <li th:if="${currentpage+1 != totalpage}" class="page-item">
-			                  <a th:href="@{'/admin/all-users/'+${currentpage+1}}" class="page-link" aria-label="Next">
-			                    <span aria-hidden="true">Next</span>
-			                    <span class="sr-only">Next</span>
-			                  </a>
-			                </li>
-
-			                
-			              </ul>
-			            </nav>
-			            <!-- Pagination -->
 					</div>
-				</div>
-			</div>
 
+					<div class="col-md-10 mx-auto mt-3">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title text-center">All Catalogs</h4>
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">#Name</th>
+											<th scope="col">Title</th>
+											<th scope="col">Keyword</th>
+											<th scope="col">Seo Title</th>
+											<th scope="col">Seo Description</th>
+											<th scope="col">Seo Content</th>
+											<th scope="col" colspan="2">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="u : ${catalogs}">
+											<th scope="row"><span th:text="${u.mainCatalog}"></span></th>
+											<td><span th:text="${u.title}"></span></td>
+											<td><span th:text="${u.description}"></span></td>
+											<td><span th:text="${u.seoTitle}"></span></td>
+											<td><span th:text="${u.seoDescription}"></span></td>
+											<td><span th:text="${u.seoContent}"></span></td>
+											<td>
+												<form th:action="@{'/admin/maincategory/edit/'+${u.mainId}}" method="post">
+													<button class="btn btn-info btn-sm btn-rounded ">edit</button>
+												</form>
+											</td>
+											<td>
+												<a th:href="@{'/admin/catalog/delete/'+${u.mainId}}"
+													class="btn btn-danger btn-sm btn-rounded mt-1">delete</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- Pagination -->
+								<nav class="my-4 d-flex justify-content-center">
+
+									<ul class="pagination pagination-circle pg-blue mb-0">
+
+										<!-- First -->
+										<!-- Arrow left -->
+										<li th:if="${currentpage != 0}" class="page-item">
+											<a th:href="@{'/admin/all-users/'+${currentpage-1}}" class="page-link" aria-label="Previous">
+												<span aria-hidden="true">Previous</span>
+												<span class="sr-only">Previous</span>
+											</a>
+										</li>
+
+										<!-- Numbers -->
+										<li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}"
+											class="page-item"><a href="" th:href="@{'/admin/all-users/'+${i-1}}" class="page-link"><span
+													th:text="${i}"></span></a></li>
+										<!-- Arrow right -->
+										<li th:if="${currentpage+1 != totalpage}" class="page-item">
+											<a th:href="@{'/admin/all-users/'+${currentpage+1}}" class="page-link" aria-label="Next">
+												<span aria-hidden="true">Next</span>
+												<span class="sr-only">Next</span>
+											</a>
+										</li>
+
+
+									</ul>
+								</nav>
+								<!-- Pagination -->
+								<table id=" id=" categories_table"">
+									<thead>
+										<tr>
+											<th>fs</th>
+											<th>rw</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</section>
 		</div>
-	</section>
-</div>
-</body>
+	</body>
+
 </html>

@@ -101,7 +101,7 @@ public class UserController {
 	}
 		
 	@PostMapping("/profile/update")
-	public String do_register(@Valid @ModelAttribute("user") User  user,Principal principal, Model m,HttpSession session) {
+	public String do_register(@ModelAttribute("user") User  user,Principal principal, Model m,HttpSession session) {
 		String pageurl="redirect:/user/index/0";
 		try {
 			
@@ -141,8 +141,8 @@ public class UserController {
 
 	// add new post
 	@PostMapping("/process-post")
-	public String processpost(@Valid @ModelAttribute Blog blog, Principal principal,
-			BindingResult result,HttpSession session/* ,@RequestParam("image") MultipartFile image */) {
+	public String processpost(@ModelAttribute Blog blog, Principal principal,
+			HttpSession session/* ,@RequestParam("image") MultipartFile image */) {
 		MultipartFile image = blog.getMultipartFile();
 		MultipartFile image1 = blog.getMultipartFile1();
 		MultipartFile image2 = blog.getMultipartFile2();
@@ -264,7 +264,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/post/update")
-	public String updatepost(@Valid @ModelAttribute("blog") Blog blog,BindingResult result,Principal principal,
+	public String updatepost(@ModelAttribute("blog") Blog blog,Principal principal,
 			Model m,HttpSession session) {
 		try {
 			MultipartFile img = blog.getMultipartFile();

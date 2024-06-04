@@ -151,11 +151,11 @@ public class PageController {
 	}
 	
 	@PostMapping("/login_process")
-	public String doLogin(@Valid   @ModelAttribute("logindata") User logindata,BindingResult result,Model model ) {
-		if(result.hasErrors()) {
-			// System.out.println("error"+result);
-			return "signin";
-		}
+	public String doLogin(  @ModelAttribute("logindata") User logindata,Model model ) {
+		// if(result.hasErrors()) {
+		// 	// System.out.println("error"+result);
+		// 	return "signin";
+		// }
 		/* System.out.println(logindata); */
 		
 		model.addAttribute("title",logindata.getEmail());
@@ -202,17 +202,18 @@ public class PageController {
 	}
 	
 	@PostMapping("/do_register")
-	public String do_register(@Valid @ModelAttribute("regdata") User  user,BindingResult result,@RequestParam(value="agreed",defaultValue="false") Boolean agreed,Model m,HttpSession session) {
+	public String do_register(@ModelAttribute("regdata") User  user,@RequestParam(value="agreed",defaultValue="false") Boolean agreed,Model m,HttpSession session) {
 		
 		try {
 			if(!agreed) {
 				System.out.print("you have not agreed the terms and conditions !");
 				throw new Exception("you have not agreed the terms and conditions !");
 			}
-			if(result.hasErrors()) {
-				System.out.print(result);
-				return "signup";
-			}
+			//,
+			// if(result.hasErrors()) {
+			// 	System.out.print(result);
+			// 	return "signup";
+			// }
 			
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
@@ -233,16 +234,16 @@ public class PageController {
 			String email=u.getEmail();String mess="this is demo email";String subject="demo purpose";
 			
 			  session.setAttribute("message",new Message("Successfully registered !!","alert-success"));
-			 boolean flag=this.mailService.sendEmail(subject, mess, email);
-			 if(flag)
-				{
-					session.setAttribute("email", email);
+			//  boolean flag=this.mailService.sendEmail(subject, mess, email);
+			//  if(flag)
+			// 	{
+			// 		session.setAttribute("email", email);
 					
-				}else
-				{	
-					session.setAttribute("message", new Message("mail not send check your email !!","alert-success"));
+			// 	}else
+			// 	{	
+			// 		session.setAttribute("message", new Message("mail not send check your email !!","alert-success"));
 					
-				}
+			// 	}
 			return "signup";
 			
 		}catch(Exception e) {
@@ -256,12 +257,12 @@ public class PageController {
 	}
 	
 	@PostMapping("/do_contactus")
-	public String doContact(@Valid @ModelAttribute("cantactdata") ContactUs  cantactdata,BindingResult result,Model m,HttpSession session) {
+	public String doContact(@ModelAttribute("cantactdata") ContactUs  cantactdata,Model m,HttpSession session) {
 		try {
-			if(result.hasErrors()) {
-				System.out.print(result);
-				return "contact";
-			}
+			// if(result.hasErrors()) {
+			// 	System.out.print(result);
+			// 	return "contact";
+			// }
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 			

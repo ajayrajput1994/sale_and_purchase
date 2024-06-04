@@ -16,25 +16,25 @@ public class RegionState {
 	@NotNull
 	private String region;
 	@NotNull
-	@NotBlank(message="State Name con't be empty !!")
+	//@notblank(message="State Name con't be empty !!")
 	private String stateName;
 	@NotNull
-	@NotBlank(message="Title con't be empty !!")
+	//@notblank(message="Title con't be empty !!")
 	private String title;
 	@NotNull
-	@NotBlank(message="Keyword con't be empty !!")
+	//@notblank(message="Keyword con't be empty !!")
 	private String keyword;
 	@NotNull
-	@NotBlank(message="Description con't be empty !!")
+	//@notblank(message="Description con't be empty !!")
 	private String description;
 	@NotNull
-	@NotBlank(message="Seo Title con't be empty !!")
+	//@notblank(message="Seo Title con't be empty !!")
 	private String seoTitle;
 	@NotNull
-	@NotBlank(message="Seo Description con't be empty !!")
+	//@notblank(message="Seo Description con't be empty !!")
 	private String seoDescription;
 	@NotNull
-	@NotBlank(message="Seo Content con't be empty !!")
+	//@notblank(message="Seo Content con't be empty !!")
 	private String seoContent;
 	@NotNull
 	private String path;

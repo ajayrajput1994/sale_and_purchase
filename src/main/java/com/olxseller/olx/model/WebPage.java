@@ -13,25 +13,25 @@ public class WebPage {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@NotNull
-	@NotBlank(message="Page Name con't be empty !!")
+	//@notblank(message="Page Name con't be empty !!")
 	private String name;
 	@NotNull
-	@NotBlank(message="Title con't be empty !!")
+	//@notblank(message="Title con't be empty !!")
 	private String title;
 	@NotNull
-	@NotBlank(message="keyword con't be empty !!")
+	//@notblank(message="keyword con't be empty !!")
 	private String keyword;
 	@NotNull
-	@NotBlank(message="Description con't be empty !!")
+	//@notblank(message="Description con't be empty !!")
 	private String description;
 	@NotNull
-	@NotBlank(message="Seo Title con't be empty !!")
+	//@notblank(message="Seo Title con't be empty !!")
 	private String seoTitle;
 	@NotNull
-	@NotBlank(message="Seo Description con't be empty !!")
+	//@notblank(message="Seo Description con't be empty !!")
 	private String seoDescription;
 	@NotNull
-	@NotBlank(message="Seo Content con't be empty !!")
+	//@notblank(message="Seo Content con't be empty !!")
 	private String seoContent;
 	@NotNull
 	private String path;

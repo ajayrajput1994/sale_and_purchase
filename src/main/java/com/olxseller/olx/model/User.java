@@ -21,7 +21,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@NotNull
-//@NotBlank(message="Name con't be empty !!")
+////@notblank(message="Name con't be empty !!")
 	//@Size(min=3, max=12,message="Name must be between 3-12 characters !")
 	private String name;
 	@NotNull
@@ -29,13 +29,13 @@ public class User {
 //@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
 	private String email;
 	@NotNull
-//@NotBlank(message="Phone con't be empty !!")
+////@notblank(message="Phone con't be empty !!")
 	//@Size(min=10, max=10,message="Phone must be between 10 digits !")
 	private String phone;
 	@NotNull
 	private String other_phone;
 	@NotNull
-	//@NotBlank(message="Password can't be empty !")
+	////@notblank(message="Password can't be empty !")
 	private String password;
 	@NotNull
 	private String image;

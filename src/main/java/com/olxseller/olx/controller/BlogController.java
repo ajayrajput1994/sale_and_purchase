@@ -222,8 +222,8 @@ public class BlogController {
 		
 	// add new post
 		@PostMapping("/process-post")
-		public String processpost(@Valid @ModelAttribute("blog") UserAndPost blog,
-				BindingResult result,Model m,HttpSession session/* ,@RequestParam("image") MultipartFile image */) {
+		public String processpost(@ModelAttribute("blog") UserAndPost blog,
+				Model m,HttpSession session/* ,@RequestParam("image") MultipartFile image */) {
 			//System.out.println(blog);
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

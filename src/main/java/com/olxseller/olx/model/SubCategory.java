@@ -14,18 +14,18 @@ public class SubCategory {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int subId;
 	@NotNull
-	@NotBlank(message="Catalog Name con't be empty !!")
+	//@notblank(message="Catalog Name con't be empty !!")
 	private String subCatalog;
 	@NotNull
 	private String mainCatalog;
 	@NotNull
-	@NotBlank(message="Title Name con't be empty !!")
+	//@notblank(message="Title Name con't be empty !!")
 	private String title;
 	@NotNull
-	@NotBlank(message="Keyword Name con't be empty !!")
+	//@notblank(message="Keyword Name con't be empty !!")
 	private String keyword;
 	@NotNull
-	@NotBlank(message="Description Name con't be empty !!")
+	//@notblank(message="Description Name con't be empty !!")
 	private String description;
 	@NotNull
 	private String seoTitle;
