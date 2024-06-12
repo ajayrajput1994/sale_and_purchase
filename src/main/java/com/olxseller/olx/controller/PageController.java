@@ -194,6 +194,13 @@ public class PageController {
 	  }
 	 
 	
+	@GetMapping({"/demo"})
+	public String demo(Model m) {
+		m.addAttribute("title","this is home demo keep stay ");
+		m.addAttribute("disc","this is home demo Description keep stay  ");
+		return "demo";
+	}
+	
 	@GetMapping({"/signup","/register"})
 	public String register(Model m) {
 		m.addAttribute("title","Home: Onetoz Free Indian Classifieds | Online Classifieds India | Buy &amp; Sell Anything Free");

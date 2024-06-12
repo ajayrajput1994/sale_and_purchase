@@ -13,3 +13,59 @@ body{background:#e2e2e2!important;}.breadcrumb{background:#e2e2e2!important;font
 /*admin search input and resultbox css*/
 .search-box-container{position: relative;}
 .search-box-container #search_result{position: absolute;background:#e2e2e2;z-index:999;width:100%;margin-top: -1.5rem;}
+
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+a.dashbar_logo, .dashbar_logo{color: red !important;
+font-size: 1.5rem;
+text-decoration: none;
+font-weight: 800;}
+a.nav-link{
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1.32px;
+  color: #898282;
+  }
+  .offcanvas-body .dropdown-menu li a{
+    font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1.32px;
+      color: #898282;
+  
+  }
+@media(max-width:768px){
+.offcanvas-body .dropdown-menu{
+  border: 0px;
+  width: 100%;
+  padding: 2px 5px;
+}
+.offcanvas-body .dropdown-menu li a{
+  margin-left: -0.25rem;
+  padding-left: 0px;
+
+}
+
+.offcanvas-body .dropdown-menu li a:hover{
+  margin-left: -0.05rem;
+  padding-left: 0px;
+  font-weight: 700;
+  font-size: 17px;
+}
+}
+form input[type="text"] {
+  height: 40px;
+  border-radius: 0px;
+}
+form label{
+  font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    text-transform: capitalize;
+}
+form .form-group{
+  margin-bottom: 1rem;
+}

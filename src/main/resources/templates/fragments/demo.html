@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="~{fragments/base_layout :: myhead (pageTitle=${ttl},pageDesc=${desc})}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="container" th:include="~{fragments/base_layout :: mainContent}">
+      <p id="subtitle"> JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-vi</p>
+    </div>
+  </body>
+  <div th:insert="~{fragments/base_layout :: myFooter}">
+    <span>demo page</span>
+  </div>
+</html>

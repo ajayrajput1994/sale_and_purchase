@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
+  <head th:fragment="myhead">
+    <meta charset="UTF-8">
+    <!-- <title th:text="${pageTitle}">admin base head</title> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/../css/style.css}" />
+    <link rel="stylesheet" th:href="@{/../css/css5/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/../css/fontawesome/all.css}" />
+    <link rel="stylesheet" th:href="@{/../css/datatables.css}" />
+    <link rel="stylesheet" th:href="@{/../css/datatables.min.css}" />
+    <link rel="stylesheet" th:href="@{/../plugins/toastr.css}" />
+    <script th:src="@{/../js/jquery-3.7.1.js}"></script>
+    <!-- <meta name="descriptoin" th:content="${pageDesc}"></meta> -->
+  </head>
+
+  <body>
+    <div class="container-fluid" style="margin-top: 4.5rem;" th:fragment="contentDom">
+      <nav class="navbar navbar-expand-lg navbar-expand-md bg-light fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand dashbar_logo"  th:href="@{/admin/}">Selling Point</a>
+          <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/admin/}" >Selling Point</a>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" th:href="@{/admin/all-posts/0}">All Post</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/admin/all-users/0}">All User</a>
+                </li>
+                <li class="nav-item dropdown ">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Categories
+                  </a>
+                  <ul class="dropdown-menu  dropdown-menu-right">
+                    <li><a class="dropdown-item" th:href="@{/admin/categories/0}">Main-Category</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/sub-category/0}">Sub-Category</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown ">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Locations
+                  </a>
+                  <ul class="dropdown-menu p-0">
+                    <li><a class="dropdown-item" th:href="@{/admin/all-states/0}">States</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/all-cities/0}">Cities</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/admin/pages-setup}" >Page Setup</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/admin/home-seo}">Home Seo</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item dropdown ">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Account
+                  </a>
+                  <ul class="dropdown-menu p-0">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <!-- <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form> -->
+            </div>
+          </div>
+        </div>
+      </nav>
+      <th:block th:replace=":: #myContent"></th:block>
+      <footer class="page-footer pt-0 mt-5 mdb-color fixed-bottom lighten-4">
+
+        <!-- Copyright -->
+        <div class="footer-copyright py-3 text-center">
+          <div class="container-fluid">
+            © 2019 Copyright: <a href="#" target="_blank">Selling Point.com </a>
+
+          </div>
+        </div>
+        <!-- Copyright -->
+
+      </footer>
+    </div>
+  </body>
+
+  <!-- <div class="footer" th:fragment="myFooter">
+    <div>
+      <p>hello</p>
+      <p>hello</p>
+      <p>hello</p>
+      <p>hello</p>
+    </div>
+  </div> -->
+  <th:block th:fragment="myscript">
+    <script th:src="@{/../js/js5/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/../js/datatables.js}"></script>
+    <script th:src="@{/../js/datatables.min.js}"></script>
+    <script th:src="@{/../js/jszip.js}"></script>
+    <script th:src="@{/../plugins/toastr.js}"></script>
+    <script th:src="@{/../js/adminLogic/main_category.js}"></script>
+    <script th:src="@{/../js/adminLogic/main.js}"></script>
+    <script th:inline="javascript">
+      $(window).on('resize', function () {
+        if ($(window).width() < 768) {
+          $('.page-footer').removeClass("fixed-bottom");
+        } else {
+          $('.page-footer').addClass("fixed-bottom");
+        }
+      });
+    </script>
+  </th:block>
+
+</html>

@@ -19,6 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,10 +28,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.Message;
+import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.City;
@@ -118,8 +123,8 @@ public class AdminController {
 
 	@GetMapping("/")
 	public String dashboard(Model m) {
-		m.addAttribute("title", "admin dashboard");
-		return "admin/admin_dashbord";
+		m.addAttribute("ttl", "admin dashboard");
+		return "admin/admin_dashboard";
 	}
 
 	@GetMapping("/home-seo")
@@ -139,6 +144,13 @@ public class AdminController {
 			System.out.println(e);
 		}
 		return "admin/homeSeo";
+	}
+
+	@GetMapping("/hello")
+	public String demo(Model m) {
+		m.addAttribute("ttl", "this is layout demo");
+		m.addAttribute("desc", "this is description");
+		return "fragments/demo";
 	}
 
 	@GetMapping("/pages-setup")
@@ -192,6 +204,7 @@ public class AdminController {
 	// main catalogs
 	@GetMapping("/categories/{page}")
 	public String AllCategories(@PathVariable("page") Integer page, Model m) {
+		ResponseData responseData=new ResponseData();
 		m.addAttribute("title", "all catalogs");
 		Pageable pageable = PageRequest.of(page, 6);
 		Page<MainCategory> catalog = this.mainRepo.getAllCatalogs(pageable);
@@ -199,6 +212,7 @@ public class AdminController {
 		m.addAttribute("currentpage", page);
 		m.addAttribute("totalpage", catalog.getTotalPages());
 		m.addAttribute("maincat", new MainCategory());
+		m.addAttribute("demodata", responseData.jsonSimpleResponse("","",mainRepo.findAll()));
 		return "admin/categories";
 	}
 
@@ -549,8 +563,9 @@ public class AdminController {
 
 	// create new main catalogs
 	@PostMapping("/create_maincategory")
-	public String createNewMainCategory(@ModelAttribute("maincat") MainCategory maincategory, Model m,
+	public String createNewMainCategory(@RequestBody MainCategory maincategory, Model m,
 			HttpSession session) {
+		System.out.println("category:"+maincategory);
 		String pageurl = "admin/categories";
 		try {
 			// System.out.println(maincategory);
