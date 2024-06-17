@@ -20,6 +20,7 @@
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="category_form">
+									<input type="hidden" name="mainId" id="mainId" >
 									<div class="row">
 										<div class="form-group col">
 											<label for="mainCatalog">Category Name</label>
@@ -73,9 +74,9 @@
 
 
 									<div class="d-flex justify-content-end">
-										<button type="reset" class="btn btn-warning  btn-sm px-5 mr-5">Reset</button>
+										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0" style="margin-right: 7px;">Reset</button>
 										<button type="button" onclick="createCategory()"
-											class="btn btn-primary  btn-sm px-5 ">Submit</button>
+											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
 
@@ -97,6 +98,7 @@
 											<th>Name</th>
 											<th>Title</th>
 											<th>Keyword</th>
+											<th>Description</th>
 											<th>Seo Title</th>
 											<th>Seo Description</th>
 											<th>Seo content</th>
@@ -108,14 +110,15 @@
 											<tr th:id="${u.mainId}">
 												<td th:text="${u.mainCatalog}">adf</td>
 												<td th:text="${u.title}">afd</td>
+												<td th:text="${u.keyword}">afd</td>
 												<td th:text="${u.description}">afd</td>
 												<td th:text="${u.seoTitle}">afd</td>
 												<td th:text="${u.seoDescription}">afd</td>
 												<td th:text="${u.seoContent}">afd</td>
-												<td class="d-flex justify-content-around cursor">
-													<button type="button" class="btn btn-primary btn-sm" onclick="editCategory(this)"><i
-															class="fas fa-pen blue-text mr-5"></i></button>
-													<i class="fas fa-trash red-text ml-5"></i>
+												<td class="d-flex justify-content-around " >
+													<!-- <button type="button" class="btn btn-primary btn-sm" onclick="editCategory(this)"><i
+															class="fas fa-pen blue-text mr-5"></i></button> -->
+													<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
 												</td>
 											</tr>
 										</th:block>
@@ -189,71 +192,100 @@
 	<script>
 	var categoryDT;
 		$(document).ready(function () {
-			categoryDT=new DataTable('#category_table', {
-				pageLength:50,
-				layout: {
+			categoryDT=$('#category_table').DataTable({
+				"pageLength":50,
+				"layout": {
 					topStart: {
 						buttons: ['csvHtml5', 'excelHtml5']
 						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
 					}
 				},
-				// columns: [
-        //         {"data": 'mainCatalog'},
-        //         {"data": 'title'},
-        //         {"data": 'description'},
-        //         {"data": 'seoTitle'},
-        //         {"data": 'seoDescription'},
-        //         {"data": 'seoContent'},
-        //         {"data": 'action'},
-        //         ],
+				columns: [
+                {"data": 'mainCatalog'},
+                {"data": 'title'},
+                {"data": 'keyword'},
+                {"data": 'description'},
+                {"data": 'seoTitle'},
+                {"data": 'seoDescription'},
+                {"data": 'seoContent'},
+                {"data": 'action'},
+                ],
 				columnDefs: [
-					{ visible: true, targets: [0, 1, 2, 6] },
+					{ visible: true, targets: [0, 1, 2, 7] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
+			$('#category_table tbody').on('click', 'tr td', function () {
+			if ($(this).index() == 3 ) {
+					return false;
+				}
+        var data = categoryDT.row( this ).data();
+				console.log(data);
+				formDomOpen();
+				$('#mainId').val(data.DT_RowId);
+				$('#mainCatalog').val(data.mainCatalog);
+				$('#title').val(data.title);
+				$('#keyword').val(data.keyword);
+				$('#description').val(data.description);
+				$('#seoTitle').val(data.seoTitle);
+				$('#seoDescription').val(data.seoDescription);
+				$('#seoContent').val(data.seoContent);
+        // alert( 'You clicked on '+$(this).index()+'\'s row' );
+    } );
 		});
 		function formDomOpen() {
-			console.log('creating on');
+			// console.log('creating on');
 			showAndHideAnyDom(['categoryFromDom'], ['recordDom']);
 		}
 		function recordDomOpen() {
-			console.log('creating on');
+			// console.log('creating on');
 			showAndHideAnyDom(['recordDom'], ['categoryFromDom']);
 		}
 		function createCategory() {
-			let value = formValidate('category_form');
-			if (value) {
+			if (formValidate('category_form')) {
 				createPostRequest('category_form', '/admin/category/create', 'createCategoryCB');
 			}
 		}
 		function createCategoryCB(r) {
-			console.log('callback', r);
-		}
-		function editCategory(btn) {
-			var id = btn.parentNode.parentNode.id;
-			createGetRequest('category_form', '/admin/category/' + id, 'editCategoryCB');
-		}
-		function editCategoryCB(r) {
-			console.log(r);
-			// r.data.forEach(e => {
-			// 	console.log(e);
-			// 	categoryDT.row.add({
-			// 		mainCatalog:e.mainCatalog,
-			// 		title:e.title,
-			// 		description:e.description,
-			// 		seoTitle:e.seoTitle,
-			// 		seoDescription:e.seoDescription,
-			// 		seoContent:e.seoContent,
-			// 		action:""
-			// 	}).draw();
+			// console.log('callback', r);
+			recordDomOpen();
+			let d=r.data;
+			if(r.action=="UPDATE"){
+			categoryDT.cell(`#${d.mainId}`,0).data(d.mainCatalog);
+			categoryDT.cell(`#${d.mainId}`,1).data(d.title);
+			categoryDT.cell(`#${d.mainId}`,2).data(d.keyword);
+			categoryDT.cell(`#${d.mainId}`,3).data(d.description);
+			categoryDT.cell(`#${d.mainId}`,4).data(d.seoTitle);
+			categoryDT.cell(`#${d.mainId}`,5).data(d.seoDescription);
+			categoryDT.cell(`#${d.mainId}`,6).data(d.seoContent);
+			categoryDT.cell(`#${d.mainId}`,7).data('<i class="fas fa-trash red-text ml-5 text-danger" style="cursor: pointer;"></i>');
+			categoryDT.draw();
+			}else{
+				categoryDT.row.add({
+					DT_RowId:d.mainId,
+					mainCatalog:d.mainCatalog,
+					title:d.title,
+					title:d.keyword,
+					description:d.description,
+					seoTitle:d.seoTitle,
+					seoDescription:d.seoDescription,
+					seoContent:d.seoContent,
+					action:'<i class="fas fa-trash red-text ml-5 text-danger" style="cursor: pointer;"></i>',
+				}).draw();
 				
-			// });
-			// categoryDT.draw();
 		}
-		$('#category_table tbody').on('click', 'tr', function () {
-        var data = table.row( this ).data();
-        alert( 'You clicked on '+data[0]+'\'s row' );
-    } );
+
+		}
+		function deleteCategory(btn) {
+			var id = btn.parentNode.parentNode.id;
+			console.log(id);
+			createGetRequest('category_form', '/admin/category/delete/' + id, 'deleteCategoryCB');
+		}
+		function deleteCategoryCB(r) {
+			console.log(r);
+			categoryDT.row(`#${r.data}`).remove().draw();
+		}
+		
 	</script>
 
 </html>

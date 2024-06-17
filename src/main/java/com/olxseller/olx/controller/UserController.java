@@ -168,9 +168,9 @@ public class UserController {
 			String username = principal.getName();
 			User user = this.userRepo.getUserByUserName(username);
 			
-			if (result.hasErrors()) {
-				return "normal/addpost";
-			}
+			/*
+			 * if (result.hasErrors()) { return "normal/addpost"; }
+			 */
 			File savefile = new ClassPathResource("static/image").getFile();
 			if (image.isEmpty()) {
 				return "normal/addpost";

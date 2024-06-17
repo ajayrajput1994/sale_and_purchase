@@ -13,26 +13,26 @@ public class MainCategory {
 	private int mainId;
 	@NotNull
 	// //@notblank(message="Category Name con't be empty !!")
-	private String mainCatalog;
+	private String mainCatalog="";
 	@NotNull
 	// //@notblank(message="Title con't be empty !!")
-	private String title;
+	private String title="";
 	@NotNull
 	// //@notblank(message="Keyword con't be empty !!")
-	private String keyword;
+	private String keyword="";
 	@NotNull
 	// //@notblank(message="Description con't be empty !!")
-	private String description;
+	private String description="";
 	@NotNull
-	private String seoTitle;
+	private String seoTitle="";
 	@NotNull
-	private String seoDescription;
+	private String seoDescription="";
 	@NotNull
-	private String seoContent;
+	private String seoContent="";
 	@NotNull
-	private String image;
+	private String image="";
 	@NotNull
-	private String path;
+	private String path="";
 
 	public int getMainId() {
 		return mainId;

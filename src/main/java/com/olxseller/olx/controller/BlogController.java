@@ -282,9 +282,9 @@ public class BlogController {
 				//String username = principal.getName();
 				User user = this.userRepo.getUserByUserName(usr.getEmail());
 				
-				if (result.hasErrors()) {
-					return "newpost";
-				}
+				/*
+				 * if (result.hasErrors()) { return "newpost"; }
+				 */
 				//set image path
 				File savefile = new ClassPathResource("static/image").getFile();
 				if (image.isEmpty()) {

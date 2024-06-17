@@ -15,10 +15,11 @@ public class ResponseData {
   @Autowired
   private BlogRepository blogRepo;
 
-  public HashMap<String, Object> jsonSimpleResponse(String status, String msg, Object obj) {
+  public HashMap<String, Object> jsonSimpleResponse(String status, String msg,String action, Object obj) {
     HashMap<String, Object> map = new HashMap<>();
     map.put("responseText", status);
     map.put("message", msg);
+    map.put("action", action);
     map.put("data", obj);
     return map;
   }

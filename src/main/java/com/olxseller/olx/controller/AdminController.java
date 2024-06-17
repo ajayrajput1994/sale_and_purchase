@@ -212,7 +212,7 @@ public class AdminController {
 		m.addAttribute("currentpage", page);
 		m.addAttribute("totalpage", catalog.getTotalPages());
 		m.addAttribute("maincat", new MainCategory());
-		m.addAttribute("demodata", responseData.jsonSimpleResponse("","",mainRepo.findAll()));
+		m.addAttribute("demodata", responseData.jsonSimpleResponse("","","",mainRepo.findAll()));
 		return "admin/categories";
 	}
 

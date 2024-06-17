@@ -26,8 +26,12 @@ public class AdminResController {
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat){
 		System.out.println("category:"+cat);
 		try{
+			if(cat.getMainId()>0){
+				catService.updateCategory(cat, cat.getMainId());
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Update","UPDATE",cat),HttpStatus.OK);
+			}
       MainCategory category=catService.CreateMainCategory(cat);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Created",catService.getAllMainCategory()),HttpStatus.OK);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Created","CREATE",category),HttpStatus.OK);
 		}catch(Exception ex){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -38,7 +42,7 @@ public class AdminResController {
 		 System.out.println("category id:"+id);
 		try{
       MainCategory category=catService.getCategoryById(id);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Loaded",catService.getAllMainCategory()),HttpStatus.OK);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Loaded","LOADED",catService.getAllMainCategory()),HttpStatus.OK);
 		}catch(Exception ex){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -49,18 +53,18 @@ public class AdminResController {
 		// System.out.println("category:"+cat);
 		try{
       catService.updateCategory(cat,id);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Update",""),HttpStatus.OK);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Update","UPDATE",""),HttpStatus.OK);
 		}catch(Exception ex){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		// return null;
 	}
-  @PostMapping("/category/delete/{id}")
+  @GetMapping("/category/delete/{id}")
 	public ResponseEntity<?> deleteCategoryById(@PathVariable("id") int id){
 		// System.out.println("category:"+cat);
 		try{
       catService.deleteCategoryById(id);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Deleted",""),HttpStatus.OK);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS","Successfuly Deleted","DELETE",id),HttpStatus.OK);
 		}catch(Exception ex){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
