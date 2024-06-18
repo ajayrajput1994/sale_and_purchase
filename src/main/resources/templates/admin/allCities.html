@@ -1,138 +1,243 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container-fluid})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container-fluid">
-	<section>
-		<div class="row">
-			<div class="col-md-10 mx-auto">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Create New City</h2>
-	    			<form action="" th:action="@{/admin/create_city}" method="post" th:object="${cities}">
-	    				<div class="md-form md-outline">
-		                  <select name="stateName" id="stateName" class="select form-control"  required="">
-		                  <option disabled="" selected="">Select Main Category</option>
-		                  <option  th:each="m : ${allstates}" th:value="${m.stateName}"><span th:text="${m.stateName}"></span></option>
-		                </select>
-		              </div>
-	    				<div class="form-group">
-					    <label for="cityName">Category Name</label>
-					    <input type="text" name="cityName" th:value="${cities.cityName}" class="form-control" th:classappend="${#fields.hasErrors('cityName')? 'is-invalid':''}" id="cityName"   placeholder="City Name"  />
-					    <div th:each="e : ${#fields.errors('cityName')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="title">Title</label>
-					    <input type="text" name="title" th:value="${cities.title}" class="form-control" th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}" id="title"   placeholder="Enter title"  />
-					    <div th:each="e : ${#fields.errors('title')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="keyword">Keyword</label>
-					    <input type="text" name="keyword" th:value="${cities.keyword}"  class="form-control" th:classappend="${#fields.hasErrors('keyword')? 'is-invalid':''}" id="keyword"   placeholder="Enter keyword"  />
-					    <div th:each="e : ${#fields.errors('keyword')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="description">Description </label>
-					    <input type="text" name="description" th:value="${cities.description}"  class="form-control" th:classappend="${#fields.hasErrors('description')? 'is-invalid':''}" id="description"   placeholder="Enter Description"  />
-					    <div th:each="e : ${#fields.errors('description')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					  <div class="form-group">
-					    <label for="seoTitle">Seo Title</label>
-					    <input type="text" name="seoTitle" th:value="${cities.seoTitle}"  class="form-control" th:classappend="${#fields.hasErrors('seoTitle')? 'is-invalid':''}"  id="seoTitle" placeholder="Enter Seo Title"  />
-					  <div th:each="e : ${#fields.errors('seoTitle')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoDescription">Seo Description </label>
-					    <input type="text" name="seoDescription" th:value="${cities.seoDescription}"  class="form-control" th:classappend="${#fields.hasErrors('seoDescription')? 'is-invalid':''}" id="seoDescription"   placeholder="Seo Description"  />
-					    <div th:each="e : ${#fields.errors('seoDescription')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoContent">Seo Content </label>
-					    <input type="text" name="seoContent" th:value="${cities.seoContent}"  class="form-control" th:classappend="${#fields.hasErrors('seoContent')? 'is-invalid':''}" id="seoContent"   placeholder="Seo Content"  />
-					    <div th:each="e : ${#fields.errors('seoContent')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						  <button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
+			<section id="myContent">
+				<div class="row">
+					<div class="col-md-12 mx-auto" id="formDom" style="display: none;">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="text-center">Create City</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="recordDomOpen()">Back</button>
+								</div>
+								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
+								<form id="city_form">
+									<input type="hidden" name="cityId" id="cityId">
+									<div class="md-form md-outline">
+										<select name="stateName" id="stateName" class="select form-control"  required="">
+										<option disabled="" selected="">Select State</option>
+										<option  th:each="m : ${allstates}" th:value="${m.stateName}"><span th:text="${m.stateName}"></span></option>
+									</select>
+								</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="cityName">City Name</label>
+											<input type="text" name="cityName" class="form-control" id="cityName"
+												placeholder="Sub Category Name" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="title">Title</label>
+											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="keyword">Keyword</label>
+											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="description">Description </label>
+											<input type="text" name="description" class="form-control" id="description"
+												placeholder="Enter Description" />
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="seoTitle">Seo Title</label>
+											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
+												placeholder="Enter Seo Title" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="seoDescription">Seo Description </label>
+											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
+												placeholder="Seo Description" />
+											<div class="invalid-feedback">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<label for="seoContent">Seo Content </label>
+											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
+												placeholder="Seo Content"></textarea>
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+
+
+
+									<div class="d-flex justify-content-end">
+										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
+											style="margin-right: 7px;">Reset</button>
+										<button type="button" onclick="createStates()"
+											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
+									</div>
+								</form>
+
+							</div>
 						</div>
-					</form>
-
-	    		</div>
-				</div>
-			</div>
-
-			<div class="col-md-10 mx-auto mt-3">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title text-center">All Cities</h4>
-						<table class="table">
-						  <thead>
-						    <tr>
-						      <th scope="col">#Name</th>
-						      <th scope="col">Title</th>
-						      <th scope="col">Keyword</th>
-						      <th scope="col">Seo Title</th>
-						      <th scope="col">Seo Description</th>
-						      <th scope="col">Seo Content</th>
-						      <th scope="col" colspan="2">Action</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr th:each="u : ${locate}" >
-						      <th scope="row"><span th:text="${u.cityName}"></span><br>[<span th:text="${u.stateName}"></span>]</th>
-						      <td><span  th:text="${u.title}"></span></td>
-						      <td><span th:text="${u.description}"></span></td>
-						      <td><span th:text="${u.seoTitle}"></span></td>
-						      <td><span th:text="${u.seoDescription}"></span></td>
-						      <td><span th:text="${u.seoContent}"></span></td>
-						      <td>
-						      <form th:action="@{'/admin/city/edit/'+${u.cityId}}" method="post">
-						      	<button  class="btn btn-info btn-sm btn-rounded ">edit</button>
-						      </form>
-						      	</td><td>
-						      	<a th:href="@{'/admin/city/delete/'+${u.cityId}}" class="btn btn-danger btn-sm btn-rounded mt-1">delete</a>
-						      </td>
-						    </tr>
-						  </tbody>
-						</table>
-						<!-- Pagination -->
-			            <nav class="my-4 d-flex justify-content-center">
-
-			              <ul class="pagination pagination-circle pg-blue mb-0">
-
-			                <!-- First -->
-			                <!-- Arrow left -->
-			                <li th:if="${currentpage != 0}" class="page-item">
-			                  <a th:href="@{'/admin/all-users/'+${currentpage-1}}" class="page-link" aria-label="Previous">
-			                    <span aria-hidden="true">Previous</span>
-			                    <span class="sr-only">Previous</span>
-			                  </a>
-			                </li>
-
-			                <!-- Numbers -->
-			                <li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}" class="page-item"><a href="" th:href="@{'/admin/all-users/'+${i-1}}" class="page-link"><span th:text="${i}"></span></a></li>
-			                <!-- Arrow right -->
-			                <li th:if="${currentpage+1 != totalpage}" class="page-item">
-			                  <a th:href="@{'/admin/all-users/'+${currentpage+1}}" class="page-link" aria-label="Next">
-			                    <span aria-hidden="true">Next</span>
-			                    <span class="sr-only">Next</span>
-			                  </a>
-			                </li>
-
-			                
-			              </ul>
-			            </nav>
-			            <!-- Pagination -->
 					</div>
-				</div>
-			</div>
 
+					<div class="col-md-12 mx-auto" id="recordDom">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title text-center">All States</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="formDomOpen()">Create</button>
+								</div>
+								<table class="table table-strip display" id="cities_table">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Title</th>
+											<th>Keyword</th>
+											<th>Description</th>
+											<th>Seo Title</th>
+											<th>Seo Description</th>
+											<th>Seo content</th>
+											<th class="text-center">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="u : ${locate}">
+											<tr th:id="${u.cityId}">
+												<td th:text="${u.cityName}"></td>
+												<td th:text="${u.title}"></td>
+												<td th:text="${u.keyword}"></td>
+												<td th:text="${u.description}"></td>
+												<td th:text="${u.seoTitle}"></td>
+												<td th:text="${u.seoDescription}"></td>
+												<td th:text="${u.seoContent}"></td>
+												<td class="text-center" >
+													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCity(this)"
+														style="cursor: pointer;"></i>
+												</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</section>
 
 		</div>
-	</section>
-</div>
-</body>
+	</body>
+	<th:block th:include="admin/adminbase_layout :: myscript">
+	</th:block>
+	<script>
+		var categoryDT;
+		$(document).ready(function () {
+			categoryDT = $('#cities_table').DataTable({
+				"pageLength": 50,
+				"layout": {
+					topStart: {
+						buttons: ['csvHtml5', 'excelHtml5']
+						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
+					}
+				},
+				columns: [
+					{ "data": 'cityName' },
+					{ "data": 'title' },
+					{ "data": 'keyword' },
+					{ "data": 'description' },
+					{ "data": 'seoTitle' },
+					{ "data": 'seoDescription' },
+					{ "data": 'seoContent' },
+					{ "data": 'action' },
+				],
+				columnDefs: [
+					{ visible: true, targets: [0, 1, 2, 7] },
+					{ visible: false, targets: ['_all'] },
+				]
+			});
+			$('#cities_table tbody').on('click', 'tr td', function () {
+				if ($(this).index() == 3) {
+					return false;
+				}
+				var data = categoryDT.row(this).data();
+				console.log(data);
+				formDomOpen();
+				$('#cityId').val(data.DT_RowId);
+				$('#cityName').val(data.cityName);
+				$('#title').val(data.title);
+				$('#keyword').val(data.keyword);
+				$('#description').val(data.description);
+				$('#seoTitle').val(data.seoTitle);
+				$('#seoDescription').val(data.seoDescription);
+				$('#seoContent').val(data.seoContent);
+				// alert( 'You clicked on '+$(this).index()+'\'s row' );
+			});
+		});
+		function formDomOpen() {
+			showAndHideAnyDom(['formDom'], ['recordDom']);
+		}
+		function recordDomOpen() {
+			showAndHideAnyDom(['recordDom'], ['formDom']);
+		}
+		function createStates() {
+			if (formValidate('city_form')) {
+				createPostRequest('city_form', '/admin/city/create', 'createStatesCB');
+			}
+		}
+		function createStatesCB(r) {
+			// console.log('callback', r);
+			recordDomOpen();
+			let d = r.data;
+			if (r.action == "UPDATE") {
+				categoryDT.cell(`#${d.cityId}`, 0).data(d.cityName);
+				categoryDT.cell(`#${d.cityId}`, 1).data(d.title);
+				categoryDT.cell(`#${d.cityId}`, 2).data(d.keyword);
+				categoryDT.cell(`#${d.cityId}`, 3).data(d.description);
+				categoryDT.cell(`#${d.cityId}`, 4).data(d.seoTitle);
+				categoryDT.cell(`#${d.cityId}`, 5).data(d.seoDescription);
+				categoryDT.cell(`#${d.cityId}`, 6).data(d.seoContent);
+				categoryDT.cell(`#${d.cityId}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCity(this)" style="cursor: pointer;"></i>');
+				categoryDT.draw();
+			} else {
+				categoryDT.row.add({
+					DT_RowId: d.cityId,
+					cityName: d.cityName,
+					title: d.title,
+					keyword: d.keyword,
+					description: d.description,
+					seoTitle: d.seoTitle,
+					seoDescription: d.seoDescription,
+					seoContent: d.seoContent,
+					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCity(this)" style="cursor: pointer;"></i>',
+				}).draw();
+
+			}
+
+		}
+		function deleteCity(btn) {
+			var id = btn.parentNode.parentNode.id;
+			console.log(id);
+			createGetRequest('city_form', '/admin/city/delete/' + id, 'deleteCityCB');
+		}
+		function deleteCityCB(r) {
+			console.log(r);
+			categoryDT.row(`#${r.data}`).remove().draw();
+		}
+
+	</script>
+
 </html>
