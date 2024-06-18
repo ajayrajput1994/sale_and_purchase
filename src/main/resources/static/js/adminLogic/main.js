@@ -106,13 +106,14 @@ function formValidate(formid){
   formData.forEach((e)=>{
    // jsonDict[e['name']]=e['value'];
    //var type=input.prop("type"); // get input type
-  //  var input=$(`input[name=${e['name']}]`).val();
-  // if(input.prop('required')){} required element
+    var input=$(`input[name=${e['name']}]`);
+   if(input.prop('required')){// required element
+    console.log(e['name'],'is required .');
    $(`input[name=${e['name']}]`).removeClass('border-danger');
    	if(e['value'].trim().length==0){
       errorList.push(e['name']);
       // console.log('empty');
-      }
+      }}
   });
   if(errorList.length>0){
     errorList.forEach((e)=>{
