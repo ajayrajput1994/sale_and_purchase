@@ -102,7 +102,7 @@
 											<th>Seo Title</th>
 											<th>Seo Description</th>
 											<th>Seo content</th>
-											<th>Action</th>
+											<th class="text-center">Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -115,10 +115,8 @@
 												<td th:text="${u.seoTitle}">afd</td>
 												<td th:text="${u.seoDescription}">afd</td>
 												<td th:text="${u.seoContent}">afd</td>
-												<td class="d-flex justify-content-around " >
-													<!-- <button type="button" class="btn btn-primary btn-sm" onclick="editCategory(this)"><i
-															class="fas fa-pen blue-text mr-5"></i></button> -->
-													<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
+												<td class="text-center " >
+													<i class="fas fa-trash red-text text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
 												</td>
 											</tr>
 										</th:block>

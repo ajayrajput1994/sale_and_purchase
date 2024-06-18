@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -15,28 +14,28 @@ public class SubCategory {
 	private int subId;
 	@NotNull
 	//@notblank(message="Catalog Name con't be empty !!")
-	private String subCatalog;
+	private String subCatalog="";
 	@NotNull
-	private String mainCatalog;
+	private String mainCatalog="";
 	@NotNull
 	//@notblank(message="Title Name con't be empty !!")
-	private String title;
+	private String title="";
 	@NotNull
 	//@notblank(message="Keyword Name con't be empty !!")
-	private String keyword;
+	private String keyword="";
 	@NotNull
 	//@notblank(message="Description Name con't be empty !!")
-	private String description;
+	private String description="";
 	@NotNull
-	private String seoTitle;
+	private String seoTitle="";
 	@NotNull
-	private String seoDescription;
+	private String seoDescription="";
 	@NotNull
-	private String seoContent;
+	private String seoContent="";
 	@NotNull
-	private String image;
+	private String image="";
 	@NotNull
-	private String path;
+	private String path="";
 
 	public int getSubId() {
 		return subId;
