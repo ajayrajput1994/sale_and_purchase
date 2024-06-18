@@ -215,55 +215,7 @@ public class AdminController {
 		m.addAttribute("demodata", responseData.jsonSimpleResponse("","","",mainRepo.findAll()));
 		return "admin/categories";
 	}
-
-	@GetMapping("/catalog/delete/{id}")
-	public String deleteCatalog(@PathVariable("id") Integer id, Model m, HttpSession session) {
-		Optional<MainCategory> optionalblog = this.mainRepo.findById(id);
-		MainCategory c = optionalblog.get();
-		this.mainRepo.delete(c);
-		session.setAttribute("message", new Message("delete catogory successfully", "alert-success"));
-		return "redirect:/admin/categories/0";
-	}
-
-	// open form to edit maincategory
-	@PostMapping("/maincategory/edit/{id}")
-	public String openMainCategoryForm(@PathVariable("id") Integer id, Model m) {
-		MainCategory c = this.mainRepo.findById(id).get();
-		m.addAttribute("maincat", c);
-		return "admin/updatemaincategories";
-	}
-
-	// create new main catalogs
-	@PostMapping("/maincategory/update")
-	public String updateMainCategory(@ModelAttribute("maincat") MainCategory maincategory, Model m, HttpSession session) {
-		String pageurl = "redirect:/admin/categories/0";
-		try {
-			// System.out.println(maincategory);
-			// if(result.hasErrors()) {
-			// System.out.print(result);
-			// return pageurl;
-			// }
-			maincategory.setImage("default.png");
-			maincategory.setPath(maincategory.getMainCatalog());
-
-			MainCategory mainCatalog = this.mainRepo.save(maincategory);
-
-			m.addAttribute("maincat", new MainCategory());
-
-			session.setAttribute("message", new Message("Successfully submited !!", "alert-success"));
-
-			return pageurl;
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			m.addAttribute("maincat", maincategory);
-			session.setAttribute("message", new Message("Something went wrong!" + e.getMessage(), "alert-danger"));
-
-			return pageurl;
-		}
-
-	}
-
+	
 	// sub catalogs
 	@GetMapping("/sub-category/{page}")
 	public String subCategories(@PathVariable("page") Integer page, Model m) {
@@ -279,55 +231,6 @@ public class AdminController {
 		return "admin/subcategory";
 	}
 
-	@GetMapping("/subcatalog/delete/{id}")
-	public String deleteSubCatalog(@PathVariable("id") Integer id, Model m, HttpSession session) {
-		Optional<SubCategory> optionalblog = this.subRepo.findById(id);
-		SubCategory c = optionalblog.get();
-		this.subRepo.delete(c);
-		session.setAttribute("message", new Message("delete sub catogory successfully", "alert-success"));
-		return "redirect:/admin/sub-category/0";
-	}
-
-	// open form to edit subcategory
-	@PostMapping("/subcategory/edit/{id}")
-	public String openSubCatalogForm(@PathVariable("id") Integer id, Model m) {
-		SubCategory c = this.subRepo.findById(id).get();
-		m.addAttribute("subcat", c);
-		List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
-		m.addAttribute("mainCategories", mainCats);
-		return "admin/updatesubcategory";
-	}
-
-	// update sub catalog
-	@PostMapping("/subcategory/update")
-	public String updateSubCategory(@ModelAttribute("subcat") SubCategory subcategory, Model m, HttpSession session) {
-		String pageurl = "redirect:/admin/sub-category/0";
-		try {
-			// System.out.println(subcategory);
-			// if(result.hasErrors()) {
-			// System.out.print(result);
-			// return pageurl;
-			// }
-			subcategory.setImage("default.png");
-			subcategory.setPath(subcategory.getSubCatalog());
-
-			SubCategory sub = this.subRepo.save(subcategory);
-
-			m.addAttribute("subcat", new SubCategory());
-
-			session.setAttribute("message", new Message("Successfully submited !!", "alert-success"));
-
-			return pageurl;
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			m.addAttribute("subcat", subcategory);
-			session.setAttribute("message", new Message("Something went wrong!" + e.getMessage(), "alert-danger"));
-
-			return pageurl;
-		}
-
-	}
 
 	// all states
 	@GetMapping("/all-states/{page}")
@@ -343,53 +246,6 @@ public class AdminController {
 
 	}
 
-	@GetMapping("/state/delete/{id}")
-	public String deleteRegionState(@PathVariable("id") Integer id, Model m, HttpSession session) {
-		Optional<RegionState> state = this.stateRepo.findById(id);
-		RegionState c = state.get();
-		this.stateRepo.delete(c);
-		session.setAttribute("message", new Message("delete sub catogory successfully", "alert-success"));
-		return "redirect:/admin/all-states/0";
-	}
-
-	// open form to edit state
-	@PostMapping("/state/edit/{id}")
-	public String openStateForm(@PathVariable("id") Integer id, Model m) {
-		RegionState c = this.stateRepo.findById(id).get();
-		m.addAttribute("regionState", c);
-		return "admin/updateStates";
-	}
-
-	// update state
-	@PostMapping("/state/update")
-	public String updateState(@ModelAttribute("regionState") RegionState regionState, Model m, HttpSession session) {
-		String pageurl = "redirect:/admin/all-states/0";
-		try {
-			// System.out.println(RegionState);
-			// if(result.hasErrors()) {
-			// System.out.print(result);
-			// return pageurl;
-			// }
-			regionState.setImage("default.png");
-			regionState.setPath(regionState.getStateName());
-
-			RegionState region = this.stateRepo.save(regionState);
-
-			m.addAttribute("regionState", new RegionState());
-
-			session.setAttribute("message", new Message("Successfully submited !!", "alert-success"));
-
-			return pageurl;
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			m.addAttribute("regionState", regionState);
-			session.setAttribute("message", new Message("Something went wrong!" + e.getMessage(), "alert-danger"));
-
-			return pageurl;
-		}
-
-	}
 
 	// all cities
 	@GetMapping("/all-cities/{page}")
@@ -404,54 +260,6 @@ public class AdminController {
 		List<RegionState> regstate = this.stateRepo.getAllStates();
 		m.addAttribute("allstates", regstate);
 		return "admin/allCities";
-
-	}
-
-	@GetMapping("/city/delete/{id}")
-	public String deleteCity(@PathVariable("id") Integer id, Model m, HttpSession session) {
-		Optional<City> city = this.cityRepo.findById(id);
-		City c = city.get();
-		this.cityRepo.delete(c);
-		session.setAttribute("message", new Message("delete sub catogory successfully", "alert-success"));
-		return "redirect:/admin/all-cities/0";
-	}
-
-	// open form to edit city
-	@PostMapping("/city/edit/{id}")
-	public String openCityForm(@PathVariable("id") Integer id, Model m) {
-		City c = this.cityRepo.findById(id).get();
-		m.addAttribute("cities", c);
-		return "admin/updateCity";
-	}
-
-	// update city
-	@PostMapping("/city/update")
-	public String updateCity(@ModelAttribute("cities") City cities, Model m, HttpSession session) {
-		String pageurl = "redirect:/admin/all-cities/0";
-		try {
-			// System.out.println(cities);
-			// if(result.hasErrors()) {
-			// System.out.print(result);
-			// return pageurl;
-			// }
-			cities.setImage("default.png");
-			cities.setPath(cities.getCityName());
-
-			City c = this.cityRepo.save(cities);
-
-			m.addAttribute("cities", new City());
-
-			session.setAttribute("message", new Message("Successfully submited !!", "alert-success"));
-
-			return pageurl;
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			m.addAttribute("cities", cities);
-			session.setAttribute("message", new Message("Something went wrong!" + e.getMessage(), "alert-danger"));
-
-			return pageurl;
-		}
 
 	}
 

@@ -256,7 +256,7 @@
 			categoryDT.cell(`#${d.mainId}`,4).data(d.seoTitle);
 			categoryDT.cell(`#${d.mainId}`,5).data(d.seoDescription);
 			categoryDT.cell(`#${d.mainId}`,6).data(d.seoContent);
-			categoryDT.cell(`#${d.mainId}`,7).data('<i class="fas fa-trash red-text ml-5 text-danger" style="cursor: pointer;"></i>');
+			categoryDT.cell(`#${d.mainId}`,7).data('<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
 			categoryDT.draw();
 			}else{
 				categoryDT.row.add({
@@ -268,7 +268,7 @@
 					seoTitle:d.seoTitle,
 					seoDescription:d.seoDescription,
 					seoContent:d.seoContent,
-					action:'<i class="fas fa-trash red-text ml-5 text-danger" style="cursor: pointer;"></i>',
+					action:'<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
 				}).draw();
 				
 		}

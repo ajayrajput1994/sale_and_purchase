@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olxseller.olx.helper.ResponseData;
+import com.olxseller.olx.model.City;
 import com.olxseller.olx.model.MainCategory;
+import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.SubCategory;
 import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.CityService;
+import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 
 @RestController
@@ -25,6 +29,10 @@ public class AdminResController {
 	private CategoryService catService;
 	@Autowired
 	private SubCategoryService subcatService;
+	@Autowired
+	private StateService stateService;
+	@Autowired
+	private CityService cityService;
 
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
@@ -105,6 +113,64 @@ public class AdminResController {
 		// System.out.println("category:"+cat);
 		try {
 			subcatService.deleteSubcategory(id);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@PostMapping("/states/create")
+	public ResponseEntity<?> createUpdateStates(@RequestBody RegionState st) {
+		System.out.println("State:" + st);
+		try {
+			if (st.getStateId() > 0) {
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", stateService.updaateState(st, st.getStateId())),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", stateService.createState(st)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@GetMapping("/states/delete/{id}")
+	public ResponseEntity<?> deleteStatesById(@PathVariable("id") int id) {
+		// System.out.println("category:"+cat);
+		try {
+			stateService.deleteState(id);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@PostMapping("/city/create")
+	public ResponseEntity<?> createUpdateCity(@RequestBody City city) {
+		System.out.println("City:" + city);
+		try {
+			if (city.getCityId() > 0) {
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", cityService.updateCity(city, city.getCityId())),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", cityService.createCity(city)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@GetMapping("/city/delete/{id}")
+	public ResponseEntity<?> deleteCityById(@PathVariable("id") int id) {
+		// System.out.println("category:"+cat);
+		try {
+			cityService.deleteCity(id);
 			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
 					HttpStatus.OK);
 		} catch (Exception ex) {
