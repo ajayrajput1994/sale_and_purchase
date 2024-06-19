@@ -19,8 +19,8 @@
 										onclick="recordDomOpen()">Back</button>
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="states_form">
-									<input type="hidden" name="stateId" id="stateId">
+								<form id="page_form">
+									<input type="hidden" name="id" id="id">
 									<div class="row">
 										<div class="form-group col">
 											<label for="name">Page Name</label>
@@ -76,7 +76,7 @@
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="createStates()"
+										<button type="button" onclick="createPage()"
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
@@ -89,11 +89,11 @@
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
-									<h4 class="card-title text-center">All States</h4>
+									<h4 class="card-title text-center">All Pages</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="formDomOpen()">Create</button>
 								</div>
-								<table class="table table-strip display" id="states_table">
+								<table class="table table-strip display" id="page_table">
 									<thead>
 										<tr>
 											<th>Name</th>
@@ -108,7 +108,7 @@
 									</thead>
 									<tbody>
 										<th:block th:each="u : ${locate}">
-											<tr th:id="${u.stateId}">
+											<tr th:id="${u.id}">
 												<td th:text="${u.name}"></td>
 												<td th:text="${u.title}"></td>
 												<td th:text="${u.keyword}"></td>
@@ -140,7 +140,7 @@
 	<script>
 		var categoryDT;
 		$(document).ready(function () {
-			categoryDT = $('#states_table').DataTable({
+			categoryDT = $('#page_table').DataTable({
 				"pageLength": 50,
 				"layout": {
 					topStart: {
@@ -163,14 +163,14 @@
 					{ visible: false, targets: ['_all'] },
 				]
 			});
-			$('#states_table tbody').on('click', 'tr td', function () {
+			$('#page_table tbody').on('click', 'tr td', function () {
 				if ($(this).index() == 3) {
 					return false;
 				}
 				var data = categoryDT.row(this).data();
 				console.log(data);
 				formDomOpen();
-				$('#stateId').val(data.DT_RowId);
+				$('#id').val(data.DT_RowId);
 				$('#name').val(data.name);
 				$('#title').val(data.title);
 				$('#keyword').val(data.keyword);
@@ -187,28 +187,28 @@
 		function recordDomOpen() {
 			showAndHideAnyDom(['recordDom'], ['formDom']);
 		}
-		function createStates() {
-			if (formValidate('states_form')) {
-				createPostRequest('states_form', '/admin/states/create', 'createStatesCB');
+		function createPage() {
+			if (formValidate('page_form')) {
+				createPostRequest('page_form', '/admin/states/create', 'createPageCB');
 			}
 		}
-		function createStatesCB(r) {
+		function createPageCB(r) {
 			// console.log('callback', r);
 			recordDomOpen();
 			let d = r.data;
 			if (r.action == "UPDATE") {
-				categoryDT.cell(`#${d.stateId}`, 0).data(d.name);
-				categoryDT.cell(`#${d.stateId}`, 1).data(d.title);
-				categoryDT.cell(`#${d.stateId}`, 2).data(d.keyword);
-				categoryDT.cell(`#${d.stateId}`, 3).data(d.description);
-				categoryDT.cell(`#${d.stateId}`, 4).data(d.seoTitle);
-				categoryDT.cell(`#${d.stateId}`, 5).data(d.seoDescription);
-				categoryDT.cell(`#${d.stateId}`, 6).data(d.seoContent);
-				categoryDT.cell(`#${d.stateId}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
+				categoryDT.cell(`#${d.id}`, 0).data(d.name);
+				categoryDT.cell(`#${d.id}`, 1).data(d.title);
+				categoryDT.cell(`#${d.id}`, 2).data(d.keyword);
+				categoryDT.cell(`#${d.id}`, 3).data(d.description);
+				categoryDT.cell(`#${d.id}`, 4).data(d.seoTitle);
+				categoryDT.cell(`#${d.id}`, 5).data(d.seoDescription);
+				categoryDT.cell(`#${d.id}`, 6).data(d.seoContent);
+				categoryDT.cell(`#${d.id}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
 				categoryDT.draw();
 			} else {
 				categoryDT.row.add({
-					DT_RowId: d.stateId,
+					DT_RowId: d.id,
 					name: d.name,
 					title: d.title,
 					keyword: d.keyword,
@@ -225,7 +225,7 @@
 		function deleteState(btn) {
 			var id = btn.parentNode.parentNode.id;
 			console.log(id);
-			createGetRequest('states_form', '/admin/states/delete/' + id, 'deleteStateCB');
+			createGetRequest('page_form', '/admin/states/delete/' + id, 'deleteStateCB');
 		}
 		function deleteStateCB(r) {
 			console.log(r);

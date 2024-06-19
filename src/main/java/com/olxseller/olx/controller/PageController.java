@@ -235,7 +235,7 @@ public class PageController {
 			user.setCreate_at(dat);
 			user.setUpdate_at(dat);
 			
-			User u=this.userService.addUsers(user);
+			User u=this.userService.createUser(user);
 			System.out.println(u);
 			m.addAttribute("regdata",new User());
 			String email=u.getEmail();String mess="this is demo email";String subject="demo purpose";

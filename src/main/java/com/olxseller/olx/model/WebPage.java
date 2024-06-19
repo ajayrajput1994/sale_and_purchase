@@ -14,29 +14,29 @@ public class WebPage {
 	private int id;
 	@NotNull
 	//@notblank(message="Page Name con't be empty !!")
-	private String name;
+	private String name="";
 	@NotNull
 	//@notblank(message="Title con't be empty !!")
-	private String title;
+	private String title="";
 	@NotNull
 	//@notblank(message="keyword con't be empty !!")
-	private String keyword;
+	private String keyword="";
 	@NotNull
 	//@notblank(message="Description con't be empty !!")
-	private String description;
+	private String description="";
 	@NotNull
 	//@notblank(message="Seo Title con't be empty !!")
-	private String seoTitle;
+	private String seoTitle="";
 	@NotNull
 	//@notblank(message="Seo Description con't be empty !!")
-	private String seoDescription;
+	private String seoDescription="";
 	@NotNull
 	//@notblank(message="Seo Content con't be empty !!")
-	private String seoContent;
+	private String seoContent="";
 	@NotNull
-	private String path;
+	private String path="";
 	@NotNull
-	private String image;
+	private String image="";
 
 	public int getId() {
 		return id;

@@ -12,25 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -340,58 +333,58 @@ public class UserController {
 		return "redirect:/user/index/0";
 	}
 
-	@GetMapping("/users")
-	public ResponseEntity<List<User>> getUsers() {
-		List<User> list = userservice.getAllUsers();
-		if (list.size() <= 0) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(list);
-	}
+	// @GetMapping("/users")
+	// public ResponseEntity<List<User>> getUsers() {
+	// 	List<User> list = userservice.getAllUsers();
+	// 	if (list.size() <= 0) {
+	// 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	// 	}
+	// 	return ResponseEntity.status(HttpStatus.CREATED).body(list);
+	// }
 
-	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-		System.out.println(id);
-		User user = userservice.getUserById(id);
-		if (user == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return ResponseEntity.of(Optional.of(user));
-	}
+	// @GetMapping("/users/{id}")
+	// public ResponseEntity<User> getUser(@PathVariable("id") int id) {
+	// 	System.out.println(id);
+	// 	User user = userservice.getUserById(id);
+	// 	if (user == null) {
+	// 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	// 	}
+	// 	return ResponseEntity.of(Optional.of(user));
+	// }
 
-	@PostMapping("/users")
-	public ResponseEntity<User> addUser(@RequestBody User user) {
-		User u = null;
-		try {
-			u = this.userservice.addUsers(user);
-			return ResponseEntity.of(Optional.of(u));
-		} catch (Exception e) {
+	// @PostMapping("/users")
+	// public ResponseEntity<User> addUser(@RequestBody User user) {
+	// 	User u = null;
+	// 	try {
+	// 		u = this.userservice.addUsers(user);
+	// 		return ResponseEntity.of(Optional.of(u));
+	// 	} catch (Exception e) {
 
-		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	// 	}
+	// 	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-	}
+	// }
 
-	@DeleteMapping("/users/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable("id") int id) {
-		try {
-			this.userservice.deleteUsers(id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
+	// @DeleteMapping("/users/{id}")
+	// public ResponseEntity<Void> deleteUser(@PathVariable("id") int id) {
+	// 	try {
+	// 		this.userservice.deleteUsers(id);
+	// 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	// 	}
+	// }
 
-	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
-		try {
-			this.userservice.updateUsers(user, id);
-			return ResponseEntity.ok().body(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+	// @PutMapping("/users/{id}")
+	// public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
+	// 	try {
+	// 		this.userservice.updateUsers(user, id);
+	// 		return ResponseEntity.ok().body(user);
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	// 	}
 
-	}
+	// }
 }

@@ -191,15 +191,6 @@ public class AdminController {
 		return "redirect:/admin/all-posts/0";
 	}
 
-	@GetMapping("/user/delete/{id}")
-	public String disableUser(@PathVariable("id") Integer id, Model m, HttpSession session) {
-		Optional<User> optionaluser = this.userRepo.findById(id);
-		User u = optionaluser.get();
-		u.setEnabled(false);
-		this.userRepo.save(u);
-		session.setAttribute("message", new Message("disabled user successfully", "alert-success"));
-		return "redirect:/admin/all-users/0";
-	}
 
 	// main catalogs
 	@GetMapping("/categories/{page}")

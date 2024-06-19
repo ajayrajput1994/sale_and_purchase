@@ -23,28 +23,28 @@ public class User {
 	@NotNull
 ////@notblank(message="Name con't be empty !!")
 	//@Size(min=3, max=12,message="Name must be between 3-12 characters !")
-	private String name;
+	private String name="";
 	@NotNull
 	@Column(unique=true)
 //@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
-	private String email;
+	private String email="";
 	@NotNull
 ////@notblank(message="Phone con't be empty !!")
 	//@Size(min=10, max=10,message="Phone must be between 10 digits !")
-	private String phone;
+	private String phone="";
 	@NotNull
-	private String other_phone;
+	private String other_phone="";
 	@NotNull
 	////@notblank(message="Password can't be empty !")
-	private String password;
+	private String password="";
 	@NotNull
-	private String image;
+	private String image="default.png";
 	@NotNull
-	private String role;
+	private String role="ROLE_USER";
 	@NotNull
-	private Boolean enabled;
+	private Boolean enabled=true;
 	//@AssertTrue(message="Must agree term and conditions !!")
-	private Boolean agreed;
+	private Boolean agreed=true;
 	
 	@NotNull
 	private String create_at;

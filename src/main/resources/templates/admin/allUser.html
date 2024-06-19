@@ -14,65 +14,37 @@
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
-									<h4 class="text-center">Create State</h4>
+									<h4 class="text-center">Create User</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="states_form">
-									<input type="hidden" name="stateId" id="stateId">
-									<div class="form-group mt-3">
-										<select name="region" id="region" class="form-select rounded-0 form-control "  required="">
-										<option disabled="" selected="">Select Region</option>
-										<option  value="indeia">India</option>
-									</select>
-								</div>
+								<form id="user_form">
+									<input type="hidden" name="id" id="id">
+									
 									<div class="row">
 										<div class="form-group col">
-											<label for="stateName">State Name</label>
-											<input type="text" name="stateName" class="form-control" id="stateName"
+											<label for="name">Name</label>
+											<input type="text" name="name" class="form-control" id="name"
 												placeholder="Sub Category Name" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
-											<label for="title">Title</label>
-											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+											<label for="email">Email</label>
+											<input type="text" name="email" class="form-control" id="email" placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
-											<label for="keyword">Keyword</label>
-											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
+											<label for="phone">Phone</label>
+											<input type="text" name="phone" class="form-control" id="phone" placeholder="Enter keyword" />
 											<div class="invalid-feedback"></div>
 										</div>
-										<div class="form-group col">
-											<label for="description">Description </label>
-											<input type="text" name="description" class="form-control" id="description"
+										<div class="form-group col d-none" >
+											<label for="password">Password </label>
+											<input type="text" name="password" class="form-control" id="password"
 												placeholder="Enter Description" />
-											<div class="invalid-feedback"></div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="form-group col">
-											<label for="seoTitle">Seo Title</label>
-											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
-												placeholder="Enter Seo Title" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="seoDescription">Seo Description </label>
-											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
-												placeholder="Seo Description" />
-											<div class="invalid-feedback">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="form-group">
-											<label for="seoContent">Seo Content </label>
-											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
-												placeholder="Seo Content"></textarea>
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
@@ -95,16 +67,17 @@
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
-									<h4 class="card-title text-center">All States</h4>
+									<h4 class="card-title text-center">All Users</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="formDomOpen()">Create</button>
 								</div>
-								<table class="table table-strip display" id="states_table">
+								<table class="table table-strip display" id="users_table">
 									<thead>
 										<tr>
 											<th>Name</th>
 											<th>Email</th>
 											<th>phone</th>
+											<th>password</th>
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
@@ -114,6 +87,7 @@
 												<td th:text="${u.name}"></td>
 												<td th:text="${u.email}"></td>
 												<td th:text="${u.phone}"></td>
+												<td th:text="${u.password}"></td>
 												<td class="text-center" >
 													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)"
 														style="cursor: pointer;"></i>
@@ -138,7 +112,7 @@
 	<script>
 		var categoryDT;
 		$(document).ready(function () {
-			categoryDT = $('#states_table').DataTable({
+			categoryDT = $('#users_table').DataTable({
 				"pageLength": 50,
 				"layout": {
 					topStart: {
@@ -150,28 +124,26 @@
 					{ "data": 'name' },
 					{ "data": 'email' },
 					{ "data": 'phone' },
+					{ "data": 'password' },
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [0, 1, 2,3] },
+					{ visible: true, targets: [0, 1, 2,4] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
-			$('#states_table tbody').on('click', 'tr td', function () {
+			$('#users_table tbody').on('click', 'tr td', function () {
 				if ($(this).index() == 3) {
 					return false;
 				}
 				var data = categoryDT.row(this).data();
 				console.log(data);
 				formDomOpen();
-				$('#stateId').val(data.DT_RowId);
-				$('#stateName').val(data.stateName);
-				$('#title').val(data.title);
-				$('#keyword').val(data.keyword);
-				$('#description').val(data.description);
-				$('#seoTitle').val(data.seoTitle);
-				$('#seoDescription').val(data.seoDescription);
-				$('#seoContent').val(data.seoContent);
+				$('#id').val(data.DT_RowId);
+				$('#name').val(data.name);
+				$('#email').val(data.email);
+				$('#phone').val(data.phone);
+				$('#password').val(data.password);
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 			});
 		});
@@ -182,8 +154,8 @@
 			showAndHideAnyDom(['recordDom'], ['formDom']);
 		}
 		function createStates() {
-			if (formValidate('states_form')) {
-				createPostRequest('states_form', '/admin/states/create', 'createStatesCB');
+			if (formValidate('user_form')) {
+				createPostRequest('user_form', '/admin/user/create', 'createStatesCB');
 			}
 		}
 		function createStatesCB(r) {
@@ -191,25 +163,19 @@
 			recordDomOpen();
 			let d = r.data;
 			if (r.action == "UPDATE") {
-				categoryDT.cell(`#${d.stateId}`, 0).data(d.stateName);
-				categoryDT.cell(`#${d.stateId}`, 1).data(d.title);
-				categoryDT.cell(`#${d.stateId}`, 2).data(d.keyword);
-				categoryDT.cell(`#${d.stateId}`, 3).data(d.description);
-				categoryDT.cell(`#${d.stateId}`, 4).data(d.seoTitle);
-				categoryDT.cell(`#${d.stateId}`, 5).data(d.seoDescription);
-				categoryDT.cell(`#${d.stateId}`, 6).data(d.seoContent);
-				categoryDT.cell(`#${d.stateId}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
+				categoryDT.cell(`#${d.id}`, 0).data(d.name);
+				categoryDT.cell(`#${d.id}`, 1).data(d.email);
+				categoryDT.cell(`#${d.id}`, 2).data(d.phone);
+				categoryDT.cell(`#${d.id}`, 3).data(d.password);
+				categoryDT.cell(`#${d.id}`, 4).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
 				categoryDT.draw();
 			} else {
 				categoryDT.row.add({
-					DT_RowId: d.stateId,
-					stateName: d.stateName,
-					title: d.title,
-					keyword: d.keyword,
-					description: d.description,
-					seoTitle: d.seoTitle,
-					seoDescription: d.seoDescription,
-					seoContent: d.seoContent,
+					DT_RowId: d.id,
+					name: d.name,
+					email: d.email,
+					phone: d.phone,
+					password: d.password,
 					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
 				}).draw();
 
@@ -219,7 +185,7 @@
 		function deleteState(btn) {
 			var id = btn.parentNode.parentNode.id;
 			console.log(id);
-			createGetRequest('states_form', '/admin/states/delete/' + id, 'deleteStateCB');
+			createGetRequest('user_form', '/admin/user/delete/' + id, 'deleteStateCB');
 		}
 		function deleteStateCB(r) {
 			console.log(r);
