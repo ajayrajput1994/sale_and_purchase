@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container-fluid})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container-fluid">
+	<section>
+		<div class="row">
+			<div class="col-md-10 mx-auto">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title text-center">All Posts</h4>
+						<div class=" search-box-container">
+							<div class="md-form md-outline">
+							<input type="text" name="search-input" id="search-input" onkeyup="Serch()" class="form-control">
+							</div>
+							<table class="table table-responsive ">
+							  <tbody id="search_result">
+							    
+							  </tbody>
+							</table>
+						</div>
+						<table class="table">
+						  <thead>
+						    <tr>
+						      <th scope="col">#ID</th>
+						      <th scope="col">Image</th>
+						      <th scope="col">Title</th>
+						      <th scope="col">Category</th>
+						      <th scope="col">Price</th>
+						      <th scope="col">City</th>
+						      <th scope="col" colspan="2">Action</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="b : ${blogs}" >
+						      <th scope="row"><span th:text="${b.id}"></span></th>
+						      <td><img th:src="@{'/image/'+${b.image}}" style="height:25px;width:25px;" /></td>
+						      <td><span th:text="${b.Title}"></span></td>
+						      <td><span th:text="${b.category}"></span></td>
+						      <td><span th:text="${b.price}"></span></td>
+						      <td><span th:text="${b.city}"></span></td>
+						      
+						      <td>
+						      	<form th:action="@{'/admin/post/edit/'+${b.id}}" method="post">
+						      	<button  class="btn btn-info btn-sm btn-rounded ">edit</button>
+						      </form>
+						  		</td><td>
+						      	<a th:href="@{'/admin/post/delete/'+${b.id}}" class="btn btn-danger btn-sm btn-rounded ">delete</a>
+						      </td>
+						    </tr>
+						  </tbody>
+						</table>
+						<!-- Pagination -->
+			            <nav class="my-4 d-flex justify-content-center">
+
+			              <ul class="pagination pagination-circle pg-blue mb-0">
+
+			                <!-- First -->
+			                <!-- Arrow left -->
+			                <li th:if="${currentpage != 0}" class="page-item">
+			                  <a th:href="@{'/admin/all-posts/'+${currentpage-1}}" class="page-link" aria-label="Previous">
+			                    <span aria-hidden="true">Previous</span>
+			                    <span class="sr-only">Previous</span>
+			                  </a>
+			                </li>
+
+			                <!-- Numbers -->
+			                <li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}" class="page-item"><a href="" th:href="@{'/admin/all-posts/'+${i-1}}" class="page-link"><span th:text="${i}"></span></a></li>
+			                <!-- Arrow right -->
+			                <li th:if="${currentpage+1 != totalpage}" class="page-item">
+			                  <a th:href="@{'/admin/all-posts/'+${currentpage+1}}" class="page-link" aria-label="Next">
+			                    <span aria-hidden="true">Next</span>
+			                    <span class="sr-only">Next</span>
+			                  </a>
+			                </li>
+
+			                
+			              </ul>
+			            </nav>
+			            <!-- Pagination -->
+			            <script>
+
+			            	const Serch=() => {
+			            		let query =$("#search-input").val();
+			            		if(query==""){
+									$("#search_result").hide();
+
+				            	}else{
+
+				            		let url=`http://localhost:8080/admin/blog/${query}`;
+				            		fetch(url)
+				            		.then((response) => {
+				            			return response.json();
+				            		})
+				            		.then((data) => {
+				            			console.log(data);
+				            			let text="";
+				            			data.forEach((blog) =>{
+				            			 text +=`<tr class='d-flex justify-content-between'>`;
+								      text+=`<th scope="row">${blog.id}</th>`;
+								      text+=`<td><img src="/image/${blog.image}" style="height:25px;width:25px;" /></td>`;
+								      text+=`<td>${blog.title}</td>`;
+								      text+=`<td>${blog.category}</td>`;
+								      text+=`<td>${blog.price}</td>`;
+								      text+=`<td>${blog.city}</td>`;
+								      
+								      text+=`<td>`;
+								      	text+=`<form action="/admin/post/edit/${blog.id}" method="post">`;
+								      	text+=`<button  class="btn btn-info btn-sm btn-rounded ">edit</button>`;
+								      text+=`</form>`;
+								  		text+=`</td><td>`;
+								      	text+=`<a href="/admin/post/delete/${blog.id}" class="btn btn-danger btn-sm btn-rounded ">delete</a>`;
+								      text+=`</td>`;
+								    text+=`</tr>`;
+						    				});
+				            			$("#search_result").html(text);
+				            			$("#search_result").show();
+				            		});
+				            		
+				            		
+				            		}
+			            	}
+			            	$("#search_result").hide();
+			            </script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>
+</body>
+</html>

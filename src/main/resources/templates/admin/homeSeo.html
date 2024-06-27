@@ -1,196 +1,237 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::div.container-fluid})">>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container-fluid">
-<div class="row">
-		<div class="col-md-6 mx-auto">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Setup Home Seo </h2>
-	    			<form action="" th:action="@{/admin/setup_homeSeo}" method="post" th:object="${homeseo}">
-					<div class="form-group">
-					    <label for="title">Title</label>
-					    <input type="text" name="title" th:value="${homeseo?.title}" class="form-control" th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}" id="title"   placeholder="Enter title"  />
-					    <div th:each="e : ${#fields.errors('title')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="keyword">Keyword</label>
-					    <input type="text" name="keyword" th:value="${homeseo?.keyword}"  class="form-control" th:classappend="${#fields.hasErrors('keyword')? 'is-invalid':''}" id="keyword"   placeholder="Enter keyword"  />
-					    <div th:each="e : ${#fields.errors('keyword')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="description">Description </label>
-					    <input type="text" name="description" th:value="${homeseo?.description}"  class="form-control" th:classappend="${#fields.hasErrors('description')? 'is-invalid':''}" id="description"   placeholder="Enter Description"  />
-					    <div th:each="e : ${#fields.errors('description')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					  <div class="form-group">
-					    <label for="seoTitle">Seo Title</label>
-					    <input type="text" name="seoTitle" th:value="${homeseo?.seoTitle}"  class="form-control" th:classappend="${#fields.hasErrors('seoTitle')? 'is-invalid':''}"  id="seoTitle" placeholder="Enter Seo Title"  />
-					  <div th:each="e : ${#fields.errors('seoTitle')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoDescription">Seo Description </label>
-					    <input type="text" name="seoDescription" th:value="${homeseo?.seoDescription}"  class="form-control" th:classappend="${#fields.hasErrors('seoDescription')? 'is-invalid':''}" id="seoDescription"   placeholder="Seo Description"  />
-					    <div th:each="e : ${#fields.errors('seoDescription')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="seoContent">Seo Content </label>
-					    <input type="text" name="seoContent" th:value="${homeseo?.seoContent}"  class="form-control" th:classappend="${#fields.hasErrors('seoContent')? 'is-invalid':''}" id="seoContent"   placeholder="Seo Content"  />
-					    <div th:each="e : ${#fields.errors('seoContent')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						  <button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
+			<section id="myContent">
+				<div class="row">
+					<div class="col-md-12 mx-auto" id="formDom" style="display: block;">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="text-center">Create New Page</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="recordDomOpen()">Back</button>
+								</div>
+								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
+								<form id="page_form">
+									<input type="hidden" name="id" id="id">
+									<div class="row">
+										<div class="form-group col">
+											<label for="name">Page Name</label>
+											<input type="text" name="name" class="form-control" id="name"
+												placeholder="Page Name" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="title">Title</label>
+											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="keyword">Keyword</label>
+											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="description">Description </label>
+											<input type="text" name="description" class="form-control" id="description"
+												placeholder="Enter Description" />
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="seoTitle">Seo Title</label>
+											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
+												placeholder="Enter Seo Title" />
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="form-group col">
+											<label for="seoDescription">Seo Description </label>
+											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
+												placeholder="Seo Description" />
+											<div class="invalid-feedback">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<label for="seoContent">Seo Content </label>
+											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
+												placeholder="Seo Content"></textarea>
+											<div class="invalid-feedback"></div>
+										</div>
+									</div>
+
+
+
+									<div class="d-flex justify-content-end">
+										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
+											style="margin-right: 7px;">Reset</button>
+										<button type="button" onclick="createPage()"
+											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
+									</div>
+								</form>
+
+							</div>
 						</div>
-					</form>
+					</div>
 
-	    		</div>
-				</div>
-			</div>
-		
+					<div class="col-md-12 mx-auto" id="recordDom" style="display: none;">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title text-center">All Pages</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="formDomOpen()">Create</button>
+								</div>
+								<table class="table table-strip display" id="page_table">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Title</th>
+											<th>Keyword</th>
+											<th>Description</th>
+											<th>Seo Title</th>
+											<th>Seo Description</th>
+											<th>Seo content</th>
+											<th class="text-center">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="u : ${locate}">
+											<tr th:id="${u.id}">
+												<td th:text="${u.name}"></td>
+												<td th:text="${u.title}"></td>
+												<td th:text="${u.keyword}"></td>
+												<td th:text="${u.description}"></td>
+												<td th:text="${u.seoTitle}"></td>
+												<td th:text="${u.seoDescription}"></td>
+												<td th:text="${u.seoContent}"></td>
+												<td class="text-center" >
+													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)"
+														style="cursor: pointer;"></i>
+												</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
 
-		<div class="col-md-6 mx-auto">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Setup Home Address</h2>
-	    			<form action="" th:action="@{/admin/setup_homeAddress}" method="post" th:object="${webaddress}">
-					<div class="form-group">
-					    <label for="editorEmail">Editor Email</label>
-					    <input type="email" name="editorEmail" th:value="${webaddress?.editorEmail}" class="form-control" th:classappend="${#fields.hasErrors('editorEmail')? 'is-invalid':''}" id="editorEmail"   placeholder="Enter Editor Email"  />
-					    <div th:each="e : ${#fields.errors('editorEmail')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="infoEmail">Info Email</label>
-					    <input type="email" name="infoEmail" th:value="${webaddress?.infoEmail}"  class="form-control" th:classappend="${#fields.hasErrors('infoEmail')? 'is-invalid':''}" id="infoEmail"   placeholder="Enter Info Email"  />
-					    <div th:each="e : ${#fields.errors('infoEmail')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="adminEmail">Admin Email </label>
-					    <input type="email" name="adminEmail" th:value="${webaddress?.adminEmail}"  class="form-control" th:classappend="${#fields.hasErrors('adminEmail')? 'is-invalid':''}" id="adminEmail"   placeholder="Enter Admin Email"  />
-					    <div th:each="e : ${#fields.errors('adminEmail')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					  <div class="form-group">
-					    <label for="phone">Phone Number</label>
-					    <input type="text" name="phone" th:value="${webaddress?.phone}"  class="form-control" th:classappend="${#fields.hasErrors('phone')? 'is-invalid':''}"  id="phone" placeholder="Enter phone Number"  />
-					  <div th:each="e : ${#fields.errors('phone')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="phone2">WhatsApp Number </label>
-					    <input type="text" name="phone2" th:value="${webaddress?.phone2}"  class="form-control" th:classappend="${#fields.hasErrors('phone2')? 'is-invalid':''}" id="phone2"   placeholder="WhatsApp Number "  />
-					    <div th:each="e : ${#fields.errors('phone2')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="Address">Address</label>
-					    <input type="text" name="Address" th:value="${webaddress?.Address}"  class="form-control" th:classappend="${#fields.hasErrors('Address')? 'is-invalid':''}" id="Address"   placeholder="Address"  />
-					    <div th:each="e : ${#fields.errors('Address')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						  <button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
+
+							</div>
 						</div>
-					</form>
+					</div>
 
-	    		</div>
 				</div>
-			</div>
+			</section>
 
-			<div class="col-md-6 mx-auto mt-3">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Setup Social sharing</h2>
-	    			<form action="" th:action="@{/admin/setup_homesocial}" method="post" th:object="${websocial}">
-					<div class="form-group">
-					    <label for="facebook">Facebook Link</label>
-					    <input type="text" name="facebook" th:value="${websocial?.facebook}" class="form-control" th:classappend="${#fields.hasErrors('facebook')? 'is-invalid':''}" id="facebook"   placeholder="Enter Facebook Link"  />
-					    <div th:each="e : ${#fields.errors('facebook')}" th:text="${e}" class="invalid-feedback"></div>
-					  </div>
-					  <div class="form-group">
-					    <label for="instagram">Instagram Link</label>
-					    <input type="text" name="instagram" th:value="${websocial?.instagram}"  class="form-control" th:classappend="${#fields.hasErrors('instagram')? 'is-invalid':''}" id="instagram"   placeholder="Enter Instagram Link"  />
-					    <div th:each="e : ${#fields.errors('instagram')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="twitter">twitter Link </label>
-					    <input type="text" name="twitter" th:value="${websocial?.twitter}"  class="form-control" th:classappend="${#fields.hasErrors('twitter')? 'is-invalid':''}" id="twitter"   placeholder="Enter Twitter Link"  />
-					    <div th:each="e : ${#fields.errors('twitter')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					  <div class="form-group">
-					    <label for="linkedin">linkedin Link</label>
-					    <input type="text" name="linkedin" th:value="${websocial?.linkedin}"  class="form-control" th:classappend="${#fields.hasErrors('linkedin')? 'is-invalid':''}"  id="linkedin" placeholder="Enter linkedin Link"  />
-					  <div th:each="e : ${#fields.errors('linkedin')}" th:text="${e}" class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="gethub">Github Link </label>
-					    <input type="text" name="gethub" th:value="${websocial?.gethub}"  class="form-control" th:classappend="${#fields.hasErrors('gethub')? 'is-invalid':''}" id="gethub"   placeholder="Github Number "  />
-					    <div th:each="e : ${#fields.errors('gethub')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="Youtube">Youtube Link</label>
-					    <input type="text" name="Youtube" th:value="${websocial?.Youtube}"  class="form-control" th:classappend="${#fields.hasErrors('Youtube')? 'is-invalid':''}" id="Youtube"   placeholder="Youtube Link"  />
-					    <div th:each="e : ${#fields.errors('Youtube')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="form-group">
-					    <label for="gmail">Gmail Link</label>
-					    <input type="text" name="gmail" th:value="${websocial?.gmail}"  class="form-control" th:classappend="${#fields.hasErrors('gmail')? 'is-invalid':''}" id="gmail"   placeholder="Gmail Link"  />
-					    <div th:each="e : ${#fields.errors('gmail')}" th:text="${e}"  class="invalid-feedback"></div>
-					   </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						  <button type="reset" class="btn btn-warning  btn-sm px-5">Reset</button>
-						</div>
-					</form>
+		</div>
+	</body>
+	<th:block th:include="admin/adminbase_layout :: myscript">
+	</th:block>
+	<script>
+		var categoryDT;
+		$(document).ready(function () {
+			categoryDT = $('#page_table').DataTable({
+				"pageLength": 50,
+				"layout": {
+					topStart: {
+						buttons: ['csvHtml5', 'excelHtml5']
+						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
+					}
+				},
+				columns: [
+					{ "data": 'name' },
+					{ "data": 'title' },
+					{ "data": 'keyword' },
+					{ "data": 'description' },
+					{ "data": 'seoTitle' },
+					{ "data": 'seoDescription' },
+					{ "data": 'seoContent' },
+					{ "data": 'action' },
+				],
+				columnDefs: [
+					{ visible: true, targets: [0, 1, 2, 7] },
+					{ visible: false, targets: ['_all'] },
+				]
+			});
+			$('#page_table tbody').on('click', 'tr td', function () {
+				if ($(this).index() == 3) {
+					return false;
+				}
+				var data = categoryDT.row(this).data();
+				console.log(data);
+				formDomOpen();
+				$('#id').val(data.DT_RowId);
+				$('#name').val(data.name);
+				$('#title').val(data.title);
+				$('#keyword').val(data.keyword);
+				$('#description').val(data.description);
+				$('#seoTitle').val(data.seoTitle);
+				$('#seoDescription').val(data.seoDescription);
+				$('#seoContent').val(data.seoContent);
+				// alert( 'You clicked on '+$(this).index()+'\'s row' );
+			});
+		});
+		function formDomOpen() {
+			showAndHideAnyDom(['formDom'], ['recordDom']);
+		}
+		function recordDomOpen() {
+			showAndHideAnyDom(['recordDom'], ['formDom']);
+		}
+		function createPage() {
+			if (formValidate('page_form')) {
+				createPostRequest('page_form', '/admin/states/create', 'createPageCB');
+			}
+		}
+		function createPageCB(r) {
+			// console.log('callback', r);
+			recordDomOpen();
+			let d = r.data;
+			if (r.action == "UPDATE") {
+				categoryDT.cell(`#${d.id}`, 0).data(d.name);
+				categoryDT.cell(`#${d.id}`, 1).data(d.title);
+				categoryDT.cell(`#${d.id}`, 2).data(d.keyword);
+				categoryDT.cell(`#${d.id}`, 3).data(d.description);
+				categoryDT.cell(`#${d.id}`, 4).data(d.seoTitle);
+				categoryDT.cell(`#${d.id}`, 5).data(d.seoDescription);
+				categoryDT.cell(`#${d.id}`, 6).data(d.seoContent);
+				categoryDT.cell(`#${d.id}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
+				categoryDT.draw();
+			} else {
+				categoryDT.row.add({
+					DT_RowId: d.id,
+					name: d.name,
+					title: d.title,
+					keyword: d.keyword,
+					description: d.description,
+					seoTitle: d.seoTitle,
+					seoDescription: d.seoDescription,
+					seoContent: d.seoContent,
+					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
+				}).draw();
 
-	    		</div>
-				</div>
-			</div>
+			}
 
+		}
+		function deleteState(btn) {
+			var id = btn.parentNode.parentNode.id;
+			console.log(id);
+			createGetRequest('page_form', '/admin/states/delete/' + id, 'deleteStateCB');
+		}
+		function deleteStateCB(r) {
+			console.log(r);
+			categoryDT.row(`#${r.data}`).remove().draw();
+		}
 
+	</script>
 
-			<div class="col-md-6 mx-auto mt-3">
-				<div class="card">
-					<div class="card-body">
-	    		<h2 class="text-center">Setup Logo & Banner</h2>
-	    		<div class="my-2">
-	    			<h4>Logo</h4>
-	    			<form action="" th:action="@{/admin/setup_homeLogo}" method="post" enctype="multipart/form-data" th:object="${homelogo}">
-					<img th:src="@{'/image/'+${homelogo.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
-					<div class="md-form md-outline">
-		                <input type="file" name="multipartfile" id="multipartfile"  required="">
-		              </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						</div>
-					</form>
-				</div>
-				<div class="my-2">
-					<h4>Banner</h4>
-	    			<form action="" th:action="@{/admin/setup_homebanner}" method="post" enctype="multipart/form-data" th:object="${homebanner}">
-	    				<img th:src="@{'/image/'+${homebanner.banner}}" style="height:6rem;width:100%;" class="my-2">
-	    				
-	    				<div class="md-form md-outline">
-		                <input type="text" name="title" id="title" th:value="${homebanner?.title}" class="form-control" >
-		                <label for="title" >Banner Title</label>
-		              </div>
-					<div class="md-form md-outline">
-		                <input type="file" name="multipartfile" id="multipartfile"  required="">
-		              </div>
-					   <div class="d-flex justify-content-between my-2">
-						  <button type="submit" class="btn btn-primary  btn-sm px-5">Submit</button>
-						</div>
-					</form>
-				</div>
-	    		</div>
-				</div>
-			</div>
-
-
-
-
-	</div>
-</div>
-</body>
 </html>

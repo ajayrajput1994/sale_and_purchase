@@ -22,6 +22,7 @@ import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
+import com.olxseller.olx.service.GenricService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
@@ -44,7 +45,8 @@ public class AdminResController {
 	private WebPageService pageService;
 	@Autowired
 	private UserService userService;
-
+	// @Autowired
+	// private GenricService service;
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
 		System.out.println("category:" + cat);
@@ -243,6 +245,7 @@ public class AdminResController {
 	public ResponseEntity<?> deleteUserById(@PathVariable("id") int id) {
 		// System.out.println("category:"+cat);
 		try {
+			// service.delete(id);
 			userService.deleteUser(id);
 			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
 					HttpStatus.OK);

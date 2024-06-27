@@ -22,40 +22,40 @@ public class Blog {
 	private int id;
 	
 	@NotNull
-	private String mainCategory;
+	private String mainCategory="";
 	@NotNull
-	private String category;
+	private String category="";
 	@NotNull
-	private String Title;
+	private String Title="";
 	@NotNull
 	@Column(length=8000)
-	private String Description;
+	private String Description="";
 	@NotNull
 	private double price;
 	@NotNull
-	private String image;
+	private String image="";
 	@NotNull
-	private String image2;
+	private String image2="";
 	@NotNull
-	private String image3;
+	private String image3="";
 	@NotNull
-	private String image4;
+	private String image4="";
 	@NotNull
-	private String image5;
+	private String image5="";
 
 	@NotNull
-	private String image6;
+	private String image6="";
 
 	@NotNull
-	private String region;
+	private String region="";
 	
 	@NotNull
-	private String regionState;
+	private String regionState="";
 
 	@NotNull
-	private String city;
+	private String city="";
 	@NotNull
-	private String address;
+	private String address="";
 
 	// seller info
 	@NotNull
