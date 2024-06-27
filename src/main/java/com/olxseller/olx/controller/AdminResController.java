@@ -20,6 +20,7 @@ import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.SubCategory;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
+import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.GenricService;
@@ -45,8 +46,8 @@ public class AdminResController {
 	private WebPageService pageService;
 	@Autowired
 	private UserService userService;
-	// @Autowired
-	// private GenricService service;
+	@Autowired
+	private GenricService<WebSiteAddress> webservice;
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
 		System.out.println("category:" + cat);
@@ -247,6 +248,36 @@ public class AdminResController {
 		try {
 			// service.delete(id);
 			userService.deleteUser(id);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@PostMapping("/address/create")
+	public ResponseEntity<?> createUpdateWebsiteAddress(@RequestBody WebSiteAddress  address) {
+		System.out.println(address);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+    String dat = sdf.format(new Date());
+		try {
+			if (address.getId() > 0) {
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webservice.update(address, address.getId())),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", webservice.create(address)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@GetMapping("/address/delete/{id}")
+	public ResponseEntity<?> deleteWebSiteAddressById(@PathVariable("id") int id) {
+		try {
+			webservice.delete(id);
 			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
 					HttpStatus.OK);
 		} catch (Exception ex) {

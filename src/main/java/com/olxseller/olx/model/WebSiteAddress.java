@@ -12,18 +12,18 @@ public class WebSiteAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotNull
-	private String editorEmail;
-	@NotNull
-	private String infoEmail;
-	@NotNull
-	private String adminEmail;
-	@NotNull
-	private String phone;
-	@NotNull
-	private String phone2;
-	@NotNull
-	private String Address;
+	
+	private String editorEmail="";
+	
+	private String infoEmail="";
+	
+	private String adminEmail="";
+	
+	private String phone="";
+	
+	private String phone2="";
+	
+	private String Address="";
 
 	public int getId() {
 		return id;
