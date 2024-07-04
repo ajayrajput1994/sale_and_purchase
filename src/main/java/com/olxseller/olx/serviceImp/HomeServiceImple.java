@@ -1,16 +1,14 @@
 package com.olxseller.olx.serviceImp;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.olxseller.olx.model.HomeSeo;
 import com.olxseller.olx.repository.HomeSeoRepository;
-import com.olxseller.olx.service.GenricService;
+import com.olxseller.olx.service.SeoService;
 
-@Service
-public class HomeServiceImple implements GenricService<HomeSeo>{
+@Component
+public class HomeServiceImple implements SeoService{
   @Autowired
   private HomeSeoRepository homeRepo;
   @Override
@@ -19,26 +17,9 @@ public class HomeServiceImple implements GenricService<HomeSeo>{
   }
 
   @Override
-  public HomeSeo getByID(int id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getByID'");
-  }
-
-  @Override
   public HomeSeo update(HomeSeo ob, int id) {
    ob.setId(id);
    return homeRepo.save(ob);
-  }
-
-  @Override
-  public void delete(int id) {
-    homeRepo.deleteById(id);
-  }
-
-  @Override
-  public List<HomeSeo> getAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAll'");
   }
   
 }

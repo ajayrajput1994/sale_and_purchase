@@ -12,25 +12,20 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.Message;
@@ -191,11 +186,10 @@ public class AdminController {
 		return "redirect:/admin/all-posts/0";
 	}
 
-
 	// main catalogs
 	@GetMapping("/categories/{page}")
 	public String AllCategories(@PathVariable("page") Integer page, Model m) {
-		ResponseData responseData=new ResponseData();
+		ResponseData responseData = new ResponseData();
 		m.addAttribute("title", "all catalogs");
 		Pageable pageable = PageRequest.of(page, 6);
 		Page<MainCategory> catalog = this.mainRepo.getAllCatalogs(pageable);
@@ -203,10 +197,10 @@ public class AdminController {
 		m.addAttribute("currentpage", page);
 		m.addAttribute("totalpage", catalog.getTotalPages());
 		m.addAttribute("maincat", new MainCategory());
-		m.addAttribute("demodata", responseData.jsonSimpleResponse("","","",mainRepo.findAll()));
+		m.addAttribute("demodata", responseData.jsonSimpleResponse("", "", "", mainRepo.findAll()));
 		return "admin/categories";
 	}
-	
+
 	// sub catalogs
 	@GetMapping("/sub-category/{page}")
 	public String subCategories(@PathVariable("page") Integer page, Model m) {
@@ -222,7 +216,6 @@ public class AdminController {
 		return "admin/subcategory";
 	}
 
-
 	// all states
 	@GetMapping("/all-states/{page}")
 	public String AllStates(@PathVariable("page") Integer page, Model m) {
@@ -236,7 +229,6 @@ public class AdminController {
 		return "admin/allStates";
 
 	}
-
 
 	// all cities
 	@GetMapping("/all-cities/{page}")
@@ -364,7 +356,7 @@ public class AdminController {
 	@PostMapping("/create_maincategory")
 	public String createNewMainCategory(@RequestBody MainCategory maincategory, Model m,
 			HttpSession session) {
-		System.out.println("category:"+maincategory);
+		System.out.println("category:" + maincategory);
 		String pageurl = "admin/categories";
 		try {
 			// System.out.println(maincategory);
@@ -375,7 +367,7 @@ public class AdminController {
 			maincategory.setImage("default.png");
 			maincategory.setPath(maincategory.getMainCatalog());
 
-			MainCategory mainCatalog = this.mainRepo.save(maincategory);
+			mainRepo.save(maincategory);
 
 			m.addAttribute("maincat", new MainCategory());
 
@@ -406,7 +398,7 @@ public class AdminController {
 			subcategory.setImage("default.png");
 			subcategory.setPath(subcategory.getSubCatalog());
 
-			SubCategory sub = this.subRepo.save(subcategory);
+			subRepo.save(subcategory);
 
 			m.addAttribute("subcat", new SubCategory());
 
@@ -437,7 +429,7 @@ public class AdminController {
 			regionState.setImage("default.png");
 			regionState.setPath(regionState.getStateName());
 
-			RegionState region = this.stateRepo.save(regionState);
+			this.stateRepo.save(regionState);
 
 			m.addAttribute("regionState", new RegionState());
 
@@ -468,7 +460,7 @@ public class AdminController {
 			cities.setImage("default.png");
 			cities.setPath(cities.getCityName());
 
-			City c = this.cityRepo.save(cities);
+			this.cityRepo.save(cities);
 
 			m.addAttribute("cities", new City());
 
@@ -499,7 +491,7 @@ public class AdminController {
 			webpage.setImage("default.png");
 			webpage.setPath(webpage.getName());
 
-			WebPage c = this.webpageRepo.save(webpage);
+			this.webpageRepo.save(webpage);
 
 			m.addAttribute("webpage", new WebPage());
 
@@ -528,7 +520,7 @@ public class AdminController {
 			// return pageurl;
 			// }
 			homeseo.setId(1);
-			HomeSeo sub = this.homeRepo.save(homeseo);
+			this.homeRepo.save(homeseo);
 
 			m.addAttribute("homeseo", new HomeSeo());
 
@@ -558,7 +550,7 @@ public class AdminController {
 			// return pageurl;
 			// }
 			webaddress.setId(1);
-			WebSiteAddress sub = this.websiteRepo.save(webaddress);
+			this.websiteRepo.save(webaddress);
 
 			m.addAttribute("webaddress", new WebSiteAddress());
 
@@ -587,7 +579,7 @@ public class AdminController {
 			// return pageurl;
 			// }
 			websocial.setId(1);
-			WebSiteSocial sub = this.websocialRepo.save(websocial);
+			this.websocialRepo.save(websocial);
 
 			m.addAttribute("websocial", new WebSiteSocial());
 
@@ -627,7 +619,7 @@ public class AdminController {
 			}
 
 			homelogo.setId(1);
-			Logo sub = this.logoRepo.save(homelogo);
+			this.logoRepo.save(homelogo);
 
 			m.addAttribute("homelogo", new Logo());
 
@@ -666,7 +658,7 @@ public class AdminController {
 				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
 			homebanner.setId(1);
-			Banner sub = this.bannerRepo.save(homebanner);
+			this.bannerRepo.save(homebanner);
 
 			m.addAttribute("homebanner", new Banner());
 

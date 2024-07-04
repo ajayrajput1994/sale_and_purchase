@@ -21,8 +21,8 @@
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="category_form">
 									<input type="hidden" name="subId" id="subId">
-									<div class="md-form  mt-2">
-										<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" required="">
+									<div class="form-group mt-2">
+										<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" required>
 											<option disabled="" value="" selected="">Select Main Category</option>
 		                  <option  th:each="m : ${mainCategories}" th:value="${m.mainCatalog}"><span th:text="${m.mainCatalog}"></span></option>
 										</select>
@@ -31,7 +31,7 @@
 										<div class="form-group col">
 											<label for="subCatalog">Sub Category Name</label>
 											<input type="text" name="subCatalog" class="form-control" id="subCatalog"
-												placeholder="Sub Category Name" />
+												placeholder="Sub Category Name" required>
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">

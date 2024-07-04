@@ -1,43 +1,26 @@
 package com.olxseller.olx.serviceImp;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Service;
+import com.olxseller.olx.model.WebSiteSocial;
+import com.olxseller.olx.repository.WebSiteSocialRepository;
+import com.olxseller.olx.service.SocialService;
 
-import com.olxseller.olx.model.WebSiteAddress;
-import com.olxseller.olx.service.GenricService;
+@Component
+public class SocialServiceImpl implements SocialService {
 
-@Service
-public class SocialServiceImpl implements GenricService<WebSiteAddress> {
+  @Autowired
+  private WebSiteSocialRepository socialRepo;
+  @Override
+  public WebSiteSocial create(WebSiteSocial ob) {
+    return  socialRepo.save(ob);}
 
   @Override
-  public WebSiteAddress create(WebSiteAddress ob) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'create'");
+  public WebSiteSocial update(WebSiteSocial ob, int id) {
+    ob.setId(id);
+    return socialRepo.save(ob);
   }
-
-  @Override
-  public WebSiteAddress getByID(int id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getByID'");
-  }
-
-  @Override
-  public WebSiteAddress update(WebSiteAddress ob, int id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
-  }
-
-  @Override
-  public void delete(int id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'delete'");
-  }
-
-  @Override
-  public List<WebSiteAddress> getAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAll'");
-  }
+ 
   
 }

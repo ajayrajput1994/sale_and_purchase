@@ -15,18 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.City;
+import com.olxseller.olx.model.HomeSeo;
 import com.olxseller.olx.model.MainCategory;
 import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.SubCategory;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.model.WebSiteAddress;
+import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
-import com.olxseller.olx.service.GenricService;
+import com.olxseller.olx.service.SeoService;
+import com.olxseller.olx.service.SocialService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
+import com.olxseller.olx.service.WebAddressService;
 import com.olxseller.olx.service.WebPageService;
 
 @RestController
@@ -47,7 +51,12 @@ public class AdminResController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private GenricService<WebSiteAddress> webservice;
+	private WebAddressService webservice;
+	@Autowired
+	private SeoService seoservice;
+	@Autowired
+	private SocialService socialService;
+
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
 		System.out.println("category:" + cat);
@@ -70,7 +79,7 @@ public class AdminResController {
 	public ResponseEntity<?> getCategoryById(@PathVariable("id") int id) {
 		System.out.println("category id:" + id);
 		try {
-			MainCategory category = catService.getCategoryById(id);
+			catService.getCategoryById(id);
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loaded", "LOADED", catService.getAllMainCategory()),
 					HttpStatus.OK);
@@ -256,17 +265,60 @@ public class AdminResController {
 		// return null;
 	}
 
-	@PostMapping("/address/create")
+	@PostMapping("/webaddress/create")
 	public ResponseEntity<?> createUpdateWebsiteAddress(@RequestBody WebSiteAddress  address) {
-		System.out.println(address);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    String dat = sdf.format(new Date());
+		System.out.println("webaddress:"+address);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+    // String dat = sdf.format(new Date());
 		try {
-			if (address.getId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webservice.update(address, address.getId())),
+			System.out.println("address :"+address.getId());
+			// if (address.getId() > 0) {
+			WebSiteAddress webSiteAddress=	webservice.update(address, address.getId());
+			System.out.println("updated"+webSiteAddress);
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webSiteAddress),
+						HttpStatus.OK);
+			// }
+			// return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", webservice.create(address)),
+			// 		HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+	@PostMapping("/seo/create")
+	public ResponseEntity<?> createUpdateWebsiteSeo(@RequestBody HomeSeo  seo) {
+		System.out.println("webaddress:"+seo);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+    // String dat = sdf.format(new Date());
+		try {
+			System.out.println("seo id:"+seo.getId());
+			if (seo.getId() > 0) {
+				HomeSeo webseo=	seoservice.update(seo, seo.getId());
+			System.out.println("updated"+webseo);
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webseo),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", webservice.create(address)),
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", seoservice.create(seo)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+	@PostMapping("/social/create")
+	public ResponseEntity<?> createUpdateWebsiteSocial(@RequestBody WebSiteSocial  social) {
+		System.out.println("social:"+social);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+    // String dat = sdf.format(new Date());
+		try {
+			System.out.println("social id :"+social.getId());
+			if (social.getId() > 0) {
+				WebSiteSocial webseo=	socialService.update(social, social.getId());
+			System.out.println("updated"+webseo);
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webseo),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", socialService.create(social)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -274,15 +326,4 @@ public class AdminResController {
 		// return null;
 	}
 
-	@GetMapping("/address/delete/{id}")
-	public ResponseEntity<?> deleteWebSiteAddressById(@PathVariable("id") int id) {
-		try {
-			webservice.delete(id);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
-					HttpStatus.OK);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
-	}
 }

@@ -37,38 +37,40 @@
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="home_seo_form">
-									<input type="hidden" name="id" id="id">
+									<input type="hidden" name="id" th:value="${homeseo?.id}" id="id">
 									<div class="row">
 										<div class="form-group col">
 											<label for="title">Title</label>
-											<input type="text" name="title" th:value="${homeseo?.title}" class="form-control" id="title" placeholder="Enter title" />
+											<input type="text" name="title" th:value="${homeseo?.title}" class="form-control" id="title"
+												placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
 											<label for="keyword">Keyword</label>
-											<input type="text" name="keyword" th:value="${homeseo?.keyword}" class="form-control" id="keyword" placeholder="Enter keyword" />
+											<input type="text" name="keyword" th:value="${homeseo?.keyword}" class="form-control" id="keyword"
+												placeholder="Enter keyword" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
 											<label for="description">Description </label>
-											<input type="text" name="description" th:value="${homeseo?.description}" class="form-control" id="description"
-												placeholder="Enter Description" />
+											<input type="text" name="description" th:value="${homeseo?.description}" class="form-control"
+												id="description" placeholder="Enter Description" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
 											<label for="seoTitle">Seo Title</label>
-											<input type="text" name="seoTitle" th:value="${homeseo?.seoTitle}" class="form-control" id="seoTitle"
-												placeholder="Enter Seo Title" />
+											<input type="text" name="seoTitle" th:value="${homeseo?.seoTitle}" class="form-control"
+												id="seoTitle" placeholder="Enter Seo Title" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
 											<label for="seoDescription">Seo Description </label>
-											<input type="text" name="seoDescription" th:value="${homeseo?.seoDescription}" class="form-control" id="seoDescription"
-												placeholder="Seo Description" />
+											<input type="text" name="seoDescription" th:value="${homeseo?.seoDescription}"
+												class="form-control" id="seoDescription" placeholder="Seo Description" />
 											<div class="invalid-feedback">
 											</div>
 										</div>
@@ -76,15 +78,15 @@
 									<div class="row">
 										<div class="form-group">
 											<label for="seoContent">Seo Content </label>
-											<textarea type="text" name="seoContent" th:value="${homeseo?.seoContent}" rows="2" class="form-control rounded-0" id="seoContent"
-												placeholder="Seo Content"></textarea>
+											<textarea type="text" name="seoContent" th:text="${homeseo?.seoContent}" rows="2"
+												class="form-control rounded-0" id="seoContent" placeholder="Seo Content"></textarea>
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="createPage()"
+										<button type="button" onclick="addSeo()"
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
@@ -100,26 +102,26 @@
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="address_form">
-									<input type="hidden" name="id" id="id">
+									<input type="hidden" name="id" th:value="${webaddress?.id}" id="id">
 									<div class="row">
 										<div class="form-group col">
 											<label for="editorEmail">Editor Email</label>
-											<input type="text" name="editorEmail" th:value="${webaddress?.editorEmail}" class="form-control" id="editorEmail"
-												placeholder="Enter Editor Email" />
+											<input type="text" name="editorEmail" th:value="${webaddress?.editorEmail}" class="form-control"
+												id="editorEmail" placeholder="Enter Editor Email" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
 											<label for="infoEmail">Info Email</label>
-											<input type="text" name="infoEmail" th:value="${webaddress?.infoEmail}" class="form-control" id="infoEmail"
-												placeholder="Enter Info Email" />
+											<input type="text" name="infoEmail" th:value="${webaddress?.infoEmail}" class="form-control"
+												id="infoEmail" placeholder="Enter Info Email" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
 											<label for="adminEmail">Admin Email </label>
-											<input type="text" name="adminEmail" th:value="${webaddress?.adminEmail}" class="form-control" id="adminEmail"
-												placeholder="Enter Admin Email" />
+											<input type="text" name="adminEmail" th:value="${webaddress?.adminEmail}" class="form-control"
+												id="adminEmail" placeholder="Enter Admin Email" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
@@ -140,14 +142,11 @@
 									<div class="row">
 										<div class="form-group">
 											<label for="Address">Address </label>
-											<textarea type="text" name="Address" th:value="${webaddress?.Address}" rows="2" class="form-control rounded-0" id="Address"
-												placeholder="Address"></textarea>
+											<textarea type="text" name="Address" th:text="${webaddress?.Address}" rows="2"
+												class="form-control rounded-0" id="Address" placeholder="Address"></textarea>
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
-
-
-
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
@@ -167,7 +166,7 @@
 								</div>
 								<img th:src="@{'/image/'+${homelogo.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="page_form">
+								<form id="logo_form">
 									<input type="hidden" name="id" id="id">
 									<div class="row">
 										<div class="form-group col">
@@ -198,7 +197,8 @@
 								<form id="banner_form">
 									<div class="form-group ">
 										<label for="title">Title</label>
-										<input type="text" name="title" th:value="${homebanner?.title}" class="form-control" id="title" placeholder="Enter keyword" />
+										<input type="text" name="title" th:value="${homebanner?.title}" class="form-control" id="title"
+											placeholder="Enter keyword" />
 										<div class="invalid-feedback"></div>
 									</div>
 									<div class="form-group ">
@@ -225,61 +225,65 @@
 									<h4 class="text-center">Social Sharing</h4>
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="page_form">
-									<input type="hidden" name="id" id="id">
+								<form id="social_form">
+									<input type="hidden" name="id" id="id" th:value="${websocial?.id}">
 									<div class="row">
 										<div class="form-group col">
 											<label for="facebook">Facebook Link</label>
-											<input type="text" name="facebook" th:value="${websocial?.facebook}" class="form-control" id="facebook"
-												placeholder="Enter Facebook" />
+											<input type="text" name="facebook" th:value="${websocial?.facebook}" class="form-control"
+												id="facebook" placeholder="Enter Facebook" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
 											<label for="instagram">Instagram Link</label>
-											<input type="text" name="instagram" th:value="${websocial?.instagram}" class="form-control" id="instagram"
-												placeholder="Enter Instagram" />
+											<input type="text" name="instagram" th:value="${websocial?.instagram}" class="form-control"
+												id="instagram" placeholder="Enter Instagram" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
 											<label for="twitter">Twitter Link </label>
-											<input type="text" name="twitter" th:value="${websocial?.twitter}" class="form-control" id="twitter" placeholder="Enter Twitter" />
+											<input type="text" name="twitter" th:value="${websocial?.twitter}" class="form-control"
+												id="twitter" placeholder="Enter Twitter" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
 											<label for="linkedin">Linkedin Link</label>
-											<input type="text" name="linkedin" th:value="${websocial?.linkedin}" class="form-control" id="linkedin"
-												placeholder="Enter Linkedin " />
+											<input type="text" name="linkedin" th:value="${websocial?.linkedin}" class="form-control"
+												id="linkedin" placeholder="Enter Linkedin " />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
 											<label for="gethub">Github Link </label>
-											<input type="text" name="gethub" class="form-control" id="gethub" placeholder="Enter Github" />
+											<input type="text" name="gethub" th:value="${websocial?.gethub}" class="form-control" id="gethub"
+												placeholder="Enter Github" />
 											<div class="invalid-feedback">
 											</div>
 										</div>
 										<div class="form-group col">
 											<label for="Youtube">Youtube Link</label>
-											<input type="text" name="Youtube" th:value="${websocial?.Youtube}" class="form-control" id="Youtube" placeholder="Enter Youtube " />
+											<input type="text" name="youtube" th:value="${websocial?.youtube}" class="form-control"
+												id="Youtube" placeholder="Enter Youtube " />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
 									<div class="form-group ">
 										<label for="gmail">Gmail Link </label>
-										<input type="text" name="gmail" th:value="${websocial?.gmail}" class="form-control" id="gmail" placeholder="Enter gmail" />
+										<input type="text" name="gmail" th:value="${websocial?.gmail}" class="form-control" id="gmail"
+											placeholder="Enter gmail" />
 										<div class="invalid-feedback">
 										</div>
 									</div>
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="createPage()"
+										<button type="button" onclick="addSocial()"
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
-									</form>
+								</form>
 
 							</div>
 						</div>
@@ -308,9 +312,24 @@
 		function showBannerDom() {
 			showAndHideAnyDom(['bannerFormDom'], ['socialFormDom', 'addressFormDom', 'logoFormDom', 'seoFormDom']);
 		}
+		function addSeo() {
+			if (formValidate('home_seo_form')) {
+				createPostRequest('home_seo_form', '/admin/seo/create', 'addAddressCB');
+			}
+		}
 		function addAddress() {
 			if (formValidate('address_form')) {
-				createPostRequest('address_form', '/admin/address/create', 'addAddressCB');
+				createPostRequest('address_form', '/admin/webaddress/create', 'addAddressCB');
+			}
+		}
+		function addSocial() {
+			if (formValidate('social_form')) {
+				createPostRequest('social_form', '/admin/social/create', 'addAddressCB');
+			}
+		}
+		function addLogo() {
+			if (formValidate('logo_form')) {
+				createPostRequest('logo_form', '/admin/social/create', 'addAddressCB');
 			}
 		}
 		function addAddressCB(r) {

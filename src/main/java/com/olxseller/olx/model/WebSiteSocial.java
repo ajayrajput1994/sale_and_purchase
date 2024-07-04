@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class WebSiteSocial {
@@ -12,21 +11,21 @@ public class WebSiteSocial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotNull
-	private String facebook;
-	@NotNull
-	private String instagram;
-	@NotNull
-	private String twitter;
-	@NotNull
-	private String linkedin;
-	@NotNull
-	private String gethub;
-	@NotNull
-	private String Youtube;
-	@NotNull
-	private String gmail;
-	@NotNull
+	
+	private String facebook="";
+	
+	private String instagram="";
+	
+	private String twitter="";
+	
+	private String linkedin="";
+	
+	private String gethub="";
+	
+	private String Youtube="";
+	
+	private String gmail="";
+	
 	public int getId() {
 		return id;
 	}

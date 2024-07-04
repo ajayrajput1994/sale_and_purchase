@@ -102,11 +102,19 @@ return jsonDict;
 }
 
 function formValidate(formid){
-  formData=$(`#${formid}`).serializeArray();
+ let formData=$(`#${formid}`).serializeArray();
   formData.forEach((e)=>{
+    console.log(e);
    // jsonDict[e['name']]=e['value'];
-   //var type=input.prop("type"); // get input type
-    var input=$(`input[name=${e['name']}]`);
+   if(!$(this).prop('required')){
+    console.log("NR");
+  } else {
+    console.log("IR");
+  }
+  let input=$(`input[name=${e['name']}]`);
+  let type=input.prop("type"); // get input type
+  console.log(type);
+  console.log(input.prop('required'));
    if(input.prop('required')){// required element
     console.log(e['name'],'is required .');
    $(`input[name=${e['name']}]`).removeClass('border-danger');
