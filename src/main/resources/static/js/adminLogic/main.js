@@ -81,6 +81,37 @@ function createPostRequest(formid,url,callBack){
 
 }
 
+function uploadFiles(formid,url,callBack){
+  $("button").attr("disabled", true);
+  // formData=$(`#${formid}`).serialize();
+  // formData=$(`#${formid}`).serializeArray();
+let  jsonDict=formDataToJson(formid);
+  // console.log(jsonDict);
+  var inputfile=document.getElementById('multipartfile');
+  var file = inputfile.files[0];
+  // jsonDict['logo']=file;
+  $.ajax({
+    url:url,
+    type:'POST',
+    data:new FormData(file),
+    enctype: 'multipart/form-data',
+    contentType: false,
+    // contentType: "application/json; charset=utf-8",
+    dataType: false,
+    success: function(obj) {
+      // console.log('success',obj); 
+			if (callBack != null) {
+				var callbackMethod = eval(callBack);
+				callbackMethod(obj, formid);
+        $(`#${formid}`)[0].reset();
+			}
+			$("button").attr("disabled", false);
+			messageConfirmation(obj);
+		}
+  });
+
+}
+
 function messageConfirmation(obj){
   if(obj.responseText=='SUCCESS'){
     toastr.success(obj.message);

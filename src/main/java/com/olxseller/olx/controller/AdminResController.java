@@ -1,9 +1,15 @@
 package com.olxseller.olx.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.ResponseData;
+import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.City;
 import com.olxseller.olx.model.HomeSeo;
 import com.olxseller.olx.model.MainCategory;
@@ -25,6 +33,7 @@ import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
+import com.olxseller.olx.service.LogoService;
 import com.olxseller.olx.service.SeoService;
 import com.olxseller.olx.service.SocialService;
 import com.olxseller.olx.service.StateService;
@@ -56,6 +65,8 @@ public class AdminResController {
 	private SeoService seoservice;
 	@Autowired
 	private SocialService socialService;
+	@Autowired
+	private LogoService logoService;
 
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
@@ -120,10 +131,14 @@ public class AdminResController {
 		System.out.println("sub-category:" + sub);
 		try {
 			if (sub.getSubId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", subcatService.updateSubCategory(sub, sub.getSubId())),
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+								subcatService.updateSubCategory(sub, sub.getSubId())),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", subcatService.createSubCategory(sub)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE",
+							subcatService.createSubCategory(sub)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -149,10 +164,13 @@ public class AdminResController {
 		System.out.println("State:" + st);
 		try {
 			if (st.getStateId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", stateService.updaateState(st, st.getStateId())),
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+								stateService.updaateState(st, st.getStateId())),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", stateService.createState(st)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", stateService.createState(st)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -178,10 +196,13 @@ public class AdminResController {
 		System.out.println("City:" + city);
 		try {
 			if (city.getCityId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", cityService.updateCity(city, city.getCityId())),
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+								cityService.updateCity(city, city.getCityId())),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", cityService.createCity(city)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", cityService.createCity(city)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -207,10 +228,13 @@ public class AdminResController {
 		System.out.println("City:" + page);
 		try {
 			if (page.getId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", pageService.updateWebPage(page,page.getId())),
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+								pageService.updateWebPage(page, page.getId())),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", pageService.creatWebPage(page)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", pageService.creatWebPage(page)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -232,18 +256,21 @@ public class AdminResController {
 	}
 
 	@PostMapping("/user/create")
-	public ResponseEntity<?> createUpdateUser(@RequestBody User  user) {
+	public ResponseEntity<?> createUpdateUser(@RequestBody User user) {
 		System.out.println("User:" + user);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    String dat = sdf.format(new Date());
-    user.setCreate_at(dat);
-    user.setUpdate_at(dat);
+		String dat = sdf.format(new Date());
+		user.setCreate_at(dat);
+		user.setUpdate_at(dat);
 		try {
 			if (user.getId() > 0) {
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", userService.updateUser(user, user.getId())),
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+								userService.updateUser(user, user.getId())),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", userService.createUser(user)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", userService.createUser(user)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -266,60 +293,93 @@ public class AdminResController {
 	}
 
 	@PostMapping("/webaddress/create")
-	public ResponseEntity<?> createUpdateWebsiteAddress(@RequestBody WebSiteAddress  address) {
-		System.out.println("webaddress:"+address);
+	public ResponseEntity<?> createUpdateWebsiteAddress(@RequestBody WebSiteAddress address) {
+		System.out.println("webaddress:" + address);
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    // String dat = sdf.format(new Date());
+		// String dat = sdf.format(new Date());
 		try {
-			System.out.println("address :"+address.getId());
+			System.out.println("address :" + address.getId());
 			// if (address.getId() > 0) {
-			WebSiteAddress webSiteAddress=	webservice.update(address, address.getId());
-			System.out.println("updated"+webSiteAddress);
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webSiteAddress),
-						HttpStatus.OK);
+			WebSiteAddress webSiteAddress = webservice.update(address, address.getId());
+			System.out.println("updated" + webSiteAddress);
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webSiteAddress),
+					HttpStatus.OK);
 			// }
-			// return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", webservice.create(address)),
-			// 		HttpStatus.CREATED);
+			// return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS",
+			// "Successfuly Created", "CREATE", webservice.create(address)),
+			// HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		// return null;
 	}
+
 	@PostMapping("/seo/create")
-	public ResponseEntity<?> createUpdateWebsiteSeo(@RequestBody HomeSeo  seo) {
-		System.out.println("webaddress:"+seo);
+	public ResponseEntity<?> createUpdateWebsiteSeo(@RequestBody HomeSeo seo) {
+		System.out.println("webaddress:" + seo);
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    // String dat = sdf.format(new Date());
+		// String dat = sdf.format(new Date());
 		try {
-			System.out.println("seo id:"+seo.getId());
+			System.out.println("seo id:" + seo.getId());
 			if (seo.getId() > 0) {
-				HomeSeo webseo=	seoservice.update(seo, seo.getId());
-			System.out.println("updated"+webseo);
+				HomeSeo webseo = seoservice.update(seo, seo.getId());
+				System.out.println("updated" + webseo);
 				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webseo),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", seoservice.create(seo)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", seoservice.create(seo)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		// return null;
 	}
+
 	@PostMapping("/social/create")
-	public ResponseEntity<?> createUpdateWebsiteSocial(@RequestBody WebSiteSocial  social) {
-		System.out.println("social:"+social);
+	public ResponseEntity<?> createUpdateWebsiteSocial(@RequestBody WebSiteSocial social) {
+		System.out.println("social:" + social);
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    // String dat = sdf.format(new Date());
+		// String dat = sdf.format(new Date());
 		try {
-			System.out.println("social id :"+social.getId());
+			System.out.println("social id :" + social.getId());
 			if (social.getId() > 0) {
-				WebSiteSocial webseo=	socialService.update(social, social.getId());
-			System.out.println("updated"+webseo);
+				WebSiteSocial webseo = socialService.update(social, social.getId());
+				System.out.println("updated" + webseo);
 				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", webseo),
 						HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", socialService.create(social)),
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", socialService.create(social)),
 					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@PostMapping("/logo/update")
+	public ResponseEntity<?> createUpdateWebsiteLogo(MultipartFile image) {
+		System.out.println("data :" + image);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		// String dat = sdf.format(new Date());
+		// MultipartFile image = ban.getMultipartfile();
+		Banner ban=new Banner();
+		try {
+			if (image.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} else {
+				// first image file
+				ban.setLogo(image.getOriginalFilename());
+				File savefile = new ClassPathResource("static/image").getFile();
+				Path path = Paths.get(savefile.getAbsolutePath() + File.separator + image.getOriginalFilename());
+				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			}
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+							logoService.updateLogo(ban, ban.getId())),
+					HttpStatus.OK);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

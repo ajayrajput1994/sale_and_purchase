@@ -15,13 +15,17 @@ public class Banner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotNull
+
 	private String title;
-	@NotNull
+
 	private String banner;
 	
+	private String logo;
 	@Transient
 	private MultipartFile multipartfile;
+
+	@Transient
+	private MultipartFile multipartfile2;
 
 	public int getId() {
 		return id;
@@ -67,9 +71,25 @@ public class Banner {
 		this.banner = banner;
 	}
 
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public MultipartFile getMultipartfile2() {
+		return multipartfile2;
+	}
+
+	public void setMultipartfile2(MultipartFile multipartfile2) {
+		this.multipartfile2 = multipartfile2;
+	}
+
 	@Override
 	public String toString() {
-		return "Banner [id=" + id + ", title=" + title + ", banner=" + banner + "]";
+		return "Banner [id=" + id + ", title=" + title + ", banner=" + banner +", logo=" + logo + "]";
 	}
 	
 	

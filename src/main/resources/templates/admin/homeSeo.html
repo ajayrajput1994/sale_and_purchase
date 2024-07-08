@@ -164,10 +164,10 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Logo</h4>
 								</div>
-								<img th:src="@{'/image/'+${homelogo.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
+								<img th:src="@{'/image/'+${homebanner.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="logo_form">
-									<input type="hidden" name="id" id="id">
+								<form id="logo_form" enctype="multipart/form-data">
+									<input type="hidden" name="id" id="id"  th:value="${homebanner?.id}">
 									<div class="row">
 										<div class="form-group col">
 											<label for="multipartfile">Logo</label>
@@ -180,7 +180,7 @@
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="createPage()"
+										<button type="button" onclick="addLogo()"
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
@@ -329,7 +329,7 @@
 		}
 		function addLogo() {
 			if (formValidate('logo_form')) {
-				createPostRequest('logo_form', '/admin/social/create', 'addAddressCB');
+				uploadFiles('logo_form', '/admin/logo/update', 'addAddressCB');
 			}
 		}
 		function addAddressCB(r) {
