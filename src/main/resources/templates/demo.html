@@ -4,6 +4,7 @@
 <head>
   <th:block th:include="~{base_layout :: myhead}"></th:block>
   <title>Insert title here</title>
+  
 </head>
 
   <body>
@@ -102,30 +103,34 @@
         <section>
           <div class="row mt-3">
             <div class="col-md-3 " >
-              <div class="card" style="width: 18rem;height: 15rem !important;">
-                <div class="card-header">
-                  Featured Categories
+              <div class="card card-f" >
+                <div class="card-header bg-white">
+                 <h4> Featured Categories</h4>
                 </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item" th:each="m : ${mainCates}">
-                    <a th:href="@{'/'+${m?.mainCatalog}}" class="collapsible-header waves-effect d-block">
-                      <span th:text="${m?.mainCatalog}"></span><i class="fas fa-angle-double-right float-right"></i></a>
-                  </li>
-                </ul>
+                <div class="card-body py-0">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="m : ${mainCates}">
+                      <a th:href="@{'/'+${m?.mainCatalog}}" class="collapsible-header waves-effect d-block">
+                        <span th:text="${m?.mainCatalog}"></span><i class="fas fa-angle-double-right float-right"></i></a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
+
             <div class="col-md-9">
               <div class="row">
                 <div class="col-md-4"  th:each="b : ${blogs}">
-                  <div class="card" style="width: 18rem;">
-                    <img th:src="@{'/image/'+${b?.image}}" class="card-img-top" alt="...">
+                  <div class="card card-b">
+                    <!-- <img th:src="@{'/image/'+${b?.image}}" class="card-img-top" alt="..."> -->
+                    <img th:src="@{'/image/Desert.jpg'}" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5  th:text="${b?.title}" class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text">Some quick example text to build  bulk of the card's content.</p>
                     </div>
-                    <div class="card-body">
-                      <a href="#" class="card-link"><i class="fas fa-heart mr-2"></i></a>
-                      <a href="#" class="card-link"><span th:text="${b?.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></a>
+                    <div class="card-footer d-flex justify-content-between bg-white">
+                      <div href="#" class="card-link"><i class="fas fa-heart mr-2"></i></div>
+                      <div href="#" class="card-link"><span th:text="${b?.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
                     </div>
                   </div>
 

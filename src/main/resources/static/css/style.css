@@ -1,7 +1,7 @@
-header .navbar a{color:#fff!impotant;}header .navbar a:hover{color:orange!impotant;}
+header .navbar a{color:#fff!important;}header .navbar a:hover{color:orange !important;}
 .bg-prime{background-color:#009999!important;}
 body{background:#e2e2e2!important;}.breadcrumb{background:#e2e2e2!important;font-size: 14px;text-transform: capitalize;}
-.navbar-brand img{font-size:1rem;}footer{background:#757575!important;}
+.navbar-brand img{font-size:1rem;}footer{background:#ffff!important;}
 /*index page css*/
 .card-title,h1,h2{text-transform: capitalize;}
 .custom-scrollbar li{letter-spacing: 1.2px;border-bottom:1px solid grey;}
@@ -13,7 +13,7 @@ body{background:#e2e2e2!important;}.breadcrumb{background:#e2e2e2!important;font
 /*admin search input and resultbox css*/
 .search-box-container{position: relative;}
 .search-box-container #search_result{position: absolute;background:#e2e2e2;z-index:999;width:100%;margin-top: -1.5rem;}
-
+a{text-decoration: none !important;}
 .dropdown-left-manual {
   right: 0;
   left: auto;
@@ -68,4 +68,65 @@ form label{
 }
 form .form-group{
   margin-bottom: 1rem;
+}
+
+/* filter card  */
+.card-f{
+  border-radius: 0px !important;
+  height: 35rem !important;
+}
+.card-f li{
+  padding: 8px 2px;
+}
+.card-f ul a{
+  color: rgb(83 89 97);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+}
+/* blog card */
+.card-b{
+  border-radius: 15px 15px 0px 0px !important;
+  height: 25rem !important;
+}
+.card-b img{
+  border-radius: 15px 15px 20px 20px;
+  height: 12rem;
+}
+.card-b .card-f{
+  justify-content: space-between !important;
+  background-color: #ffff;
+}
+.card-b .fa-heart{
+  color: #898282;
+  cursor: pointer;
+}
+.card-b .fa-heart:hover{
+  color: #009999;
+}
+html{
+  overflow-y: scroll;
+}
+html::-webkit-scrollbar{
+  width: 2px;
+  background-color: #a9a4a4;
+  border-radius: 10px;
+}
+html::-webkit-scrollbar-track{
+  width: 2px;
+  background-color: #a9a4a4;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+html::-webkit-scrollbar-thumb{
+  background-color: #009999;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.fs-icon a i {
+  padding: 10px;
+  background-color: grey;
+  border-radius: 8px;
+  color: #ffff;
 }
