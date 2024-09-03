@@ -19,11 +19,12 @@ public class BlogService {
 	//check url  is category or city and title
 	
 	public String getPageUrl(String title) {
+		System.out.println("title:"+title);
 		String url="";
 		int i=blogRepo.findByCategoryAndCity(title, title);
 		int m=blogRepo.findByMainCategory(title);
 		int t=blogRepo.findByTitle(title);
-		if(i>0) {
+		if(blogRepo.getCategory(title)>0) {
 			url="citypage";
 		}else if(m>0) {
 			url="citypage";
@@ -32,7 +33,6 @@ public class BlogService {
 			url="post";	
 			}
 		}
-		
 		return url;
 	}
 	

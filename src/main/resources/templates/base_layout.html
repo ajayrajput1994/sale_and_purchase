@@ -30,7 +30,7 @@
     <div class="container-fluid" style="margin-top: 4.5rem;" th:fragment="contentDom">
       <nav class="navbar navbar-expand-lg navbar-expand-md bg-light fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand dashbar_logo"  th:href="@{/admin/}">Selling Point</a>
+          <a class="navbar-brand dashbar_logo"  th:href="@{/}">Selling Point</a>
           <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,7 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/admin/}" >Selling Point</a>
+              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/}" >Selling Point</a>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
@@ -48,10 +48,10 @@
                     aria-expanded="false">
                     Locations
                   </a>
-                  <ul class="dropdown-menu p-0">
+                  <!-- <ul class="dropdown-menu p-0">
                     <li><a class="dropdown-item" th:href="@{/admin/all-states/0}">States</a></li>
                     <li><a class="dropdown-item" th:href="@{/admin/all-cities/0}">Cities</a></li>
-                  </ul>
+                  </ul> -->
                 </li>
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">

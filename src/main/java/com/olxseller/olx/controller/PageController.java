@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olxseller.olx.helper.Message;
+import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.model.HomeSeo;
@@ -76,12 +77,18 @@ public class PageController {
 
 	@Autowired
 	private ContactUsRepository contactRepo;
+	
+	@Autowired
+	public ResponseData responseData;
 
 	@ModelAttribute
 	public void commondata(Model m) {
 		// all main calegories
 		List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
-		m.addAttribute("mainCates", mainCats);
+		System.out.println(responseData.jsonCategoryResponse("SUCCESS", "load categories", mainCats));
+		var dta= responseData.jsonCategoryResponse("SUCCESS", "load categories", mainCats);
+		m.addAttribute("mainCat",dta.get("data"));
+		m.addAttribute("mainCates",mainCats);
 
 		// all state
 		List<RegionState> regstate = this.stateRepo.getAllStates();
@@ -165,7 +172,7 @@ public class PageController {
 
 		return "/user/index";
 	}
-
+/* 
 	@GetMapping({ "", "/" })
 	public String home(Model m) {
 		try {
@@ -176,7 +183,6 @@ public class PageController {
 			m.addAttribute("description", home.getDescription());
 			List<Blog> blogs = this.blogRepository.getBlogs();
 			m.addAttribute("blogs", blogs);
-			/* all main calegories */
 			List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
 			m.addAttribute("mainCates", mainCats);
 		} catch (Exception e) {
@@ -185,13 +191,14 @@ public class PageController {
 		System.out.println("home");
 		return "index";
 	}
+	*/
 
-	@GetMapping({ "/demo" })
+	@GetMapping({"", "/" })
 	public String demo(Model m) {
 		m.addAttribute("blogs", blogRepository.getBlogs());
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
-		return "demo";
+		return "index";
 	}
 
 	@GetMapping({ "/signup", "/register" })

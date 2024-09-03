@@ -53,5 +53,8 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 	
 	  @Query(value="select * from blog",nativeQuery=true) 
 	  public List<Blog> getBlogs();
+
+		@Query("select count(*) from MainCategory c where c.mainCatalog=:t")
+		public int getCategory(@Param("t") String name);
 	 
 }
