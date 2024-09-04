@@ -26,30 +26,19 @@ public class ResponseData {
     return map;
   }
 
-  public HashMap<String,Object> jsonCategoryResponse(String status,String msg,List<MainCategory> obj){
+  public String jsonDataResponse(String status,String msg,Object obj){
     HashMap<String,Object> map=new HashMap<>();
-    List<Object> list=new ArrayList<>();
-    // List<HashMap<String,String>> catmap=new ArrayList<HashMap<String,String>>();
-    // HashMap<String,Object> value=new HashMap<>();
+    String data="";
     ObjectMapper mapper=new ObjectMapper();
-    obj.forEach(e->{
-      // value.put("id",e.getMainId());
-      // value.put("cat",e.getMainCatalog());
-      // value.put("title",e.getTitle());
-      // value.put("keyword",e.getKeyword());
-      // value.put("desc",e.getDescription());
-      // value.put("img",e.getImage());
-      try {
-        list.add(mapper.writeValueAsString(e));
-      } catch (JsonProcessingException e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
-      }
-      // list.add(value);
-    });
     map.put("responseText", status);
     map.put("message", msg);
-    map.put("data", list);
-    return map;
+    map.put("data", obj);
+    try {
+      data=mapper.writeValueAsString(map);
+    } catch (JsonProcessingException e) {
+      System.out.println("Error:jsonDataResponse,"+e);
+      e.printStackTrace();
+    }
+    return data;
   }
 }

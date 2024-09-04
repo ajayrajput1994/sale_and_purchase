@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Blog;
@@ -84,11 +86,11 @@ public class PageController {
 	@ModelAttribute
 	public void commondata(Model m) {
 		// all main calegories
-		List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
-		System.out.println(responseData.jsonCategoryResponse("SUCCESS", "load categories", mainCats));
-		var dta= responseData.jsonCategoryResponse("SUCCESS", "load categories", mainCats);
-		m.addAttribute("mainCat",dta.get("data"));
-		m.addAttribute("mainCates",mainCats);
+		// List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", mainRepo.getMainCatalogs());
+		System.out.println(dta);
+		m.addAttribute("mainCat",dta);
+		// m.addAttribute("mainCates",mainCats);
 
 		// all state
 		List<RegionState> regstate = this.stateRepo.getAllStates();

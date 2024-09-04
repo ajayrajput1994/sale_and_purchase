@@ -140,7 +140,8 @@
           </div>
         </section>
      </div>
-    </div><input type="hidden" th:value="${mainCat}" th:id="maincat">
+    </div>
+    <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
   </body>
 	<th:block th:include="base_layout :: myscript">
 	</th:block>
@@ -148,12 +149,17 @@
     <span>demo page</span>
 
   </div>
-  <script>
-    // var valVar = [[${mainCates}]];
-    let dta=$("#maincat").val();
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var dta = /*[[${mainCat}]]*/ "MYCATES";
+    // alert(value);
+    /*]]*/ 
+  
+    // let dta=$("#maincat").val();
     let data=JSON.parse(dta),h=[];
+    console.log(data);
     
-    data.forEach(e => {
+    data.data.forEach(e => {
       h.push(`<div class="col-md-4 mt-2" >
                   <div class="card card-b">
                     <!-- <img th:src="/image/${e.img}" class="card-img-top" alt="..."> -->
