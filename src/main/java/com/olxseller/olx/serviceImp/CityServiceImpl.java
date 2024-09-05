@@ -1,5 +1,7 @@
 package com.olxseller.olx.serviceImp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,11 @@ public class CityServiceImpl implements CityService{
   @Override
   public void deleteCity(int id) {
     cityRepo.deleteById(id);  
+  }
+
+  @Override
+  public List<City> getAllCity() {
+    return cityRepo.findAll();
   }
   
 }

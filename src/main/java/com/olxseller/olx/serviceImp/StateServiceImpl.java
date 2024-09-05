@@ -1,5 +1,7 @@
 package com.olxseller.olx.serviceImp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,12 @@ public class StateServiceImpl implements StateService {
   @Override
   public void deleteState(int id) {
     stateRepo.deleteById(id);
+  }
+
+  @Override
+  public List<RegionState> getAllStates() {
+    // TODO Auto-generated method stub
+    return stateRepo.findAll();
   }
   
 }

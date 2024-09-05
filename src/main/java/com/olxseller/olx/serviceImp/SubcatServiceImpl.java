@@ -1,5 +1,7 @@
 package com.olxseller.olx.serviceImp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class SubcatServiceImpl implements SubCategoryService{
   public SubCategory updateSubCategory(SubCategory sub, int id) {
    sub.setSubId(id);
    return subRepo.save(sub);
+  }
+  @Override
+  public List<SubCategory> getAllSubcat() {
+    return subRepo.findAll();
   }
   
 }

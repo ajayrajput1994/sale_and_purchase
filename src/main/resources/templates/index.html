@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <th:block th:include="~{base_layout :: myhead}"></th:block>
-  <title>Insert title here</title>
-  
-</head>
+  <head>
+    <th:block th:include="~{base_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
+
+  </head>
 
   <body>
     <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
-			<div id="myContent">
+      <div id="myContent">
         <section>
           <div class="row">
             <div class="col-md-6">
               <div class="card">
                 <div id="carouselOne" class="carousel carousel-dark slide">
                   <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="0" class="active"
+                      aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="1"
+                      aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="2"
+                      aria-label="Slide 3"></button>
                   </div>
                   <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="10000">
@@ -43,11 +46,13 @@
                       </div>
                     </div>
                   </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselOne" data-bs-slide="prev">
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselOne"
+                    data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                   </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselOne" data-bs-slide="next">
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselOne"
+                    data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                   </button>
@@ -59,9 +64,12 @@
               <div class="card">
                 <div id="carouselSecond" class="carousel carousel-dark slide">
                   <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="0" class="active"
+                      aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="1"
+                      aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselSecond" data-bs-slide-to="2"
+                      aria-label="Slide 3"></button>
                   </div>
                   <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="10000">
@@ -86,11 +94,13 @@
                       </div>
                     </div>
                   </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselSecond" data-bs-slide="prev">
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselSecond"
+                    data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                   </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselSecond" data-bs-slide="next">
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselSecond"
+                    data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                   </button>
@@ -102,18 +112,21 @@
         </section>
         <section>
           <div class="row mt-3">
-            <div class="col-md-3 " >
-              <div class="card card-f" >
+            <div class="col-md-3 ">
+              <div class="card card-f sticky">
                 <div class="card-header bg-white">
-                 <h4> Featured Categories</h4>
+                  <h4>Filters</h4>
                 </div>
                 <div class="card-body py-0">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item" th:each="m : ${mainCates}">
+                  <ul class="list-group list-group-flush li_padding" id="maincatDom">
+                    <!-- <li class="list-group-item" th:each="m : ${mainCates}">
                       <a th:href="@{'/'+${m?.mainCatalog}}" class="collapsible-header waves-effect d-block">
                         <span th:text="${m?.mainCatalog}"></span><i class="fas fa-angle-double-right float-right"></i></a>
-                    </li>
+                      </li> -->
                   </ul>
+                  <ul class="list-group list-group-flush li_padding" id="subcatDom"></ul>
+                  <ul class="list-group list-group-flush li_padding" id="cityDom"></ul>
+                  <ul class="list-group list-group-flush li_padding" id="statesDom"></ul>
                 </div>
               </div>
             </div>
@@ -139,43 +152,83 @@
             </div>
           </div>
         </section>
-     </div>
+      </div>
     </div>
     <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
   </body>
-	<th:block th:include="base_layout :: myscript">
-	</th:block>
+  <th:block th:include="base_layout :: myscript">
+  </th:block>
   <div th:insert="~{base_layout :: myFooter}">
     <span>demo page</span>
 
   </div>
   <script th:inline="javascript">
     /*<![CDATA[*/
-    var dta = /*[[${mainCat}]]*/ "MYCATES";
+    var dta = /*[[${dta}]]*/ "MYCATES";
     // alert(value);
-    /*]]*/ 
-  
+    /*]]*/
+
     // let dta=$("#maincat").val();
-    let data=JSON.parse(dta),h=[];
+    var data = JSON.parse(dta), h = [],
+    cat_List = ['<li class="list-group-item " aria-disabled="true"><h4>Categories</h4></li>'],
+    subcatList = ['<li class="list-group-item " aria-disabled="true"><h4>Sub Categories</h4></li>'],
+    stateList = ['<li class="list-group-item " aria-disabled="true"><h4>States</h4></li>'],
+    cityList = ['<li class="list-group-item " aria-disabled="true"><h4>Cities</h4></li>'];
     console.log(data);
-    
-    data.data.forEach(e => {
+
+    data.data.cats.forEach(e => {
+      cat_List.push(`<li class="list-group-item form-check">
+        <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
+        <label class="form-check-label" for="${e.title}">
+          ${e.title}
+          </label>
+          </li>`);});
+          data.data.blogs.forEach(e => {
       h.push(`<div class="col-md-4 mt-2" >
                   <div class="card card-b">
-                    <!-- <img th:src="/image/${e.img}" class="card-img-top" alt="..."> -->
-                    <img src="/image/Desert.jpg"  class="card-img-top" alt="...">
+                    <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> -->
+                    <img src="/image/${e.image}"  class="card-img-top" alt="...">
                     <div class="card-body">
-                      <a href="/${e.title}" class="card-title stretched-link">${e.title}</a>
-                      <p class="card-text">${e.desc}</p>
+                      <a href="/${e.title}" class="card-title stretched-link"><h6>${e.title}</h6></a>
+                      <p class="card-text">${e.description}</p>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-white">
                       <div href="#" class="card-link"><i class="fas fa-heart mr-2"></i></div>
-                      <div href="#" class="card-link"><span th:text="${e.cat}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
+                      <div href="#" class="card-link"><span th:text="${e.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
                     </div>
                   </div>
 
                 </div>`);
     });
+    data.data.subcats.forEach(e => {
+      subcatList.push(`<li class="list-group-item form-check">
+  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
+  <label class="form-check-label" for="${e.title}">
+    ${e.title}
+  </label>
+</li>`);
+    });
+    data.data.cities.forEach(e => {
+      cityList.push(`<li class="list-group-item form-check">
+  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
+  <label class="form-check-label" for="${e.title}">
+    ${e.title}
+  </label>
+</li>`);
+    });
+    data.data.states.forEach(e => {
+      stateList.push(`<li class="list-group-item form-check">
+  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
+  <label class="form-check-label" for="${e.title}">
+    ${e.title}
+  </label>
+</li>`);
+    });
     $('#recordDom').html(h.join(''));
+    $('#maincatDom').html(cat_List.join(''));
+    $('#subcatDom').html(subcatList.join(''));
+    $('#cityDom').html(cityList.join(''));
+    $('#statesDom').html(stateList.join(''));
   </script>
+
 </html>

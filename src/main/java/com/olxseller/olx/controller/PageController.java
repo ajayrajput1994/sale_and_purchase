@@ -3,7 +3,9 @@ package com.olxseller.olx.controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,15 +32,22 @@ import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.repository.BlogRepository;
+import com.olxseller.olx.repository.CityRepository;
 import com.olxseller.olx.repository.ContactUsRepository;
 import com.olxseller.olx.repository.HomeSeoRepository;
 import com.olxseller.olx.repository.MainCatRepository;
 import com.olxseller.olx.repository.RegionStateRepository;
+import com.olxseller.olx.repository.SubCatRepository;
 import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.repository.WebPageRepositoy;
 import com.olxseller.olx.repository.WebSiteAddressRepository;
 import com.olxseller.olx.repository.WebSiteSocialRepository;
+import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.EmailService;
+import com.olxseller.olx.service.StateService;
+import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
 
 @Controller
@@ -49,22 +58,11 @@ public class PageController {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private UserRepository userRepo;
-
 	@Autowired
 	private BlogRepository blogRepository;
 
 	@Autowired
-	private MainCatRepository mainRepo;
-
-	@Autowired
 	private EmailService mailService;
-
-	@Autowired
-	private HomeSeoRepository homeRepo;
-
 	@Autowired
 	private WebPageRepositoy webRepo;
 
@@ -82,14 +80,30 @@ public class PageController {
 	
 	@Autowired
 	public ResponseData responseData;
+	@Autowired
+	private SubCategoryService subcatService;
+	@Autowired
+	private StateService stateService;
+	@Autowired
+	private CityService cityService;
+	@Autowired
+	private CategoryService catService;
+	@Autowired
+	private BlogService blogService;
 
 	@ModelAttribute
 	public void commondata(Model m) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("cats", catService.getAllMainCategory());
+		map.put("states", stateService.getAllStates());
+		map.put("cities", cityService.getAllCity());
+		map.put("subcats", subcatService.getAllSubcat());
+		map.put("blogs", blogService.getAllBlogs());
 		// all main calegories
 		// List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
-		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", mainRepo.getMainCatalogs());
-		System.out.println(dta);
-		m.addAttribute("mainCat",dta);
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		// System.out.println(dta);
+		m.addAttribute("dta",dta);
 		// m.addAttribute("mainCates",mainCats);
 
 		// all state

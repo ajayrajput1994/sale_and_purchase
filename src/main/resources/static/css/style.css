@@ -73,7 +73,7 @@ form .form-group{
 /* filter card  */
 .card-f{
   border-radius: 0px !important;
-  height: 35rem !important;
+  /* height: 35rem !important; */
 }
 .card-f li{
   padding: 8px 2px;
@@ -129,4 +129,12 @@ html::-webkit-scrollbar-thumb{
   background-color: grey;
   border-radius: 8px;
   color: #ffff;
+}
+
+div.sticky{
+  position: sticky;
+  top: 75px;
+}
+ul.li_padding li{
+  padding-left: 25px;
 }
