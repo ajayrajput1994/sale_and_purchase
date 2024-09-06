@@ -127,11 +127,16 @@
                   <ul class="list-group list-group-flush li_padding" id="subcatDom"></ul>
                   <ul class="list-group list-group-flush li_padding" id="cityDom"></ul>
                   <ul class="list-group list-group-flush li_padding" id="statesDom"></ul>
+                  <div class="d-flex justify-content-end pb-1">
+
+                    <button class="btn btn-success btn-sm rounded-0" onclick="filterData()">load</button>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="col-md-9">
+              <div id="selectedDom"></div>
               <div class="row" id="recordDom">
                 <!-- <div class="col-md-4"  th:each="b : ${blogs}">
                   <div class="card card-b">
@@ -162,73 +167,21 @@
     <span>demo page</span>
 
   </div>
+  <script th:src="@{/js/frontLogic/homeFilter.js}"></script>
   <script th:inline="javascript">
-    /*<![CDATA[*/
-    var dta = /*[[${dta}]]*/ "MYCATES";
-    // alert(value);
-    /*]]*/
-
-    // let dta=$("#maincat").val();
-    var data = JSON.parse(dta), h = [],
-    cat_List = ['<li class="list-group-item " aria-disabled="true"><h4>Categories</h4></li>'],
-    subcatList = ['<li class="list-group-item " aria-disabled="true"><h4>Sub Categories</h4></li>'],
-    stateList = ['<li class="list-group-item " aria-disabled="true"><h4>States</h4></li>'],
-    cityList = ['<li class="list-group-item " aria-disabled="true"><h4>Cities</h4></li>'];
-    console.log(data);
-
-    data.data.cats.forEach(e => {
-      cat_List.push(`<li class="list-group-item form-check">
-        <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
-        <label class="form-check-label" for="${e.title}">
-          ${e.title}
-          </label>
-          </li>`);});
-          data.data.blogs.forEach(e => {
-      h.push(`<div class="col-md-4 mt-2" >
-                  <div class="card card-b">
-                    <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> -->
-                    <img src="/image/${e.image}"  class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <a href="/${e.title}" class="card-title stretched-link"><h6>${e.title}</h6></a>
-                      <p class="card-text">${e.description}</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-white">
-                      <div href="#" class="card-link"><i class="fas fa-heart mr-2"></i></div>
-                      <div href="#" class="card-link"><span th:text="${e.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
-                    </div>
-                  </div>
-
-                </div>`);
+    $(function(){
+      /*<![CDATA[*/
+      var dta = /*[[${dta}]]*/ "";
+      // alert(value);
+      /*]]*/
+      if(dta){
+        var data = JSON.parse(dta);
+        console.log(data);
+        loadedDTA=data.data;
+        loadData();
+      }
+      
     });
-    data.data.subcats.forEach(e => {
-      subcatList.push(`<li class="list-group-item form-check">
-  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
-  <label class="form-check-label" for="${e.title}">
-    ${e.title}
-  </label>
-</li>`);
-    });
-    data.data.cities.forEach(e => {
-      cityList.push(`<li class="list-group-item form-check">
-  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
-  <label class="form-check-label" for="${e.title}">
-    ${e.title}
-  </label>
-</li>`);
-    });
-    data.data.states.forEach(e => {
-      stateList.push(`<li class="list-group-item form-check">
-  <input class="form-check-input" type="checkbox" value="${e.title}" id="${e.title}" >
-  <label class="form-check-label" for="${e.title}">
-    ${e.title}
-  </label>
-</li>`);
-    });
-    $('#recordDom').html(h.join(''));
-    $('#maincatDom').html(cat_List.join(''));
-    $('#subcatDom').html(subcatList.join(''));
-    $('#cityDom').html(cityList.join(''));
-    $('#statesDom').html(stateList.join(''));
   </script>
 
 </html>

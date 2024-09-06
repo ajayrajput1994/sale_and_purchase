@@ -138,3 +138,14 @@ div.sticky{
 ul.li_padding li{
   padding-left: 25px;
 }
+
+/* filter scc */
+.selected-icon{
+  margin-left: 6px;
+  color:#ffff;
+}
+.selected-icon:hover{
+  color:#f11c1c;
+}
+
+/* filter scc */
