@@ -1,5 +1,7 @@
 package com.olxseller.olx.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.olxseller.olx.model.User;
@@ -8,9 +10,15 @@ import com.olxseller.olx.model.User;
 public interface UserService {
 	User createUser(User user);
 
+	List<User> AllUsers();
+	
+	User getUserByID(int id);
+
 	User updateUser(User user,int id);
 
 	void deleteUser(int id);
+
+	
 
 	// @Autowired
 	// private UserRepository userRepo;

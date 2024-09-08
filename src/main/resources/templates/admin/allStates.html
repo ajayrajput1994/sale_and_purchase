@@ -18,7 +18,6 @@
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
-								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="states_form">
 									<input type="hidden" name="stateId" id="stateId">
 									<div class="form-group mt-3">
@@ -113,7 +112,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:each="u : ${locate}">
+										<th:block th:each="u : ${states}">
 											<tr th:id="${u.stateId}">
 												<td th:text="${u.stateName}"></td>
 												<td th:text="${u.title}"></td>
@@ -199,7 +198,7 @@
 			}
 		}
 		function createStatesCB(r) {
-			// console.log('callback', r);
+			console.log('callback', r);
 			recordDomOpen();
 			let d = r.data;
 			if (r.action == "UPDATE") {

@@ -82,12 +82,21 @@ function loadData() {
   //   "description": "asdf adfsadf sdfasdf asd f sd fasdf asd f asd fasd f sad f sda f sdf",
   //   "title": "RR won the match "
   // }
+
+$('.form-check-input').click(function(){
+  filterData();
+});
+
 function filterData() {
   var cat = [],
     sub = [],
     state = [],
     city = [],
-    filteredBlogList = [];
+    filteredBlogList=[],
+    filteredCatList=blogList.slice(),
+    filteredSubList=blogList.slice(),
+    filteredStateList=blogList.slice(),
+    filteredCityList=blogList.slice();
   $("input:checkbox[name='maincat']:checked").each(function () {
     cat.push($(this).val());
   });
@@ -104,44 +113,63 @@ function filterData() {
   console.log(sub);
   console.log(state);
   console.log(city);
-  
-  let selectedDT=[];
+  let selectedDT=[],filterFlag=false,uniqueDict={},uniqBlogList=[];
   if (cat.length>0) {
     cat.forEach((c) => {
-      filteredBlogList = blogList.filter((d) => {
-        return d.mainCategory == c;
-      });
       selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${c}" data-title="${c}" onclick="removeSelected(this)">${c}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
     });
+      filteredCatList = filteredCatList.filter((d) => {
+        return  cat.includes(d.mainCategory);
+      });
+      filterFlag=true;
+    filteredBlogList=filteredBlogList.concat(filteredCatList);
   }
   if (sub.length>0) {
     sub.forEach((s) => {
-      filteredBlogList = blogList.filter((d) => {
-        return d.category == s;
-      });
       selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
     });
+      filteredSubList = filteredSubList.filter((d) => {
+        return sub.includes(d.category);
+      }); 
+      filterFlag=true;
+    filteredBlogList=filteredBlogList.concat(filteredSubList);
   }
   if (state.length>0) {
     state.forEach((s) => {
-      filteredBlogList = blogList.filter((d) => {
-        return d.regionState == s;
-      });
       selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
     });
+      filteredStateList = filteredStateList.filter((d) => {
+        return state.includes(d.regionState);
+      });
+      filterFlag=true;
+    filteredBlogList=filteredBlogList.concat(filteredStateList);
   }
   if (city.length>0) {
     city.forEach((s) => {
-      filteredBlogList = blogList.filter((d) => {
-        return d.city == s;
-      });
       selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
     });
+      filteredCityList = filteredCityList.filter((d) => {
+        return city.includes(d.city);
+      });
+      filterFlag=true;
+    filteredBlogList=filteredBlogList.concat(filteredCityList);
   }
+  filteredBlogList.forEach(e=>{
+    uniqueDict[e.id]=e;
+  });
+  $.each(uniqueDict,(id,d)=>{
+    uniqBlogList.push(d);
+  })
+  uniqueDict={};
   $('#selectedDom').html(selectedDT.join(''));
-  $("#recordDom").html(showBlogs(filteredBlogList).join(""));
-  console.log(filteredBlogList);
+  if(filterFlag){
+    $("#recordDom").html(showBlogs(uniqBlogList).join(""));
+  }else{
+    $("#recordDom").html(showBlogs(blogList).join(""));
+  }
+  console.log(uniqBlogList);
 }
+
 
 function showBlogs(dataList){
   let h=[];
@@ -151,12 +179,12 @@ function showBlogs(dataList){
       <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> -->
       <img src="/image/${e.image}"  class="card-img-top" alt="...">
       <div class="card-body">
-        <a href="/${e.title}" class="card-title stretched-link"><h6>${e.title}</h6></a>
-        <p class="card-text">${e.description}</p>
+        <a href="/${e.title}" class="card-title stretched-link card-title-line-limit"><h6>${e.title}</h6></a>
+        <p class="card-text card-text-line-limit">${e.description}</p>
       </div>
       <div class="card-footer d-flex justify-content-between bg-white">
-        <div href="#" class="card-link"><i class="fas fa-heart mr-2"></i></div>
-        <div href="#" class="card-link"><span th:text="${e.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
+        <div class="card-link"><i class="fas fa-heart mr-2"></i></div>
+        <div class="card-link"><span >${e.city}</span> <i class="fas fa-map-marker-alt ml-1"></i></div>
       </div>
     </div>
     </div>`);
@@ -166,4 +194,8 @@ function showBlogs(dataList){
 
 function removeSelected(icon){
   console.log(icon.dataset.name);
+  $(`input:checkbox[value='${icon.dataset.name}']`).prop('checked',false);
+  $(icon).remove();
+  filterData();
+  // $("input:checkbox[name='maincat']").prop('checked',false);
 }

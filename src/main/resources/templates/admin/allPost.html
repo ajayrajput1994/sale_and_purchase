@@ -19,60 +19,73 @@
 										onclick="recordDomOpen()">Back</button>
 								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="states_form">
-									<input type="hidden" name="stateId" id="stateId">
-									<div class="form-group mt-3">
-										<select name="region" id="region" class="form-select rounded-0 form-control "  required="">
-										<option disabled="" selected="">Select Region</option>
-										<option  value="indeia">India</option>
-									</select>
-								</div>
+								<form id="blog_form">
+									<input type="hidden" name="id" id="id">
+									<input type="hidden" name="user" id="user">
+									<div class="form-group col">
+										<label for="title">Title</label>
+										<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+										<div class="invalid-feedback"></div>
+									</div> 
 									<div class="row">
 										<div class="form-group col">
-											<label for="stateName">State Name</label>
-											<input type="text" name="stateName" class="form-control" id="stateName"
-												placeholder="Sub Category Name" />
+											<label for="price">Price</label>
+											<input type="text" name="price" class="form-control" id="price" placeholder="Enter Price" />
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="form-group col">
-											<label for="title">Title</label>
-											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
-											<div class="invalid-feedback"></div>
+											<label for="region">Region</label>
+											<select name="region" id="region" class="form-select rounded-0 form-control  mt-2"  required="">
+											<option disabled="" selected="">Select Region</option>
+											<option  value="indeia">India</option>
+										</select>
+									</div>
+									</div>
+									<div class="row">
+										<div class="form-group col">
+											<label for="mainCategory">Main Category</label>
+											<select name="mainCategory" id="mainCategory" class="form-select rounded-0 form-control "  required="">
+												<option disabled="" selected="">Select Main Category</option>
+												<option   th:each="m : ${mainCategories}" th:value="${m.mainCatalog}" th:text="${m.title}"></option>
+											</select>
+										</div>
+										<div class="form-group col">
+											<label for="category">Category</label>
+											<select name="category" id="category" class="form-select rounded-0 form-control "  required="">
+												<option disabled="" selected="">Select Category</option>
+												<option   th:each="m : ${subCategories}" th:value="${m.subCatalog}" th:text="${m.title}"></option>
+											</select>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col">
-											<label for="keyword">Keyword</label>
-											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
-											<div class="invalid-feedback"></div>
+											<label for="regionState">State</label>
+											<select name="regionState" id="regionState" class="form-select rounded-0 form-control "  required="">
+												<option disabled="" selected="">Select State</option>
+												<option   th:each="m : ${allstates}" th:value="${m.title}" th:text="${m.title}"></option>
+											</select>
 										</div>
 										<div class="form-group col">
-											<label for="description">Description </label>
-											<input type="text" name="description" class="form-control" id="description"
-												placeholder="Enter Description" />
-											<div class="invalid-feedback"></div>
+											<label for="city">City</label>
+											<select name="city" id="city" class="form-select rounded-0 form-control "  required="">
+												<option disabled="" selected="">Select City</option>
+												<option   th:each="m : ${allCity}" th:value="${m.title}" th:text="${m.title}"></option>
+											</select>
 										</div>
-									</div>
+									</div> 
 									<div class="row">
-										<div class="form-group col">
-											<label for="seoTitle">Seo Title</label>
-											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
-												placeholder="Enter Seo Title" />
+										<div class="form-group">
+											<label for="description">Enter about your product</label>
+											<textarea type="text" name="description" rows="2" class="form-control rounded-0" id="description"
+												placeholder="Seo Content"></textarea>
 											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="seoDescription">Seo Description </label>
-											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
-												placeholder="Seo Description" />
-											<div class="invalid-feedback">
-											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group">
-											<label for="seoContent">Seo Content </label>
-											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
-												placeholder="Seo Content"></textarea>
+											<label for="address">Enter Address</label>
+											<textarea type="text" name="address" rows="2" class="form-control rounded-0" id="address"
+												placeholder="Write your Address"></textarea>
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
@@ -104,10 +117,17 @@
 										<tr>
 											<th>#ID</th>
 											<th>Image</th>
+											<th>img</th>
 											<th>Title</th>
+											<th>Main Category</th>
 											<th>Category</th>
+											<th>Desc</th>
 											<th>price</th>
+											<th>Region</th>
+											<th>State</th>
 											<th>City</th>
+											<th>Address</th>
+											<th>UID</th>
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
@@ -115,11 +135,18 @@
 										<th:block th:each="u : ${blogs}">
 											<tr th:id="${u.id}">
 												<th><span th:text="${u.id}"></span></th>
+												<td th:text="${u.image}"></td>
 												<td><img th:src="@{'/image/'+${u.image}}" style="height:25px;width:25px;" /></td>
 												<td th:text="${u.Title}"></td>
+												<td th:text="${u.mainCategory}"></td>
 												<td th:text="${u.category}"></td>
+												<td th:text="${u.Description}"></td>
 												<td th:text="${u.price}"></td>
+												<td th:text="${u.region}"></td>
+												<td th:text="${u.regionState}"></td> 
 												<td th:text="${u.city}"></td> 
+												<td th:text="${u.address}"></td> 
+												<td th:text="${u.user.id}"></td> 
 												<td class="text-center" >
 													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)"
 														style="cursor: pointer;"></i>
@@ -155,14 +182,21 @@
 				columns: [
 					{ "data": 'id' },
 					{ "data": 'image' },
+					{ "data": 'img' },
 					{ "data": 'title' },
+					{ "data": 'mainCategory' },
 					{ "data": 'category' },
+					{ "data": 'description' },
 					{ "data": 'price' },
+					{ "data": 'region' },
+					{ "data": 'regionState' },
 					{ "data": 'city' },
+					{ "data": 'address' },
+					{ "data": 'user' },
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [0, 2,6] },
+					{ visible: true, targets: [2, 3,7,13] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
@@ -171,64 +205,58 @@
 					return false;
 				}
 				var data = categoryDT.row(this).data();
-				console.log(data);
+				// console.log(data);
 				formDomOpen();
-				$('#stateId').val(data.DT_RowId);
-				$('#stateName').val(data.stateName);
+				$('#id').val(data.DT_RowId);
+				$('#user').val(data.user);
 				$('#title').val(data.title);
-				$('#keyword').val(data.keyword);
+				$('#price').val(data.price);
+				$('#region').val(data.region);
+				$('#mainCategory').val(data.mainCategory);
+				$('#category').val(data.category);
+				$('#regionState').val(data.regionState);
+				$('#city').val(data.city);
 				$('#description').val(data.description);
-				$('#seoTitle').val(data.seoTitle);
-				$('#seoDescription').val(data.seoDescription);
-				$('#seoContent').val(data.seoContent);
+				$('#address').val(data.address); 
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 			});
 		});
 		function formDomOpen() {
+			$('#blog_form')[0].reset();
 			showAndHideAnyDom(['formDom'], ['recordDom']);
 		}
 		function recordDomOpen() {
 			showAndHideAnyDom(['recordDom'], ['formDom']);
 		}
 		function createStates() {
-			if (formValidate('states_form')) {
-				createPostRequest('states_form', '/admin/states/create', 'createStatesCB');
+			let userID=$('#user').val();
+			if(!userID){
+				userID=1;
+			}
+			if (formValidate('blog_form')) {
+				createPostRequest('blog_form', '/admin/blog/create/'+userID, 'createStatesCB');
 			}
 		}
 		function createStatesCB(r) {
-			// console.log('callback', r);
+			$('#blog_form')[0].reset();
+			console.log('callback', r);
 			recordDomOpen();
 			let d = r.data;
+			d['DT_RowId']=d.id;
+			d['img']=`<img src="/image/${d.image}" style="height:25px;width:25px;" />`;
+			d['user']=r.userid;
+			d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
 			if (r.action == "UPDATE") {
-				categoryDT.cell(`#${d.stateId}`, 0).data(d.stateName);
-				categoryDT.cell(`#${d.stateId}`, 1).data(d.title);
-				categoryDT.cell(`#${d.stateId}`, 2).data(d.keyword);
-				categoryDT.cell(`#${d.stateId}`, 3).data(d.description);
-				categoryDT.cell(`#${d.stateId}`, 4).data(d.seoTitle);
-				categoryDT.cell(`#${d.stateId}`, 5).data(d.seoDescription);
-				categoryDT.cell(`#${d.stateId}`, 6).data(d.seoContent);
-				categoryDT.cell(`#${d.stateId}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
-				categoryDT.draw();
+				categoryDT.row(`#${d.id}`).data(d).draw();
 			} else {
-				categoryDT.row.add({
-					DT_RowId: d.stateId,
-					stateName: d.stateName,
-					title: d.title,
-					keyword: d.keyword,
-					description: d.description,
-					seoTitle: d.seoTitle,
-					seoDescription: d.seoDescription,
-					seoContent: d.seoContent,
-					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
-				}).draw();
-
+				categoryDT.row.add(d).draw();
 			}
 
 		}
 		function deleteState(btn) {
 			var id = btn.parentNode.parentNode.id;
 			console.log(id);
-			createGetRequest('states_form', '/admin/states/delete/' + id, 'deleteStateCB');
+			createGetRequest('blog_form', '/admin/blog/delete/' + id, 'deleteStateCB');
 		}
 		function deleteStateCB(r) {
 			console.log(r);

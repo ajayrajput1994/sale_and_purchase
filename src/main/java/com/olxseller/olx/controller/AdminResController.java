@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
+import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.City;
 import com.olxseller.olx.model.HomeSeo;
 import com.olxseller.olx.model.MainCategory;
@@ -31,6 +32,7 @@ import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.model.WebSiteSocial;
+import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.LogoService;
@@ -67,6 +69,8 @@ public class AdminResController {
 	private SocialService socialService;
 	@Autowired
 	private LogoService logoService;
+	@Autowired
+	private BlogService blogService;
 
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
@@ -379,6 +383,43 @@ public class AdminResController {
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
 							logoService.updateLogo(ban, ban.getId())),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@PostMapping("/blog/create/{userid}")
+	public ResponseEntity<?> createUpdateBlog(@PathVariable("userid") Integer userid,@RequestBody Blog b) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		String dat = sdf.format(new Date());
+		User user=userService.getUserByID(userid);
+		b.setUser(user);
+		b.setCreate_at("");
+		b.setUpdate_at(dat);  
+		try {
+			if (b.getId() > 0) {
+				return new ResponseEntity<>(
+						responseData.jsonSimpleBlogResponse("SUCCESS", "Successfuly Update", "UPDATE",blogService.updateBlogs(b, b.getId())),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(
+					responseData.jsonSimpleBlogResponse("SUCCESS", "Successfuly Created", "CREATE", blogService.addBlogs(b)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+	@GetMapping("/blog/delete/{id}")
+	public ResponseEntity<?> deleteBlogById(@PathVariable("id") int id) {
+		// System.out.println("category:"+cat);
+		try {
+			// service.delete(id);
+			blogService.deleteBlogs(id);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
 					HttpStatus.OK);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

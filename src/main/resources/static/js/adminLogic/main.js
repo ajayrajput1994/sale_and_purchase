@@ -93,7 +93,7 @@ let  jsonDict=formDataToJson(formid);
   $.ajax({
     url:url,
     type:'POST',
-    data:new FormData(file),
+    data:new FormData(document.getElementById('multipartfile')[0]),
     enctype: 'multipart/form-data',
     contentType: false,
     // contentType: "application/json; charset=utf-8",

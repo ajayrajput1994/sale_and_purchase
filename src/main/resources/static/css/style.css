@@ -88,6 +88,7 @@ form .form-group{
 .card-b{
   border-radius: 15px 15px 0px 0px !important;
   height: 25rem !important;
+  margin-bottom:7px;
 }
 .card-b img{
   border-radius: 15px 15px 20px 20px;
@@ -103,6 +104,20 @@ form .form-group{
 }
 .card-b .fa-heart:hover{
   color: #009999;
+}
+.card-title-line-limit{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.card-text-line-limit{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 html{
   overflow-y: scroll;
@@ -146,6 +161,9 @@ ul.li_padding li{
 }
 .selected-icon:hover{
   color:#f11c1c;
+}
+#selectedDom span{
+  margin-right: 7px;
 }
 
 /* filter scc */
