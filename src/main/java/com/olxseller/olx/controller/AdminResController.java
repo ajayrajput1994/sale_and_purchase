@@ -261,11 +261,11 @@ public class AdminResController {
 
 	@PostMapping("/user/create")
 	public ResponseEntity<?> createUpdateUser(@RequestBody User user) {
-		System.out.println("User:" + user);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 		String dat = sdf.format(new Date());
 		user.setCreate_at(dat);
 		user.setUpdate_at(dat);
+		System.out.println("User:" + user);
 		try {
 			if (user.getId() > 0) {
 				return new ResponseEntity<>(

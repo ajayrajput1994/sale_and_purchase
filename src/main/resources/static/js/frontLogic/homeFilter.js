@@ -180,6 +180,7 @@ function showBlogs(dataList){
       <img src="/image/${e.image}"  class="card-img-top" alt="...">
       <div class="card-body">
         <a href="/${e.title}" class="card-title stretched-link card-title-line-limit"><h6>${e.title}</h6></a>
+        <span class="cat_title">(${e.category})</span>
         <p class="card-text card-text-line-limit">${e.description}</p>
       </div>
       <div class="card-footer d-flex justify-content-between bg-white">

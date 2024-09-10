@@ -30,8 +30,9 @@ public class UserServiceImpl implements UserService {
     User u=userRepo.findById(id).get();
     u.setEmail(user.getEmail());
     u.setName(user.getName());
-    u.setPassword(user.getPassword());
-    return userRepo.save(user);
+    u.setPhone(user.getPhone());
+    u.setPassword(passwordEncoder.encode(user.getPassword()));
+    return userRepo.save(u);
   }
 
   @Override

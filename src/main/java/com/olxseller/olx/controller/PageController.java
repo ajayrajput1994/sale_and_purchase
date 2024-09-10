@@ -1,14 +1,11 @@
 package com.olxseller.olx.controller;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,28 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
-import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
-import com.olxseller.olx.model.HomeSeo;
-import com.olxseller.olx.model.MainCategory;
 import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.repository.BlogRepository;
-import com.olxseller.olx.repository.CityRepository;
 import com.olxseller.olx.repository.ContactUsRepository;
-import com.olxseller.olx.repository.HomeSeoRepository;
-import com.olxseller.olx.repository.MainCatRepository;
 import com.olxseller.olx.repository.RegionStateRepository;
-import com.olxseller.olx.repository.SubCatRepository;
-import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.repository.WebPageRepositoy;
 import com.olxseller.olx.repository.WebSiteAddressRepository;
 import com.olxseller.olx.repository.WebSiteSocialRepository;
@@ -119,7 +105,7 @@ public class PageController {
 	@GetMapping("/about")
 	public String about(Model model) {
 		WebPage web = this.webRepo.getWebPageByName("about");
-		model.addAttribute("title", web.getTitle());
+		model.addAttribute("title", web!=null?web.getTitle():"");
 		model.addAttribute("keyword", web.getKeyword());
 		model.addAttribute("description", web.getDescription());
 		model.addAttribute("name", "ajay rajput");
@@ -132,7 +118,7 @@ public class PageController {
 	@GetMapping("/contact")
 	public String contact(Model m) {
 		WebPage web = this.webRepo.getWebPageByName("contact");
-		m.addAttribute("title", web.getTitle());
+		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());
 		m.addAttribute("cantactdata", new ContactUs());
@@ -142,7 +128,7 @@ public class PageController {
 	@GetMapping("/privacy-policy")
 	public String privacyPolicy(Model m) {
 		WebPage web = this.webRepo.getWebPageByName("privacy-policy");
-		m.addAttribute("title", web.getTitle());
+		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());
 		return "privacy-policy";
@@ -151,7 +137,7 @@ public class PageController {
 	@GetMapping("/term-and-condition")
 	public String termCondition(Model m) {
 		WebPage web = this.webRepo.getWebPageByName("term-and-condition");
-		m.addAttribute("title", web.getTitle());
+		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());
 		return "term-and-condition";
