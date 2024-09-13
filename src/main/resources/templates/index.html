@@ -136,6 +136,12 @@
             </div>
 
             <div class="col-md-9">
+              <div class="d-flex justify-content-start shortBy"><div id="result-count"></div> short By:
+                <span class="active_sortby" data-name="" onclick="getShort(this)">Default</span>
+                <span data-name="PRICELTH" onclick="getShort(this)">price-Low To High</span>
+                <span data-name="PRICEHTL" onclick="getShort(this)">Price-High To Low</span>
+                <span data-name="NEW" onclick="getShort(this)">Newest First</span>
+              </div>
               <div id="selectedDom"></div>
               <div class="row" id="recordDom">
                 <!-- <div class="col-md-4"  th:each="b : ${blogs}">
@@ -164,7 +170,7 @@
   <th:block th:include="base_layout :: myscript">
   </th:block>
   <div th:insert="~{base_layout :: myFooter}">
-    <span>demo page</span>
+    <span>Footer Error</span>
 
   </div>
   <script th:src="@{/js/frontLogic/homeFilter.js}"></script>

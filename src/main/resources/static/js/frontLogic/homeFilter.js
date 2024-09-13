@@ -3,7 +3,8 @@ var loadedDTA = {},
   subcatList = [],
   stateList = [],
   cityList = [],
-  blogList = [];
+  blogList = [],
+  isShort='';
 
 function loadData() {
   catList = loadedDTA.cats;
@@ -12,6 +13,10 @@ function loadData() {
   cityList = loadedDTA.cities;
   blogList = loadedDTA.blogs;
   // let h =showBlogs(blogList);
+  blogList.forEach(d=>{
+    d['date']=Date.parse(d.update_at);
+    console.log(d.date);
+  })
   $("#recordDom").html(showBlogs(blogList).join(""));
   let c = [
     '<li class="list-group-item " aria-disabled="true"><h4>Categories</h4></li>',
@@ -172,7 +177,9 @@ function filterData() {
 
 
 function showBlogs(dataList){
+  dataList=shortBy(dataList);
   let h=[];
+  $('#result-count').html(`Total: ${dataList.length}`);
   dataList.forEach((e) => {
     h.push(`<div class="col-md-4 mt-2" >
     <div class="card card-b">
@@ -180,11 +187,11 @@ function showBlogs(dataList){
       <img src="/image/${e.image}"  class="card-img-top" alt="...">
       <div class="card-body">
         <a href="/${e.title}" class="card-title stretched-link card-title-line-limit"><h6>${e.title}</h6></a>
-        <span class="cat_title">(${e.category})</span>
+        <span class="card_price">${e.price} Rs/-</span><span class="cat_title">(${e.category})</span>
         <p class="card-text card-text-line-limit">${e.description}</p>
       </div>
       <div class="card-footer d-flex justify-content-between bg-white">
-        <div class="card-link"><i class="fas fa-heart mr-2"></i></div>
+        <div class="card-link"><i class="fas fa-heart mr-2"></i>${e.update_at}</div>
         <div class="card-link"><span >${e.city}</span> <i class="fas fa-map-marker-alt ml-1"></i></div>
       </div>
     </div>
@@ -199,4 +206,30 @@ function removeSelected(icon){
   $(icon).remove();
   filterData();
   // $("input:checkbox[name='maincat']").prop('checked',false);
+}
+
+function shortBy(DATA){
+  if(isShort=="PRICEHTL"){
+
+    DATA.sort(function(a,b){
+      return b.price -a.price;
+    });
+  }else if(isShort=="PRICELTH"){
+
+    DATA.sort(function(a,b){
+      return a.price -b.price;
+    });
+  }else if(isShort=="NEW"){
+    DATA.sort(function(a,b){
+      return b.date -a.date;
+    });
+  }
+  return DATA;
+}
+
+function getShort(v){
+  $(v).parent().find('span').removeClass("active_sortby");;
+  $(v).addClass('active_sortby');
+  isShort=v.dataset.name;
+  filterData();
 }

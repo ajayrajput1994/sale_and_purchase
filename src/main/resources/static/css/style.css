@@ -157,6 +157,40 @@ ul.li_padding li{
   font-size: 12px;
   font-weight: 700;
 }
+.card_price {
+  color: #ff6013;
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 12px;
+}
+.shortBy{
+  color: black;
+  font-size: 15px;
+  font-weight: 700;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #808080b3;
+}
+.shortBy span{
+  margin-left: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 2px;
+  cursor: pointer;
+}
+#result-count{
+  font-size: 14px;
+  color: red;
+  margin-right: 5px;
+  border-right: 1px solid #808080de;
+  padding-right: 5px;
+}
+.active_sortby{
+  color: #e1e1ec;
+  background-color: blue;
+  border: 1px solid;
+  border-radius: 46px;
+  padding: 0px 8px 3px 7px;
+}
 /* filter scc */
 .selected-icon{
   margin-left: 6px;
