@@ -224,7 +224,7 @@ public class BlogController {
 				Model m,HttpSession session/* ,@RequestParam("image") MultipartFile image */) {
 			//System.out.println(blog);
 			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 			String dat=sdf.format(date);
 			MultipartFile image = blog.getMultipartFile();
 			MultipartFile image1 = blog.getMultipartFile1();

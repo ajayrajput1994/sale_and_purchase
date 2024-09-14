@@ -19,9 +19,9 @@ public class ContactToPublisher {
 	@NotNull
 	private String phone;
 	@NotNull
-	private String subject;
+	private String description;
 	@NotNull
-	private String Description;
+	private String postId;
 	@NotNull
 	private String Date;
 
@@ -57,20 +57,12 @@ public class ContactToPublisher {
 		this.phone = phone;
 	}
 
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	public String getDate() {
@@ -81,27 +73,36 @@ public class ContactToPublisher {
 		Date = date;
 	}
 
+	
+	public String getPostId() {
+		return postId;
+	}
+
+	public void setPostId(String postId) {
+		this.postId = postId;
+	}
+
 	public ContactToPublisher() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContactToPublisher(int id, String name, String email, String phone, String subject, String description,
-			String date) {
+	public ContactToPublisher(int id, String name, String email, String phone, String description,
+			String date, String postId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.subject = subject;
-		Description = description;
+		this.description = description;
+		this.postId = postId;
 		Date = date;
 	}
 
 	@Override
 	public String toString() {
 		return "ContactToPublisher [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone
-				+ ", subject=" + subject + ", Description=" + Description + ", Date=" + Date + "]";
+				+ ", description=" + description + ", Date=" + Date + ", postId=" + postId + "]";
 	}
 
 	

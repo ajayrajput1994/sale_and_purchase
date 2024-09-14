@@ -21,10 +21,14 @@ public class Comments {
 	private String description;
 	@NotNull
 	private String postid;
-	
-	//@ManyToOne(cascade=CascadeType.ALL)
 	@NotNull
-	private String blog;
+	private String create_at;
+	@NotNull
+	private String update_at;
+
+
+	
+	
 
 	public int getCommentId() {
 		return commentId;
@@ -66,14 +70,6 @@ public class Comments {
 		this.description = description;
 	}
 
-	public String getBlog() {
-		return blog;
-	}
-
-	public void setBlog(String blog) {
-		this.blog = blog;
-	}
-
 	public String getPostid() {
 		return postid;
 	}
@@ -82,27 +78,48 @@ public class Comments {
 		this.postid = postid;
 	}
 	
+	
+	public String getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
+
+	public String getUpdate_at() {
+		return update_at;
+	}
+
+	public void setUpdate_at(String update_at) {
+		this.update_at = update_at;
+	}
+
 	public Comments() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Comments(int commentId, String name, String email, String subject, String description, String blog,String postid) {
+	public Comments(int commentId, String name, String email, String subject, String description,String postid) {
 		super();
 		this.commentId = commentId;
 		this.name = name;
 		this.email = email;
 		this.subject = subject;
 		this.description = description;
-		this.blog = blog;
 		this.postid=postid;
+		this.create_at=create_at;
+		this.update_at=update_at;
 	}
 
 	@Override
 	public String toString() {
 		return "Comments [commentId=" + commentId + ", name=" + name + ", email=" + email + ", subject=" + subject
-				+ ", description=" + description + ", blog=" + blog + ", postid=" + postid +"]";
+				+ ", description=" + description + ", postid=" + postid + ", create_at=" + create_at + ", update_at="
+				+ update_at + "]";
 	}
+
+
 
 	
 	
