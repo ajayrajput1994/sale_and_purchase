@@ -107,7 +107,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:each="u : ${locate}">
+										<th:block th:each="u : ${pages}">
 											<tr th:id="${u.id}">
 												<td th:text="${u.name}"></td>
 												<td th:text="${u.title}"></td>
@@ -189,7 +189,7 @@
 		}
 		function createPage() {
 			if (formValidate('page_form')) {
-				createPostRequest('page_form', '/admin/states/create', 'createPageCB');
+				createPostRequest('page_form', '/admin/page/create', 'createPageCB');
 			}
 		}
 		function createPageCB(r) {
@@ -225,7 +225,7 @@
 		function deleteState(btn) {
 			var id = btn.parentNode.parentNode.id;
 			console.log(id);
-			createGetRequest('page_form', '/admin/states/delete/' + id, 'deleteStateCB');
+			createGetRequest('page_form', '/admin/page/delete/' + id, 'deleteStateCB');
 		}
 		function deleteStateCB(r) {
 			console.log(r);

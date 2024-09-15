@@ -43,6 +43,7 @@ import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
+import com.olxseller.olx.service.WebPageService;
 
 @Controller
 @RequestMapping("/admin")
@@ -84,6 +85,8 @@ public class AdminController {
 	private StateService stateService;
 	@Autowired
 	private CityService cityService;
+	@Autowired
+	private WebPageService pageService;
 
 	@ModelAttribute
 	public void getCommonData(Model m) {
@@ -135,6 +138,7 @@ public class AdminController {
 	@GetMapping("/pages-setup")
 	public String pageSetup(Model m) {
 		m.addAttribute("title", "page setup");
+		m.addAttribute("pages", pageService.getAllPages());
 		return "admin/pageSetup";
 	}
 

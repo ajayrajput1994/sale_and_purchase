@@ -1,182 +1,212 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base-normal::layout(~{::div.container-fluid})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-  <!--Main Layout-->
-  <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-             <div  th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
-          <p class="text-center" th:text="${session.message.content}"></p>
-          <th:block th:text="${#session.removeAttribute('message')}" ></th:block>
-        </div>
-        </div>
-    </div>
-   <style>
-	.btn .fas, .btn .fab, .btn .far {
-      margin-left: 3px;
-    }
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    h6 {
-      line-height: 1.7;
-    }  .btn.peach-gradient {
-      color: #fff !important;
-    }
+  <head>
+    <th:block th:include="~{base_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
 
-    .map-container-section {
-      overflow:hidden;
-      /* padding-bottom:56.25%; */
-      position:relative;
-      height:0;
-    }
-  .map-container-section iframe {
-      left:0;
-      top:0;
-      height:100%;
-      width:100%;
-      position:absolute;
-    }
+  </head>
 
-  </style>
-	<section>
-      <div id="map-container-demo-section" class="z-depth-1-half map-container-section mb-4" style="height: 500px">
-        <iframe src="https://maps.google.com/maps?q=Manhatan&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0"></iframe>
-      </div>
-    </section>
-    <div class="container-fluid mb-5">
-
-      <!--Grid row-->
-      <div class="row" style="margin-top: -100px;">
-
-        <!--Grid column-->
-        <div class="col-md-12">
-
-          <div class="card pb-5">
-            <div class="card-body">
-
-              <div class="container">
-
-                <!--Section: Contact v.2-->
-                <section class="section">
-
-                  <!--Section heading-->
-                  <h2 class="font-weight-bold text-center h1 my-5">Contact us</h2>
-                  <!--Section description-->
-                  <p class="text-center grey-text mb-5 mx-auto w-responsive">Lorem ipsum dolor sit amet, consectetur
-                    adipisicing elit. Fugit, error amet numquam iure provident voluptate
-                    esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
-
-                  <div class="row pt-5">
-
-                    <!--Grid column-->
-                    <div class="col-md-8 col-xl-9">
-                      <form action="#" th:action="@{/do_contactus}" method="POST"  th:object="${cantactdata}">
-
-                        <!--Grid row-->
-                        <div class="row">
-
-                          <!--Grid column-->
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="name">Your Name</label>
-                              <input type="text" name="name" th:value="${cantactdata.name}" class="form-control" th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}" id="name"   placeholder="Your Name"  />
-                              <div th:each="e : ${#fields.errors('name')}" th:text="${e}" class="invalid-feedback"></div>
-                            </div>
-                          </div>
-                          <!--Grid column-->
-
-                          <!--Grid column-->
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="email">Email</label>
-                              <input type="text" name="email" th:value="${cantactdata.email}" class="form-control" th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" id="email"   placeholder="Email"  />
-                              <div th:each="e : ${#fields.errors('email')}" th:text="${e}" class="invalid-feedback"></div>
-                            </div>
-                          </div>
-                          <!--Grid column-->
-
-                        </div>
-                        <!--Grid row-->
-
-                        <!--Grid row-->
-                        <div class="row">
-                          <div class="col-md-12">
-                             <div class="form-group">
-                              <label for="subject">Subject</label>
-                              <input type="text" name="subject" th:value="${cantactdata.subject}" class="form-control" th:classappend="${#fields.hasErrors('subject')? 'is-invalid':''}" id="subject"   placeholder="Subject"  />
-                              <div th:each="e : ${#fields.errors('subject')}" th:text="${e}" class="invalid-feedback"></div>
-                            </div>
-                          </div>
-                        </div>
-                        <!--Grid row-->
-
-                        <!--Grid row-->
-                        <div class="row">
-
-                          <!--Grid column-->
-                          <div class="col-md-12">
-
-                            <div class="md-form">
-                              <textarea type="text" name="Description" th:value="${cantactdata.Description}" id="Description" class="md-textarea form-control" th:classappend="${#fields.hasErrors('Description')? 'is-invalid':''}" rows="3"></textarea>
-                              <label for="Description">Your message</label>
-                              <div th:each="e : ${#fields.errors('Description')}" th:text="${e}" class="invalid-feedback"></div>
-                            </div>
-
-                          </div>
-                        </div>
-                        <!--Grid row-->
-                        <div class="text-center text-md-left my-4">
-                        <button type="submit" class="btn peach-gradient">Send</button>
-                      </div>
-                      </form>
-
-                      
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-md-4 col-xl-3">
-                      <ul class="contact-icons text-center list-unstyled">
-                        <li>
-                          <i class="fas fa-map-marker fa-2x orange-text"></i>
-                          <p><span th:text="${address.Address}"></span></p>
-                        </li>
-
-                        <li>
-                          <i class="fas fa-phone fa-2x orange-text"></i>
-                          <p><span th:text="${address.phone}"></span></p>
-                        </li>
-
-                        <li>
-                          <i class="fas fa-envelope fa-2x orange-text"></i>
-                          <p><span th:text="${address.adminEmail}"></span></p>
-                        </li>
-                      </ul>
-                    </div>
-                    <!--Grid column-->
-
-                  </div>
-
-                </section>
-                <!--Section: Contact v.2-->
-
-              </div>
+  <body>
+    <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
+      <div id="myContent">
+        <section>
+           <!-- page content -->
+           <div class="row">
+            <div class="col-md-12">
+                 <div  th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
+              <p class="text-center" th:text="${session.message.content}"></p>
+              <th:block th:text="${#session.removeAttribute('message')}" ></th:block>
             </div>
-
-          </div>
-          <!--Grid column-->
-
+            </div>
         </div>
-        <!--Grid row-->
-
+       <style>
+      .btn .fas, .btn .fab, .btn .far {
+          margin-left: 3px;
+        }
+    
+        h6 {
+          line-height: 1.7;
+        }  .btn.peach-gradient {
+          color: #fff !important;
+        }
+    
+        .map-container-section {
+          overflow:hidden;
+          /* padding-bottom:56.25%; */
+          position:relative;
+          height:0;
+        }
+      .map-container-section iframe {
+          left:0;
+          top:0;
+          height:100%;
+          width:100%;
+          position:absolute;
+        }
+    
+      </style>
+      <section>
+          <div id="map-container-demo-section" class="z-depth-1-half map-container-section mb-4" style="height: 500px">
+            <iframe src="https://maps.google.com/maps?q=Manhatan&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0"></iframe>
+          </div>
+        </section>
+        <div class="container-fluid mb-5">
+    
+          <!--Grid row-->
+          <div class="row" style="margin-top: -100px;">
+    
+            <!--Grid column-->
+            <div class="col-md-12">
+    
+              <div class="card pb-5">
+                <div class="card-body">
+    
+                  <div class="container">
+    
+                    <!--Section: Contact v.2-->
+                    <section class="section">
+    
+                      <!--Section heading-->
+                      <h2 class="font-weight-bold text-center h1 my-5">Contact us</h2>
+                      <!--Section description-->
+                      <p class="text-center grey-text mb-5 mx-auto w-responsive">Lorem ipsum dolor sit amet, consectetur
+                        adipisicing elit. Fugit, error amet numquam iure provident voluptate
+                        esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
+    
+                      <div class="row pt-5">
+    
+                        <!--Grid column-->
+                        <div class="col-md-8 col-xl-9">
+                          <!-- <form action="#" th:action="@{/do_contactus}" method="POST"  th:object="${cantactdata}"> -->
+                            <form id="contactForm">
+                            <!--Grid row-->
+                            <div class="row">
+    
+                              <!--Grid column-->
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="name">Your Name</label>
+                                  <input type="text" name="name" class="form-control" th:classappend="is-invalid" id="name"   placeholder="Your Name"  />
+                                  <div  class="invalid-feedback"></div>
+                                </div>
+                              </div>
+                              <!--Grid column-->
+    
+                              <!--Grid column-->
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="text" name="email"  class="form-control" th:classappend="is-invalid" id="email"   placeholder="Email"  />
+                                  <div class="invalid-feedback"></div>
+                                </div>
+                              </div>
+                              <!--Grid column-->
+    
+                            </div>
+                            <!--Grid row-->
+    
+                            <!--Grid row-->
+                            <div class="row">
+                              <div class="col-md-12">
+                                 <div class="form-group">
+                                  <label for="subject">Subject</label>
+                                  <input type="text" name="subject"  class="form-control" th:classappend="is-invalid" id="subject"   placeholder="Subject"  />
+                                  <div  class="invalid-feedback"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Grid row-->
+    
+                            <!--Grid row-->
+                            <div class="row">
+    
+                              <!--Grid column-->
+                              <div class="col-md-12">
+    
+                                <div class="md-form">
+                                  <label for="description">Your message</label>
+                                  <textarea type="text" name="description" id="description" class="md-textarea form-control" th:classappend="is-invalid" rows="3"></textarea>
+                                  <div   class="invalid-feedback"></div>
+                                </div>
+    
+                              </div>
+                            </div>
+                            <!--Grid row-->
+                            <div class="d-flex justify-content-end my-2">
+                            <button type="button" class="btn " onclick="submitContact()" style="color: white;
+                            background-color: #ff8d00;
+                            padding: 5px 65px;
+                            border-radius: 21px; ">Submit</button>
+                          </div>
+                          </form>
+    
+                          
+                        </div>
+                        <!--Grid column-->
+    
+                        <!--Grid column-->
+                        <div class="col-md-4 col-xl-3">
+                          <ul class="contact-icons text-center list-unstyled">
+                            <li>
+                              <i class="fas fa-map-marker fa-2x orange-text"></i>
+                              <p><span th:text="${address.Address}"></span></p>
+                            </li>
+    
+                            <li>
+                              <i class="fas fa-phone fa-2x orange-text"></i>
+                              <p><span th:text="${address.phone}"></span></p>
+                            </li>
+    
+                            <li>
+                              <i class="fas fa-envelope fa-2x orange-text"></i>
+                              <p><span th:text="${address.adminEmail}"></span></p>
+                            </li>
+                          </ul>
+                        </div>
+                        <!--Grid column-->
+    
+                      </div>
+    
+                    </section>
+                    <!--Section: Contact v.2-->
+    
+                  </div>
+                </div>
+    
+              </div>
+              <!--Grid column-->
+    
+            </div>
+            <!--Grid row-->
+    
+          </div>
+    
+        </div>
+        <!-- page content -->
+        </section>
       </div>
-
     </div>
-
+    <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
+  </body>
+  <th:block th:include="base_layout :: myscript">
+  </th:block>
+  <div th:insert="~{base_layout :: myFooter}">
+    <span>Footer Error</span>
   </div>
-  <!--Main Layout-->
-</body>
+ <script>
+function submitContact(){
+  if(!formValidate('contactForm')){
+    return; 
+  }
+  createPostRequest('contactForm','/contact/add','submitContactCB');
+
+}
+
+function submitContactCB(r){
+  console.log(r);
+}
+ </script>
+  
+
 </html>

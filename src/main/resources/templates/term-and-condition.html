@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html  lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base-normal::layout(~{::div.container-fluid})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container-fluid">
-	<h2>term and condition</h2>
-	
-</div>
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<th:block th:include="~{base_layout :: myhead}"></th:block>
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<div class="container-fluid" th:replace="~{base_layout :: contentDom}">
+			<div id="myContent">
+				<h2>term and condition</h2>
+
+			</div>
+		</div>
+		<!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
+	</body>
+	<th:block th:include="base_layout :: myscript">
+	</th:block>
+	<div th:insert="~{base_layout :: myFooter}">
+		<span>Footer Error</span>
+	</div>
 </html>

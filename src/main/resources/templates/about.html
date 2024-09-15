@@ -1,52 +1,17 @@
 <!DOCTYPE html>
-<html  lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base-normal::layout(~{::div.container-fluid})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container-fluid">
-	  <!-- Intro -->
-  <section>
-    <div class="container-fluid bg-white">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-      <!-- Excerpt -->
-      <br>
-      <h1 class="text-center dark-grey-text pb-3 pt-5">
-        <strong>ABOUT</strong> ME</h1>
+  <head>
+    <th:block th:include="~{base_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
 
-      <p class="grey-text text-center mb-4 text-uppercase spacing">SOME FACTS ABOUT ME </p>
+  </head>
 
-      <!-- Grid row -->
-      <div class="row flex-center">
-
-        <!-- Grid column -->
-        <div class="col-md-10 col-xl-5 pb-3">
-
-          <p class="grey-text text-center">
-            <em>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-              deleniti atque corrupti quos dolores.Nemo enim ipsam voluptatem quia voluptas. Nemo enim ipsam
-              voluptatem quia voluptas sit aspernatur."</em>
-          </p>
-
-        </div>
-        <!-- Grid column -->
-
-      </div>
-      <!-- Grid row -->
-
-    </div>
-  </section>
-  <!-- Intro -->
-
-  <!-- Blog section -->
-  <section>
-
-    <div class="container-fluid ">
-      <hr class="my-5">
-      <div class="container">
-
-        <!-- Blog -->
+  <body>
+    <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
+      <div id="myContent">
+        <section>
+           <!-- Blog -->
         <div class="row mt-5 pt-3">
 
           <!-- Main listing -->
@@ -172,13 +137,17 @@
 
         </div>
         <!-- Blog -->
-
+        </section>
       </div>
-
     </div>
+    <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
+  </body>
+  <th:block th:include="base_layout :: myscript">
+  </th:block>
+  <div th:insert="~{base_layout :: myFooter}">
+    <span>Footer Error</span>
+  </div>
+ 
+  
 
-  </section>
-  <!-- Blog section -->
-</div>
-</body>
 </html>

@@ -9,7 +9,18 @@ body{background:#e2e2e2!important;}.breadcrumb{background:#e2e2e2!important;font
 .home-carousel .carousel-item {height:23vh;}.home-carousel .carousel-item .view img {width: 100%;}
 .post-carousel .carousel-item {height:55vh;}.post-carousel .carousel-item .view img {width: 100%;}
 /* post page css */
-
+.logo_start{
+  color: #348e37;
+  font-weight: 700;
+}
+.logo_mid{
+  color: #e16c30;
+  font-weight: 700;
+}
+.logo_end{
+  color: #3d8aca;
+  font-weight: 700;
+}
 /*admin search input and resultbox css*/
 .search-box-container{position: relative;}
 .search-box-container #search_result{position: absolute;background:#e2e2e2;z-index:999;width:100%;margin-top: -1.5rem;}

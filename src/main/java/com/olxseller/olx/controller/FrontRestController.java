@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Comments;
 import com.olxseller.olx.model.ContactToPublisher;
+import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.repository.PublisherService;
 import com.olxseller.olx.service.CommentService;
+import com.olxseller.olx.service.ContactService;
 
 @RestController
 public class FrontRestController {
@@ -22,6 +24,8 @@ public class FrontRestController {
   public CommentService commService;
   @Autowired
   public PublisherService pubService;
+  @Autowired
+  public ContactService contactService;
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	String date = sdf.format(new Date());
@@ -60,6 +64,26 @@ public class FrontRestController {
 			}
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", pubService.createPublisher(pub)),
+					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+  @PostMapping("/contact/add")
+	public ResponseEntity<?> AddContact(@RequestBody ContactUs contact) {
+		contact.setDate(date);
+		System.out.println("Comments:" + contact);
+		try {
+			if (contact.getContactId() > 0) {
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+						contactService.updateContact(contact, contact.getContactId())),
+						HttpStatus.OK);
+			}
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", contactService.addContact(contact)),
 					HttpStatus.CREATED);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

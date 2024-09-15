@@ -35,6 +35,7 @@ import com.olxseller.olx.service.EmailService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
+import com.olxseller.olx.service.WebPageService;
 
 @Controller
 public class PageController {
@@ -50,7 +51,7 @@ public class PageController {
 	@Autowired
 	private EmailService mailService;
 	@Autowired
-	private WebPageRepositoy webRepo;
+	private WebPageService pageService;
 
 	@Autowired
 	private RegionStateRepository stateRepo;
@@ -103,8 +104,8 @@ public class PageController {
 	}
 
 	@GetMapping("/about")
-	public String about(Model model) {
-		WebPage web = this.webRepo.getWebPageByName("about");
+	public String about(Model model) { 
+		WebPage web = this.pageService.getPageByName("about");
 		model.addAttribute("title", web!=null?web.getTitle():"");
 		model.addAttribute("keyword", web.getKeyword());
 		model.addAttribute("description", web.getDescription());
@@ -117,7 +118,7 @@ public class PageController {
 
 	@GetMapping("/contact")
 	public String contact(Model m) {
-		WebPage web = this.webRepo.getWebPageByName("contact");
+		WebPage web = this.pageService.getPageByName("contact");
 		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());
@@ -127,7 +128,7 @@ public class PageController {
 
 	@GetMapping("/privacy-policy")
 	public String privacyPolicy(Model m) {
-		WebPage web = this.webRepo.getWebPageByName("privacy-policy");
+		WebPage web = this.pageService.getPageByName("privacy policy");
 		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());
@@ -136,7 +137,7 @@ public class PageController {
 
 	@GetMapping("/term-and-condition")
 	public String termCondition(Model m) {
-		WebPage web = this.webRepo.getWebPageByName("term-and-condition");
+		WebPage web = this.pageService.getPageByName("terms and conditions");
 		m.addAttribute("title", web!=null?web.getTitle():"");
 		m.addAttribute("keyword", web.getKeyword());
 		m.addAttribute("description", web.getDescription());

@@ -1,11 +1,15 @@
 package com.olxseller.olx.serviceImp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.repository.WebPageRepositoy;
 import com.olxseller.olx.service.WebPageService;
+
+import net.bytebuddy.asm.Advice.Return;
 
 @Service
 public class WebPageServiceImpl implements WebPageService {
@@ -27,6 +31,16 @@ public class WebPageServiceImpl implements WebPageService {
   @Override
   public void deleteWebPage(int id) {
     pageRepo.deleteById(id);
+  }
+
+  @Override
+  public List<WebPage> getAllPages() {
+  return pageRepo.findAll(); 
+  }
+
+  @Override
+  public WebPage getPageByName(String title) {
+    return pageRepo.getWebPageByName(title);
   }
   
 }
