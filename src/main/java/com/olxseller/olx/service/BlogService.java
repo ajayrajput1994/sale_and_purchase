@@ -13,6 +13,8 @@ public interface BlogService {
 
 	public Blog getBlogById(int id);
 
+	public Blog getBlogDetailByTitle(String name);
+
 	public String getPageUrl(String title); 
 
 	public void deleteBlogs(int id);

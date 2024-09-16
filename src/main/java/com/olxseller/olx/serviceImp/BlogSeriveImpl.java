@@ -98,5 +98,11 @@ public class BlogSeriveImpl implements BlogService {
 			blogRepo.save(blog);
 			return blog;
     }
+
+	@Override
+	public Blog getBlogDetailByTitle(String name) {
+		return blogRepo.getBlogByName(name);	
+	}
+		
   
 }

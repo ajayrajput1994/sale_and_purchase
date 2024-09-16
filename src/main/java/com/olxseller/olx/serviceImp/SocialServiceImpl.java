@@ -14,12 +14,21 @@ public class SocialServiceImpl implements SocialService {
   private WebSiteSocialRepository socialRepo;
   @Override
   public WebSiteSocial create(WebSiteSocial ob) {
-    return  socialRepo.save(ob);}
+    if(socialRepo.findAll().isEmpty()){
+      ob=socialRepo.save(ob);
+    }
+    return  ob;
+  }
 
   @Override
   public WebSiteSocial update(WebSiteSocial ob, int id) {
     ob.setId(id);
     return socialRepo.save(ob);
+  }
+
+  @Override
+  public WebSiteSocial getSocialLinks() {
+  return  socialRepo.findAll().get(0);
   }
  
   

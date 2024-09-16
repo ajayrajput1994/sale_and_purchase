@@ -3,7 +3,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,59 +11,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
+import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
-import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
-import com.olxseller.olx.model.WebSiteAddress;
-import com.olxseller.olx.model.WebSiteSocial;
-import com.olxseller.olx.repository.BlogRepository;
-import com.olxseller.olx.repository.ContactUsRepository;
-import com.olxseller.olx.repository.RegionStateRepository;
-import com.olxseller.olx.repository.WebPageRepositoy;
-import com.olxseller.olx.repository.WebSiteAddressRepository;
-import com.olxseller.olx.repository.WebSiteSocialRepository;
-import com.olxseller.olx.service.BlogService;
-import com.olxseller.olx.service.CategoryService;
-import com.olxseller.olx.service.CityService;
-import com.olxseller.olx.service.EmailService;
-import com.olxseller.olx.service.StateService;
-import com.olxseller.olx.service.SubCategoryService;
-import com.olxseller.olx.service.UserService;
-import com.olxseller.olx.service.WebPageService;
+import com.olxseller.olx.service.*;
 
 @Controller
 public class PageController {
 
 	@Autowired
 	public BCryptPasswordEncoder passwordEncoder;
-
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private BlogRepository blogRepository;
-
 	@Autowired
 	private EmailService mailService;
 	@Autowired
 	private WebPageService pageService;
-
 	@Autowired
-	private RegionStateRepository stateRepo;
-
+	private SocialService socialService;
 	@Autowired
-	private WebSiteSocialRepository websocialRepo;
-
-	@Autowired
-	private WebSiteAddressRepository webaddressRepo;
-
-	@Autowired
-	private ContactUsRepository contactRepo;
-	
+	private WebAddressService webaddressService;
 	@Autowired
 	public ResponseData responseData;
 	@Autowired
@@ -77,6 +49,8 @@ public class PageController {
 	private CategoryService catService;
 	@Autowired
 	private BlogService blogService;
+	@Autowired
+  public ContactService contactService;
 
 	@ModelAttribute
 	public void commondata(Model m) {
@@ -86,21 +60,12 @@ public class PageController {
 		map.put("cities", cityService.getAllCity());
 		map.put("subcats", subcatService.getAllSubcat());
 		map.put("blogs", blogService.getAllBlogs());
-		// all main calegories
-		// List<MainCategory> mainCats = this.mainRepo.getMainCatalogs();
 		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
 		// System.out.println(dta);
 		m.addAttribute("dta",dta);
-		// m.addAttribute("mainCates",mainCats);
-
-		// all state
-		List<RegionState> regstate = this.stateRepo.getAllStates();
-		m.addAttribute("allstates", regstate);
-
-		WebSiteSocial social = websocialRepo.getWebSocial();
-		m.addAttribute("social", social);
-		WebSiteAddress address = webaddressRepo.getSiteAddress();
-		m.addAttribute("address", address);
+		m.addAttribute("allstates", this.stateService.getAllStates());
+		m.addAttribute("social",  socialService.getSocialLinks());
+		m.addAttribute("address", webaddressService.getAddress());
 	}
 
 	@GetMapping("/about")
@@ -198,7 +163,7 @@ public class PageController {
 
 	@GetMapping({"", "/" })
 	public String demo(Model m) {
-		m.addAttribute("blogs", blogRepository.getBlogs());
+		m.addAttribute("blogs", blogService.getAllBlogs());
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "index";
@@ -283,7 +248,7 @@ public class PageController {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 
 			cantactdata.setDate(sdf.format(date));
-			ContactUs u = this.contactRepo.save(cantactdata);
+			ContactUs u = contactService.addContact(cantactdata);
 			m.addAttribute("cantactdata", new ContactUs());
 			session.setAttribute("message", new Message("Successfully send your request !!", "alert-success"));
 			boolean flag = this.mailService.sendEmail(cantactdata.getSubject(), cantactdata.getDescription(),
@@ -307,6 +272,24 @@ public class PageController {
 			return "contact";
 		}
 
+	}
+
+	@GetMapping("/{title}")
+	public String singlePostPage(@PathVariable("title") String ttl,Model m) {
+		String url=blogService.getPageUrl(ttl);
+		System.out.println("url:"+url);
+		if(url.equals("post")) {
+			Blog blog=this.blogService.getBlogDetailByTitle(ttl);
+			  m.addAttribute("title",blog.getCity()+"|"+blog.getRegionState()+"|"+blog.getRegion()+"|"+blog.getCategory()+"|One to Z|"+blog.getTitle());
+				m.addAttribute("keyword",blog.getCity()+"|"+blog.getRegionState()+"|"+blog.getRegion()+"|"+blog.getCategory()+"|One to Z|"+blog.getTitle());
+				m.addAttribute("description",blog.getDescription());
+			  m.addAttribute("blog",blog);
+			return "post";
+
+		}else if(url.equals("post")) {
+		return "citypage";
+		}
+		return "index";
 	}
 
 }

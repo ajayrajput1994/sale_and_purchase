@@ -14,13 +14,20 @@ public class AddressServiceImpl implements WebAddressService {
   @Override
   public WebSiteAddress create(WebSiteAddress ob) {
     System.out.println("address updating....");
-    return AddressRepo.save(ob);
+    if(AddressRepo.findAll().isEmpty()){
+      ob=AddressRepo.save(ob);
+    }
+    return ob;
   }
   @Override
   public WebSiteAddress update(WebSiteAddress ob, int id) {
     ob.setId(id);
     System.out.println("updating"+ob);
     return AddressRepo.save(ob);
+  }
+  @Override
+  public WebSiteAddress getAddress() {
+    return  AddressRepo.findAll().get(0);
   }
 
 }

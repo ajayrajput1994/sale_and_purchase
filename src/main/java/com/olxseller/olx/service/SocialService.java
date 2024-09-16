@@ -6,5 +6,6 @@ import com.olxseller.olx.model.WebSiteSocial;
 @Service
 public interface SocialService {
   WebSiteSocial create(WebSiteSocial ob);
+  WebSiteSocial getSocialLinks();
   WebSiteSocial update(WebSiteSocial ob,int id);
 }

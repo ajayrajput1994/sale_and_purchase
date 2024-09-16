@@ -4,9 +4,12 @@ var loadedDTA = {},
   stateList = [],
   cityList = [],
   blogList = [],
-  isShort='';
+  isShort='',
+  stateTitle='';
 
 function loadData() {
+  console.log('url:',window.location.pathname.replace('%20',' ').replace('/',''));
+  stateTitle=window.location.pathname.replace('%20',' ').replace('/','');
   catList = loadedDTA.cats;
   subcatList = loadedDTA.subcats;
   stateList = loadedDTA.states;
@@ -17,7 +20,8 @@ function loadData() {
     d['date']=Date.parse(d.update_at);
     console.log(d.date);
   })
-  $("#recordDom").html(showBlogs(blogList).join(""));
+  // $("#recordDom").html(showBlogs(blogList).join(""));
+ 
   let c = [
     '<li class="list-group-item " aria-disabled="true"><h4>Categories</h4></li>',
   ];
@@ -66,6 +70,7 @@ function loadData() {
       </li>`);
   });
   $("#cityDom").html(ct.join(""));
+  filterData();
 }
 // {
   //   "id": 2,
@@ -102,6 +107,9 @@ function filterData() {
     filteredSubList=blogList.slice(),
     filteredStateList=blogList.slice(),
     filteredCityList=blogList.slice();
+  if(stateTitle){
+    $(`input:checkbox[value='${stateTitle}']`).prop('checked',true);
+  }
   $("input:checkbox[name='maincat']:checked").each(function () {
     cat.push($(this).val());
   });

@@ -116,7 +116,7 @@ public class BlogController {
 		m.addAttribute("address",address);
 	
 	}
-	
+	/* 
 	@GetMapping("/{title}")
 	public String singlePostPage(@PathVariable("title") String ttl,Model m) {
 		String url=blogservice.getPageUrl(ttl);
@@ -129,7 +129,6 @@ public class BlogController {
 			  return "post";
 			  
 			}else if(url.equals("citypage")) { 
-				/* title keyword description */
 				HomeSeo home=this.homeRepo.getHomeSeo();
 				m.addAttribute("title",home.getTitle());
 				m.addAttribute("keyword",home.getKeyword());
@@ -160,6 +159,7 @@ public class BlogController {
 			//all main calegories
 			return "index";
 	}
+	*/
 	//search containt
 	 @GetMapping("/search")
 		public String serchContent(@Param("keyword") String keyword,Model m) {
