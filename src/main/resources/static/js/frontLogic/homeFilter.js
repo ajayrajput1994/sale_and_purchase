@@ -122,10 +122,6 @@ function filterData() {
   $("input:checkbox[name='city']:checked").each(function () {
     city.push($(this).val());
   });
-  console.log(cat);
-  console.log(sub);
-  console.log(state);
-  console.log(city);
   let selectedDT=[],filterFlag=false,uniqueDict={},uniqBlogList=[];
   if (cat.length>0) {
     cat.forEach((c) => {

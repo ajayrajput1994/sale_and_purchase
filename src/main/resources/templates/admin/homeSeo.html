@@ -162,13 +162,14 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Logo</h4>
 								</div>
-								<img th:src="@{'/image/'+${homebanner.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
+								<img th:src="@{'/image/'+${homeLogo?.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="logo_form" enctype="multipart/form-data">
-									<input type="hidden" name="id" id="id"  th:value="${homebanner?.id}">
+									<input type="hidden" name="id" id="id"  th:value="${homeLogo?.id}">
+									<input type="hidden" name="logo" id="logo"  >
 									<div class="row">
 										<div class="form-group col">
-											<label for="multipartfile">Logo</label>
+											<label for="file">Logo</label>
 											<input type="file" name="multipartfile" class="form-control" id="multipartfile"
 												placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
@@ -191,7 +192,7 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Banner</h4>
 								</div>
-								<img th:src="@{'/image/'+${homebanner.banner}}" style="height:6rem;width:100%;" class="my-2">
+								<img th:src="@{'/image/'+${homebanner?.banner}}" style="height:6rem;width:100%;" class="my-2">
 								<form id="banner_form">
 									<div class="form-group ">
 										<label for="title">Title</label>
@@ -326,6 +327,7 @@
 		}
 		function addLogo() {
 			if (formValidate('logo_form')) {
+				// createPostRequest('logo_form', '/admin/logo/update', 'addAddressCB');
 				uploadFiles('logo_form', '/admin/logo/update', 'addAddressCB');
 			}
 		}

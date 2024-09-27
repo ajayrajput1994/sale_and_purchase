@@ -76,7 +76,11 @@ public class MyConfig{
 					.antMatchers("/**").permitAll())
 				.formLogin(form -> form
 					.loginPage("/signin").loginProcessingUrl("/login_process").successHandler(successhandler))
-				.authenticationProvider(authenticatinProvider());
+				.authenticationProvider(authenticatinProvider())
+				.sessionManagement()
+				.maximumSessions(1)
+				.expiredUrl("/signin?expired-session")
+				.maxSessionsPreventsLogin(true);
 		return http.build();
 	}
 	

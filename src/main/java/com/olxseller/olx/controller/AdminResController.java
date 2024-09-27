@@ -8,15 +8,19 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.mail.Multipart;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +29,7 @@ import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.City;
 import com.olxseller.olx.model.HomeSeo;
+import com.olxseller.olx.model.Logo;
 import com.olxseller.olx.model.MainCategory;
 import com.olxseller.olx.model.RegionState;
 import com.olxseller.olx.model.SubCategory;
@@ -364,25 +369,27 @@ public class AdminResController {
 	}
 
 	@PostMapping("/logo/update")
-	public ResponseEntity<?> createUpdateWebsiteLogo(MultipartFile image) {
-		System.out.println("data :" + image);
+	public ResponseEntity<?> createUpdateWebsiteLogo(@RequestBody Logo logo) {
+	// public ResponseEntity<?> createUpdateWebsiteLogo(@RequestParam("logo") String  logo) {
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 		// String dat = sdf.format(new Date());
-		// MultipartFile image = ban.getMultipartfile();
-		Banner ban=new Banner();
+		MultipartFile image = logo.getMultipartfile();
+		System.out.println("data :" + logo);
+		Logo lg=new Logo();
 		try {
 			if (image.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			} else {
 				// first image file
-				ban.setLogo(image.getOriginalFilename());
+			 	lg.setLogo(image.getOriginalFilename());
 				File savefile = new ClassPathResource("static/image").getFile();
 				Path path = Paths.get(savefile.getAbsolutePath() + File.separator + image.getOriginalFilename());
 				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				
 			}
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
-							logoService.updateLogo(ban, ban.getId())),
+							logoService.updateLogo(logo, logo.getId())),
 					HttpStatus.OK);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

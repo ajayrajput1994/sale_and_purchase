@@ -13,9 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-
+import java.io.Serializable;
 @Entity
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID=1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -147,6 +149,14 @@ public class User {
 	public User() {
 		super(); 
 	}
+	public User(String email,String pass,String cdate,String udate) {
+		super(); 
+		this.email=email;
+		this.password=pass;
+		this.create_at=cdate;
+		this.update_at=udate;
+	}
+
 
 	public User(int id, String name,String email,
 			String phone, String other_phone,String password,

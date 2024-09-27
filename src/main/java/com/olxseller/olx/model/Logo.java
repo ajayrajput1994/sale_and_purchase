@@ -58,8 +58,9 @@ public class Logo {
 
 	@Override
 	public String toString() {
-		return "Logo [id=" + id + ", logo=" + logo + "]";
+		return "Logo [id=" + id + ", logo=" + logo + ", multipartfile=" + multipartfile + "]";
 	}
+
 	
 	
 }

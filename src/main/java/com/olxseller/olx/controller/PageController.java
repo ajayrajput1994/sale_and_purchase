@@ -1,10 +1,13 @@
 package com.olxseller.olx.controller;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -53,7 +56,7 @@ public class PageController {
   public ContactService contactService;
 
 	@ModelAttribute
-	public void commondata(Model m) {
+	public void commondata(Model m,Principal principal) {
 		Map<String,Object> map=new HashMap<>();
 		map.put("cats", catService.getAllMainCategory());
 		map.put("states", stateService.getAllStates());
@@ -61,11 +64,11 @@ public class PageController {
 		map.put("subcats", subcatService.getAllSubcat());
 		map.put("blogs", blogService.getAllBlogs());
 		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
-		// System.out.println(dta);
 		m.addAttribute("dta",dta);
 		m.addAttribute("allstates", this.stateService.getAllStates());
 		m.addAttribute("social",  socialService.getSocialLinks());
 		m.addAttribute("address", webaddressService.getAddress());
+		m.addAttribute("user",principal!=null? userService.findUserByEmail(principal.getName()): new User());
 	}
 
 	@GetMapping("/about")
@@ -120,18 +123,27 @@ public class PageController {
 		m.addAttribute("logindata", new User());
 		return "signin";
 	}
+	@GetMapping("/logout")
+	public String lotout(Model m,HttpSession session) {
+		session.invalidate();
+		System.out.println("logout: "+session.getAttribute("username"));
+		return "redirect:/";
+	}
 
 	@PostMapping("/login_process")
-	public String doLogin(@ModelAttribute("logindata") User logindata, Model model) {
+	public String doLogin(@ModelAttribute("logindata") User logindata, Model model,HttpSession session) {
 		// if(result.hasErrors()) {
 		// // System.out.println("error"+result);
 		// return "signin";
 		// }
 		/* System.out.println(logindata); */
-
+		String activename = (String) session.getAttribute("username");
+		if(activename==null){
+			session.setAttribute("username", logindata.getEmail());
+		}
+		System.out.println("login:"+activename);
 		model.addAttribute("title", logindata.getEmail());
 		model.addAttribute("subtitle", logindata.getPassword());
-
 		/*
 		 * String username=principal.getName(); System.out.println("user"+username);
 		 * User user=this.userRepo.getUserByUserName(username); List<Blog>
@@ -211,7 +223,7 @@ public class PageController {
 			String email = u.getEmail();
 			String mess = "this is demo email";
 			String subject = "demo purpose";
-
+			String username = (String) session.getAttribute("username");
 			session.setAttribute("message", new Message("Successfully registered !!", "alert-success"));
 			// boolean flag=this.mailService.sendEmail(subject, mess, email);
 			// if(flag)

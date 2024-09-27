@@ -89,7 +89,7 @@ public class AdminController {
 	private WebPageService pageService;
 
 	@ModelAttribute
-	public void getCommonData(Model m) {
+	public void getCommonData(Model m,Principal principal) {
 		Logo logo = this.logoRepo.getSiteLogo();
 		if (logo == null) {
 			m.addAttribute("homelogo", new Logo());
@@ -101,6 +101,7 @@ public class AdminController {
 		m.addAttribute("subCategories", subcatService.getAllSubcat()); 
 		m.addAttribute("allstates", stateService.getAllStates());
 		m.addAttribute("allCity", cityService.getAllCity());
+		m.addAttribute("user",principal!=null? userService.findUserByEmail(principal.getName()): new User());
 	}
 
 	@GetMapping("/")
@@ -117,6 +118,8 @@ public class AdminController {
 			WebSiteAddress address = this.websiteRepo.getSiteAddress();
 			WebSiteSocial social = this.websocialRepo.getWebSocial();
 			Banner banner = this.bannerRepo.getHomeBanner();
+			Logo logo = this.logoRepo.getSiteLogo();
+			m.addAttribute("homeLogo", logo == null ? new Logo() : logo);
 			m.addAttribute("homeseo", home == null ? new HomeSeo() : home);
 			m.addAttribute("webaddress", address == null ? new WebSiteAddress() : address);
 			m.addAttribute("websocial", social == null ? new WebSiteSocial() : social);

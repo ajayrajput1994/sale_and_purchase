@@ -45,7 +45,7 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item dropdown ">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Locations
                   </a>
@@ -57,22 +57,30 @@
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item"><a class="nav-link" th:href="@{/}"><i class="fas fa-search"></i></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/signup}"><i class="fas fa-user-plus"></i></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/signin}"><i class="fas fa-sign-in-alt"></i></a></li>
-                <!-- <li class="nav-item dropdown ">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Account
+                <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link"  th:href="@{/signin}">Login</a></li>
+                <li class="nav-item dropdown " th:if="${user?.name!=''}">
+                  <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false" th:text="${user?.name}">
+                    
                   </a>
-                  <ul class="dropdown-menu p-0">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_ADMIN'}">
+                    <li><a class="dropdown-item" href="javascript:">Account</a></li>
+                    <li><a class="dropdown-item" href="javascript:">Settings</a></li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#"  th:href="@{/logout}">Logout</a></li>
+                    <li><a class="dropdown-item" href="javascript:"  th:href="@{/logout}">Logout</a></li>
                   </ul>
-                </li> -->
+                  <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_USER'}">
+                    <li><a class="dropdown-item" href="/user/">Account</a></li>
+                    <li><a class="dropdown-item" href="javascript:">Settings</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:"  th:href="@{/logout}">Logout</a></li>
+                  </ul>
+                </li> 
+                <!-- <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link" th:href="@{/signin}">Sign Up</a></li> -->
               </ul>
               <!-- <form class="d-flex mt-3" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -87,7 +95,7 @@
 
         <div class="footer-copyright py-3 text-center">
           <div class="container-fluid">
-            © 2019 Copyright: <a href="#" target="_blank">Selling Point.com </a>
+            © 2019 Copyright: <a href="javascript:" target="_blank">Selling Point.com </a>
 
           </div>
         </div>

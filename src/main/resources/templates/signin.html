@@ -8,15 +8,18 @@
   </head>
 
   <body>
+		<style>
+			.navbar{display: none;}
+		</style>
     <div class="container" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
         <section>
 					<div class="row">
-						<div class="col-md-4 col-12 mx-auto mt-3">
-							<div class="card px-3 pb-5 pt-1">
+						<div class="col-md-4 col-12 mx-auto">
+							<div class="card px-3 pb-5 pt-3">
 								<div class="text-center">
 
-									<img th:src="@{/image/favicon.png}" class="img " style="width: 50px;height: 50px;text-align: center;"/>
+									<a th:href="@{/}"><img th:src="@{/image/favicon.png}" class="img " style="width: 50px;height: 50px;text-align: center;"/></a>
 									<h2><span style="
 										color: #348e37;
 										font-weight: 700;

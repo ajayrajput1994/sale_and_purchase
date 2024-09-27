@@ -8,12 +8,15 @@
   </head>
 
   <body>
+		<style>
+			.navbar{display:none;}
+		</style>
     <div class="container" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
         <section>
 					<div class="row">
-						<div class="col-md-4 col-12 mx-auto mt-3">
-						<div class="card my-2 pt-1 pb-2">
+						<div class="col-md-4 col-12 mx-auto">
+						<div class="card pb-2">
 						<div class="card-body">
 							<div th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
 								<p class="text-center" th:text="${session.message.content}"></p>
@@ -21,7 +24,7 @@
 							</div>
 							<div class="text-center">
 
-								<img th:src="@{/image/favicon.png}" class="img " style="width: 50px;height: 50px;text-align: center;"/>
+								<a th:href="@{/}"><img th:src="@{/image/favicon.png}" class="img " style="width: 50px;height: 50px;text-align: center;"/></a>
 								<h2><span style="
 									color: #348e37;
 									font-weight: 700;

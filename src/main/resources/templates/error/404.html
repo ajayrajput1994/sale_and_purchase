@@ -1,23 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thumeleaf.org" th:replace="base::layout(~{::section})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Error</title>
-<style>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-</style>
-</head>
-<body>
-<section>
-<div class="error_404">
-<div class="text-center">
-<div class="display-1">404</div>
-<div class="display-4">Error</div>
-<h1>We're sorry for the 404 error :( </h1>
-</div>
-</div>
+  <head>
+    <th:block th:include="~{base_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
 
-</section>
+  </head>
 
-</body>
+  <body>
+    <style>
+      .navbar {
+        display: none;
+      }
+    </style>
+    <div class="container" th:replace="~{base_layout :: contentDom}">
+      <div id="myContent">
+        <section>
+          <div class="row">
+            <div class=" col-12 mx-auto">
+              <div class="error_404">
+                <div class="text-center">
+                  <div class="display-1">404</div>
+                  <div class="display-4 mb-1">Error</div>
+                  <h1>We're sorry for the 404 error :(</h1>
+                  <a href="/" class="badge  text-bg-danger mt-3">Go To Home</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+  <th:block th:include="base_layout :: myscript">
+  </th:block>
+
+
+
 </html>

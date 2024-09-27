@@ -83,21 +83,22 @@ function createPostRequest(formid,url,callBack){
 
 function uploadFiles(formid,url,callBack){
   $("button").attr("disabled", true);
-  // formData=$(`#${formid}`).serialize();
-  // formData=$(`#${formid}`).serializeArray();
-let  jsonDict=formDataToJson(formid);
-  // console.log(jsonDict);
-  var inputfile=document.getElementById('multipartfile');
-  var file = inputfile.files[0];
-  // jsonDict['logo']=file;
+  // var formData= new FormData();
+  // var files=$('#file')[0].files;
+  // console.log(files);
+  // if(files.length>0){
+  //   formData.append('logo',files[0]);
+  formdata=$(`#${formid}`).serializeArray();
   $.ajax({
     url:url,
-    type:'POST',
-    data:new FormData(document.getElementById('multipartfile')[0]),
-    enctype: 'multipart/form-data',
-    contentType: false,
-    // contentType: "application/json; charset=utf-8",
-    dataType: false,
+    type:'post',
+    data:JSON.stringify(formdata),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    // enctype: 'multipart/form-data',
+    // processData: false,
+    // contentType: false,
+    cache: false,
     success: function(obj) {
       // console.log('success',obj); 
 			if (callBack != null) {
@@ -109,8 +110,9 @@ let  jsonDict=formDataToJson(formid);
 			messageConfirmation(obj);
 		}
   });
-
 }
+
+
 
 function messageConfirmation(obj){
   if(obj.responseText=='SUCCESS'){
