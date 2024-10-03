@@ -1,81 +1,189 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::div.container})">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<div class="container">
-<!-- Section: Inputs -->
-      <section class="section card mb-5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-        <div class="card-body">
-          <form action="#" th:action="@{/user/profile/update}" method="POST"   th:object="${user}" >
-          <!-- Section heading -->
-          <h1 class="text-center my-5 h1">Account Information</h1>
-          <!-- Grid row -->
+  <head>
+    <th:block th:include="~{normal/userbase_layout :: myhead}"></th:block>
+    <title th:text="${title}"></title>
+  </head>
+
+  <body>
+    <div class="container" th:replace="~{normal/userbase_layout :: contentDom}">
+      <div id="myContent">
+        <div class="container-fluid">
           <div class="row">
-			<input type="hidden" name="id" th:value="${user.id}">
-            <!-- Grid column -->
-            <div class="col-md-6 mb-4">
-
-              <div class="md-form md-outline">
-                <input type="text" name="name" id="name" th:value="${user.name}" class="form-control" required="">
-                <label for="name" class="">Enter Name</label>
+            <section class="col-md-4">
+              <div class="card text-bg-success rounded-0" style="margin-top: 20%;">
+                <div class="card-body text-center" style="padding-top: 4rem;">
+                  <div class="d-flex justify-content-start ">
+                    <img th:src="@{'/image/Desert.jpg'}" class="card-img-top" alt="..."
+                      style="position: absolute;border-radius: 80px;height: 10rem; width: 10rem;z-index: 27;top: -62px;">
+                  </div>
+                  <div style="margin-left: 40%;">
+                    <h4 class="d-flex justify-content-start" th:text="${user?.name}"></h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card  rounded-0 mt-3">
+                <div class="card-body p-0">
+                  <ul class="list-group">
+                    <a href="/user/" class="list-group-item list-group-item-action "><i
+                        class="fa-solid fa-chart-line"></i> Dashboard</a>
+                    <a href="javascript:" onclick="operDom('personal')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-shield-halved"></i> Personal
+                      Information</a>
+                    <a href="javascript:" onclick="operDom('address')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-address-card"></i>
+                      Address</a>
+                    <a href="javascript:" onclick="operDom('wishlist')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-heart"></i> Wish List</a>
+                    <a href="javascript:" onclick="operDom('article')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-newspaper"></i> My
+                      Article</a>
+                    <a href="javascript:" onclick="operDom('password')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-lock"></i> Change
+                      Password</a>
+                    <a href="javascript:" onclick="operDom('setting')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-sliders"></i> Settings</a>
+                  </ul>
+                </div>
+              </div>
+            </section>
+            <!-- Section: Inputs -->
+            <section class="section col-md-8 mb-5 mt-3  ">
+              <div class="card rounded-0" id="personalDom">
+                <div class="card-header text-bg-primary rounded-0">
+                  <h1>Personal Information</h1>
+                </div>
+                <div class="card-body">
+                  <form id="userInfoForm">
+                    <!-- Section heading -->
+                    <!-- Grid row -->
+                    <div class="row">
+                      <input type="hidden" name="id" th:value="${user.id}">
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label for="name" class="">Enter Name</label>
+                          <input type="text" name="name" id="name" th:value="${user.name}" class="form-control"
+                            required="">
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="email">email</label>
+                          <input type="email" name="email" id="email" th:value="${user.email}" class="form-control"
+                            readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Grid row -->
+                    <!-- Grid row -->
+                    <div class="row">
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="phone">phone</label>
+                          <input type="text" name="phone" id="phone" th:value="${user.phone}" class="form-control"
+                            required>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="other_phone">other phone</label>
+                          <input type="text" name="other_phone" id="other_phone" th:value="${user.other_phone}"
+                            class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Grid row -->
+                    <div class="d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary rounded-0 btn-sm px-5 py-2">submit</button>
+                    </div>
+                  </form>
+                </div>
               </div>
 
-            </div>
-            <!-- Grid column -->
-            <!-- Grid column -->
-            <div class="col-md-6 mb-4">
-
-              <div class="md-form md-outline">
-                <input type="email" name="email" id="email"  th:value="${user.email}" class="form-control" disabled="">
-                <label class="active" for="email">email</label>
+              <div class="card rounded-0" id="addressDom" style="display: none;">
+                <div class="card-header text-bg-success rounded-0">
+                  <h1>Address</h1>
+                </div>
+                <div class="card-body">
+                </div>
               </div>
+              <div class="card rounded-0" id="wishlistDom" style="display: none;">
+                <div class="card-header text-bg-danger rounded-0">
+                  <h1>Wish List</h1>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card mb-3" style="margin-left: 3rem;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img th:src="@{'/image/Desert.jpg'}" class="img-fluid rounded-start" alt="..." style="height: 10rem;
+                            display: block;
+                            position: absolute;
+                            z-index: 9;
+                            left: -30px;
+                            top: 15px;
+                            border-radius: 48%;">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">Card title</h5>
+                              <p class="card-text">This is a wider card with supporting text below as a natural lead-in
+                                to additional content. This content is a little bit longer.</p>
+                              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
+                              </p>
+                              <div class="d-flex justify-content-between">
+                                <span>
+                                  <i class="fa-regular fa-message"></i>
+                                  <i class="fa-solid fa-heart"></i>
+                                  <i class="fa-regular fa-thumbs-up"></i>
+                                  <i class="fa-regular fa-thumbs-down"></i>
+                                </span>
 
-            </div>
+                                <span>
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star-half-stroke"></i>
+                                  <i class="fa-regular fa-star"></i>
+                                  <i class="fa-regular fa-star"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card rounded-0" id="passwordDom" style="display: none;">
+                <div class="card-header text-bg-info rounded-0">
+                  <h1>Change Password</h1>
+                </div>
+                <div class="card-body">
+                </div>
+              </div>
+              <div class="card rounded-0" id="settingDom" style="display: none;">
+                <div class="card-header text-bg-warning rounded-0">
+                  <h1>Settings</h1>
+                </div>
+                <div class="card-body">
+                </div>
+              </div>
+            </section>
+            <!-- Section: Inputs -->
           </div>
-          <!-- Grid row -->
-
-          <!-- Grid row -->
-          <div class="row">
-
-            
-            <!-- Grid column -->
-            <div class="col-md-6 mb-4">
-                <div class="md-form md-outline">
-                  <input type="text" name="phone" id="phone" th:value="${user.phone}"  class="form-control" >
-                <label class="active" for="phone">phone</label>
-              </div>
-            </div>
-            <!-- Grid column -->
-            <div class="col-md-6 mb-4">
-
-              <div class="md-form md-outline">
-                <input type="text" name="other_phone" id="other_phone" th:value="${user.other_phone}"  class="form-control" required="">
-                <label class="active" for="other_phone">other phone</label>
-              </div>
-
-            </div>
-            <!-- Grid column -->
-
-          </div>
-          <!-- Grid row -->
-
-          
-
-    
-          <div class="float-right">
-            <button type="submit" class="btn btn-primary btn-rounded btn-sm px-5 py-2">submit</button>
-          </div>
-        </form>
         </div>
+      </div>
+    </div>
+  </body>
+  <!-- <div th:insert="~{normal/userbase_layout :: myFooter}">
+<span>demo page</span>
 
-      </section>
-      <!-- Section: Inputs -->
-        <!-- Section: Inputs -->
+</div> -->
+  <th:block th:include="normal/userbase_layout :: myscript">
+  </th:block>
 
-</div>
-</body>
+
 </html>

@@ -45,7 +45,7 @@
                     Account
                   </a>
                   <ul class="dropdown-menu p-0">
-                    <li><a class="dropdown-item" href="javascript:">Profile</a></li>
+                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
                     <li><a class="dropdown-item" href="javascript:">Settings</a></li>
                     <li>
                       <hr class="dropdown-divider">
@@ -90,8 +90,7 @@
     <script th:src="@{/../js/datatables.min.js}"></script>
     <script th:src="@{/../js/jszip.js}"></script>
     <script th:src="@{/../plugins/toastr.js}"></script>
-    <script th:src="@{/../js/adminLogic/main_category.js}"></script>
-    <script th:src="@{/../js/adminLogic/main.js}"></script>
+    <script th:src="@{/../js/userlogic/user.js}"></script>
     <script th:inline="javascript">
       $(window).on('resize', function () {
         if ($(window).width() < 768) {
