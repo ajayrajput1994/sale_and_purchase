@@ -35,7 +35,7 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" th:href="@{/admin/all-posts/0}">All Post</a>
+                  <a class="nav-link" aria-current="page" href="/user/profile">Profile</a>
                 </li>
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -92,6 +92,7 @@
     <script th:src="@{/../plugins/toastr.js}"></script>
     <script th:src="@{/../js/adminLogic/main.js}"></script>
     <script th:src="@{/../js/userlogic/user.js}"></script>
+    <script th:src="@{/../js/userlogic/renderInfo.js}"></script>
     <script th:inline="javascript">
       $(window).on('resize', function () {
         if ($(window).width() < 768) {

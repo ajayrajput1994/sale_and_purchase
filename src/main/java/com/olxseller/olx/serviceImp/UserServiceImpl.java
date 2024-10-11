@@ -55,4 +55,11 @@ public class UserServiceImpl implements UserService {
   public User findUserByEmail(String email) {
     return userRepo.getUserByUserName(email);
   }
+
+  @Override
+  public User updatePassword(User user, int id) {
+    User u=userRepo.findById(id).get();
+    u.setPassword(passwordEncoder.encode(user.getPassword()));
+    return userRepo.save(u);
+  }
 }

@@ -46,6 +46,21 @@ public class UserRestController {
 		}
 		// return null;
 	}
+
+  	@PostMapping("/password")
+	public ResponseEntity<?> changePassword(@RequestBody User user,Principal principal) {
+		System.out.println("user password:" + user);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		// String dat = sdf.format(new Date());
+		try {
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", userService.updatePassword(user, userService.findUserByEmail(principal.getName()).getId())),
+						HttpStatus.OK);
+			
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
   	@PostMapping("/Address/create")
 	public ResponseEntity<?> createUpdateUserAddress(@RequestBody UserAddress address,Principal principal) {
 		System.out.println("social:" + address);

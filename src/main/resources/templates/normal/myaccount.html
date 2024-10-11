@@ -67,10 +67,12 @@
                 <div class="card-body">
                   <div id="infoAddressDom">
                     <div class="row">
-                      <div class="col-md-6"><span><b>Name:</b></span> <span th:text="${user.name}"></span></div>
-                      <div  class="col-md-6"><b><span>Phone:</b></span> <span th:text="${user.phone}"></span></div>
-                      <div  class="col-md-6 mt-3"><b><span>Email:</b></span> <span th:text="${user.email}"></span></div>
+                      <div class="col-md-6"><span><b>Name:</b></span> <span id="info_name"></span></div>
+                      <div  class="col-md-6"><b><span>Phone:</b></span> <span id="info_phone"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Email:</b></span> <span id="info_email"></span></div>
                       <div  class="col-md-6 mt-3"><b><span>Gender:</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Other Phone:</b></span> <span id="info_ophone"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Create At:</b></span> <span id="info_create_date"></span></div>
                     </div>
                   </div>
                     <form id="userInfoForm" style="display: none;">
@@ -80,15 +82,15 @@
                       <input type="hidden" name="id" th:value="${user.id}">
                       <div class="col-md-6 mb-4">
                         <div class="md-form md-outline">
-                          <label for="name" class="">Enter Name</label>
-                          <input type="text" name="name" id="name" th:value="${user.name}" class="form-control"
+                          <label for="u_name" class="">Enter Name</label>
+                          <input type="text" name="name" id="u_name"  class="form-control"
                             required="">
                         </div>
                       </div>
                       <div class="col-md-6 mb-4">
                         <div class="md-form md-outline">
-                          <label class="active" for="email">email</label>
-                          <input type="email" name="email" id="email" th:value="${user.email}" class="form-control"
+                          <label class="active" for="u_email">email</label>
+                          <input type="email" name="email" id="u_email"  class="form-control"
                             readonly>
                         </div>
                       </div>
@@ -98,15 +100,15 @@
                     <div class="row">
                       <div class="col-md-6 mb-4">
                         <div class="md-form md-outline">
-                          <label class="active" for="phone">phone</label>
-                          <input type="text" name="phone" id="phone" th:value="${user.phone}" class="form-control"
+                          <label class="active" for="u_phone">phone</label>
+                          <input type="text" name="phone" id="u_phone" class="form-control"
                             required>
                         </div>
                       </div>
                       <div class="col-md-6 mb-4">
                         <div class="md-form md-outline">
-                          <label class="active" for="other_phone">other phone</label>
-                          <input type="text" name="other_phone" id="other_phone" th:value="${user.other_phone}"
+                          <label class="active" for="uother_phone">other phone</label>
+                          <input type="text" name="other_phone" id="uother_phone" 
                             class="form-control">
                         </div>
                       </div>
@@ -272,16 +274,29 @@
                   <h1>Change Password</h1>
                 </div>
                 <div class="card-body">
-                  <form id="passwordForm">
-
+                  <form id="passwordFormDisplay">
                     <div class="form-group">
-                      <label for="password">Password</label>
-                      <input type="password" id="password" name="password" th:value="${user.password}" class="form-control">
+                      <label >Password</label>
+                      <input type="password"  th:value="${user.password}" class="form-control" disabled>
                     </div>
                    <div class="d-flex justify-content-end">
-                    <button class="btn btn-success rounded-0">Change</button>
+                    <button type="button" class="btn btn-success btn-sm rounded-0" onclick="OpenHide('#passwordForm','#passwordFormDisplay')">Change</button>
                    </div>
-
+                  </form>
+                  <form id="passwordForm" style="display: none;">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" name="password" id="password" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                      <label for="conf_password">Confirm Password</label>
+                      <input type="text"  id="conf_password" class="form-control" >
+                    </div>
+                   <div class="d-flex justify-content-end">
+                     <button type="button" class="btn btn-secondary btn-sm rounded-0 " style="margin-right: 5px;"onclick="OpenHide('#passwordFormDisplay','#passwordForm')">Cancel</button>
+                    <button type="button" class="btn btn-success btn-sm rounded-0 mr-5" onclick="updatePassword()">Update</button>
+                   </div>
                   </form>
                 </div>
               </div>
