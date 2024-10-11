@@ -1,5 +1,122 @@
+var loadedDTA={},
+addressList=[],
+wishList=[],
+blogDict={},
+addressDict={};
+function getDictLength(obj){
+  return Object.entries(obj).length;
+}
+function loadData(){
+addressList=loadedDTA.addressList;
+wishList=loadedDTA.wishlist;
+loadedDTA.blogs.forEach(d => blogDict[d.id]=d);
+loadedDTA.addressList.forEach(d => addressDict[d.id]=d);
+console.log(addressDict);
+console.log(blogDict);
+renderArticles();
+renderAddresses();
+
+
+}
+function renderArticles(){
+  if(getDictLength(blogDict)>0){
+    let h=[];
+    $.each(blogDict,(c,d)=>{
+      console.log(d);
+      h.push({'name':`<tr><td><div class=" card border-success p-2 mb-2">
+        <div class="row ">
+        <div class="col-12">
+        <div class="card mb-3" style="margin-left: 3rem;">
+        <div class="edit_icon_right">
+          <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
+        </div>
+              <div class="row g-0">
+                <div class="col-md-3">
+                  <img src="/image/Desert.jpg" class="img-fluid rounded-start" alt="..." style="height: 10rem;
+                  display: block;
+                  position: absolute;
+                  z-index: 9;
+                  left: -30px;
+                  top: 15px;
+                  border-radius: 3%;">
+                </div>
+                <div class="col-md-9">
+                  <div class="card-body">
+                    <h5 class="card-title">${d.title}</h5>
+                    <p class="card-text card-text-line-limit">${d.description}</p>
+                    <p class="card-text"><span class="card_price">${d.price} Rs./</span><span class="cat_title">(${d.category})</span>
+                    </p>
+                    <div class="d-flex justify-content-between">
+                      <span class="wishlistDom-icon">
+                        <i class="fa-regular fa-message"><span class="counter_txt">10</span></i>
+                        <i class="fa-regular fa-thumbs-up"><span class="counter_txt">10</span></i>
+                        <i class="fa-regular fa-thumbs-down"><span class="counter_txt">10</span></i>
+                      </span>
+    
+                      <span class="wishlistDom-icon">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <span class="rating_price">4.5</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div></td></tr>`});
+        });
+        let tb=`<table id="myTable" class="table table-strip  display" style="width:100%">
+        <tbody></tbody></table>`;
+        $('#articleRowDom').html(tb);
+    $('#myTable').DataTable( {
+      "pageLength": 10,
+      bFilter: false,
+      lengthChange: false,
+      // bInfo: false,
+      // paging: false,
+      data: h,
+      columns: [
+        { data: 'name',width:'100%' }
+      ]
+    } );
+    }else{
+      $('#articleRowDom').html(`<h5 class="text-center">No Article found!</br>Create New Articles.</h5>`)
+    }
+}
+function renderAddresses(){
+if(getDictLength(addressDict)>0){
+  let h=[];
+    $.each(addressDict,(c,d)=>{
+    h.push(`<div class=" card border-success p-2 mt-2">
+      <div class="edit_icon_right">
+        <a href="javascript:" id="addressEditBtn" onclick="editAddress(${d.id})" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
+      </div>
+      <div class="row ">
+      <div class="col-md-6"><span><b>Name:</b></span> <span>${d.name}</span=></div>
+      <div  class="col-md-6"><b><span>Phone:</b></span> <span>${d.phone}</span></div>
+      <div  class="col-md-6"><b><span>Pincode:</b></span> <span>${d.pin_code}</span></div>
+      <div  class="col-md-6"><b><span>Landmark:</b></span> <span>${d.landmark}</span></div>
+      <div  class="col-md-6"><b><span>City:</b></span> <span>${d.city}</span></div>
+      <div  class="col-md-6"><b><span>State:</b></span> <span>${d.state}</span></div>
+      <div  class="col-md-6"><b><span>Region:</b></span> <span>${d.region}</span></div>
+      <div  class="col-md-6"><b><span>Phone (Optional):</b></span> <span>${d.other_phone}</span></div>
+      <div  class="col-md-12"><b><span>Address:</b></span> <span>${d.address}</span></div>
+      <div  class="col-md-6"><b><span>Type:</b></span> <span class="badge text-bg-danger">${d.address_type}</span></div>
+      </div>
+      </div>`);
+      });
+    $('#addressFormDom').html(h.join(''));
+  }else{
+    $('#addressFormDom').html(`<h5 class="text-center">No Address found!</br>Create New Address.</h5>`)
+  }
+}
 function operDom(v) {
-  $("#personalDom,#addressDom,#wishlistDom,#passwordDom,#settingDom").hide();
+  $("#personalDom,#addressDom,#wishlistDom,#passwordDom,#settingDom,#articleDom").hide();
   if (v == "personal") {
     $("#personalDom").show();
   } else if (v == "address") {
@@ -10,5 +127,74 @@ function operDom(v) {
     $("#passwordDom").show();
   } else if (v == "setting") {
     $("#settingDom").show();
+  } else if (v == "article") {
+    $("#articleDom").show();
   }
+}
+function OpenHide(show,hide){
+  $(show).show();
+  $(hide).hide();
+}
+function addressForm(v){
+  if(v){
+    OpenHide('#addressForm, #addressBackBtn','#addressFormDom,#addressEditBtn');
+  }else{
+    $('#addressForm')[0].reset();
+    OpenHide('#addressFormDom,#addressEditBtn','#addressForm, #addressBackBtn');
+  }
+}
+function editAddress(v){
+  OpenHide('#addressForm, #addressBackBtn','#addressFormDom,#addressEditBtn');
+  let address=addressDict[v];
+  $('#ad_id').val(address.id);
+  $('#ad_name').val(address.name);
+  $('#ad_phone').val(address.phone);
+  $('#pin_code').val(address.pin_code);
+  $('#landmark').val(address.landmark);
+  $('#address').val(address.address);
+  $('#city').val(address.city);
+  $('#state').val(address.state);
+  $('#region').val(address.region);
+  $('#other_phone').val(address.other_phone);
+  if(address.address_type=='work'){
+    $('#work').prop('checked',true);
+  }
+}
+function infoForm(v){
+  if(v){
+    OpenHide('#userInfoForm, #infoBackBtn','#infoAddressDom,#infoEditBtn');
+  }else{
+    OpenHide('#infoAddressDom,#infoEditBtn','#userInfoForm, #infoBackBtn');
+  }
+}
+
+function addAddress(){
+  createPostRequest('addressForm','/user/Address/create','addAddressCB');
+}
+function addAddressCB(r){
+  console.log(r);
+  let dta=r.data,
+  d=addressDict[dta.id];
+  d['name']=dta.name;
+  d['phone']=dta.phone;
+  d['landmark']=dta.landmark;
+  d['pin_code']=dta.pin_code;
+  d['other_phone']=dta.other_phone;
+  d['region']=dta.region;
+  d['state']=dta.state;
+  d['city']=dta.city;
+  d['address']=dta.address;
+  d['address_type']=dta.address_type;
+  // addressDict[dta.id]=d;
+  $('#addressForm')[0].reset();
+  renderAddresses();
+  addressForm(false);
+}
+
+function updateInfo(){
+  createPostRequest('userInfoForm','/user/info','infoCB');
+}
+function infoCB(r){
+  console.log(r);
+  infoForm(false);
 }

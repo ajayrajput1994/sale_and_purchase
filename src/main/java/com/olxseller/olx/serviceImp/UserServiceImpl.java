@@ -28,10 +28,11 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updateUser(User user, int id) {
     User u=userRepo.findById(id).get();
-    u.setEmail(user.getEmail());
+    // u.setEmail(user.getEmail());
     u.setName(user.getName());
     u.setPhone(user.getPhone());
-    u.setPassword(passwordEncoder.encode(user.getPassword()));
+    u.setOther_phone(user.getOther_phone());
+    // u.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepo.save(u);
   }
 

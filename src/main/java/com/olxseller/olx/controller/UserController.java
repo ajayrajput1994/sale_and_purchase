@@ -8,6 +8,8 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -27,12 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.helper.Message;
+import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.StateService;
+import com.olxseller.olx.service.UserAddressService;
 import com.olxseller.olx.service.UserService;
 
 @Controller
@@ -43,7 +47,10 @@ public class UserController {
 	private UserService userservice;
 	@Autowired
 	private BlogService blogService;
-
+	@Autowired
+	private UserAddressService AddressService;
+	@Autowired
+	public ResponseData responseData;
 	@Autowired
 	private BlogRepository blogRepo;
 	@Autowired
@@ -79,8 +86,18 @@ public class UserController {
 
 	// user profile
 	@GetMapping("/profile")
-	public String userprofile(Model model) {
+	public String userprofile(Model model,Principal principal) {
+		User user=userservice.findUserByEmail(principal.getName());
+		Map<String,Object> map=new HashMap<>();
+		System.out.println(user.getAddresses());
+		map.put("addressList", user.getAddresses());
+		map.put("wishlist", user.getWishList());
+		map.put("blogs", user.getBlog());
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		// System.out.println(map);
+		model.addAttribute("data", dta);
 		model.addAttribute("title", "user profile info");
+
 		return "normal/myaccount";
 	}
 

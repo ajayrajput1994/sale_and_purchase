@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.WebPage;
-import com.olxseller.olx.service.*;
+import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.CityService;
+import com.olxseller.olx.service.ContactService;
+import com.olxseller.olx.service.EmailService;
+import com.olxseller.olx.service.SocialService;
+import com.olxseller.olx.service.StateService;
+import com.olxseller.olx.service.SubCategoryService;
+import com.olxseller.olx.service.UserService;
+import com.olxseller.olx.service.WebAddressService;
+import com.olxseller.olx.service.WebPageService;
 
 @Controller
 public class PageController {

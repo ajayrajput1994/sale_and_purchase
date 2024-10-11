@@ -17,6 +17,9 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 
 	@Query("from Blog as b where b.user.id=:userId")
 	public Page<Blog> findBlogsByUser(@Param("userId") int userId, Pageable pageable);
+
+	@Query("from Blog as b where b.user.id=:userId")
+	public List<Blog> findBlogsByUId(@Param("userId") int userId);
     
 	@Query(value="select * from blog",nativeQuery=true)
 	public Page<Blog> getAllBlogs(Pageable pageable);

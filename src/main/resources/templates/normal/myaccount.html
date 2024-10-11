@@ -9,6 +9,11 @@
   <body>
     <div class="container" th:replace="~{normal/userbase_layout :: contentDom}">
       <div id="myContent">
+        <style>
+          input, textarea{
+            text-transform: uppercase !important;
+          }
+        </style>
         <div class="container-fluid">
           <div class="row">
             <section class="col-md-4">
@@ -51,12 +56,25 @@
             <!-- Section: Inputs -->
             <section class="section col-md-8 mb-5 mt-3  ">
               <div class="card rounded-0" id="personalDom">
-                <div class="card-header text-bg-primary rounded-0">
+                <div class="card-header text-bg-primary rounded-0 d-flex justify-content-between">
                   <h1>Personal Information</h1>
+                  <div class="mt-3">
+                    <a href="javascript:" id="infoEditBtn" onclick="infoForm(true)" style="color: white;margin-top: 18px;">Edit</a>
+                    <a href="javascript:" id="infoBackBtn"  onclick="infoForm(false)" style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
+
                 </div>
                 <div class="card-body">
-                  <form id="userInfoForm">
-                    <!-- Section heading -->
+                  <div id="infoAddressDom">
+                    <div class="row">
+                      <div class="col-md-6"><span><b>Name:</b></span> <span th:text="${user.name}"></span></div>
+                      <div  class="col-md-6"><b><span>Phone:</b></span> <span th:text="${user.phone}"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Email:</b></span> <span th:text="${user.email}"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Gender:</b></span> <span>Not Define</span></div>
+                    </div>
+                  </div>
+                    <form id="userInfoForm" style="display: none;">
+                      <!-- Section heading -->
                     <!-- Grid row -->
                     <div class="row">
                       <input type="hidden" name="id" th:value="${user.id}">
@@ -95,17 +113,102 @@
                     </div>
                     <!-- Grid row -->
                     <div class="d-flex justify-content-end">
-                      <button type="submit" class="btn btn-primary rounded-0 btn-sm px-5 py-2">submit</button>
+                      <button type="button" class="btn btn-success rounded-0 btn-sm px-5 py-2" onclick="updateInfo()">Update</button>
                     </div>
                   </form>
                 </div>
               </div>
 
               <div class="card rounded-0" id="addressDom" style="display: none;">
-                <div class="card-header text-bg-success rounded-0">
+                <div class="card-header text-bg-success rounded-0 d-flex justify-content-between">
                   <h1>Address</h1>
+                  <div class="mt-3">
+                    <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)" style="color: white;margin-top: 18px;">Add New</a>
+                    <a href="javascript:" id="addressBackBtn"  onclick="addressForm(false)" style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
                 </div>
                 <div class="card-body">
+                  <div id="addressFormDom">
+                    <div class=" card border-success p-2">
+                      <div class="edit_icon_right">
+                        <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
+                      </div>
+                    <div class="row ">
+                      <div class="col-md-6"><span><b>Name:</b></span> <span th:text="${user.name}"></span></div>
+                      <div  class="col-md-6"><b><span>Phone:</b></span> <span th:text="${user.phone}"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Pincode:</b></span> <span th:text="${user.email}"></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Landmark:</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-12 mt-3"><b><span>Address:</b></span> <span></span></div>
+                      <div  class="col-md-6 mt-3"><b><span>City:</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-6 mt-3"><b><span>State:</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Region:</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Phone (Optional):</b></span> <span>Not Define</span></div>
+                      <div  class="col-md-6 mt-3"><b><span>Type:</b></span> <span class="badge text-bg-danger">Work</span></div>
+                    </div>
+                    </div>
+                  </div>
+                  <form id="addressForm" style="display: none;">
+                    <input type="hidden" name="id" id="ad_id">
+                    <input type="hidden" name="uid" id="uid">
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="ad_name">Name</label>
+                        <input type="text" id="ad_name" name="name" class="form-control" style="text-transform: uppercase;">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="ad_phone">Phone</label>
+                        <input type="number" id="ad_phone" name="phone" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="pin_code">Pincode</label>
+                        <input type="text" id="pin_code" name="pin_code" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="landmark">Landmark</label>
+                        <input type="text" id="landmark" name="landmark" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="region">Region</label>
+                        <input type="text" id="region" name="region" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="other_phone">Other Phone (Optional)</label>
+                        <input type="text" id="other_phone" name="other_phone" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="address">Address</label>
+                      <textarea id="address" name="address" rows="2" class="form-control"></textarea>
+                    </div>
+                    <div class="row">
+                      <!-- <div class="ml-1 mb-1">Address Type</div> -->
+                      <div class="form-group col-md-2">
+                        <input type="radio" class="btn-check" name="address_type" value="home" id="home" autocomplete="off" checked>
+<label class="btn btn-outline-secondary rounded-pill px-5" for="home">Home</label>
+                      </div>
+                      <div class="form-group col-md-2">
+                        <input type="radio" class="btn-check" name="address_type" value="work" id="work" autocomplete="off">
+<label class="btn btn-outline-secondary rounded-pill px-5" for="work">Work</label>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-success rounded-0 " onclick="addAddress()">Submit</button>
+                    </div>
+                  </form>
                 </div>
               </div>
               <div class="card rounded-0" id="wishlistDom" style="display: none;">
@@ -134,14 +237,14 @@
                               <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
                               </p>
                               <div class="d-flex justify-content-between">
-                                <span>
+                                <span class="wishlistDom-icon">
                                   <i class="fa-regular fa-message"></i>
                                   <i class="fa-solid fa-heart"></i>
                                   <i class="fa-regular fa-thumbs-up"></i>
                                   <i class="fa-regular fa-thumbs-down"></i>
                                 </span>
 
-                                <span>
+                                <span class="wishlistDom-icon">
                                   <i class="fa-solid fa-star"></i>
                                   <i class="fa-solid fa-star"></i>
                                   <i class="fa-solid fa-star-half-stroke"></i>
@@ -157,11 +260,29 @@
                   </div>
                 </div>
               </div>
+              <div class="card rounded-0" id="articleDom" style="display: none;">
+                <div class="card-header text-bg-success rounded-0">
+                  <h1>Articles</h1>
+                </div>
+                <div class="card-body" id="articleRowDom">
+                </div>
+              </div>
               <div class="card rounded-0" id="passwordDom" style="display: none;">
                 <div class="card-header text-bg-info rounded-0">
                   <h1>Change Password</h1>
                 </div>
                 <div class="card-body">
+                  <form id="passwordForm">
+
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" id="password" name="password" th:value="${user.password}" class="form-control">
+                    </div>
+                   <div class="d-flex justify-content-end">
+                    <button class="btn btn-success rounded-0">Change</button>
+                   </div>
+
+                  </form>
                 </div>
               </div>
               <div class="card rounded-0" id="settingDom" style="display: none;">
@@ -184,6 +305,19 @@
 </div> -->
   <th:block th:include="normal/userbase_layout :: myscript">
   </th:block>
-
+  <script th:inline="javascript">
+    $(function(){
+      /*<![CDATA[*/
+      var dta = /*[[${data}]]*/ "";
+      // alert(value);
+      /*]]*/
+      if(dta){
+        var data = JSON.parse(dta);
+        console.log(data);
+        loadedDTA=data.data;
+        loadData();
+      }
+    });
+  </script>
 
 </html>

@@ -53,10 +53,15 @@ public class User implements Serializable {
 	
 	@NotNull
 	private String update_at;
+	@NotNull
+	private String wishList="[default]";
 	
 	@NotNull
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
 	private List<Blog> blog=new ArrayList<>();
+	@NotNull
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
+	private List<UserAddress> addresses=new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -144,6 +149,22 @@ public class User implements Serializable {
 
 	public void setBlog(List<Blog> blog) {
 		this.blog = blog;
+	}
+
+	public List<UserAddress> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<UserAddress> addresses) {
+		this.addresses = addresses;
+	}
+
+	public String getWishList() {
+		return wishList;
+	}
+
+	public void setWishList(String wishList) {
+		this.wishList = wishList;
 	}
 
 	public User() {

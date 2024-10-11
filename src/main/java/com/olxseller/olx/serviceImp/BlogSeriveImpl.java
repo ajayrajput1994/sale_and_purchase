@@ -103,6 +103,11 @@ public class BlogSeriveImpl implements BlogService {
 	public Blog getBlogDetailByTitle(String name) {
 		return blogRepo.getBlogByName(name);	
 	}
+
+	@Override
+	public List<Blog> getBlogsByUserId(int uid) {
+		return blogRepo.findBlogsByUId(uid);
+		}
 		
   
 }

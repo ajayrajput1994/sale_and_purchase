@@ -11,6 +11,8 @@ public interface BlogService {
 	
 	public List<Blog> getAllBlogs();
 
+	public List<Blog> getBlogsByUserId(int uid);
+
 	public Blog getBlogById(int id);
 
 	public Blog getBlogDetailByTitle(String name);
