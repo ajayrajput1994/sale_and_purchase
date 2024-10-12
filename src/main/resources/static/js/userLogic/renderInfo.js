@@ -82,24 +82,15 @@ function renderArticles(){
   if(getDictLength(blogDict)>0){
     let h=[];
     $.each(blogDict,(c,d)=>{
-      h.push({'name':`<tr><td><div class=" card border-success p-2 mb-2">
-        <div class="row ">
-        <div class="col-12">
-        <div class="card mb-3" style="margin-left: 3rem;">
+      h.push({'name':`<tr><td><div class="card">
         <div class="edit_icon_right">
           <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
               <div class="row g-0">
-                <div class="col-md-3">
-                  <img src="/image/Desert.jpg" class="img-fluid rounded-start" alt="..." style="height: 10rem;
-                  display: block;
-                  position: absolute;
-                  z-index: 9;
-                  left: -30px;
-                  top: 15px;
-                  border-radius: 3%;">
+                <div class="blog_img">
+                  <img src="/image/Desert.jpg" class="img-fluid rounded-start article_absolute_img" alt="..." >
                 </div>
-                <div class="col-md-9">
+                <div class="blog_detail">
                   <div class="card-body">
                     <h5 class="card-title">${d.title}</h5>
                     <p class="card-text card-text-line-limit">${d.description}</p>
@@ -124,12 +115,9 @@ function renderArticles(){
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        </div></td></tr>`});
+            </div></td></tr>`});
         });
-        let tb=`<table id="myTable" class="table table-strip  display" style="width:100%">
+        let tb=`<table id="myTable" class="table table-hover display" style="width:100%">
         <tbody></tbody></table>`;
         $('#articleRowDom').html(tb);
     $('#myTable').DataTable( {
@@ -156,16 +144,16 @@ if(getDictLength(addressDict)>0){
         <a href="javascript:" id="addressEditBtn" onclick="editAddress(${d.id})" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
       </div>
       <div class="row ">
-      <div class="col-md-6"><span><b>Name:</b></span> <span>${d.name}</span=></div>
-      <div  class="col-md-6"><b><span>Phone:</b></span> <span>${d.phone}</span></div>
-      <div  class="col-md-6"><b><span>Pincode:</b></span> <span>${d.pin_code}</span></div>
-      <div  class="col-md-6"><b><span>Landmark:</b></span> <span>${d.landmark}</span></div>
-      <div  class="col-md-6"><b><span>City:</b></span> <span>${d.city}</span></div>
-      <div  class="col-md-6"><b><span>State:</b></span> <span>${d.state}</span></div>
-      <div  class="col-md-6"><b><span>Region:</b></span> <span>${d.region}</span></div>
-      <div  class="col-md-6"><b><span>Phone (Optional):</b></span> <span>${d.other_phone}</span></div>
+      <div class="col-width"><span><b>Name:</b></span> <span>${d.name}</span=></div>
+      <div  class="col-width"><b><span>Phone:</b></span> <span>${d.phone}</span></div>
+      <div  class="col-width"><b><span>Pincode:</b></span> <span>${d.pin_code}</span></div>
+      <div  class="col-width"><b><span>Landmark:</b></span> <span>${d.landmark}</span></div>
+      <div  class="col-width"><b><span>City:</b></span> <span>${d.city}</span></div>
+      <div  class="col-width"><b><span>State:</b></span> <span>${d.state}</span></div>
+      <div  class="col-width"><b><span>Region:</b></span> <span>${d.region}</span></div>
+      <div  class="col-width"><b><span>Phone (Optional):</b></span> <span>${d.other_phone}</span></div>
       <div  class="col-md-12"><b><span>Address:</b></span> <span>${d.address}</span></div>
-      <div  class="col-md-6"><b><span>Type:</b></span> <span class="badge text-bg-danger">${d.address_type}</span></div>
+      <div  class="col-width"><b><span>Type:</b></span> <span class="badge text-bg-danger">${d.address_type}</span></div>
       </div>
       </div>`);
       });

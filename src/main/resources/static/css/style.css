@@ -217,6 +217,15 @@ ul.li_padding li{
   border-radius: 46px;
   padding: 0px 8px 3px 7px;
 }
+.article_absolute_img{
+  height: 100% !important;
+  display: block;
+  /* position: absolute; */
+  z-index: 9;
+  left: -30px;
+  top: 15px;
+  border-radius: 3%;
+}
 /* filter scc */
 .selected-icon{
   margin-left: 6px;
@@ -238,4 +247,50 @@ ul.li_padding li{
   position:absolute;
   top:0;
   right:10px
+}
+/* desktop  width style*/
+@media (width >= 375px) {
+  .blog_img{
+    width: 30% !important;
+  }
+  .blog_detail{
+    width: 70% !important;
+  }
+  .col-width{
+  width: 50% !important;
+  }
+  .col-width-sm100{
+  width: 50% !important;
+  }
+  .col3-width{
+  width: 33.3% !important;
+  }
+  .col4-width{
+  width: 25% !important;
+  }
+}
+/* less then mobile  width style*/
+@media (width <= 375px) {
+  .col-width, .col3-width, .col4-width,.col-width-sm100{
+    width: 100% !important;
+    }
+}
+/* mobile  width style*/
+@media (375px <= width <= 479px) {
+  .col-width-sm100{
+    width: 100% !important;
+    }
+  .col3-width, .col4-width{
+    width: 50% !important;
+    }
+  
+}
+
+/*  medium tablet  width style*/
+@media (479px <= width <= 767px) {
+  /* … */
+}
+/*  large tablet  width style*/
+@media (767px <= width <= 991px) {
+  /* … */
 }

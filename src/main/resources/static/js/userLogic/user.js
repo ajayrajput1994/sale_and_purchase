@@ -58,22 +58,31 @@ function infoCB(r){
 
 function updatePassword(){
 let pass1=$('#password').val(),
- pass2=$('#conf_password').val();
+ pass2=$('#conf_password').val(),
+ isTrue=true;
  if(pass1=="" || pass1==null){
+  isTrue=false;
   toastr.warning("Password can't Empty");
  }
  if(pass2=="" || pass2==null){
+  isTrue=false;
    toastr.warning("Confirm Password can't Empty");
   }
   if(pass1.length<4){
+    isTrue=false;
    toastr.warning("Password length must be 4 Character");
  }
   if(pass1!=pass2){
+    isTrue=false;
    toastr.warning("Confirm password is not matched");
  }
- createPostRequest('passwordForm','/user/password','updatePasswordCB');
+ if(isTrue){
+   createPostRequest('passwordForm','/user/password','updatePasswordCB');
+ }
 }
+
 function updatePasswordCB(r){
   console.log(r);
+  $('#passwordForm')[0].reset();
   OpenHide('#passwordForm','#passwordFormDisplay');
 }
