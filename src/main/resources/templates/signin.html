@@ -40,7 +40,8 @@
 							You have been logged out !
 							</div>
 								<form th:action="@{/login_process}" method="post" th:object="${logindata}">
-								<!-- Email input -->
+								<input type="hidden" name="wishList" id="wishList" >
+									<!-- Email input -->
 								<div class="form-group">
 								<label class="form-label" for="email">Email address</label>
 									<input type="text" name="username" id="email" th:value="${logindata?.email}"  class="form-control " th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
@@ -104,7 +105,11 @@
   </body>
   <th:block th:include="base_layout :: myscript">
   </th:block>
- 
+	<script th:inline="javascript">
+    $(function(){
+		 $('#wishList').val(JSON.stringify(getCookie('mywishlist')));
+    });
+  </script>
   
 
 </html>

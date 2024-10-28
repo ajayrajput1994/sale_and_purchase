@@ -173,16 +173,7 @@ public class BlogController {
 			return "citypage";
 		}
 	 
-	// add new post
-	@GetMapping("/new-post")
-	public String addNewPost(Model m) {
-		m.addAttribute("title","cteate new post for selling ");
-		m.addAttribute("keyword","cteate new post for selling ");
-		m.addAttribute("description","cteate new post for selling ");
-		m.addAttribute("blog", new UserAndPost());
-		return "newpost";
-	}
-	
+
 	//ajax call this function
 	@GetMapping("/getSubByCat")
 	public @ResponseBody List<SubCategory> fetchCats(@RequestParam("cat") String cat){
@@ -251,6 +242,8 @@ public class BlogController {
 				u.setPassword(passwordEncoder.encode(blog.getEmail()));
 				u.setCreate_at(dat);
 				u.setUpdate_at(dat);
+				u.setPasscode(blog.getPasscode());
+				u.setWishList("{}");
 				User usr=this.userRepo.save(u);
 				//System.out.print("Saved user data ::::"+usr);
 				
@@ -293,6 +286,7 @@ public class BlogController {
 					
 					Path path = Paths.get(savefile.getAbsolutePath() + File.separator + image.getOriginalFilename());
 					Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+					System.out.println("img path:"+path);
 					//System.out.println("image real path "+ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(image.getOriginalFilename()).toUriString());
 				}
 				if (!image1.isEmpty()) {

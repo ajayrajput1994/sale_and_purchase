@@ -23,6 +23,7 @@ import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.model.User;
+import com.olxseller.olx.model.UserAndPost;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
@@ -152,6 +153,7 @@ public class PageController {
 		if(activename==null){
 			session.setAttribute("username", logindata.getEmail());
 		}
+		System.out.println("wishlist"+logindata.getWishList());
 		System.out.println("login:"+activename);
 		model.addAttribute("title", logindata.getEmail());
 		model.addAttribute("subtitle", logindata.getPassword());
@@ -295,6 +297,21 @@ public class PageController {
 			return "contact";
 		}
 
+	}
+	// add new post
+	@GetMapping("/new-post")
+	public String addNewPost(Model m) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("cats", catService.getAllMainCategory());
+		map.put("subcat", subcatService.getAllSubcat());
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		m.addAttribute("dta",dta);
+		m.addAttribute("mainCates",catService.getAllMainCategory());
+		m.addAttribute("title","cteate new post for selling ");
+		m.addAttribute("keyword","cteate new post for selling ");
+		m.addAttribute("description","cteate new post for selling ");
+		m.addAttribute("blog", new UserAndPost());
+		return "newpost";
 	}
 
 	@GetMapping("/{title}")

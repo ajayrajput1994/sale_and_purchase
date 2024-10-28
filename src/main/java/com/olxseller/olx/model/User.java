@@ -54,6 +54,8 @@ public class User implements Serializable {
 	@NotNull
 	private String update_at;
 	@NotNull
+	private String passcode;
+	@NotNull
 	private String wishList="[default]";
 	
 	@NotNull
@@ -167,6 +169,15 @@ public class User implements Serializable {
 		this.wishList = wishList;
 	}
 
+	
+	public String getPasscode() {
+		return passcode;
+	}
+
+	public void setPasscode(String passcode) {
+		this.passcode = passcode;
+	}
+
 	public User() {
 		super(); 
 	}
@@ -181,7 +192,7 @@ public class User implements Serializable {
 
 	public User(int id, String name,String email,
 			String phone, String other_phone,String password,
-			String image, String role, Boolean enabled, Boolean agreed,String create_at,String update_at, List<Blog> blog) {
+			String image, String role, Boolean enabled, Boolean agreed,String create_at,String update_at,String passcode, List<Blog> blog) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -195,14 +206,16 @@ public class User implements Serializable {
 		this.agreed = agreed;
 		this.create_at=create_at;
 		this.update_at=update_at;
+		this.passcode=passcode;
 		this.blog = blog;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", other_phone="
-				+ other_phone + ", password=" + password + ", image=" + image + ", role=" + role + ", enabled="
-				+ enabled + ", agreed=" + agreed +", create_at=" + create_at +", update_at=" + update_at + "]";
+				+ other_phone + ", password=" + password + ", image=" + image + ", role=" + role + ", enabled=" + enabled
+				+ ", agreed=" + agreed + ", create_at=" + create_at + ", update_at=" + update_at + ", passcode=" + passcode
+				+ ", wishList=" + wishList + ", addresses=" + addresses + "]";
 	}
 
 	public String getCreate_at() {
@@ -220,9 +233,5 @@ public class User implements Serializable {
 	public void setUpdate_at(String update_at) {
 		this.update_at = update_at;
 	}
-
-
-
-
 	
 }

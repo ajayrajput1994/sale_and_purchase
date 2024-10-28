@@ -23,6 +23,7 @@ public class UserAddress {
   private String pin_code="";
   private String address="";
   private String landmark="";
+  private String active="";
   private String address_type="";
   @ManyToOne(cascade = CascadeType.ALL)
   @JsonIgnore
@@ -101,12 +102,18 @@ public class UserAddress {
   public void setUser(User user) {
     this.user = user;
   }
+  public String getActive() {
+    return active;
+  }
+  public void setActive(String active) {
+    this.active = active;
+  }
   public UserAddress(){
     super();
   }
 
   public UserAddress(int id, String name, String city, String state, String region, String phone, String other_phone,
-      String pin_code, String address, String landmark, String address_type, User user) {
+      String pin_code, String address, String landmark,String active, String address_type, User user) {
     this.id = id;
     this.name = name;
     this.city = city;
@@ -118,13 +125,16 @@ public class UserAddress {
     this.address = address;
     this.landmark = landmark;
     this.address_type = address_type;
+    this.active = active;
     this.user = user;
   }
   @Override
   public String toString() {
     return "UserAddress [id=" + id + ", name=" + name + ", city=" + city + ", state=" + state + ", region=" + region
         + ", phone=" + phone + ", other_phone=" + other_phone + ", pin_code=" + pin_code + ", address=" + address
-        + ", landmark=" + landmark + ", address_type=" + address_type + ", user=" + user + "]";
+        + ", landmark=" + landmark + ", active=" + active + ", address_type=" + address_type + ", user=" + user + "]";
   }
+ 
+ 
 
 }

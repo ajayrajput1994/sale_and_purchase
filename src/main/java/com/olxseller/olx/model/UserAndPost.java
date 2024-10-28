@@ -68,6 +68,8 @@ public class UserAndPost {
 	private String  phone;
 	@NotNull
 	private String other_number;
+	@NotNull
+	private String passcode;
 
 	public int getId() {
 		return id;
@@ -286,5 +288,13 @@ public class UserAndPost {
 				+ image2 + ", image3=" + image3 + ", image4=" + image4 + ", image5=" + image5 + ", image6=" + image6
 				+ ", region=" + region + ", regionState=" + regionState + ", city=" + city + ", address=" + address
 				+ ", name=" + name + ", email=" + email + ", phone=" + phone + ", other_number=" + other_number + "]";
+	}
+
+	public String getPasscode() {
+		return passcode;
+	}
+
+	public void setPasscode(String passcode) {
+		this.passcode = passcode;
 	}
 }

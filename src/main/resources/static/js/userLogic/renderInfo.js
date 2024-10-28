@@ -98,6 +98,7 @@ function renderArticles(){
                     </p>
                     <div class="d-flex justify-content-between">
                       <span class="wishlistDom-icon">
+                      <i class="fa-regular fa-envelope"><span class="counter_txt">10</span></i>
                         <i class="fa-regular fa-message"><span class="counter_txt">10</span></i>
                         <i class="fa-regular fa-thumbs-up"><span class="counter_txt">10</span></i>
                         <i class="fa-regular fa-thumbs-down"><span class="counter_txt">10</span></i>

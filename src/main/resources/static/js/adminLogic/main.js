@@ -166,3 +166,57 @@ function formValidate(formid){
   }
   return true;
 }
+
+function getDictLength(obj){
+  return Object.entries(obj).length;
+}
+
+function getUniqueId(length){
+  return Math.random().toString(36).substring(2, length + 2);
+}
+
+function setCookies(key, value) {
+  const date = new Date();
+  document.cookie = `${key}=${value}; expires=${new Date(date.getFullYear(), date.getMonth(), 29, 11, 0, 0).toUTCString()}; secure=true`;
+}
+
+
+function getCookie(key) {
+  // clearAllCookies();
+  let cookieDict={};
+  const cookiesArray = document.cookie.split('; ');
+  for (const cookie of cookiesArray) {
+    const [name, value] = cookie.split('=');
+    if (name === key) {
+      let data=[];
+      $.each(JSON.parse(value),(kt,dt)=>{
+        dt.forEach(d=>{
+          if(getDictLength(d)>0){
+            data.push(d);
+          }
+        });
+        cookieDict[kt]=data;
+      });
+      return cookieDict;
+    }
+  }
+  return cookieDict; // Return null if the cookie is not found
+}
+function clearAllCookies() {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [name] = cookie.trim().split('=');
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+  }
+}
+
+function getAllUniqueKeysFromListOfMap(arrayOfObjects) {
+  const allKeys = new Set();
+  console.log(arrayOfObjects);
+  arrayOfObjects.forEach(obj => {
+    const keys = Object.keys(obj);
+    keys.forEach(key => allKeys.add(key));
+  });
+
+  return Array.from(allKeys);
+}

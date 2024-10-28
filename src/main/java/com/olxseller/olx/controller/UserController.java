@@ -89,7 +89,7 @@ public class UserController {
 	public String userprofile(Model model,Principal principal) {
 		User user=userservice.findUserByEmail(principal.getName());
 		Map<String,Object> map=new HashMap<>();
-		System.out.println(user.getAddresses());
+		// System.out.println(user.getAddresses());
 		map.put("user", user);
 		map.put("addressList", user.getAddresses());
 		map.put("wishlist", user.getWishList());

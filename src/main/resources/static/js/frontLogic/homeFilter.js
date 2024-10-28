@@ -5,10 +5,11 @@ var loadedDTA = {},
   cityList = [],
   blogList = [],
   isShort='',
-  stateTitle='';
+  stateTitle='',
+  passcode='';
 
 function loadData() {
-  console.log('url:',window.location.pathname.replace('%20',' ').replace('/',''));
+  // console.log('url:',window.location.pathname.replace('%20',' ').replace('/',''));
   stateTitle=window.location.pathname.replace('%20',' ').replace('/','');
   catList = loadedDTA.cats;
   subcatList = loadedDTA.subcats;
@@ -18,7 +19,7 @@ function loadData() {
   // let h =showBlogs(blogList);
   blogList.forEach(d=>{
     d['date']=Date.parse(d.update_at);
-    console.log(d.date);
+    // console.log(d.date);
   })
   // $("#recordDom").html(showBlogs(blogList).join(""));
  
@@ -71,6 +72,7 @@ function loadData() {
   });
   $("#cityDom").html(ct.join(""));
   filterData();
+  
 }
 // {
   //   "id": 2,
@@ -176,26 +178,32 @@ function filterData() {
   }else{
     $("#recordDom").html(showBlogs(blogList).join(""));
   }
-  console.log(uniqBlogList);
+  // console.log(uniqBlogList);
 }
 
 
 function showBlogs(dataList){
   dataList=shortBy(dataList);
-  let h=[];
+  let h=[],cookie=[];
   $('#result-count').html(`Total: ${dataList.length}`);
+  cookie= Object.values(getCookie('mywishlist'));
+  let list=getAllUniqueKeysFromListOfMap(cookie[0]);
   dataList.forEach((e) => {
+    let isWishList=false;
+    if(list.includes(`${e.id}`)){
+      isWishList=true;
+    }
     h.push(`<div class="col-md-4 mt-2" >
     <div class="card card-b">
       <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> -->
       <img src="/image/${e.image}"  class="card-img-top" alt="...">
       <div class="card-body">
-        <a href="/${e.title}" class="card-title stretched-link card-title-line-limit"><h6>${e.title}</h6></a>
+        <a href="/${e.title}" class="card-title  card-title-line-limit"><h6>${e.title}</h6></a>
         <span class="card_price">${e.price} Rs/-</span><span class="cat_title">(${e.category})</span>
         <p class="card-text card-text-line-limit">${e.description}</p>
       </div>
       <div class="card-footer d-flex justify-content-between bg-white">
-        <div class="card-link"><i class="fas fa-heart mr-2"></i>${e.update_at}</div>
+        <div class="card-link"><i class="fas fa-heart mr-2" id="${e.id}" style="color:${isWishList?'red':'grey'}" onclick="gotoWishlist(this)"></i>${e.update_at}</div>
         <div class="card-link"><span >${e.city}</span> <i class="fas fa-map-marker-alt ml-1"></i></div>
       </div>
     </div>
@@ -237,3 +245,99 @@ function getShort(v){
   isShort=v.dataset.name;
   filterData();
 }
+
+function gotoWishlist(value){
+  // clearAllCookies();
+  // console.log(value);
+  const d=new Date();
+  let v=parseInt(value.id),
+   date=`${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`,
+   dta={},
+  cookie=getCookie('mywishlist');
+ if(getDictLength(cookie)>0){
+   $.each(cookie,(key,listOfMap)=>{
+    let keys=getAllUniqueKeysFromListOfMap(listOfMap);
+    // console.log(key);
+    // console.log(listOfMap);
+    if(keys.includes(`${v}`)){
+      listOfMap.forEach(d=>{
+        if(d.hasOwnProperty(v)){
+          delete d[v];
+          $(`#${v}`).attr('style', 'color: grey !important');
+        }
+      })
+    }else{
+      dta[v]=date;
+      listOfMap.push(dta);
+      $(`#${v}`).attr('style', 'color: red !important');
+    }
+    cookie[key]=listOfMap;
+    setCookies('mywishlist',JSON.stringify(cookie));
+    console.log('inside...',cookie);
+  })
+}else{
+  if(passcode!=""){
+  swal({
+      title: 'Provide Sign Up Passcode',
+      text: "It's required for activities without login!",
+      content: {
+          element: 'input',
+          attributes: {
+              placeholder: 'Type your passcode here',
+              type: 'number',
+          },
+      },
+      buttons: {
+          cancel: true,
+          confirm: {
+              text: 'Submit',
+              closeModal: false,
+          },
+      },
+    }).then((value) => {
+        if (value) {
+          passcode=value;
+            swal(`Thanks for your passcode: ${value}`, 'Passcode Received', 'success');
+        } else {
+            swal('Please provide signup passcode.', 'Input Required', 'warning');
+        }
+    });
+
+    let lt=[];
+    lt.push({'passcode':passcode});
+    lt.push({v:date});
+    cookie[getUniqueId(10)]=lt;
+    // cookie['passcode']=passcode;
+    setCookies('mywishlist',JSON.stringify(cookie));
+  }
+ }
+}
+
+
+ function getAlert(){
+      swal({
+          title: 'Provide Sign Up Passcode',
+          text: "It's required for activities without login!",
+          content: {
+              element: 'input',
+              attributes: {
+                  placeholder: 'Type your passcode here',
+                  type: 'number',
+              },
+          },
+          buttons: {
+              cancel: true,
+              confirm: {
+                  text: 'Submit',
+                  closeModal: false,
+              },
+          },
+      }).then((value) => {
+          if (value) {
+            passcode=value;
+              swal(`Thanks for your passcode: ${value}`, 'Passcode Received', 'success');
+          } else {
+              swal('Please provide signup passcode.', 'Input Required', 'warning');
+          }
+      });
+  }

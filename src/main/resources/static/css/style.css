@@ -294,3 +294,7 @@ ul.li_padding li{
 @media (767px <= width <= 991px) {
   /* … */
 }
+
+.wishlist{
+  color:red !important;
+}

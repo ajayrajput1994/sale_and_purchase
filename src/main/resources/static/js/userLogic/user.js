@@ -4,9 +4,7 @@ addressList=[],
 wishList=[],
 blogDict={},
 addressDict={};
-function getDictLength(obj){
-  return Object.entries(obj).length;
-}
+
 
 function loadData(){
   // console.log('user',loadedDTA.user);
