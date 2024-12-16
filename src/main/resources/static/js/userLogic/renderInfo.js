@@ -1,7 +1,4 @@
-function OpenHide(show,hide){
-  $(show).show();
-  $(hide).hide();
-}
+
 function operDom(v) {
   $("#personalDom,#addressDom,#wishlistDom,#passwordDom,#settingDom,#articleDom").hide();
   if (v == "personal") {
@@ -78,17 +75,18 @@ function infoForm(v){
     OpenHide('#infoAddressDom,#infoEditBtn','#userInfoForm, #infoBackBtn');
   }
 }
+// <img src="/image/Desert.jpg" class="img-fluid rounded-start article_absolute_img" alt="..." >
 function renderArticles(){
   if(getDictLength(blogDict)>0){
     let h=[];
     $.each(blogDict,(c,d)=>{
       h.push({'name':`<tr><td><div class="card">
         <div class="edit_icon_right">
-          <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
+          <a href="javascript:" id="addressEditBtn" data-id="${d.id}" onclick="editArticle(this)" style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
               <div class="row g-0">
                 <div class="blog_img">
-                  <img src="/image/Desert.jpg" class="img-fluid rounded-start article_absolute_img" alt="..." >
+                  <img src="${d.image}" class="img-fluid rounded-start article_absolute_img" alt="..." >
                 </div>
                 <div class="blog_detail">
                   <div class="card-body">

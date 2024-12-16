@@ -184,10 +184,12 @@ function filterData() {
 
 function showBlogs(dataList){
   dataList=shortBy(dataList);
-  let h=[],cookie=[];
+  let h=[],cookie=[],list=[];
   $('#result-count').html(`Total: ${dataList.length}`);
   cookie= Object.values(getCookie('mywishlist'));
-  let list=getAllUniqueKeysFromListOfMap(cookie[0]);
+  if(cookie.length>0){
+    list=getAllUniqueKeysFromListOfMap(cookie[0]);
+  }
   dataList.forEach((e) => {
     let isWishList=false;
     if(list.includes(`${e.id}`)){
@@ -195,8 +197,9 @@ function showBlogs(dataList){
     }
     h.push(`<div class="col-md-4 mt-2" >
     <div class="card card-b">
-      <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> -->
-      <img src="/image/${e.image}"  class="card-img-top" alt="...">
+      <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> 
+      <img src="/image/${e.image}"  class="card-img-top" alt="..."> -->
+      <img src="${e.image}"  class="card-img-top" alt="...">
       <div class="card-body">
         <a href="/${e.title}" class="card-title  card-title-line-limit"><h6>${e.title}</h6></a>
         <span class="card_price">${e.price} Rs/-</span><span class="cat_title">(${e.category})</span>
@@ -276,7 +279,7 @@ function gotoWishlist(value){
     console.log('inside...',cookie);
   })
 }else{
-  if(passcode!=""){
+  if(passcode==""){
   swal({
       title: 'Provide Sign Up Passcode',
       text: "It's required for activities without login!",

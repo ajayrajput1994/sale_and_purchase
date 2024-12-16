@@ -8,7 +8,6 @@ import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.service.BlogService;
-import com.olxseller.olx.service.UserService;
 
 @Service 
 public class BlogSeriveImpl implements BlogService {
@@ -90,7 +89,14 @@ public class BlogSeriveImpl implements BlogService {
 			 * u.setPassword(user.getPassword()); } return u;
 			 * }).collect(Collectors.toList());
 			 */
-			
+			if(!b.getImage().isEmpty()){
+				blog.setImage(b.getImage());
+				blog.setImage2(b.getImage2());
+				blog.setImage3(b.getImage3());
+				blog.setImage4(b.getImage4());
+				blog.setImage5(b.getImage5());
+				blog.setImage6(b.getImage6());
+			}
 			blog.setId(id);blog.setTitle(b.getTitle());blog.setAddress(b.getAddress());
 			blog.setCategory(b.getCategory());blog.setCity(b.getCity());blog.setDescription(b.getDescription());
 			blog.setMainCategory(b.getMainCategory());blog.setPrice(b.getPrice());blog.setRegion(b.getRegion());

@@ -187,10 +187,10 @@
 			});
 		});
 		function formDomOpen() {
-			showAndHideAnyDom(['categoryFromDom'], ['recordDom']);
+			showAndHideAnyDom('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
-			showAndHideAnyDom(['recordDom'], ['categoryFromDom']);
+			showAndHideAnyDom('#recordDom', '#categoryFromDom');
 		}
 		function createCategory() {
 			if (formValidate('category_form')) {

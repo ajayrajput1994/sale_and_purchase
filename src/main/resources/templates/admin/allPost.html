@@ -223,10 +223,10 @@
 		});
 		function formDomOpen() {
 			$('#blog_form')[0].reset();
-			showAndHideAnyDom(['formDom'], ['recordDom']);
+			showAndHideAnyDom('#formDom','#recordDom');
 		}
 		function recordDomOpen() {
-			showAndHideAnyDom(['recordDom'], ['formDom']);
+			showAndHideAnyDom('#recordDom','#formDom');
 		}
 		function createStates() {
 			let userID=$('#user').val();

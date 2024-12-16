@@ -147,10 +147,10 @@
 			});
 		});
 		function formDomOpen() {
-			showAndHideAnyDom(['formDom'], ['recordDom']);
+			showAndHideAnyDom('#formDom', '#recordDom');
 		}
 		function recordDomOpen() {
-			showAndHideAnyDom(['recordDom'], ['formDom']);
+			showAndHideAnyDom('#recordDom', '#formDom');
 		}
 		function createStates() {
 			if (formValidate('user_form')) {

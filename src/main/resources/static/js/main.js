@@ -18,17 +18,22 @@ $(function(){
     "hideMethod": "fadeOut"
   }
 })
-function showAndHideAnyDom(showList,hideList){
-  // console.log('main.js',showList,hideList);
-  showList.forEach(list => {
-    // document.getElementById(list).style.display = 'none';
-     $(`#${list}`).show();
-  });
-  hideList.forEach(list => {
-    $(`#${list}`).hide();
-  });
+function showAndHideAnyDom(showDom,hideDom){
+  $(showDom).show();
+  $(hideDom).hide();
+//   // console.log('main.js',showList,hideList);
+//   showList.forEach(list => {
+//     // document.getElementById(list).style.display = 'none';
+//      $(`#${list}`).show();
+//   });
+//   hideList.forEach(list => {
+//     $(`#${list}`).hide();
+//   });
 }
-
+function OpenHide(show,hide){
+  $(show).show();
+  $(hide).hide();
+}
 function createGetRequest(formid,url,callBack){
   $("button").attr("disabled", true);
    formData=$(`#${formid}`).serialize();
@@ -213,10 +218,13 @@ function clearAllCookies() {
 function getAllUniqueKeysFromListOfMap(arrayOfObjects) {
   const allKeys = new Set();
   console.log(arrayOfObjects);
-  arrayOfObjects.forEach(obj => {
-    const keys = Object.keys(obj);
-    keys.forEach(key => allKeys.add(key));
-  });
+  if(arrayOfObjects.length>0){
+    arrayOfObjects.forEach(obj => {
+      const keys = Object.keys(obj);
+      keys.forEach(key => allKeys.add(key));
+    });
+
+  }
 
   return Array.from(allKeys);
 }

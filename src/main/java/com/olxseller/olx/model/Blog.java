@@ -28,22 +28,27 @@ public class Blog {
 	@NotNull
 	private String Title="";
 	@NotNull
-	@Column(length=8000)
+	@Column(length=1000)
 	private String Description="";
 	@NotNull
 	private double price;
 	@NotNull
+	@Column(length=1000)
 	private String image="";
 	@NotNull
+	@Column(length=1000)
 	private String image2="";
 	@NotNull
+	@Column(length=1000)
 	private String image3="";
 	@NotNull
+	@Column(length=1000)
 	private String image4="";
 	@NotNull
+	@Column(length=1000)
 	private String image5="";
-
 	@NotNull
+	@Column(length=1000)
 	private String image6="";
 
 	@NotNull

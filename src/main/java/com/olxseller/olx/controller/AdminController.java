@@ -145,15 +145,16 @@ public class AdminController {
 		return "admin/pageSetup";
 	}
 
-	@GetMapping("/all-users/{page}")
-	public String AllUser(@PathVariable("page") Integer page, Model m) {
+	// @GetMapping("/all-users/{page}")
+	@GetMapping("/all-users")
+	public String AllUser(Model m) {
 		m.addAttribute("title", "all users"); 
 		m.addAttribute("users", userService.AllUsers()); 
 		return "admin/allUser";
 	}
 
-	@GetMapping("/all-posts/{page}")
-	public String AllPost(@PathVariable("page") Integer page, Model m) {
+	@GetMapping("/all-posts")
+	public String AllPost(Model m) {
 		m.addAttribute("title", "all posts"); 
 		m.addAttribute("blogs", blogService.getAllBlogs()); 
 		return "admin/allPost";
@@ -161,16 +162,16 @@ public class AdminController {
  
 
 	// main catalogs
-	@GetMapping("/categories/{page}")
-	public String AllCategories(@PathVariable("page") Integer page, Model m) { 
+	@GetMapping("/categories")
+	public String AllCategories(Model m) { 
 		m.addAttribute("title", "all catalogs"); 
 		m.addAttribute("catalogs", catService.getAllMainCategory());  
 		return "admin/categories";
 	}
 
 	// sub catalogs
-	@GetMapping("/sub-category/{page}")
-	public String subCategories(@PathVariable("page") Integer page, Model m) {
+	@GetMapping("/sub-category")
+	public String subCategories( Model m) {
 		m.addAttribute("title", "all catalogs"); 
 		m.addAttribute("catalogs", subcatService.getAllSubcat());  
 		m.addAttribute("mainCategories", catService.getAllMainCategory());
@@ -178,8 +179,8 @@ public class AdminController {
 	}
 
 	// all states
-	@GetMapping("/all-states/{page}")
-	public String AllStates(@PathVariable("page") Integer page, Model m) {
+	@GetMapping("/all-states")
+	public String AllStates( Model m) {
 		m.addAttribute("title", "all states");
 		// Pageable pageable = PageRequest.of(page, 6);
 		// Page<RegionState> locate = this.stateRepo.getAllRegionState(pageable);
@@ -191,8 +192,8 @@ public class AdminController {
 	}
 
 	// all cities
-	@GetMapping("/all-cities/{page}")
-	public String Allcities(@PathVariable("page") Integer page, Model m) {
+	@GetMapping("/all-cities")
+	public String Allcities( Model m) {
 		m.addAttribute("title", "all Cities"); 
 		m.addAttribute("cities", cityService.getAllCity()); 
 		m.addAttribute("allstates", stateService.getAllStates());
@@ -217,7 +218,7 @@ public class AdminController {
 
 			File savefile = new ClassPathResource("static/image").getFile();
 			if (img.isEmpty()) {
-				return "redirect:/admin/all-posts/0";
+				return "redirect:/admin/all-posts";
 			} else {
 				// first image file
 				blog.setImage(img.getOriginalFilename());
@@ -288,19 +289,19 @@ public class AdminController {
 			session.setAttribute("useremail", "");
 			session.setAttribute("message", new Message("update blog successfully", "alert-success"));
 
-			return "redirect:/admin/all-posts/0";
+			return "redirect:/admin/all-posts";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			session.setAttribute("message", new Message("Something went wrong ! try again !", "alert-danger"));
 		}
-		return "redirect:/admin/all-posts/0";
+		return "redirect:/admin/all-posts";
 	}
 
 	// create new main catalogs
 	@PostMapping("/create_maincategory")
 	public String createNewMainCategory(@RequestBody MainCategory maincategory, Model m,
 			HttpSession session) {
-		System.out.println("category:" + maincategory);
+		// System.out.println("category:" + maincategory);
 		String pageurl = "admin/categories";
 		try {
 			// System.out.println(maincategory);

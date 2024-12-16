@@ -16,10 +16,9 @@ loadedDTA.user.blog.forEach(d => blogDict[d.id]=d);
 loadedDTA.user.addresses.forEach(d => addressDict[d.id]=d);
 // console.log(addressDict);
 // console.log(blogDict);
+
 renderArticles();
 renderAddresses();
-
-
 }
 function addAddress(){
   createPostRequest('addressForm','/user/Address/create','addAddressCB');

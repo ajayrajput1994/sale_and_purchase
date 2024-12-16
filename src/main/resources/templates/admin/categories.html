@@ -232,11 +232,11 @@
 		});
 		function formDomOpen() {
 			// console.log('creating on');
-			showAndHideAnyDom(['categoryFromDom'], ['recordDom']);
+			showAndHideAnyDom('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
 			// console.log('creating on');
-			showAndHideAnyDom(['recordDom'], ['categoryFromDom']);
+			showAndHideAnyDom('#recordDom', '#categoryFromDom');
 		}
 		function createCategory() {
 			if (formValidate('category_form')) {

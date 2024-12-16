@@ -36,6 +36,7 @@ import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.StateService;
+import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserAddressService;
 import com.olxseller.olx.service.UserService;
 
@@ -57,6 +58,10 @@ public class UserController {
 	private CategoryService mainService;
 	@Autowired
 	private StateService stateService;
+	@Autowired
+	private CategoryService catService;
+	@Autowired
+	private SubCategoryService subcatService;
 
 	@ModelAttribute
 	public void CommonData(Model m, Principal principal) {
@@ -94,6 +99,8 @@ public class UserController {
 		map.put("addressList", user.getAddresses());
 		map.put("wishlist", user.getWishList());
 		map.put("blogs", user.getBlog());
+		map.put("cats", catService.getAllMainCategory());
+		map.put("subcat", subcatService.getAllSubcat());
 		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
 		// System.out.println(map);
 		model.addAttribute("data", dta);

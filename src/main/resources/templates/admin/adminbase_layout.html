@@ -35,10 +35,10 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" th:href="@{/admin/all-posts/0}">All Post</a>
+                  <a class="nav-link" aria-current="page" th:href="@{/admin/all-posts}">All Post</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" th:href="@{/admin/all-users/0}">All User</a>
+                  <a class="nav-link" th:href="@{/admin/all-users}">All User</a>
                 </li>
                 <li class="nav-item dropdown ">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
@@ -46,8 +46,8 @@
                     Categories
                   </a>
                   <ul class="dropdown-menu  dropdown-menu-right">
-                    <li><a class="dropdown-item" th:href="@{/admin/categories/0}">Main-Category</a></li>
-                    <li><a class="dropdown-item" th:href="@{/admin/sub-category/0}">Sub-Category</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/categories}">Main-Category</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/sub-category}">Sub-Category</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
@@ -56,8 +56,8 @@
                     Locations
                   </a>
                   <ul class="dropdown-menu p-0">
-                    <li><a class="dropdown-item" th:href="@{/admin/all-states/0}">States</a></li>
-                    <li><a class="dropdown-item" th:href="@{/admin/all-cities/0}">Cities</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/all-states}">States</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/all-cities}">Cities</a></li>
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -120,7 +120,7 @@
     <script th:src="@{/../js/jszip.js}"></script>
     <script th:src="@{/../plugins/toastr.js}"></script>
     <script th:src="@{/../js/adminLogic/main_category.js}"></script>
-    <script th:src="@{/../js/adminLogic/main.js}"></script>
+    <script th:src="@{/../js/main.js}"></script>
     <script th:inline="javascript">
       $(window).on('resize', function () {
         if ($(window).width() < 768) {
