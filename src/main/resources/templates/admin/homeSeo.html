@@ -296,19 +296,19 @@
 	</th:block>
 	<script>
 		function showLogoDom() {
-			showAndHideAnyDom(['logoFormDom'], ['seoFormDom', 'socialFormDom', 'addressFormDom', 'bannerFormDom']);
+			showAndHideAnyDom('#logoFormDom', '#seoFormDom, #socialFormDom, #addressFormDom, #bannerFormDom');
 		}
 		function showAddressDom() {
-			showAndHideAnyDom(['addressFormDom'], ['seoFormDom', 'socialFormDom', 'logoFormDom', 'bannerFormDom']);
+			showAndHideAnyDom('#addressFormDom','#seoFormDom, #socialFormDom, #logoFormDom, #bannerFormDom');
 		}
 		function showSocialDom() {
-			showAndHideAnyDom(['socialFormDom'], ['seoFormDom', 'addressFormDom', 'logoFormDom', 'bannerFormDom']);
+			showAndHideAnyDom('#socialFormDom', '#seoFormDom, #addressFormDom, #logoFormDom, #bannerFormDom');
 		}
 		function showSeoDom() {
-			showAndHideAnyDom(['seoFormDom'], ['socialFormDom', 'addressFormDom', 'logoFormDom', 'bannerFormDom']);
+			showAndHideAnyDom('#seoFormDom', '#socialFormDom, #addressFormDom, #logoFormDom, #bannerFormDom');
 		}
 		function showBannerDom() {
-			showAndHideAnyDom(['bannerFormDom'], ['socialFormDom', 'addressFormDom', 'logoFormDom', 'seoFormDom']);
+			showAndHideAnyDom('#bannerFormDom', '#socialFormDom, #addressFormDom, #logoFormDom, #seoFormDom');
 		}
 		function addSeo() {
 			if (formValidate('home_seo_form')) {
