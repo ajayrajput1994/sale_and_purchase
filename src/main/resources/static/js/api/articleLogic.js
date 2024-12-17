@@ -6,19 +6,21 @@ catArray=[],
 articleEditFormHtml=`<form id="articleForm"> <div class="row" id="firstStep">
   <h4>Article Details </h4>
   <input type="hidden" name="id" id="article_id">
+  <input type="hidden" name="user" id="user">
+  <input type="hidden" name="action" id="action">
   <div class="form-group col-md-12">
     <label for="title" class="">Enter Title</label>
     <input type="text" name="title" id="title" class="form-control" required="">
   </div>
   <div class="form-group col-md-4">
-    <label for="mainCategory" class="">Main Category</label>
-    <select name="mainCategory" id="mainCategory" onchange="loadSubcat(this.value)"
+    <label for="article_mainCategory" class="">Main Category</label>
+    <select name="mainCategory" id="article_mainCategory" onchange="loadSubcat(this.value)"
       class="select form-control">
       <option disabled="" selected="" value="">Select main Category</option>
     </select>
   </div>
   <div class="form-group col-md-4">
-    <label for="mainCategory" class="">Sub Category</label>
+    <label for="article_category" class="">Sub Category</label>
     <select name="category" id="article_category" class="select form-control"  required="">
       <option disabled="" selected="">Select sub Category</option>
     </select>
@@ -69,14 +71,14 @@ articleNewFormHtml=`<div class="row" id="firstStep">
     <input type="text" name="title" id="title" class="form-control" required="">
   </div>
   <div class="form-group col-md-6">
-    <label for="mainCategory" class="">Main Category</label>
-    <select name="mainCategory" id="mainCategory" onchange="loadSubcat(this.value)"
+    <label for="article_mainCategory" class="">Main Category</label>
+    <select name="mainCategory" id="article_mainCategory" onchange="loadSubcat(this.value)"
       class="select form-control">
       <option disabled="" selected="" value="">Select main Category</option>
     </select>
   </div>
   <div class="form-group col-md-6">
-    <label for="mainCategory" class="">Sub Category</label>
+    <label for="article_category" class="">Sub Category</label>
     <select name="category" id="article_category" class="select form-control"  required="">
       <option disabled="" selected="">Select sub Category</option>
     </select>
@@ -183,19 +185,21 @@ let mainCatSet= new Set();
     console.log(subCatList,subDict);
   }
 }
-
+function loadCategory(){
+  let h=['<option disabled="" selected="" value="">Select main Category</option>'];
+  catArray.forEach(n => h.push(`<option value="${n}">${n}</option>`));
+  $('#article_mainCategory').html(h.join(''));
+}
 function editArticle(btn){
   console.log(btn.dataset.id);
   console.log(blogDict[btn.dataset.id]);
   let d=blogDict[btn.dataset.id];
   OpenHide('#articleFormDom, #articleBackBtn ','#articleRowDom, #articleEditBtn');
   $('#articleFormDom').html(articleEditFormHtml);
-  let h=['<option disabled="" selected="" value="">Select main Category</option>'];
-  catArray.forEach(n => h.push(`<option value="${n}">${n}</option>`));
-  $('#mainCategory').html(h.join(''));
+  loadCategory();
   $('#article_id').val(d.id);
   $('#title').val(d.title);
-  $('#mainCategory').val(d.mainCategory);
+  $('#article_mainCategory').val(d.mainCategory);
   $('#article_category').val(d.category);
   $('#article_region').val(d.region);
   $('#article_state').val(d.regionState);
@@ -270,7 +274,7 @@ function postvalid(){
       toastr.warning('Enter Title');
       isValid=true;
     }
-    if(!$('#mainCategory').val()){
+    if(!$('#article_mainCategory').val()){
       toastr.warning('Select Main Category');
       isValid=true;
     }
@@ -351,14 +355,23 @@ function selectFile(btn) {
 function addNewArticle(){
   $('#articleFormDom').html(articleEditFormHtml);
   OpenHide('#articleFormDom, #articleBackBtn ','#articleEditBtn, #articleRowDom');
-  let h=['<option disabled="" selected="" value="">Select main Category</option>'];
-  catArray.forEach(n => h.push(`<option value="${n}">${n}</option>`));
-  $('#mainCategory').html(h.join(''));
+  loadCategory();
 }
 
 function articleSubmit(){
   if(!$('#image').val())return;
- createPostRequest('articleForm','/user/Blog/create','articleSubmitCB');
+  let userID=$('#user').val();
+			
+  if($('#action').val()=="yes"){
+    if(!userID){
+      userID=1;
+    }
+    createPostRequest('articleForm','/admin/blog/create/'+userID, 'createStatesCB');
+  }else{
+    createPostRequest('articleForm','/user/Blog/create','articleSubmitCB');
+
+  }
+
 }
 
 function articleSubmitCB(r){

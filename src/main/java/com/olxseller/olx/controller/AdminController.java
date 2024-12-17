@@ -8,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import com.olxseller.olx.helper.Message;
+import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.HomeSeo;
@@ -72,6 +76,8 @@ public class AdminController {
 
 	@Autowired
 	private BannerRepository bannerRepo;
+	@Autowired
+	public ResponseData responseData;
 
 	@Autowired
 	private BlogService blogService;
@@ -155,6 +161,12 @@ public class AdminController {
 
 	@GetMapping("/all-posts")
 	public String AllPost(Model m) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("cats", catService.getAllMainCategory());
+		map.put("subcat", subcatService.getAllSubcat());
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		// System.out.println(map);
+		m.addAttribute("data", dta);
 		m.addAttribute("title", "all posts"); 
 		m.addAttribute("blogs", blogService.getAllBlogs()); 
 		return "admin/allPost";

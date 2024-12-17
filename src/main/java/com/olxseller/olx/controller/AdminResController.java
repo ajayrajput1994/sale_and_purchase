@@ -403,7 +403,7 @@ public class AdminResController {
 		String dat = sdf.format(new Date());
 		User user=userService.getUserByID(userid);
 		b.setUser(user);
-		b.setCreate_at("");
+		b.setCreate_at(dat);
 		b.setUpdate_at(dat);  
 		try {
 			if (b.getId() > 0) {

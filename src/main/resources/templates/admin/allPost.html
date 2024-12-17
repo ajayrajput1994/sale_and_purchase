@@ -10,16 +10,17 @@
 		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
 			<section id="myContent">
 				<div class="row">
-					<div class="col-md-12 mx-auto" id="formDom" style="display: none;">
+					<div class="col-md-12 mx-auto" >
 						<div class="card rounded-0">
-							<div class="card-body">
+							<div class="card-body" id="blogFormDom"  style="display: none;">
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Create Post</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
+								<div id="articleFormDom"></div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="blog_form">
+								<form id="blog_form" style="display: none;">
 									<input type="hidden" name="id" id="id">
 									<input type="hidden" name="user" id="user">
 									<div class="form-group col">
@@ -104,7 +105,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-12 mx-auto" id="recordDom">
+					<div class="col-md-12 mx-auto" id="recordDom" style="display: none;">
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
@@ -135,8 +136,9 @@
 										<th:block th:each="u : ${blogs}">
 											<tr th:id="${u.id}">
 												<th><span th:text="${u.id}"></span></th>
+												<td></td>
 												<td th:text="${u.image}"></td>
-												<td><img th:src="@{'/image/'+${u.image}}" style="height:25px;width:25px;" /></td>
+												<!-- <td><img th:src="@{'/image/'+${u.image}}" style="height:25px;width:25px;" /></td> -->
 												<td th:text="${u.Title}"></td>
 												<td th:text="${u.mainCategory}"></td>
 												<td th:text="${u.category}"></td>
@@ -162,13 +164,40 @@
 					</div>
 
 				</div>
+				<div class="overlay" id="loaderDom" style="   position: relative;
+				top: 0;
+				left: 0;
+				padding-top: 42vh;
+				z-index: 999999999;
+				text-align: center !important;
+				background: #e2e2e2;
+				width: 100%;
+				height: 89vh;" >
+				<img src="/image/favicon.png" style="width: 50px;">
+					<h3>Please wait...</h3>
+				</div>
 			</section>
 
 		</div>
 	</body>
 	<th:block th:include="admin/adminbase_layout :: myscript">
 	</th:block>
-	<script>
+	<script th:inline="javascript">
+    $(function(){
+      /*<![CDATA[*/
+      var dta = /*[[${data}]]*/ "";
+      // alert(value);
+      /*]]*/
+      if(dta){
+        var data = JSON.parse(dta);
+        subCatList=data.data.subcat;
+        catList=data.data.cats;
+        // loadData();
+        setSubCategory();
+				
+      }
+			showAndHideAnyDom('#recordDom','#loaderDom');
+    });
 		var categoryDT;
 		$(document).ready(function () {
 			categoryDT = $('#states_table').DataTable({
@@ -196,7 +225,7 @@
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [2, 3,7,13] },
+					{ visible: true, targets: [ 3,,4,5,7,13] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
@@ -205,37 +234,54 @@
 					return false;
 				}
 				var data = categoryDT.row(this).data();
-				// console.log(data);
+				console.log(data);
 				formDomOpen();
-				$('#id').val(data.DT_RowId);
+				$('#action').val('yes');
+				$('#article_id').val(data.DT_RowId);
 				$('#user').val(data.user);
 				$('#title').val(data.title);
-				$('#price').val(data.price);
-				$('#region').val(data.region);
-				$('#mainCategory').val(data.mainCategory);
-				$('#category').val(data.category);
-				$('#regionState').val(data.regionState);
-				$('#city').val(data.city);
-				$('#description').val(data.description);
-				$('#address').val(data.address); 
+				$('#article_price').val(data.price);
+				$('#article_region').val(data.region);
+				$('#article_mainCategory').val(data.mainCategory);
+				loadSubcat(data.mainCategory);
+				$('#article_category').val(data.category);
+				$('#article_state').val(data.regionState);
+				$('#article_city').val(data.city);
+				$('#article_desc').val(data.description);
+				$('#article_address').val(data.address); 
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
+				// $('#id').val(data.DT_RowId);
+				// $('#user').val(data.user);
+				// $('#title').val(data.title);
+				// $('#price').val(data.price);
+				// $('#region').val(data.region);
+				// $('#mainCategory').val(data.mainCategory);
+				// $('#category').val(data.category);
+				// $('#regionState').val(data.regionState);
+				// $('#city').val(data.city);
+				// $('#description').val(data.description);
+				// $('#address').val(data.address); 
 			});
 		});
 		function formDomOpen() {
 			$('#blog_form')[0].reset();
-			showAndHideAnyDom('#formDom','#recordDom');
+			showAndHideAnyDom('#articleFormDom,#blogFormDom','#recordDom');
+			addNewArticle();
+			$('#action').val('yes');
 		}
+		
 		function recordDomOpen() {
-			showAndHideAnyDom('#recordDom','#formDom');
+			showAndHideAnyDom('#recordDom','#articleFormDom, #blogFormDom');
 		}
 		function createStates() {
 			let userID=$('#user').val();
 			if(!userID){
 				userID=1;
 			}
-			if (formValidate('blog_form')) {
-				createPostRequest('blog_form', '/admin/blog/create/'+userID, 'createStatesCB');
-			}
+			articleSubmit(false,userID);
+			// if (formValidate('blog_form')) {
+			// 	createPostRequest('blog_form', '/admin/blog/create/'+userID, 'createStatesCB');
+			// }
 		}
 		function createStatesCB(r) {
 			$('#blog_form')[0].reset();
