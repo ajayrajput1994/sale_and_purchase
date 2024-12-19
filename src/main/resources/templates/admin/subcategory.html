@@ -23,7 +23,9 @@
 									<div class="form-group mt-2">
 										<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" required>
 											<option disabled="" value="" selected="">Select Main Category</option>
-		                  <option  th:each="m : ${mainCategories}" th:value="${m.mainCatalog}"><span th:text="${m.mainCatalog}"></span></option>
+		                  <th:block  th:each="m : ${mainCategories}" >
+												<option th:value="${m.mainCatalog}" th:text="${m.mainCatalog}"></option>
+										</th:block>
 										</select>
 									</div>
 									<div class="row">
@@ -187,10 +189,10 @@
 			});
 		});
 		function formDomOpen() {
-			showAndHideAnyDom('#categoryFromDom', '#recordDom');
+			OpenHide('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
-			showAndHideAnyDom('#recordDom', '#categoryFromDom');
+			OpenHide('#recordDom', '#categoryFromDom');
 		}
 		function createCategory() {
 			if (formValidate('category_form')) {

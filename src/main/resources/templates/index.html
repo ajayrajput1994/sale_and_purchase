@@ -173,19 +173,4 @@
     <span>Footer Error</span>
   </div>
   <script th:src="@{/js/frontLogic/homeFilter.js}"></script>
-  <script th:inline="javascript">
-    $(function(){
-      /*<![CDATA[*/
-      var dta = /*[[${dta}]]*/ "";
-      // alert(value);
-      /*]]*/
-      if(dta){
-        var data = JSON.parse(dta);
-        console.log(data);
-        loadedDTA=data.data;
-        loadData();
-      }
-    });
-  </script>
-
 </html>

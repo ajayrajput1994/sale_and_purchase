@@ -7,7 +7,9 @@ var loadedDTA = {},
   isShort='',
   stateTitle='',
   passcode='';
-
+$(function (){
+  loadData();
+})
 function loadData() {
   // console.log('url:',window.location.pathname.replace('%20',' ').replace('/',''));
   stateTitle=window.location.pathname.replace('%20',' ').replace('/','');

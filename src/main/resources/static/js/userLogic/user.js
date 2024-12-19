@@ -1,19 +1,20 @@
-var loadedDTA={},
-userInfo={},
+var userInfo={},
 addressList=[],
 wishList=[],
 blogDict={},
 addressDict={};
 
-
+$(function (){
+  loadData();
+})
 function loadData(){
-  // console.log('user',loadedDTA.user);
-// addressList=loadedDTA.user.addresses;
-setUserInfo(loadedDTA.user,true);
+  // console.log('user',loadedUserDTA.user);
+// addressList=loadedUserDTA.user.addresses;
+setUserInfo(loadedUserDTA.user,true);
 console.log(userInfo)
-wishList=loadedDTA.user.wishlist;
-loadedDTA.user.blog.forEach(d => blogDict[d.id]=d);
-loadedDTA.user.addresses.forEach(d => addressDict[d.id]=d);
+wishList=loadedUserDTA.user.wishlist;
+loadedUserDTA.user.blog.forEach(d => blogDict[d.id]=d);
+loadedUserDTA.user.addresses.forEach(d => addressDict[d.id]=d);
 // console.log(addressDict);
 // console.log(blogDict);
 

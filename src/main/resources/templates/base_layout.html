@@ -240,6 +240,18 @@
           $('.page-footer').addClass("fixed-bottom");
         }
       });
+      $(function(){
+      /*<![CDATA[*/
+      var dta = /*[[${dta}]]*/ "";
+      // alert(value);
+      /*]]*/
+      if(dta){
+        dta = JSON.parse(dta);
+        console.log(dta);
+        loadedDTA=dta.data;
+        // loadData();
+      }
+    });
     </script>
   </th:block>
 

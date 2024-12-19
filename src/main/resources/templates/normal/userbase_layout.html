@@ -91,8 +91,6 @@
     <script th:src="@{/../js/jszip.js}"></script>
     <script th:src="@{/../plugins/toastr.js}"></script>
     <script th:src="@{/../js/main.js}"></script>
-    <script th:src="@{/../js/userlogic/user.js}"></script>
-    <script th:src="@{/../js/userlogic/renderInfo.js}"></script>
     <script th:inline="javascript">
       $(window).on('resize', function () {
         if ($(window).width() < 768) {
@@ -101,6 +99,19 @@
           $('.page-footer').addClass("fixed-bottom");
         }
       });
+      $(function(){
+      /*<![CDATA[*/
+      var dta = /*[[${data}]]*/ "";
+      // alert(value);
+      /*]]*/
+      if(dta){
+        dta = JSON.parse(dta);
+        console.log(dta);
+        loadedUserDTA=dta.data;
+        // console.log(loadedUserDTA);
+        // loadDashboard();
+      }
+    });
     </script>
   </th:block>
 

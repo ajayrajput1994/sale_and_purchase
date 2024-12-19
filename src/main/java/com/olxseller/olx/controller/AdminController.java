@@ -164,6 +164,7 @@ public class AdminController {
 		Map<String,Object> map=new HashMap<>();
 		map.put("cats", catService.getAllMainCategory());
 		map.put("subcat", subcatService.getAllSubcat());
+		map.put("blogs", blogService.getAllBlogs());
 		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
 		// System.out.println(map);
 		m.addAttribute("data", dta);

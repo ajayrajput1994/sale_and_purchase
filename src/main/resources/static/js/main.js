@@ -1,4 +1,5 @@
-var errorList=[],cat=[];
+var errorList=[],cat=[],
+loadedUserDTA={};
 $(function(){
   toastr.options = {
     "closeButton": false,
@@ -18,18 +19,10 @@ $(function(){
     "hideMethod": "fadeOut"
   }
 })
-function showAndHideAnyDom(showDom,hideDom){
-  $(showDom).show();
-  $(hideDom).hide();
-//   // console.log('main.js',showList,hideList);
-//   showList.forEach(list => {
-//     // document.getElementById(list).style.display = 'none';
-//      $(`#${list}`).show();
-//   });
-//   hideList.forEach(list => {
-//     $(`#${list}`).hide();
-//   });
-}
+// function showAndHideAnyDom(showDom,hideDom){
+//   $(showDom).show();
+//   $(hideDom).hide();
+// }
 function OpenHide(show,hide){
   $(show).show();
   $(hide).hide();
@@ -217,7 +210,7 @@ function clearAllCookies() {
 
 function getAllUniqueKeysFromListOfMap(arrayOfObjects) {
   const allKeys = new Set();
-  console.log(arrayOfObjects);
+  console.log('getAllUniqueKeysFromListOfMap:',arrayOfObjects);
   if(arrayOfObjects.length>0){
     arrayOfObjects.forEach(obj => {
       const keys = Object.keys(obj);

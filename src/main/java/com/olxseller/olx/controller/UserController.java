@@ -70,7 +70,13 @@ public class UserController {
 		m.addAttribute("user",principal!=null? userservice.findUserByEmail(principal.getName()):new User());
 	}
 	@GetMapping("/")
-	public String Dashboard(Model m){
+	public String Dashboard(Model m,Principal principal){
+		Map<String,Object> map=new HashMap<>();
+		// System.out.println(user.getAddresses());
+		map.put("user", userservice.findUserByEmail(principal.getName()));
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		// System.out.println(map);
+		m.addAttribute("data", dta);
 		m.addAttribute("title", "admin dashboard");
 		return "normal/index";
 	}

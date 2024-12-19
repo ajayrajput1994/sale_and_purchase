@@ -162,7 +162,12 @@ articleNewFormHtml=`<div class="row" id="firstStep">
     <button class="btn btn-success btn-sm rounded-0"  style="margin-left: 10px;">Submit</button>
   </div>
 </div>`;
-
+$(function(){
+  //articleLogin 
+subCatList=loadedUserDTA.subcat;
+catList=loadedUserDTA.cats;
+  setSubCategory();
+})
 function setSubCategory(){
 let mainCatSet= new Set();
   if(catList.length>0){
@@ -200,6 +205,7 @@ function editArticle(btn){
   $('#article_id').val(d.id);
   $('#title').val(d.title);
   $('#article_mainCategory').val(d.mainCategory);
+  loadSubcat(d.mainCategory);
   $('#article_category').val(d.category);
   $('#article_region').val(d.region);
   $('#article_state').val(d.regionState);
@@ -211,7 +217,7 @@ function editArticle(btn){
   $('#article_phone').val(d.name);
   $('#article_passcode').val(d.name);
   $('#article_address').val(d.name);
-
+  onEditImg(d.image);
 }
 function gotoStep(v){
   if(v==1){
@@ -320,7 +326,11 @@ function convertFilesToBase64(files) {
   }
   return Promise.all(promises);
 }
+function onEditImg(img){
 
+$('.imagefiles').prepend(`<textarea class="form-control" name="image" id="image" style="display:none" >${img}</textarea> `);
+          $('.multipartFile').prepend(`<img class="col-md-2 img-thumbnail" id="myImage" src="${img}" alt="image" >`);
+}
 // Example usage:
 function selectFile(btn) {
   $('.multipartFile').html('');

@@ -182,21 +182,10 @@
 	</body>
 	<th:block th:include="admin/adminbase_layout :: myscript">
 	</th:block>
+	<script th:src="@{/../js/api/articleLogic.js}"></script>
 	<script th:inline="javascript">
     $(function(){
-      /*<![CDATA[*/
-      var dta = /*[[${data}]]*/ "";
-      // alert(value);
-      /*]]*/
-      if(dta){
-        var data = JSON.parse(dta);
-        subCatList=data.data.subcat;
-        catList=data.data.cats;
-        // loadData();
-        setSubCategory();
-				
-      }
-			showAndHideAnyDom('#recordDom','#loaderDom');
+			OpenHide('#recordDom','#loaderDom');
     });
 		var categoryDT;
 		$(document).ready(function () {
@@ -249,6 +238,7 @@
 				$('#article_city').val(data.city);
 				$('#article_desc').val(data.description);
 				$('#article_address').val(data.address); 
+				onEditImg(data.img);
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 				// $('#id').val(data.DT_RowId);
 				// $('#user').val(data.user);
@@ -265,13 +255,13 @@
 		});
 		function formDomOpen() {
 			$('#blog_form')[0].reset();
-			showAndHideAnyDom('#articleFormDom,#blogFormDom','#recordDom');
+			OpenHide('#articleFormDom,#blogFormDom','#recordDom');
 			addNewArticle();
 			$('#action').val('yes');
 		}
 		
 		function recordDomOpen() {
-			showAndHideAnyDom('#recordDom','#articleFormDom, #blogFormDom');
+			OpenHide('#recordDom','#articleFormDom, #blogFormDom');
 		}
 		function createStates() {
 			let userID=$('#user').val();
