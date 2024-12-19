@@ -23,7 +23,9 @@
 									<div class="md-form md-outline">
 										<select name="stateName" id="stateName" class="select form-control"  required="">
 										<option disabled="" selected="">Select State</option>
-										<option  th:each="m : ${allstates}" th:value="${m.stateName}"><span th:text="${m.stateName}"></span></option>
+										<th:block th:each="m : ${allstates}">
+											<option   th:value="${m.stateName}" th:text="${m.stateName}"></option>
+										</th:block>
 									</select>
 								</div>
 									<div class="row">

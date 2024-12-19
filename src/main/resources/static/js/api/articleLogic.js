@@ -309,25 +309,8 @@ function postvalid(){
     return isValid;
 }
 
-function convertFilesToBase64(files) {
-  const promises = [];
-  for (const file of files) {
-      const promise = new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-              resolve(event.target.result);
-          };
-          reader.onerror = function(error) {
-              reject(error);
-          };
-          reader.readAsDataURL(file);
-      });
-      promises.push(promise);
-  }
-  return Promise.all(promises);
-}
-function onEditImg(img){
 
+function onEditImg(img){
 $('.imagefiles').prepend(`<textarea class="form-control" name="image" id="image" style="display:none" >${img}</textarea> `);
           $('.multipartFile').prepend(`<img class="col-md-2 img-thumbnail" id="myImage" src="${img}" alt="image" >`);
 }

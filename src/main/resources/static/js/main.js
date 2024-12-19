@@ -221,3 +221,21 @@ function getAllUniqueKeysFromListOfMap(arrayOfObjects) {
 
   return Array.from(allKeys);
 }
+
+function convertFilesToBase64(files) {
+  const promises = [];
+  for (const file of files) {
+      const promise = new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              resolve(event.target.result);
+          };
+          reader.onerror = function(error) {
+              reject(error);
+          };
+          reader.readAsDataURL(file);
+      });
+      promises.push(promise);
+  }
+  return Promise.all(promises);
+}
