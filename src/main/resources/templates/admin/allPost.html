@@ -105,7 +105,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-12 mx-auto" id="recordDom" style="display: none;">
+					<div class="col-md-12 mx-auto" id="recordDom" style="display: none;" >
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
@@ -113,7 +113,7 @@
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="formDomOpen()">Create</button>
 								</div>
-								<table class="table table-strip display" id="states_table">
+								<table class="table table-strip display" id="states_table" style="width: 100% !important;">
 									<thead>
 										<tr>
 											<th>#ID</th>
@@ -164,18 +164,6 @@
 					</div>
 
 				</div>
-				<div class="overlay" id="loaderDom" style="   position: relative;
-				top: 0;
-				left: 0;
-				padding-top: 42vh;
-				z-index: 999999999;
-				text-align: center !important;
-				background: #e2e2e2;
-				width: 100%;
-				height: 89vh;" >
-				<img src="/image/favicon.png" style="width: 50px;">
-					<h3>Please wait...</h3>
-				</div>
 			</section>
 
 		</div>
@@ -184,9 +172,7 @@
 	</th:block>
 	<script th:src="@{/../js/api/articleLogic.js}"></script>
 	<script th:inline="javascript">
-    $(function(){
-			OpenHide('#recordDom','#loaderDom');
-    });
+    
 		var categoryDT;
 		$(document).ready(function () {
 			categoryDT = $('#states_table').DataTable({
@@ -216,7 +202,11 @@
 				columnDefs: [
 					{ visible: true, targets: [ 3,,4,5,7,13] },
 					{ visible: false, targets: ['_all'] },
-				]
+				],
+				initComplete: function () {
+        console.log('DataTable is fully loaded! 🚀');
+        
+    }
 			});
 			$('#states_table tbody').on('click', 'tr td', function () {
 				if ($(this).index() == 3) {
@@ -252,6 +242,7 @@
 				// $('#description').val(data.description);
 				// $('#address').val(data.address); 
 			});
+			OpenHide('#recordDom','#loaderDom');
 		});
 		function formDomOpen() {
 			$('#blog_form')[0].reset();

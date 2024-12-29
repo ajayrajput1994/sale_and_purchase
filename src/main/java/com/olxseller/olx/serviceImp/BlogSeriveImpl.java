@@ -34,8 +34,7 @@ public class BlogSeriveImpl implements BlogService {
 
   @Override
   public List<Blog> getAllBlogs() {
-    List<Blog> list=(List<Blog>)this.blogRepo.findAll();
-    return list;
+    return blogRepo.findAll();
   }
 
   @Override

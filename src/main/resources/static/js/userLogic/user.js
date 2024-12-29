@@ -84,3 +84,11 @@ function updatePasswordCB(r){
   $('#passwordForm')[0].reset();
   OpenHide('#passwordForm','#passwordFormDisplay');
 }
+
+function setDefaultAddress(id){
+  createGetRequest('blankForm','/user/Address/'+id,'setDefaultAddressCB')
+}
+
+function setDefaultAddressCB(r){
+  console.log(r);
+}

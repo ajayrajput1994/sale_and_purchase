@@ -53,7 +53,7 @@
     
                     <div class="col-md-5 col-5 text-right pr-5">
     
-                      <p class="font-small grey-text">145,567</p>
+                      <p class="font-small grey-text"></p>
                     </div>
     
                   </div>
@@ -82,7 +82,7 @@
     
                     <div class="col-md-7 col-7 text-right pr-5">
     
-                      <h5 class="ml-4 mt-4 mb-2 font-weight-bold">4,567 </h5>
+                      <h5 class="ml-4 mt-4 mb-2 font-weight-bold" id="chatcouont">00 </h5>
                       <p class="font-small grey-text">Chats</p>
     
                     </div>
@@ -98,7 +98,7 @@
                     </div>
     
                     <div class="col-md-5 col-5 text-right pr-5">
-                      <p class="font-small grey-text">145,567</p>
+                      <p class="font-small grey-text"></p>
                     </div>
     
                   </div>
@@ -220,7 +220,6 @@
                 <div class="card mb-4">
     
                   <div class="card-body">
-    
                     <div class="table-responsive">
     
                       <table class="table large-header">
@@ -228,35 +227,14 @@
                         <thead>
     
                           <tr>
-                            <th class="font-weight-bold"><strong>Keywords</strong></th>
-                            <th class="font-weight-bold"><strong>Visits</strong></th>
-                            <th class="font-weight-bold"><strong>Pages</strong></th>
+                            <th class="font-weight-bold"><strong>Name</strong></th>
+                            <th class="font-weight-bold"><strong>Message</strong></th>
+                            <th class="font-weight-bold"><strong>Date</strong></th>
                           </tr>
     
                         </thead>
     
-                        <tbody>
-    
-                          <tr>
-                            <td>Design</td>
-                            <td>15</td>
-                            <td>307</td>
-                          </tr>
-                          <tr>
-                            <td>Bootstrap</td>
-                            <td>32</td>
-                            <td>504</td>
-                          </tr>
-                          <tr>
-                            <td>MDBootstrap</td>
-                            <td>41</td>
-                            <td>613</td>
-                          </tr>
-                          <tr>
-                            <td>Frontend</td>
-                            <td>14</td>
-                            <td>208</td>
-                          </tr>
+                        <tbody id="articleChatTableBody">
                         </tbody>
                       </table>
                     </div>
@@ -276,6 +254,7 @@
                 <div class="card mb-4">
     
                   <div class="card-body">
+                    <div class="card-title"><strong>Last 5 Articles</strong></div>
     
                     <table class="table large-header">
     
@@ -287,29 +266,7 @@
                         </tr>
                       </thead>
     
-                      <tbody>
-                        <tr>
-                          <td>Google Chrome</td>
-                          <td>15</td>
-                          <td>307</td>
-                        </tr>
-                        <tr>
-                          <td>Mozilla Firefox</td>
-                          <td>32</td>
-                          <td>504</td>
-                        </tr>
-                        <tr>
-                          <td>Safari</td>
-                          <td>41</td>
-                          <td>613</td>
-                        </tr>
-                        <tr>
-                          <td>Opera</td>
-                          <td>14</td>
-                          <td>208</td>
-                        </tr>
-    
-                      </tbody>
+                      <tbody id="lastArticleBodyTable"></tbody>
                     </table>
     
                     <button
@@ -330,7 +287,7 @@
           <!-- Section: data tables -->
     
           <!-- Section: Cards color -->
-          <section class="mt-2">
+          <section class="mt-2" style="display: none;">
     
             <!-- Grid row -->
             <div class="row">
@@ -481,7 +438,7 @@
           <!-- Section: Cards color -->
     
           <!-- Section: Panels -->
-          <section>
+          <section style="display: none;">
     
             <!-- Grid row -->
             <div class="row">

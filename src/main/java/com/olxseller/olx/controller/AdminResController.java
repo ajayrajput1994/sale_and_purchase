@@ -370,31 +370,26 @@ public class AdminResController {
 
 	@PostMapping("/logo/update")
 	public ResponseEntity<?> createUpdateWebsiteLogo(@RequestBody Logo logo) {
-	// public ResponseEntity<?> createUpdateWebsiteLogo(@RequestParam("logo") String  logo) {
-		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-		// String dat = sdf.format(new Date());
-		MultipartFile image = logo.getMultipartfile();
-		System.out.println("data :" + logo);
-		Logo lg=new Logo();
 		try {
-			if (image.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			} else {
-				// first image file
-			 	lg.setLogo(image.getOriginalFilename());
-				File savefile = new ClassPathResource("static/image").getFile();
-				Path path = Paths.get(savefile.getAbsolutePath() + File.separator + image.getOriginalFilename());
-				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				
-			}
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
 							logoService.updateLogo(logo, logo.getId())),
 					HttpStatus.OK);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
+		} 
+	}
+
+	@PostMapping("/banner/update")
+	public ResponseEntity<?> createUpdateWebsiteBanner(@RequestBody Banner banner) {
+		try {
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+							logoService.updateBanner(banner, banner.getId())),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} 
 	}
 
 	@PostMapping("/blog/create/{userid}")

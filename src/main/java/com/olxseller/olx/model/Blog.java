@@ -318,14 +318,7 @@ public class Blog {
 		this.update_at = update_at;
 	}
 
-	// @Override
-	// public String toString() {
-	// 	return "Blog [id=" + id + ", mainCategory=" + mainCategory + ", category=" + category + ", Title=" + Title
-	// 			+ ", Description=" + Description + ", price=" + price + ", image=" + image + ", image2=" + image2
-	// 			+ ", image3=" + image3 + ", image4=" + image4 + ", image5=" + image5 + ", image6=" + image6
-	// 			+ ", region=" + region + ", regionState=" + regionState + ", city=" + city + ", address=" + address
-	// 			+ ", create_at=" + create_at + ", update_at=" + update_at + "]";
-	// }
+
 
 	public String getCreate_at() {
 		return create_at;
@@ -343,7 +336,6 @@ public class Blog {
 		this.update_at = update_at;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Blog [id=" + id + ", mainCategory=" + mainCategory + ", category=" + category + ", Title=" + Title
@@ -352,5 +344,16 @@ public class Blog {
 				+ ", regionState=" + regionState + ", city=" + city + ", address=" + address + ", user=" + user + ", create_at="
 				+ create_at + ", update_at=" + update_at + "]";
 	}
+
+
+	// @Override
+	// public String toString() {
+	// 	return "Blog [id=" + id + ", mainCategory=" + mainCategory + ", category=" + category + ", Title=" + Title
+	// 			+ ", Description=" + Description + ", price=" + price + ", image=" + image + ", image2=" + image2 + ", image3="
+	// 			+ image3 + ", image4=" + image4 + ", image5=" + image5 + ", image6=" + image6 + ", region=" + region
+	// 			+ ", regionState=" + regionState + ", city=" + city + ", address=" + address + ", user=" + user + ", create_at="
+	// 			+ create_at + ", update_at=" + update_at + "]";
+	// }
+
 	
 }

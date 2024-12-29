@@ -40,5 +40,16 @@ public class UserAddressServiceImpl implements UserAddressService {
    address.setUser(null);
    repo.delete(address);
   }
+
+  @Override
+  public void setDefaultAddress(int id) {
+    repo.findAll().forEach(e->{
+      e.setActive("");
+      repo.save(e);
+    });
+    UserAddress address=repo.getReferenceById(id);
+    address.setActive("yes");
+    repo.save(address);
+  }
   
 }

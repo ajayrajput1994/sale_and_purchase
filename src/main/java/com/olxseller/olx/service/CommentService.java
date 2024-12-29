@@ -13,6 +13,8 @@ public interface CommentService {
 
   Comments getCommentByID(int id);
 
+  List<Comments> getAllComments();
+
   Comments updateComment(Comments obj,int id);
 
   void deleteCommentByID(int id);

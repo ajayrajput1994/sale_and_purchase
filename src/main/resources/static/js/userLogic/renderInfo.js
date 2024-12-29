@@ -153,6 +153,10 @@ if(getDictLength(addressDict)>0){
       <div  class="col-width"><b><span>Phone (Optional):</b></span> <span>${d.other_phone}</span></div>
       <div  class="col-md-12"><b><span>Address:</b></span> <span>${d.address}</span></div>
       <div  class="col-width"><b><span>Type:</b></span> <span class="badge text-bg-danger">${d.address_type}</span></div>
+      <div class="col-width form-check form-switch">
+        <input class="form-check-input" type="checkbox" onchange="setDefaultAddress(${d.id})" role="switch" id="flexSwitchCheckChecked" ${d.active=='yes'?'checked':''} >
+        <label class="form-check-label" for="flexSwitchCheckChecked"><b><span>Active:</b></span> </label>
+      </div>
       </div>
       </div>`);
       });

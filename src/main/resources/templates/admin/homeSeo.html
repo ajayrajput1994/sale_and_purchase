@@ -34,9 +34,9 @@
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Home Seo</h4>
-								</div> 
+								</div>
 								<form id="home_seo_form">
-									<input type="hidden" name="id" th:value="${homeseo?.id}" id="id">
+									<input type="hidden" name="id" th:value="${homeseo?.id}" >
 									<div class="row">
 										<div class="form-group col">
 											<label for="title">Title</label>
@@ -100,7 +100,7 @@
 									<h4 class="text-center">Home Address</h4>
 								</div>
 								<form id="address_form">
-									<input type="hidden" name="id" th:value="${webaddress?.id}" id="id">
+									<input type="hidden" name="id" th:value="${webaddress?.id}" >
 									<div class="row">
 										<div class="form-group col">
 											<label for="editorEmail">Editor Email</label>
@@ -162,16 +162,18 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Logo</h4>
 								</div>
-								<img th:src="@{'/image/'+${homeLogo?.logo}}" style="height:2.5rem;width:4rem;" class="my-2">
+								<div id="logoDom">
+									<img th:src="${homeLogo?.logo}" style="height:2.5rem;width:4rem;" class="my-2">
+								</div>
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="logo_form" enctype="multipart/form-data">
-									<input type="hidden" name="id" id="id"  th:value="${homeLogo?.id}">
-									<input type="hidden" name="logo" id="logo"  >
+								<!-- <form id="logo_form" enctype="multipart/form-data"> -->
+								<form id="logo_form">
+									<input type="hidden" name="id"  th:value="${homeLogo?.id}">
 									<div class="row">
 										<div class="form-group col">
-											<label for="file">Logo</label>
-											<input type="file" name="multipartfile" class="form-control" id="multipartfile"
-												placeholder="Enter title" />
+											<label for="multipartfile">Logo</label>
+											<input type="file" name="multipartfile" data-name="logo" data-form="logo_form" onchange="selectImg(this)"
+												class="form-control" id="multipartfile" accept="image/*" placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
@@ -192,8 +194,11 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Banner</h4>
 								</div>
-								<img th:src="@{'/image/'+${homebanner?.banner}}" style="height:6rem;width:100%;" class="my-2">
-								<form id="banner_form">
+								<div class="col-md-12" id="bannerDom">
+									<img th:src="${homebanner?.banner}" style="height:6rem;width:100%;" class="my-2">
+								</div>
+								<form id="bannerForm">
+									<input type="hidden" name="id" th:value="${homebanner?.id}" class="form-control" >
 									<div class="form-group ">
 										<label for="title">Title</label>
 										<input type="text" name="title" th:value="${homebanner?.title}" class="form-control" id="title"
@@ -201,15 +206,15 @@
 										<div class="invalid-feedback"></div>
 									</div>
 									<div class="form-group ">
-										<label for="multipartfile">Description </label>
-										<input type="file" name="multipartfile" class="form-control" id="multipartfile"
+										<label for="multipartfile">Banner </label>
+										<input type="file" name="multipartfile" data-name="banner" data-form="bannerForm" onchange="selectImg(this)" class="form-control" id="multipartfile"
 											placeholder="Enter Description" />
 										<div class="invalid-feedback"></div>
 									</div>
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="createPage()"
+										<button type="button" onclick="updateBanner()"
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
@@ -222,9 +227,9 @@
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h4 class="text-center">Social Sharing</h4>
-								</div> 
+								</div>
 								<form id="social_form">
-									<input type="hidden" name="id" id="id" th:value="${websocial?.id}">
+									<input type="hidden" name="id"  th:value="${websocial?.id}">
 									<div class="row">
 										<div class="form-group col">
 											<label for="facebook">Facebook Link</label>
@@ -295,11 +300,35 @@
 	<th:block th:include="admin/adminbase_layout :: myscript">
 	</th:block>
 	<script>
+		$(function(){
+			$('#loaderDom').hide();
+		})
+		function selectImg(btn) {
+			let v = btn.dataset.name,
+			formid = btn.dataset.form;
+			console.log(v);
+			if (btn.files.length == 1) {
+				convertFilesToBase64(btn.files)
+					.then(base64Strings => {
+						base64Strings.forEach((img, i) => {
+							$(`#${formid}`).prepend(`<textarea class="form-control" name="${v}" id="logo" style="display:none" >${img}</textarea> `);
+							$(`#${v}Dom`).html(`<img class=" img-thumbnail" id="${v}" src="${img}" alt="logo" >`);
+
+							console.log(img.length);
+						});
+					})
+					.catch(error => {
+						console.error('Error converting files:', error);
+					});
+			} else {
+				toastr.warning(`One file select only.`);
+			}
+		}
 		function showLogoDom() {
 			OpenHide('#logoFormDom', '#seoFormDom, #socialFormDom, #addressFormDom, #bannerFormDom');
 		}
 		function showAddressDom() {
-			OpenHide('#addressFormDom','#seoFormDom, #socialFormDom, #logoFormDom, #bannerFormDom');
+			OpenHide('#addressFormDom', '#seoFormDom, #socialFormDom, #logoFormDom, #bannerFormDom');
 		}
 		function showSocialDom() {
 			OpenHide('#socialFormDom', '#seoFormDom, #addressFormDom, #logoFormDom, #bannerFormDom');
@@ -326,10 +355,16 @@
 			}
 		}
 		function addLogo() {
-			if (formValidate('logo_form')) {
-				// createPostRequest('logo_form', '/admin/logo/update', 'addAddressCB');
-				uploadFiles('logo_form', '/admin/logo/update', 'addAddressCB');
-			}
+			// if (formValidate('logo_form')) {
+			createPostRequest('logo_form', '/admin/logo/update', 'addAddressCB');
+			// uploadFiles('logo_form', '/admin/logo/update', 'addAddressCB');
+			// }
+		}
+		function updateBanner() {
+			// if (formValidate('logo_form')) {
+			createPostRequest('bannerForm', '/admin/banner/update', 'addAddressCB');
+			// uploadFiles('logo_form', '/admin/logo/update', 'addAddressCB');
+			// }
 		}
 		function addAddressCB(r) {
 			console.log(r);

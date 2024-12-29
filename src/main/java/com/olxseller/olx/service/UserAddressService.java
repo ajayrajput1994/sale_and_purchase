@@ -10,6 +10,7 @@ public interface UserAddressService {
   
   UserAddress AddAddress(UserAddress obj);
   UserAddress getAddress(int id);
+  void setDefaultAddress(int id);
   UserAddress UpdateAddress(UserAddress obj,int id,int uid);
   List<UserAddress> getAddressList(int uid);
   void deleteAddress(int id,int uid);

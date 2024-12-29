@@ -167,6 +167,102 @@
     </div>
     <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
   </body>
+  <style>
+    .searchBox {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+height: 100vh;
+background-color: #ff5e57;
+line-height: 2;
+display: none;
+overflow: hidden;
+transition: all 1.5m ease-in;
+}
+
+#container {
+  width: 35vw;
+  height: auto;
+  background-color: #1e272e;
+/*   margin: 20vh auto; */
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4rem;
+  padding: 10px;
+}
+
+.search__box {
+  float: left;
+  width: 0;
+  height: 4rem;
+/*   display: inline; */
+  background: none;
+  color: #f7f7f7;
+  font-size: 1.5rem;
+  border-radius: 2rem;
+  outline: none;
+  border: none;
+  position: relative;
+  opacity: 1;
+  transition: all .75s ease-in;
+  cursor: pointer;
+/*   border: 2px solid tomato; */
+/*   margin-top: 5px; */
+}
+
+/* .search__box:focus, .search__box:hover {
+  background-color: #f1f2f6;
+} */
+
+.search__icon {
+  box-sizing: border-box;
+  float: right;
+  font-size: 2.5rem;
+  display: inline-block;
+/*   justify-content: center;
+  align-items: center; */
+  margin-left: .8rem;
+  margin-top: 0;
+  cursor: pointer;
+  position: absolute;
+  color: #fa983a;
+  transition: all .25s ease-in;
+  padding: .7rem;
+  border-radius: 50%;
+}
+
+#container:hover > .search__box {
+  width: 85%;
+  padding: 0 1rem;
+}
+
+#container:hover > .search__icon {
+  background-color: #eee;
+}
+
+.show {
+  width: 85%;
+  border: 1px solid red;
+}
+.searchCloseBtn {
+  position: absolute;
+    right: 10px;
+    top: 4px;
+    color: white;
+    font-size: 30px;
+}
+
+  </style>
+  <div class="searchBox">
+    <i class="fas fa-close searchCloseBtn" onclick="searchBox(false)"></i>
+    <div id="container">
+      <input type="text" id="box" placeholder="Search anything..." class="search__box">
+      <i class="fas fa-search search__icon" id="icon" onclick="toggleShow()"></i>
+  </div>
+  <img th:src="@{/image/no-bg-butterfly.png}" style="width: 100vw;height: 100vh;"/>
+  </div>
   <th:block th:include="base_layout :: myscript">
   </th:block>
   <div th:insert="~{base_layout :: myFooter}">
