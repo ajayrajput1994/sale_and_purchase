@@ -6,7 +6,12 @@ var loadedDTA = {},
   blogList = [],
   isShort='',
   stateTitle='',
-  passcode='';
+  passcode='',
+  cat = [],
+  sub = [],
+  state = [],
+  city = [],
+  selectedDT=[];
 $(function (){
   loadData();
 })
@@ -26,11 +31,11 @@ function loadData() {
   // $("#recordDom").html(showBlogs(blogList).join(""));
  
   let c = [
-    '<li class="list-group-item " aria-disabled="true"><h4>Categories</h4></li>',
+    '<li class="list-group-item filterTitle" aria-disabled="true"><h4>Categories</h4></li>',
   ];
   catList.forEach((e) => {
     c.push(`<li class="list-group-item form-check">
-      <input class="form-check-input" type="checkbox" name="maincat" value="${e.title}" id="${e.title}" >
+      <input class="form-check-input" type="checkbox" onchange="filterData(this)" name="maincat" value="${e.title}" id="${e.title}" >
       <label class="form-check-label" for="${e.title}">
       ${e.title}
       </label>
@@ -38,11 +43,11 @@ function loadData() {
   });
   $("#maincatDom").html(c.join(""));
   let sc = [
-    '<li class="list-group-item " aria-disabled="true"><h4>Sub Categories</h4></li>',
+    '<li class="list-group-item filterTitle" aria-disabled="true"><h4>Sub Categories</h4></li>',
   ];
   subcatList.forEach((e) => {
     sc.push(`<li class="list-group-item form-check">
-    <input class="form-check-input" type="checkbox" name="subcat" value="${e.title}" id="${e.title}" >
+    <input class="form-check-input" type="checkbox" onchange="filterData(this)" name="subcat" value="${e.title}" id="${e.title}" >
     <label class="form-check-label" for="${e.title}">
       ${e.title}
     </label>
@@ -50,11 +55,11 @@ function loadData() {
   });
   $("#subcatDom").html(sc.join(""));
   let st = [
-    '<li class="list-group-item " aria-disabled="true"><h4>States</h4></li>',
+    '<li class="list-group-item filterTitle" aria-disabled="true"><h4>States</h4></li>',
   ];
   stateList.forEach((e) => {
     st.push(`<li class="list-group-item form-check">
-    <input class="form-check-input" type="checkbox" name="state" value="${e.title}" id="${e.title}" >
+    <input class="form-check-input" type="checkbox" onchange="filterData(this)" name="state" value="${e.title}" id="${e.title}" >
     <label class="form-check-label" for="${e.title}">
       ${e.title}
     </label>
@@ -62,11 +67,11 @@ function loadData() {
   });
   $("#statesDom").html(st.join(""));
   let ct = [
-    '<li class="list-group-item " aria-disabled="true"><h4>Cities</h4></li>',
+    '<li class="list-group-item filterTitle" aria-disabled="true"><h4>Cities</h4></li>',
   ];
   cityList.forEach((e) => {
     ct.push(`<li class="list-group-item form-check">
-      <input class="form-check-input" type="checkbox" name="city" value="${e.title}" id="${e.title}" >
+      <input class="form-check-input" type="checkbox" onchange="filterData(this)" name="city" value="${e.title}" id="${e.title}" >
       <label class="form-check-label" for="${e.title}">
       ${e.title}
       </label>
@@ -101,72 +106,108 @@ $('.form-check-input').click(function(){
   filterData();
 });
 
-function filterData() {
-  var cat = [],
-    sub = [],
-    state = [],
-    city = [],
-    filteredBlogList=[],
+function filterData(check) {
+  var  filteredBlogList=[],
     filteredCatList=blogList.slice(),
     filteredSubList=blogList.slice(),
     filteredStateList=blogList.slice(),
-    filteredCityList=blogList.slice();
+    filteredCityList=blogList.slice(),
+    checkboxName='',
+    checkboxValue='';
+
+    if(check!=undefined){
+      checkboxName=check.name;
+      checkboxValue=check.value;
+      if(!checkboxName || !checkboxValue)return;      
+    }
+    let filterFlag=false,uniqueDict={},uniqBlogList=[];
   if(stateTitle){
     $(`input:checkbox[value='${stateTitle}']`).prop('checked',true);
+    state.push(stateTitle);
+    selectedDT.push(stateTitle);
+    // selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${stateTitle}" data-title="${stateTitle}" onclick="removeSelected(this)">${stateTitle}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
   }
-  $("input:checkbox[name='maincat']:checked").each(function () {
-    cat.push($(this).val());
+  if(checkboxName=='maincat'){
+    if(check.checked){
+      cat.push(checkboxValue);
+    }else{
+      cat = cat.filter(n => n !== checkboxValue);
+    }
+    if (cat.length>0) {
+      selectedDT.push(...cat);
+        filteredCatList = filteredCatList.filter((d) => {
+          return  cat.includes(d.mainCategory);
+        });
+        filterFlag=true;
+      filteredBlogList=filteredBlogList.concat(filteredCatList);
+    }
+  }else if(checkboxName=='subcat'){
+    if(check.checked){
+      sub.push(checkboxValue);
+    }else{
+      sub = sub.filter(n => n !== checkboxValue);
+    }
+    if (sub.length>0) {
+      selectedDT.push(...sub);
+        filteredSubList = filteredSubList.filter((d) => {
+          return sub.includes(d.category);
+        }); 
+        filterFlag=true;
+      filteredBlogList=filteredBlogList.concat(filteredSubList);
+    }
+  }else if(checkboxName=='state'){
+    if(check.checked){
+      state.push(checkboxValue);
+    }else{
+      state = state.filter(n => n !== checkboxValue);
+    }
+    if (state.length>0) {
+      selectedDT.push(...state);
+        filteredStateList = filteredStateList.filter((d) => {
+          return state.includes(d.regionState);
+        });
+        filterFlag=true;
+      filteredBlogList=filteredBlogList.concat(filteredStateList);
+    }
+
+  }else if(checkboxName=='city'){
+    if(check.checked){
+      city.push(checkboxValue);
+    }else{
+      city = city.filter(n => n !== checkboxValue);
+    }
+    if (city.length>0) {
+      selectedDT.push(...city);
+        filteredCityList = filteredCityList.filter((d) => {
+          return city.includes(d.city);
+        });
+        filterFlag=true;
+      filteredBlogList=filteredBlogList.concat(filteredCityList);
+    }
+
+  }
+  // $("input:checkbox[name='maincat']:checked").each(function () {
+  //   cat.push($(this).val());
+  // });
+  // $("input:checkbox[name='subcat']:checked").each(function () {
+  //   sub.push($(this).val());
+  // });
+  // $("input:checkbox[name='state']:checked").each(function () {
+  //   state.push($(this).val());
+  // });
+  // $("input:checkbox[name='city']:checked").each(function () {
+  //   city.push($(this).val());
+  // });
+  if(selectedDT.length>0){
+    $('#allClearDom').html('<span class="badge rounded-pill text-bg-danger st-filter" style="cursor:pointer;margin-right:5px;"  onclick="removeAllFilter()">All Clear</span>');
+  }
+  let badgeList=[],badgeSet=new Set();
+  selectedDT.forEach(s=>badgeSet.add(s));
+  badgeSet.forEach((s) => {
+    badgeList.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
   });
-  $("input:checkbox[name='subcat']:checked").each(function () {
-    sub.push($(this).val());
-  });
-  $("input:checkbox[name='state']:checked").each(function () {
-    state.push($(this).val());
-  });
-  $("input:checkbox[name='city']:checked").each(function () {
-    city.push($(this).val());
-  });
-  let selectedDT=[],filterFlag=false,uniqueDict={},uniqBlogList=[];
-  if (cat.length>0) {
-    cat.forEach((c) => {
-      selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${c}" data-title="${c}" onclick="removeSelected(this)">${c}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
-    });
-      filteredCatList = filteredCatList.filter((d) => {
-        return  cat.includes(d.mainCategory);
-      });
-      filterFlag=true;
-    filteredBlogList=filteredBlogList.concat(filteredCatList);
-  }
-  if (sub.length>0) {
-    sub.forEach((s) => {
-      selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
-    });
-      filteredSubList = filteredSubList.filter((d) => {
-        return sub.includes(d.category);
-      }); 
-      filterFlag=true;
-    filteredBlogList=filteredBlogList.concat(filteredSubList);
-  }
-  if (state.length>0) {
-    state.forEach((s) => {
-      selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
-    });
-      filteredStateList = filteredStateList.filter((d) => {
-        return state.includes(d.regionState);
-      });
-      filterFlag=true;
-    filteredBlogList=filteredBlogList.concat(filteredStateList);
-  }
-  if (city.length>0) {
-    city.forEach((s) => {
-      selectedDT.push(`<span class="badge rounded-pill text-bg-secondary st-filter" data-name="${s}" data-title="${s}" onclick="removeSelected(this)">${s}<i class="fa-regular fa-circle-xmark selected-icon"></i></span>`);
-    });
-      filteredCityList = filteredCityList.filter((d) => {
-        return city.includes(d.city);
-      });
-      filterFlag=true;
-    filteredBlogList=filteredBlogList.concat(filteredCityList);
-  }
+  
+  
   filteredBlogList.forEach(e=>{
     uniqueDict[e.id]=e;
   });
@@ -174,7 +215,7 @@ function filterData() {
     uniqBlogList.push(d);
   })
   uniqueDict={};
-  $('#selectedDom').html(selectedDT.join(''));
+  $('#selectedDom').html(badgeList.join(''));
   if(filterFlag){
     $("#recordDom").html(showBlogs(uniqBlogList).join(""));
   }else{
@@ -197,7 +238,7 @@ function showBlogs(dataList){
     if(list.includes(`${e.id}`)){
       isWishList=true;
     }
-    h.push(`<div class="col-md-4 mt-2" >
+    h.push(`
     <div class="card card-b">
       <!-- <img th:src="/image/${e.image}" class="card-img-top" alt="..."> 
       <img src="/image/${e.image}"  class="card-img-top" alt="..."> -->
@@ -212,15 +253,28 @@ function showBlogs(dataList){
         <div class="card-link"><span >${e.city}</span> <i class="fas fa-map-marker-alt ml-1"></i></div>
       </div>
     </div>
-    </div>`);
+    `);
   });
   return h;
 }
-
+function removeAllFilter(){
+  cat = [];sub = [];state = [];city = [];selectedDT=[];
+  $('#allClearDom').html('');
+  $('#selectedDom').html('');
+  filterData();
+}
 function removeSelected(icon){
   console.log(icon.dataset.name);
   $(`input:checkbox[value='${icon.dataset.name}']`).prop('checked',false);
   $(icon).remove();
+  selectedDT=selectedDT.filter(n => n !== icon.dataset.name);
+  cat=cat.filter(n => n !== icon.dataset.name);
+  sub=sub.filter(n => n !== icon.dataset.name);
+  state=state.filter(n => n !== icon.dataset.name);
+  city=city.filter(n => n !== icon.dataset.name);
+  if(selectedDT.length==0){
+    $('#allClearDom').html('');
+  }
   filterData();
   // $("input:checkbox[name='maincat']").prop('checked',false);
 }
@@ -345,4 +399,11 @@ function gotoWishlist(value){
               swal('Please provide signup passcode.', 'Input Required', 'warning');
           }
       });
+  }
+
+  function onTap(check){
+    console.log(check.value);
+    console.log(check.checked);
+    console.log(check.name);
+    console.log(check.id);
   }

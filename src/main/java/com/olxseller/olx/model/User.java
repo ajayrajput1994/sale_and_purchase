@@ -54,7 +54,7 @@ public class User implements Serializable {
 	@NotNull
 	private String update_at;
 	@NotNull
-	private String passcode;
+	private String passcode="";
 	@NotNull
 	private String wishList="[default]";
 	

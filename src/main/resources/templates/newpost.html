@@ -191,23 +191,23 @@
     function userValid(){
       let isValid=false;
       if(!$('#name').val()){
-          toastr.warning('Enter Title');
+          toastr.warning('Enter name');
           isValid=true;
         }
       if(!$('#email').val()){
-          toastr.warning('Enter Title');
+          toastr.warning('Enter email');
           isValid=true;
         }
       if(!$('#phone').val()){
-          toastr.warning('Enter Title');
+          toastr.warning('Enter phone');
           isValid=true;
         }
-      if(!$('#other_number').val()){
-          toastr.warning('Enter Title');
-          isValid=true;
-        }
+      // if(!$('#other_number').val()){
+      //     toastr.warning('Enter other phone');
+      //     isValid=true;
+      //   }
       if(!$('#address').val()){
-          toastr.warning('Enter Title');
+          toastr.warning('Enter address');
           isValid=true;
         }
         return isValid;

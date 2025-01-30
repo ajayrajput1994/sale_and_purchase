@@ -48,24 +48,31 @@ a.nav-link{
       color: #898282;
   
   }
+  .forDC{display: block;}
+  .forMob{    
+    margin-top: 7px;
+    margin-left: 4px;
+  }
+  .filterTitle h4{margin-left: -23px;font-size: 18px;}
 @media(max-width:768px){
-.offcanvas-body .dropdown-menu{
-  border: 0px;
-  width: 100%;
-  padding: 2px 5px;
-}
-.offcanvas-body .dropdown-menu li a{
-  margin-left: -0.25rem;
-  padding-left: 0px;
+  .offcanvas-body .dropdown-menu{
+    border: 0px;
+    width: 100%;
+    padding: 2px 5px;
+  }
+  .offcanvas-body .dropdown-menu li a{
+    margin-left: -0.25rem;
+    padding-left: 0px;
 
-}
+  }
 
-.offcanvas-body .dropdown-menu li a:hover{
-  margin-left: -0.05rem;
-  padding-left: 0px;
-  font-weight: 700;
-  font-size: 17px;
-}
+  .offcanvas-body .dropdown-menu li a:hover{
+    margin-left: -0.05rem;
+    padding-left: 0px;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .forDC{display: none !important;}
 }
 form input[type="text"] {
   height: 40px;
@@ -98,7 +105,7 @@ form .form-group{
 /* blog card */
 .card-b{
   border-radius: 15px 15px 0px 0px !important;
-  height: 25rem !important;
+  /* height: 25rem !important; */
   margin-bottom:7px;
 }
 .card-b img{
@@ -194,7 +201,7 @@ ul.li_padding li{
   font-size: 15px;
   font-weight: 700;
   padding-bottom: 3px;
-  border-bottom: 1px solid #808080b3;
+  /* border-bottom: 1px solid #808080b3; */
 }
 .shortBy span{
   margin-left: 10px;
@@ -340,3 +347,10 @@ background: #0d45a5;
   overflow: hidden;
   display: none;
 }
+/* #recordDom{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+} */

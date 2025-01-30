@@ -200,7 +200,7 @@
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [ 3,,4,5,7,13] },
+					{ visible: true, targets: [ 3,4,5,7,13] },
 					{ visible: false, targets: ['_all'] },
 				],
 				initComplete: function () {
@@ -270,7 +270,8 @@
 			recordDomOpen();
 			let d = r.data;
 			d['DT_RowId']=d.id;
-			d['img']=`<img src="/image/${d.image}" style="height:25px;width:25px;" />`;
+			d['img']=d.image;
+			// d['img']=`<img src="/image/${d.image}" style="height:25px;width:25px;" />`;
 			d['user']=r.userid;
 			d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
 			if (r.action == "UPDATE") {

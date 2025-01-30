@@ -110,13 +110,12 @@
           </div>
 
         </section>
-        <section>
-          <div class="row mt-3">
-            <div class="col-md-3 ">
+        <section id="main" class="wraper">
+            <div id="box">
               <div class="card card-f sticky">
                 <div class="card-header bg-white d-flex justify-content-between">
                   <h4>Filters</h4>
-                  <button class="btn btn-success btn-sm rounded-0" onclick="filterData()">load</button>
+                  <i class="fa-solid fa-xmark" id="closebtn" onclick="tapOn(false)"></i>
                 </div>
                 <div class="card-body py-0">
                   <ul class="list-group list-group-flush li_padding" id="maincatDom">
@@ -128,22 +127,27 @@
                   <ul class="list-group list-group-flush li_padding" id="subcatDom"></ul>
                   <ul class="list-group list-group-flush li_padding" id="cityDom"></ul>
                   <ul class="list-group list-group-flush li_padding" id="statesDom"></ul>
-                  <div class="d-flex justify-content-end pb-1"> 
-                    <button class="btn btn-success btn-sm rounded-0" onclick="filterData()">load</button>
-                  </div>
+                 
                 </div>
               </div>
             </div>
 
-            <div class="col-md-9">
-              <div class="d-flex justify-content-start shortBy"><div id="result-count"></div> short By:
+            <div>
+              <div class="d-flex justify-content-between " style="background: #fff;padding: 1px 5px;margin-bottom: 5px;">
+              <div class="d-flex justify-content-start shortBy">
+                <div id="result-count"></div>
                 <span class="active_sortby" data-name="" onclick="getShort(this)">Default</span>
-                <span data-name="PRICELTH" onclick="getShort(this)">price-Low To High</span>
-                <span data-name="PRICEHTL" onclick="getShort(this)">Price-High To Low</span>
-                <span data-name="NEW" onclick="getShort(this)">Newest First</span>
+                <span class="d-flex justify-content-start" data-name="PRICELTH" onclick="getShort(this)"><span class="forDC">Low To Hight</span><i class="fa-solid fa-arrow-down-1-9 forMob"></i></span>
+                <span class="d-flex justify-content-start" data-name="PRICEHTL" onclick="getShort(this)"><span class="forDC">High To Low</span><i class="fa-solid fa-arrow-up-9-1 forMob"></i></span>
+                <span data-name="NEW" onclick="getShort(this)">New</span>
               </div>
-              <div id="selectedDom"></div>
-              <div class="row" id="recordDom">
+              <i class="fa-solid fa-filter" id="filterbtn" onclick="tapOn(true)"></i>
+              </div>
+              <div class="d-flex justify-content-start" style="margin-bottom: 5px;">
+                <div id="allClearDom"></div>
+                <div id="selectedDom"></div>
+              </div>
+              <div id="recordDom">
                 <!-- <div class="col-md-4"  th:each="b : ${blogs}">
                   <div class="card card-b">
                     //<img th:src="@{'/image/'+${b?.image}}" class="card-img-top" alt="...">
@@ -161,7 +165,6 @@
                 </div> -->
               </div>
             </div>
-          </div>
         </section>
       </div>
     </div>
@@ -269,4 +272,19 @@ transition: all 1.5m ease-in;
     <span>Footer Error</span>
   </div>
   <script th:src="@{/js/frontLogic/homeFilter.js}"></script>
+  <script>
+    function tapOn(v){
+      if(v){
+        $('#box').show();
+        $('#box').removeClass('slide-out');
+        $('#box').addClass('slide-in');
+      }else{
+        $('#box').hide();
+        $('#box').removeClass('slide-in');
+        $('#box').addClass('slide-out')
+      }
+      // $('#main').removeClass('wraper');
+  
+    }
+  </script>
 </html>

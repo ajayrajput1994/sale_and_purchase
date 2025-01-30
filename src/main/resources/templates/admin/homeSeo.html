@@ -140,7 +140,7 @@
 									<div class="row">
 										<div class="form-group">
 											<label for="Address">Address </label>
-											<textarea type="text" name="Address" th:text="${webaddress?.Address}" rows="2"
+											<textarea type="text" name="address" th:text="${webaddress?.Address}" rows="2"
 												class="form-control rounded-0" id="Address" placeholder="Address"></textarea>
 											<div class="invalid-feedback"></div>
 										</div>
@@ -307,19 +307,19 @@
 			let v = btn.dataset.name,
 			formid = btn.dataset.form;
 			console.log(v);
-			if (btn.files.length == 1) {
-				convertFilesToBase64(btn.files)
-					.then(base64Strings => {
-						base64Strings.forEach((img, i) => {
+			if (btn.files.length == 1) { 
+
+			compressImgAndConvertToBase64(btn.files).then(base64ImgList => {
+					console.log(base64ImgList.length); // Do something with the base64 list
+					base64ImgList.forEach((img, i) => {
 							$(`#${formid}`).prepend(`<textarea class="form-control" name="${v}" id="logo" style="display:none" >${img}</textarea> `);
-							$(`#${v}Dom`).html(`<img class=" img-thumbnail" id="${v}" src="${img}" alt="logo" >`);
+							$(`#${v}Dom`).append(`<img class=" img-thumbnail" id="${v}" src="${img}" alt="logo" >`);
 
 							console.log(img.length);
 						});
-					})
-					.catch(error => {
-						console.error('Error converting files:', error);
-					});
+			}).catch(error => {
+					console.error('Error processing images:', error);
+			});
 			} else {
 				toastr.warning(`One file select only.`);
 			}

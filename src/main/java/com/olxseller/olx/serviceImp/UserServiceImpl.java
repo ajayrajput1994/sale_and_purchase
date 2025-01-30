@@ -6,13 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.service.UserService;
 
-@Service
+@Component
 public class UserServiceImpl implements UserService {
   @Autowired
   private UserRepository userRepo;

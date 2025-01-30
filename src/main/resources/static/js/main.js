@@ -239,3 +239,85 @@ function convertFilesToBase64(files) {
   }
   return Promise.all(promises);
 }
+
+function compressImgAndConvertToBase64(files) {
+  return new Promise((resolve, reject) => {
+      let base64ImgList = [], processedImages = 0;
+
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+              const img = new Image();
+              img.src = event.target.result;
+
+              img.onload = function () {
+                
+                  console.log(`Og Image${i} size: ${file.size/1024} KB`);
+                  compressImage(img, file);
+              };
+          };
+
+          reader.readAsDataURL(file);
+      }
+
+      function compressImage(img, file) {
+          const maxWidth = 800;  // Maximum width for resizing
+          const maxHeight = 800; // Maximum height for resizing
+          let width = img.width;
+          let height = img.height;
+          let quality = 0.9; // Initial quality for compression
+
+          if (width > height) {
+              if (width > maxWidth) {
+                  height *= maxWidth / width;
+                  width = maxWidth;
+              }
+          } else {
+              if (height > maxHeight) {
+                  width *= maxHeight / height;
+                  height = maxHeight;
+              }
+          }
+
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          function tryCompressAgain() {
+              canvas.toBlob(function (blob) {
+                  if (blob.size > 500000 && quality > 0.1) { // Compress further if still too large
+                      quality -= 0.1;
+                      tryCompressAgain();
+                  } else if (blob.size <= 500000) {
+                      console.log(`Compressed Image${processedImages} size: ${blob.size/1024} KB`);
+                      const reader = new FileReader();
+                      reader.onloadend = function () {
+                          const base64data = reader.result;
+                          base64ImgList.push(base64data);
+                          processedImages++;
+
+                          if (processedImages === files.length) {
+                              resolve(base64ImgList);
+                          }
+                      };
+                      reader.readAsDataURL(blob);
+                  } else {
+                      processedImages++;
+                      if (processedImages === files.length) {
+                          resolve(base64ImgList);
+                      }
+                  }
+              }, 'image/jpeg', quality);
+          }
+
+          tryCompressAgain();
+      }
+  });
+}
+
+
+

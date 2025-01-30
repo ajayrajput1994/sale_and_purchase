@@ -316,10 +316,12 @@ $('.imagefiles').prepend(`<textarea class="form-control" name="image" id="image"
 }
 // Example usage:
 function selectFile(btn) {
+  $('.imagefiles').html('');
   $('.multipartFile').html('');
   console.log(btn.files);
   if(btn.files.length<7){
-  convertFilesToBase64(btn.files)
+  // convertFilesToBase64(btn.files)
+  compressImgAndConvertToBase64(btn.files)
       .then(base64Strings => {
         base64Strings.forEach((img,i)=>{
           let h='';
