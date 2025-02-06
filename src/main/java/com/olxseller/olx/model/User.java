@@ -2,7 +2,9 @@ package com.olxseller.olx.model;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.BatchSize;
+
 import java.io.Serializable;
 @Entity
 public class User implements Serializable {
@@ -59,11 +64,14 @@ public class User implements Serializable {
 	private String wishList="[default]";
 	
 	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
-	private List<Blog> blog=new ArrayList<>();
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	private Set<Blog> blog=new HashSet<>();
 	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
-	private List<UserAddress> addresses=new ArrayList<>();
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	private Set<UserAddress> addresses=new HashSet<>();
+	// private List<UserAddress> addresses=new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -145,19 +153,19 @@ public class User implements Serializable {
 		this.agreed = agreed;
 	}
 
-	public List<Blog> getBlog() {
+	public Set<Blog> getBlog() {
 		return blog;
 	}
 
-	public void setBlog(List<Blog> blog) {
+	public void setBlog(Set<Blog> blog) {
 		this.blog = blog;
 	}
 
-	public List<UserAddress> getAddresses() {
+	public Set<UserAddress> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(List<UserAddress> addresses) {
+	public void setAddresses(Set<UserAddress> addresses) {
 		this.addresses = addresses;
 	}
 
@@ -192,7 +200,7 @@ public class User implements Serializable {
 
 	public User(int id, String name,String email,
 			String phone, String other_phone,String password,
-			String image, String role, Boolean enabled, Boolean agreed,String create_at,String update_at,String passcode, List<Blog> blog) {
+			String image, String role, Boolean enabled, Boolean agreed,String create_at,String update_at,String passcode, Set<Blog> blog) {
 		super();
 		this.id = id;
 		this.name = name;

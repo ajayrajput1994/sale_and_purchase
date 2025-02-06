@@ -2,13 +2,12 @@ package com.olxseller.olx.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import com.olxseller.olx.model.User;
 
-@Transactional
-@Service
+// @Transactional
+@Component
 public interface UserService {
 	User createUser(User user);
 

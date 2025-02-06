@@ -238,17 +238,15 @@ public class PageController {
 			String subject = "demo purpose";
 			String username = (String) session.getAttribute("username");
 			session.setAttribute("message", new Message("Successfully registered !!", "alert-success"));
-			// boolean flag=this.mailService.sendEmail(subject, mess, email);
-			// if(flag)
-			// {
-			// session.setAttribute("email", email);
+			boolean flag=this.mailService.sendEmail(subject, mess, email);
+			if(flag)
+			{
+			session.setAttribute("email", email);
 
-			// }else
-			// {
-			// session.setAttribute("message", new Message("mail not send check your email
-			// !!","alert-success"));
-
-			// }
+			}else
+			{
+			session.setAttribute("message", new Message("mail not send check your email!!","alert-success"));
+			}
 			return "signup";
 
 		} catch (Exception e) {
