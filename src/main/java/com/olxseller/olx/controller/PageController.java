@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
+import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
 import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.UserAndPost;
 import com.olxseller.olx.model.WebPage;
+import com.olxseller.olx.repository.BannerRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
@@ -66,6 +68,8 @@ public class PageController {
 	private BlogService blogService;
 	@Autowired
   public ContactService contactService;
+	@Autowired
+  public BannerRepository bannerRepo;
 
 	@ModelAttribute
 	public void commondata(Model m,Principal principal) {
@@ -188,7 +192,9 @@ public class PageController {
 
 	@GetMapping({"", "/" })
 	public String demo(Model m) {
+		Banner banner = this.bannerRepo.getHomeBanner();
 		m.addAttribute("blogs", blogService.getAllBlogs());
+		m.addAttribute("homebanner", banner == null ? new Banner() : banner);
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "index";
