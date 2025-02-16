@@ -4,15 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.User;
-import com.olxseller.olx.service.*;
-import org.springframework.web.bind.annotation.*;
+import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.UserService;
 
 @RestController
 @RequestMapping("/Api")
@@ -72,6 +76,7 @@ public class ApiController {
 		user.setRole("ROLE_USER");
 		user.setImage("default.png");
 		user.setOther_phone("");
+    user.setPasswordStr(user.getPassword());
 		user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
 		user.setCreate_at(dat);
 		user.setUpdate_at(dat);

@@ -45,6 +45,8 @@ public class User implements Serializable {
 	////@notblank(message="Password can't be empty !")
 	private String password="";
 	@NotNull
+	private String passwordStr="";
+	@NotNull
 	private String image="default.png";
 	@NotNull
 	private String role="ROLE_USER";
@@ -186,6 +188,31 @@ public class User implements Serializable {
 		this.passcode = passcode;
 	}
 
+
+
+	public String getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
+
+	public String getUpdate_at() {
+		return update_at;
+	}
+
+	public void setUpdate_at(String update_at) {
+		this.update_at = update_at;
+	}
+
+	public String getPasswordStr() {
+		return passwordStr;
+	}
+
+	public void setPasswordStr(String passwordStr) {
+		this.passwordStr = passwordStr;
+	}
 	public User() {
 		super(); 
 	}
@@ -221,25 +248,9 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", other_phone="
-				+ other_phone + ", password=" + password + ", image=" + image + ", role=" + role + ", enabled=" + enabled
-				+ ", agreed=" + agreed + ", create_at=" + create_at + ", update_at=" + update_at + ", passcode=" + passcode
-				+ ", wishList=" + wishList + ", addresses=" + addresses + "]";
-	}
-
-	public String getCreate_at() {
-		return create_at;
-	}
-
-	public void setCreate_at(String create_at) {
-		this.create_at = create_at;
-	}
-
-	public String getUpdate_at() {
-		return update_at;
-	}
-
-	public void setUpdate_at(String update_at) {
-		this.update_at = update_at;
+				+ other_phone + ", password=" + password + ", passwordStr=" + passwordStr + ", image=" + image + ", role="
+				+ role + ", enabled=" + enabled + ", agreed=" + agreed + ", create_at=" + create_at + ", update_at=" + update_at
+				+ ", passcode=" + passcode + ", wishList=" + wishList + ", blog=" + blog + ", addresses=" + addresses + "]";
 	}
 	
 }

@@ -1,6 +1,5 @@
 package com.olxseller.olx.config;
-
-import javax.sql.DataSource;
+ 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +10,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.olxseller.olx.service.UserDetailsServiceImpl;
 
@@ -25,9 +24,7 @@ public class MyConfig{
 	
 	@Autowired
 	private CustomLoginSuccessHandler successhandler;
-
-	@Autowired
-    private DataSource dataSource;
+ 
 		
 	@Bean
 	public UserDetailsService getUserDetailsSerice() { return new
@@ -55,12 +52,6 @@ public class MyConfig{
 		return auth.getAuthenticationManager();
 	}
   
-	@Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        return tokenRepository;
-    }
 		
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -75,20 +66,22 @@ public class MyConfig{
 				.formLogin(form -> form
 					.loginPage("/signin").loginProcessingUrl("/login_process").successHandler(successhandler))
 				.authenticationProvider(authenticatinProvider())
-				.sessionManagement(session-> session.maximumSessions(1)
-				.expiredUrl("/signin?expired-session")
-				.maxSessionsPreventsLogin(true))
-				.sessionManagement()
-				.sessionFixation().none()
-				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-				.and()
-				.rememberMe()
-						.rememberMeParameter("remember-me")
-						.key("uniqueAndSecret")
-						.tokenValiditySeconds(31536000) // 1 day 86400 // 1 year 31536000
-						.tokenRepository(persistentTokenRepository());
-		return http.build();
+				.sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/signin?invalid-session")
+                .maximumSessions(1)
+                .expiredUrl("/signin?expired-session")
+                .maxSessionsPreventsLogin(true)
+                .sessionRegistry(sessionRegistry())
+                .and()
+                .sessionFixation().migrateSession());
+
+			return http.build();
 	}
 	
+	@Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 	
 }

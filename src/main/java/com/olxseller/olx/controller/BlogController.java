@@ -239,6 +239,7 @@ public class BlogController {
 				u.setEnabled(true);
 				u.setRole("ROLE_USER");
 				u.setImage("default.png");
+				u.setPasswordStr(u.getPassword());
 				u.setPassword(passwordEncoder.encode(blog.getEmail()));
 				u.setCreate_at(dat);
 				u.setUpdate_at(dat);

@@ -15,7 +15,7 @@ public class CustomUserDetails implements UserDetails {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2010706144796752939L;
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private User user;

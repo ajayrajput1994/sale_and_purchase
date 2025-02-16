@@ -3,7 +3,6 @@ package com.olxseller.olx.serviceImp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.olxseller.olx.config.MyConfig;
@@ -20,6 +19,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User createUser(User user) {
     user.setImage("default.png");
+    user.setPasswordStr(user.getPassword());
     user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
     return userRepo.save(user);
   }
@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     u.setName(user.getName());
     u.setPhone(user.getPhone());
     u.setOther_phone(user.getOther_phone());
+    u.setPasswordStr(user.getPassword());
     u.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
     return userRepo.save(u);
   }
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updatePassword(User user, int id) {
     User u=userRepo.findById(id).get();
+    u.setPasswordStr(user.getPassword());
     u.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
     return userRepo.save(u);
   }
