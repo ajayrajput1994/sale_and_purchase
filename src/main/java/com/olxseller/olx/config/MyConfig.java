@@ -1,5 +1,7 @@
 package com.olxseller.olx.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +10,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.olxseller.olx.service.UserDetailsServiceImpl;
 
@@ -21,6 +26,9 @@ public class MyConfig{
 	@Autowired
 	private CustomLoginSuccessHandler successhandler;
 
+	@Autowired
+    private DataSource dataSource;
+		
 	@Bean
 	public UserDetailsService getUserDetailsSerice() { return new
 	UserDetailsServiceImpl(); }
@@ -41,30 +49,19 @@ public class MyConfig{
 	return daoAuthenticationProvider;
 	
 	}
-	
-		//Configure method
-	
-	// @Override
-	// protected void configure(AuthenticationManagerBuilder auth) throws
-	// Exception { auth.authenticationProvider(this.authenticatinProvider());
-	
-	// }
-	
-	//configure http method
-	
-	// @Override protected void configure(HttpSecurity http) throws Exception { http
-	// .authorizeRequests() .antMatchers("/admin/**").hasRole("ADMIN")
-	// .antMatchers("/user/**").hasRole("USER") 
-	// .antMatchers("/**").permitAll()
-	// .and().formLogin().loginPage("/signin").loginProcessingUrl("/login_process").successHandler(successhandler)
-	// .and().csrf().disable(); }
-//	  .loginPage("/signin").loginProcessingUrl("/login_process") .defaultSuccessUrl("/users/index")
+	 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception{
 		return auth.getAuthenticationManager();
 	}
   
-	
+	@Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
+    }
+		
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		String[] adminAccess={"/admin/**","/user/**"};
@@ -78,11 +75,20 @@ public class MyConfig{
 				.formLogin(form -> form
 					.loginPage("/signin").loginProcessingUrl("/login_process").successHandler(successhandler))
 				.authenticationProvider(authenticatinProvider())
-				.sessionManagement()
-				.maximumSessions(1)
+				.sessionManagement(session-> session.maximumSessions(1)
 				.expiredUrl("/signin?expired-session")
-				.maxSessionsPreventsLogin(true);
+				.maxSessionsPreventsLogin(true))
+				.sessionManagement()
+				.sessionFixation().none()
+				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+				.and()
+				.rememberMe()
+						.rememberMeParameter("remember-me")
+						.key("uniqueAndSecret")
+						.tokenValiditySeconds(31536000) // 1 day 86400 // 1 year 31536000
+						.tokenRepository(persistentTokenRepository());
 		return http.build();
 	}
+	
 	
 }
