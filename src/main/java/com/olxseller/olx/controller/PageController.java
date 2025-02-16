@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
@@ -43,7 +44,7 @@ import com.olxseller.olx.service.WebPageService;
 public class PageController {
 
 	@Autowired
-	public BCryptPasswordEncoder passwordEncoder;
+	public MyConfig myConfig;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -79,7 +80,7 @@ public class PageController {
 		map.put("cities", cityService.getAllCity());
 		map.put("subcats", subcatService.getAllSubcat());
 		map.put("blogs", blogService.getAllBlogs());
-		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		var dta= responseData.jsonDataResponse("SUCCESS", "common data loaded", map);
 		m.addAttribute("dta",dta);
 		m.addAttribute("allstates", this.stateService.getAllStates());
 		m.addAttribute("social",  socialService.getSocialLinks());
@@ -152,13 +153,14 @@ public class PageController {
 		// // System.out.println("error"+result);
 		// return "signin";
 		// }
-		/* System.out.println(logindata); */
+		 System.out.println("logindata"+logindata); 
 		String activename = (String) session.getAttribute("username");
+		// System.out.println("active user"+activename);
 		if(activename==null){
 			session.setAttribute("username", logindata.getEmail());
 		}
-		System.out.println("wishlist"+logindata.getWishList());
-		System.out.println("login:"+activename);
+		// System.out.println("wishlist"+logindata.getWishList());
+		// System.out.println("login:"+activename);
 		model.addAttribute("title", logindata.getEmail());
 		model.addAttribute("subtitle", logindata.getPassword());
 		/*
@@ -232,7 +234,7 @@ public class PageController {
 			user.setRole("ROLE_USER");
 			user.setImage("default.png");
 			user.setOther_phone("");
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
 			user.setCreate_at(dat);
 			user.setUpdate_at(dat);
 
@@ -244,15 +246,15 @@ public class PageController {
 			String subject = "demo purpose";
 			String username = (String) session.getAttribute("username");
 			session.setAttribute("message", new Message("Successfully registered !!", "alert-success"));
-			boolean flag=this.mailService.sendEmail(subject, mess, email);
-			if(flag)
-			{
-			session.setAttribute("email", email);
+			// boolean flag=this.mailService.sendEmail(subject, mess, email);
+			// if(flag)
+			// {
+			// session.setAttribute("email", email);
 
-			}else
-			{
-			session.setAttribute("message", new Message("mail not send check your email!!","alert-success"));
-			}
+			// }else
+			// {
+			// session.setAttribute("message", new Message("mail not send check your email!!","alert-success"));
+			// }
 			return "signup";
 
 		} catch (Exception e) {

@@ -1,5 +1,7 @@
 package com.olxseller.olx.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Blog {
+public class Blog  implements Serializable {
+
+	private static final long serialVersionUID=1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

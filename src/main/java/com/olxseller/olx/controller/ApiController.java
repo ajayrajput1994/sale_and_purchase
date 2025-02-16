@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
 
+import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.service.*;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/Api")
 public class ApiController {
 	@Autowired
-	public BCryptPasswordEncoder passwordEncoder;
+	public MyConfig myConfig;
 	@Autowired
 	public ResponseData responseData;
 	@Autowired
@@ -62,7 +63,7 @@ public class ApiController {
 		System.out.println("phone:"+phone);
 		System.out.println("password:"+password);
 		try { 
-		User user=new User(email,passwordEncoder.encode(password),dat,dat);  
+		User user=new User(email,myConfig.passwordEncoder().encode(password),dat,dat);  
 		user.setName(name);
 		// user.setEmail(email);
 		user.setPhone(phone);
@@ -71,7 +72,7 @@ public class ApiController {
 		user.setRole("ROLE_USER");
 		user.setImage("default.png");
 		user.setOther_phone("");
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
 		user.setCreate_at(dat);
 		user.setUpdate_at(dat);
 		// user = this.userService.createUser(user);

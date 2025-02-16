@@ -32,12 +32,17 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	
 	protected String determineTargetUrl(Authentication authentication) {
 		String url="/login?error=true";
+		System.out.println("login user authentication");
+		System.out.println("getName: "+authentication.getName());
+		System.out.println("getCredentials: "+authentication.getCredentials());
+		System.out.println("getAuthorities: "+authentication.getAuthorities());
 		Collection<? extends GrantedAuthority> authorties=authentication.getAuthorities();
 		List<String> roles=new ArrayList<String>();
 		for(GrantedAuthority a: authorties) {
 			roles.add(a.getAuthority());
 		}
 		//check user role and decide the redirect url
+		// System.out.println(roles);
 		if(roles.contains("ROLE_USER")) {
 			url="/user/";
 		}
