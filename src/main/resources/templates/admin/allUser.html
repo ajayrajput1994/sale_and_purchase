@@ -9,14 +9,17 @@
 	<body>
 		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
 			<section id="myContent">
-				<div class="row">
+				<div class="row" >
 					<div class="col-md-12 mx-auto" id="formDom" style="display: none;">
 						<div class="card rounded-0">
-							<div class="card-body">
-								<div class="d-flex justify-content-between">
-									<h4 class="text-center">Create User</h4>
+							<div class="card-body row">
+								<div class="d-flex justify-content-end"> 
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
+								</div>
+								<div class="col-6">
+								<div class="d-flex justify-content-start">
+									<h4 class="text-center">Create User</h4> 
 								</div>
 								<form id="user_form">
 									<input type="hidden" name="id" id="id">
@@ -40,12 +43,12 @@
 											<input type="text" name="phone" class="form-control" id="phone" placeholder="Enter keyword" />
 											<div class="invalid-feedback"></div>
 										</div>
-										<div class="form-group col" >
+										<!-- <div class="form-group col" >
 											<label for="password">Password </label>
 											<input type="text" name="password" class="form-control" id="password"
 												placeholder="Enter Description" />
 											<div class="invalid-feedback"></div>
-										</div>
+										</div> -->
 									</div>
 
 
@@ -57,7 +60,28 @@
 											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
 									</div>
 								</form>
+								
+							</div>
+							<div class="col-6" id="passwordFormDom" style="display:none;">
+								<div class="d-flex justify-content-start">
+									<h4 class="text-center">Change Password</h4>
 
+								</div>
+								<form id="passwordForm" >
+									<input type="hidden" name="id" id="passwordid">
+									<div class="form-group">
+										<label for="password">New Password</label>
+										<input type="password" name="password" id="password" class="form-control" >
+									</div>
+									<div class="form-group">
+										<label for="conf_password">Confirm Password</label>
+										<input type="text"  id="conf_password" class="form-control" >
+									</div>
+								 <div class="d-flex justify-content-end">
+									<button type="button" class="btn btn-success btn-sm rounded-0 mr-5" onclick="updatePassword()">Update</button>
+								 </div>
+								</form>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -68,7 +92,7 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title text-center">All Users</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
-										onclick="formDomOpen()">Create</button>
+										onclick="formDomOpen(true)">Create</button>
 								</div>
 								<table class="table table-strip display" id="users_table">
 									<thead>
@@ -137,19 +161,25 @@
 				}
 				var data = categoryDT.row(this).data();
 				console.log(data);
-				formDomOpen();
+				formDomOpen(false);
 				$('#id').val(data.DT_RowId);
+				$('#passwordid').val(data.DT_RowId);
 				$('#name').val(data.name);
 				$('#email').val(data.email);
 				$('#phone').val(data.phone);
-				$('#password').val(data.password);
+				// $('#password').val(data.password);
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 			});
 			$('#loaderDom').hide();
 		});
 
-		function formDomOpen() {
-			OpenHide('#formDom', '#recordDom');
+		function formDomOpen(value) {
+			if(value){
+				$('#user_form')[0].reset(); 
+				OpenHide('#formDom', '#recordDom, #passwordFormDom'); 
+			}else{
+				OpenHide('#formDom, #passwordFormDom', '#recordDom'); 
+			}
 		}
 		function recordDomOpen() {
 			OpenHide('#recordDom', '#formDom');
@@ -193,6 +223,36 @@
 			categoryDT.row(`#${r.data}`).remove().draw();
 		}
 
+	function updatePassword(){
+		let pass1=$('#password').val(),
+		pass2=$('#conf_password').val(),
+		isTrue=true;
+		if(pass1=="" || pass1==null){
+			isTrue=false;
+			toastr.warning("Password can't Empty");
+		}
+		if(pass2=="" || pass2==null){
+			isTrue=false;
+			toastr.warning("Confirm Password can't Empty");
+			}
+			if(pass1.length<4){
+				isTrue=false;
+			toastr.warning("Password length must be 4 Character");
+		}
+			if(pass1!=pass2){
+				isTrue=false;
+			toastr.warning("Confirm password is not matched");
+		}
+		if(isTrue){
+			createPostRequest('passwordForm','/admin/user/password','updatePasswordCB');
+		}
+	}
+
+function updatePasswordCB(r){
+  console.log(r);
+  $('#passwordForm')[0].reset();
+  recordDomOpen();
+}
 	</script>
 
 </html>

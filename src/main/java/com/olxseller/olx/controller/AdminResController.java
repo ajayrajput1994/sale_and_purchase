@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -300,7 +301,20 @@ public class AdminResController {
 		}
 		// return null;
 	}
-
+@PostMapping("/user/password")
+	public ResponseEntity<?> changePassword(@RequestBody User user,Principal principal) {
+		System.out.println("user password:" + user);
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		// String dat = sdf.format(new Date());
+		try {
+				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", userService.updatePassword(user, user.getId())),
+						HttpStatus.OK);
+			
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
 	@PostMapping("/webaddress/create")
 	public ResponseEntity<?> createUpdateWebsiteAddress(@RequestBody WebSiteAddress address) {
 		System.out.println("webaddress:" + address);

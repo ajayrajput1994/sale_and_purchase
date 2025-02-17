@@ -242,10 +242,10 @@ public class PageController {
 			User u = this.userService.createUser(user);
 			System.out.println(u);
 			m.addAttribute("regdata", new User());
-			String email = u.getEmail();
-			String mess = "this is demo email";
-			String subject = "demo purpose";
-			String username = (String) session.getAttribute("username");
+			// String email = u.getEmail();
+			// String mess = "this is demo email";
+			// String subject = "demo purpose";
+			// String username = (String) session.getAttribute("username");
 			session.setAttribute("message", new Message("Successfully registered !!", "alert-success"));
 			// boolean flag=this.mailService.sendEmail(subject, mess, email);
 			// if(flag)

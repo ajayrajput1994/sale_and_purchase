@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
     u.setName(user.getName());
     u.setPhone(user.getPhone());
     u.setOther_phone(user.getOther_phone());
-    u.setPasswordStr(user.getPassword());
-    u.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
+    // u.setPasswordStr(user.getPassword());
+    // u.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
     return userRepo.save(u);
   }
 

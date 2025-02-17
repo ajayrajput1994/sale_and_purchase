@@ -18,11 +18,35 @@ $(function(){
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   }
+  checkPhoneNumber()
 })
-// function showAndHideAnyDom(showDom,hideDom){
-//   $(showDom).show();
-//   $(hideDom).hide();
-// }
+function checkPhoneNumber() {
+
+  // Allow only numbers for phone input and ensure it has exactly 10 digits
+  let phoneEl = $("input[name='phone']");  
+  
+  function showMessage(element,messageText, className) {
+    $(element).next(".message").remove(); 
+      $("<div class='message' style='margin-top:5px,margin-left:2px;font-size:13px'></div>")
+        .text(messageText).addClass(className).insertAfter(element)
+        .fadeOut(3000, function() { $(this).remove(); });
+  }
+  phoneEl.on("input", function() {
+      var phone = $(this).val().replace(/\D/g, '').substring(0, 10);
+      $(this).val(phone);
+      showMessage(this,phone.length !== 10 ? "Phone number must be exactly 10 digits." : "Phone number is valid.", phone.length !== 10 ? "error" : "success");
+  }).on("keypress", function(e) {
+      if (!/\d/.test(String.fromCharCode(e.keyCode || e.which))) {
+          showMessage(this,"Only digits are allowed.", "error");
+          return false;
+      }
+  });
+  $("input[name='email']").on("input", function() {
+    var email = $(this).val();
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    showMessage(this, emailPattern.test(email) ? "Email is valid." : "Invalid email format.", emailPattern.test(email) ? "success" : "error");
+});
+}; 
 function OpenHide(show,hide){
   $(show).show();
   $(hide).hide();
@@ -222,8 +246,7 @@ function getAllUniqueKeysFromListOfMap(arrayOfObjects) {
   return Array.from(allKeys);
 }
 
-function convertFilesToBase64(files) {
-  const promises = [];
+function convertFilesToBase64(files) {const promises = [];
   for (const file of files) {
       const promise = new Promise((resolve, reject) => {
           const reader = new FileReader();

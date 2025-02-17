@@ -244,7 +244,8 @@ ul.li_padding li{
 #selectedDom span{
   margin-right: 7px;
 }
-
+.error {color: red !important;}
+.success {color: green !important;}
 /* filter scc */
 .wishlistDom-icon i{
   margin-right: 5px;
