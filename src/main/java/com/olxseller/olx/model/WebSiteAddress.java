@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class WebSiteAddress {
@@ -17,9 +18,9 @@ public class WebSiteAddress {
 	private String infoEmail="";
 	
 	private String adminEmail="";
-	
+	@Pattern(regexp = "\\d{10}")
 	private String phone="";
-	
+	@Pattern(regexp = "\\d{10}")
 	private String phone2="";
 	
 	private String Address="";
