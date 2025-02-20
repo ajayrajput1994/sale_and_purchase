@@ -25,8 +25,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Validated ProductDTO productDTO) {
-        System.out.println("Body product id:"+productDTO.getUserId());
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Validated ProductDTO productDTO) { 
         ProductDTO savedProduct = productService.saveProduct(productDTO);
         return ResponseEntity.ok(savedProduct);
     }
@@ -39,8 +38,7 @@ public class ProductController {
     }
     @PutMapping("/price/{id}")
     public ResponseEntity<ProductDTO> updateProductPriceQty(@PathVariable int id, @RequestBody @Validated ProductDTO productDTO) {
-        productDTO.setId(id);
-        System.out.println("update product:"+productDTO.getId());
+        productDTO.setId(id); 
         ProductDTO updatedProduct = productService.updatePriceAndQty(productDTO);
         return ResponseEntity.ok(updatedProduct);
     }

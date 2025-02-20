@@ -66,6 +66,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     private ProductDTO convertToDTO(Product product) {
+        System.out.println(product.getId());
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
@@ -79,6 +80,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     private Product convertToEntity(ProductDTO productDTO) {
+        System.out.println(productDTO.getUserId());
         Product product = new Product();
         product.setId(productDTO.getId());
         product.setName(productDTO.getName());
@@ -89,20 +91,21 @@ public class ProductServiceImpl implements ProductService{
         product.setCategory(productDTO.getCategory());
         User user = userRepository.findById(productDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + productDTO.getUserId()));
-        product.setUser(user);
+        product.setUser(user); 
         return product;
     } 
 
     @Override
     public ProductDTO updatePriceAndQty(ProductDTO productDTO) {
-        
-        Product product=productRepository.findById(productDTO.getId())
-        .orElseThrow(() -> new RuntimeException("Product not found with id: " + productDTO.getId()));
-        
-           product = convertToEntity(productDTO);
-          product = productRepository.save(product);
-          return convertToDTO(product);
-       
+        if (productRepository.existsById(productDTO.getId())) { 
+            Product product = productRepository.findById(productDTO.getId()).get();
+            product.setPrice(productDTO.getPrice());
+            product.setQuantity(productDTO.getQuantity());
+            product = productRepository.save(product);
+            return convertToDTO(product);
+        } else {
+            throw new RuntimeException("Product not found with id: " + productDTO.getId());
+        }  
     }
   
 }
