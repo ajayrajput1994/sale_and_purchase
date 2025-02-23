@@ -18,8 +18,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.olxseller.olx.helper.AuditListener;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @EntityListeners({AuditListener.class,AuditingEntityListener.class})
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,108 +63,7 @@ public class Product {
   @LastModifiedDate
   private LocalDateTime updatedAt;
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public double getPrice() {
-    return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
-  }
-
-  public int getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
-  }
-
-  public String getImage() {
-    return image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
-
-  public String getCategory() {
-    return category;
-  }
-
-  public void setCategory(String category) {
-    this.category = category;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public LocalDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  @Override
-  public String toString() {
-    return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", quantity="
-        + quantity + ", image=" + image + ", category=" + category + ", user=" + user + ", createdAt=" + createdAt
-        + ", updatedAt=" + updatedAt + "]";
-  }
-
-  public Product(int id, @NotBlank String name, @NotBlank String description, @NotNull double price,
-      @NotNull int quantity, @NotBlank String image, @NotBlank String category, User user) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.quantity = quantity;
-    this.image = image;
-    this.category = category;
-    this.user = user;
-  }
-
-  public Product() {
-    //TODO Auto-generated constructor stub
-  }
+  
   
   
 }

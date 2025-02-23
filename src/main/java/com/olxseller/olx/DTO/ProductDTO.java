@@ -1,5 +1,7 @@
 package com.olxseller.olx.DTO;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,6 +38,9 @@ public class ProductDTO {
 
     @NotBlank(message = "Category is mandatory")
     private String category;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
   
 }
 
