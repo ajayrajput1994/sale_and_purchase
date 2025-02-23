@@ -1,5 +1,7 @@
 package com.olxseller.olx.serviceImp;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,9 @@ public class PaymentServiceImp implements PaymentService{
 
   @Override
   public PaymentDTO updatePayment(PaymentDTO paymentDTO) {
-    if(paymentRepository.existsById(paymentDTO.getId())){
-      Payment payment=paymentRepository.findById(paymentDTO.getId()).get();
+    Optional<Payment> existPayment=paymentRepository.findById(paymentDTO.getId());
+    if(existPayment.isPresent()){
+      Payment payment=existPayment.get();
       BeanUtils.copyProperties(paymentDTO, payment, "id","userId","orderId","paymentDate","updatedAt");
       return toDTO(paymentRepository.save(payment));
     }else{

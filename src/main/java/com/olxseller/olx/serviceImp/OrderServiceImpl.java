@@ -32,8 +32,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public OrderDTO updateOrder(OrderDTO orderDTO) {
-        if(orderRepository.existsById(orderDTO.getId())) {
-            Order order=orderRepository.findById(orderDTO.getId()).get();
+       Optional<Order> existOrder =orderRepository.findById(orderDTO.getId());
+        if(existOrder.isPresent()) {
+            Order order=existOrder.get();
             BeanUtils.copyProperties(orderDTO, order,"id","orderDate","deliveredAt","updatedAt","userId","orderId");
             return toDTO(orderRepository.save(order));
         }else{

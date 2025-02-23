@@ -35,10 +35,10 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        if (productRepository.existsById(productDTO.getId())) {
-            Product product = productRepository.findById(productDTO.getId()).get();
+        Optional<Product> existProduct = productRepository.findById(productDTO.getId());
+        if (existProduct.isPresent()) {
+            Product product = existProduct.get();
             BeanUtils.copyProperties(productDTO, product, "id","createdAt","updatedAt","userId");
-            // Product product = convertToEntity(productDTO);
             // product = productRepository.save(product);
             return convertToDTO(productRepository.save(product));
         } else {

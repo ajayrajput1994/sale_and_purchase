@@ -1,6 +1,8 @@
 package com.olxseller.olx.serviceImp;
 
+import java.nio.file.OpenOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -32,10 +34,11 @@ public class ReviewServiceImp implements ReviewService{
 
   @Override
   public ReviewDTO updateReview(ReviewDTO reviewDTO) {
-    if(reviewRepo.existsById(reviewDTO.getId())){
-      Review existReview=reviewRepo.findById(reviewDTO.getId()).get();
-      BeanUtils.copyProperties(reviewDTO, existReview,"id","createdAt","updatedAt","userId","productId");
-      return toDto(reviewRepo.save(existReview));
+    Optional<Review> existReview=reviewRepo.findById(reviewDTO.getId());
+    if(existReview.isPresent()){
+      Review review=existReview.get();
+      BeanUtils.copyProperties(reviewDTO, review,"id","createdAt","updatedAt","userId","productId");
+      return toDto(reviewRepo.save(review));
     }else{
       throw new RuntimeException("Review not found with ID: "+reviewDTO.getId());
     }
