@@ -1,14 +1,16 @@
+
+
 package com.olxseller.olx.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,56 +23,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 @Entity
-@Table(name = "customer_order") 
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Order {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id; 
-    @NotBlank
-    private String orderId; 
+    private int id;
+    @NotNull
     @ManyToOne
-    private User user; 
+    private User user;
+    @NotNull
+    @ManyToOne
+    private Product product;
+    
+    @NotNull
+    private int rating;  // Rating out of 5
+    
     @NotBlank
-    private String customerName; 
-    @NotBlank
-    private String itemDta;//"[]"
-    @NotBlank
-    private String billing;//"{}"
-    @NotBlank
-    private String shipping;//"{}" 
-    @NotBlank
-    private String vouchers;//"[]"
-    @NotNull
-    private int gst;
-    @NotNull
-    private double voucherDiscount;
-    @NotNull
-    private double handlingFee;
-    @NotNull
-    private double processingFee;
-    @NotNull
-    private double surgeFee;
-    @NotNull
-    private double deliveryFee;
-    @NotNull
-    private double totalPrice;
-    @NotNull
-    private double grandTotal;
+    @Column(length = 1500)
+    private String review;
+
     @CreatedDate
-    private LocalDateTime orderDate;
+    private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    @CreatedDate
-    private LocalDateTime deliveredAt;
-    @NotBlank
-    private String status;
-
+  
 }

@@ -1,9 +1,8 @@
 package com.olxseller.olx.model;
 
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,8 +17,18 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class User implements Serializable {
 
 	private static final long serialVersionUID=1L;
@@ -74,148 +83,11 @@ public class User implements Serializable {
 	@BatchSize(size = 10)
 	private Set<UserAddress> addresses=new HashSet<>();
 	// private List<UserAddress> addresses=new ArrayList<>();
+	@NotNull
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	private Set<Order> order=new HashSet<>();
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getOther_phone() {
-		return other_phone;
-	}
-
-	public void setOther_phone(String other_phone) {
-		this.other_phone = other_phone;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public Boolean getAgreed() {
-		return agreed;
-	}
-
-	public void setAgreed(Boolean agreed) {
-		this.agreed = agreed;
-	}
-
-	public Set<Blog> getBlog() {
-		return blog;
-	}
-
-	public void setBlog(Set<Blog> blog) {
-		this.blog = blog;
-	}
-
-	public Set<UserAddress> getAddresses() {
-		return addresses;
-	}
-
-	public void setAddresses(Set<UserAddress> addresses) {
-		this.addresses = addresses;
-	}
-
-	public String getWishList() {
-		return wishList;
-	}
-
-	public void setWishList(String wishList) {
-		this.wishList = wishList;
-	}
-
-	
-	public String getPasscode() {
-		return passcode;
-	}
-
-	public void setPasscode(String passcode) {
-		this.passcode = passcode;
-	}
-
-
-
-	public String getCreate_at() {
-		return create_at;
-	}
-
-	public void setCreate_at(String create_at) {
-		this.create_at = create_at;
-	}
-
-	public String getUpdate_at() {
-		return update_at;
-	}
-
-	public void setUpdate_at(String update_at) {
-		this.update_at = update_at;
-	}
-
-	public String getPasswordStr() {
-		return passwordStr;
-	}
-
-	public void setPasswordStr(String passwordStr) {
-		this.passwordStr = passwordStr;
-	}
-	public User() {
-		super(); 
-	}
 	public User(String email,String pass,String cdate,String udate) {
 		super(); 
 		this.email=email;
@@ -225,32 +97,5 @@ public class User implements Serializable {
 	}
 
 
-	public User(int id, String name,String email,
-			String phone, String other_phone,String password,
-			String image, String role, Boolean enabled, Boolean agreed,String create_at,String update_at,String passcode, Set<Blog> blog) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.other_phone = other_phone;
-		this.password = password;
-		this.image = image;
-		this.role = role;
-		this.enabled = enabled;
-		this.agreed = agreed;
-		this.create_at=create_at;
-		this.update_at=update_at;
-		this.passcode=passcode;
-		this.blog = blog;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", other_phone="
-				+ other_phone + ", password=" + password + ", passwordStr=" + passwordStr + ", image=" + image + ", role="
-				+ role + ", enabled=" + enabled + ", agreed=" + agreed + ", create_at=" + create_at + ", update_at=" + update_at
-				+ ", passcode=" + passcode + ", wishList=" + wishList + ", blog=" + blog + ", addresses=" + addresses + "]";
-	}
 	
 }

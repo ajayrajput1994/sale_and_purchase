@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -23,54 +22,36 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "customer_order") 
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Order {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id; 
-    @NotBlank
-    private String orderId; 
+    private int id;
+    
     @ManyToOne
-    private User user; 
+    private Order order;
+    
+    @ManyToOne
+    private User user;
+    
+    @NotNull
+    private double amount;
+    
     @NotBlank
-    private String customerName; 
-    @NotBlank
-    private String itemDta;//"[]"
-    @NotBlank
-    private String billing;//"{}"
-    @NotBlank
-    private String shipping;//"{}" 
-    @NotBlank
-    private String vouchers;//"[]"
-    @NotNull
-    private int gst;
-    @NotNull
-    private double voucherDiscount;
-    @NotNull
-    private double handlingFee;
-    @NotNull
-    private double processingFee;
-    @NotNull
-    private double surgeFee;
-    @NotNull
-    private double deliveryFee;
-    @NotNull
-    private double totalPrice;
-    @NotNull
-    private double grandTotal;
-    @CreatedDate
-    private LocalDateTime orderDate;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-    @CreatedDate
-    private LocalDateTime deliveredAt;
+    private String paymentMethod;
+    
     @NotBlank
     private String status;
+
+    @CreatedDate
+    private LocalDateTime paymentDate;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
 }

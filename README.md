@@ -52,8 +52,7 @@ CREATE TABLE persistent_logins (
     token VARCHAR(64) NOT NULL,
     last_used TIMESTAMP NOT NULL
 );
-
-
+ 
 # implemented 
 user: signin,signup,role-base,user-account,edit-post,create-newpost,
 
@@ -66,3 +65,23 @@ user: signin,signup,role-base,user-account,edit-post,create-newpost,
 
 
 # for e-commerce implementation
+
+
+{
+    "orderId": "ORDER12345",
+    "userId": 1,
+    "customerName": "John Doe",
+    "itemDta": "[{\"itemName\":\"Item1\",\"quantity\":2},{\"itemName\":\"Item2\",\"quantity\":1}]",
+    "billing": "{\"address\":\"123 Main St\",\"city\":\"Anytown\",\"state\":\"CA\",\"zip\":\"12345\"}",
+    "shipping": "{\"address\":\"123 Main St\",\"city\":\"Anytown\",\"state\":\"CA\",\"zip\":\"12345\"}",
+    "vouchers": "[{\"code\":\"DISCOUNT10\",\"amount\":10.0}]",
+    "gst": 18,
+    "voucherDiscount": 10.0,
+    "handlingFee": 5.0,
+    "processingFee": 2.0,
+    "surgeFee": 1.0,
+    "deliveryFee": 3.0,
+    "totalPrice": 100.0,
+    "grandTotal": 119.0,
+    "status": "PENDING"
+}
