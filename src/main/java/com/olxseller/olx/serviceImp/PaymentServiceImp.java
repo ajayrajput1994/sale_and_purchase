@@ -1,5 +1,6 @@
 package com.olxseller.olx.serviceImp;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +33,11 @@ public class PaymentServiceImp implements PaymentService{
   @Override
   public PaymentDTO updatePayment(PaymentDTO paymentDTO) {
     if(paymentRepository.existsById(paymentDTO.getId())){
-      return toDTO(paymentRepository.save(toEntity(paymentDTO)));
+      Payment payment=paymentRepository.findById(paymentDTO.getId()).get();
+      BeanUtils.copyProperties(paymentDTO, payment, "id","userId","orderId","paymentDate","updatedAt");
+      return toDTO(paymentRepository.save(payment));
     }else{
-      throw new RuntimeException("Payment not found with id"+paymentDTO.getId());
+      throw new RuntimeException("Payment not found with id: "+paymentDTO.getId());
     }
   }
 

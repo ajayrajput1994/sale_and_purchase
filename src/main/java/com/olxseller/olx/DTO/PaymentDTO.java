@@ -1,5 +1,7 @@
 package com.olxseller.olx.DTO;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,5 +29,7 @@ public class PaymentDTO {
   @NotBlank(message = "Status cannot be null")
   private String status;
 
+  private LocalDateTime paymentDate;
+  private LocalDateTime updatedAt;
 
 }
