@@ -54,10 +54,11 @@ public class PaymentServiceImp implements PaymentService{
 
   private Payment toEntity(PaymentDTO paymentDTO){
     Payment payment=new Payment();
-    payment.setId(paymentDTO.getId());
-    payment.setAmount(paymentDTO.getAmount());
-    payment.setPaymentMethod(paymentDTO.getPaymentMethod());
-    payment.setStatus(paymentDTO.getStatus());
+    // payment.setId(paymentDTO.getId());
+    // payment.setAmount(paymentDTO.getAmount());
+    // payment.setPaymentMethod(paymentDTO.getPaymentMethod());
+    // payment.setStatus(paymentDTO.getStatus());
+    BeanUtils.copyProperties(paymentDTO, payment);
     Order order=orderRepository.findById(paymentDTO.getOrderId())
     .orElseThrow(()-> new RuntimeException("Order Not Found with id"+paymentDTO.getOrderId()));
     User user=userRepository.findById(paymentDTO.getUserId())
@@ -69,10 +70,11 @@ public class PaymentServiceImp implements PaymentService{
 
   private PaymentDTO toDTO(Payment payment){
     PaymentDTO paymentDTO=new PaymentDTO();
-    paymentDTO.setId(payment.getId());
-    paymentDTO.setAmount(payment.getAmount());
-    paymentDTO.setPaymentMethod(payment.getPaymentMethod());
-    paymentDTO.setStatus(payment.getStatus());
+    // paymentDTO.setId(payment.getId());
+    // paymentDTO.setAmount(payment.getAmount());
+    // paymentDTO.setPaymentMethod(payment.getPaymentMethod());
+    // paymentDTO.setStatus(payment.getStatus());
+    BeanUtils.copyProperties(payment, paymentDTO);
     paymentDTO.setOrderId(payment.getOrder().getId());
     paymentDTO.setUserId(payment.getUser().getId());
     return paymentDTO;
