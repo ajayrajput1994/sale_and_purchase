@@ -2,6 +2,7 @@ package com.olxseller.olx.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -47,5 +48,6 @@ public class AuditTrail {
     // private int userId; 
 
     @CreatedDate
+     @Column(updatable = false)
     private LocalDateTime actionDate;
 }

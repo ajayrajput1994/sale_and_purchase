@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.olxseller.olx.DTO.OrderDTO;
-import com.olxseller.olx.DTO.PaymentDTO;
 import com.olxseller.olx.service.OrderService;
-import com.olxseller.olx.service.PaymentService;
 
 @RestController
 @Validated
@@ -28,14 +25,7 @@ import com.olxseller.olx.service.PaymentService;
 public class OrderController {
         @Autowired
         private OrderService orderService;
-        @Autowired
-        private PaymentService paymentService;
-
-        @PostMapping("/payment")
-        public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) {
-            PaymentDTO payment = paymentService.createPayment(paymentDTO);
-            return ResponseEntity.ok(payment);
-        }
+        
         @PostMapping
         public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
             OrderDTO newOrder = orderService.saveOrder(orderDTO);

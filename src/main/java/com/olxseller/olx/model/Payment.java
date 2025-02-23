@@ -2,6 +2,7 @@ package com.olxseller.olx.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ import lombok.ToString;
 
 @Entity
 @EntityListeners({AuditListener.class,AuditingEntityListener.class})
+// @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,6 +53,7 @@ public class Payment {
     private String status;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime paymentDate;
 
     @LastModifiedDate

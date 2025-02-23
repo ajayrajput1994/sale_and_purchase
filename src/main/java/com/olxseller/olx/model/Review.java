@@ -52,6 +52,7 @@ public class Review {
     private String review;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;

@@ -1,5 +1,7 @@
 package com.olxseller.olx.DTO;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,8 @@ public class ReviewDTO {
   
   @NotBlank(message = "User ID can't be null")
   private String review;
-
+  
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
 }

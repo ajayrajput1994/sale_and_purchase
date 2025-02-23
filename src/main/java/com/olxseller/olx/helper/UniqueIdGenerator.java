@@ -9,11 +9,11 @@ public class UniqueIdGenerator {
     @Bean
     public String generateOrderId() {
         String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
-        return uuid;
+        return "ORD"+uuid;
     }
     @Bean
     public static String generateProductId() {
         String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
-        return uuid;
+        return "P"+uuid;
     }
 }

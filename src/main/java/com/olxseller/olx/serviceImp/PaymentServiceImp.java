@@ -21,8 +21,12 @@ public class PaymentServiceImp implements PaymentService{
   private PaymentRepository paymentRepository;
 
   @Override
-  public PaymentDTO createPayment(PaymentDTO paymentDTO) {
-    return toDTO(paymentRepository.save(toEntity(paymentDTO)));
+  public PaymentDTO createPayment(PaymentDTO paymentDTO) { 
+    if(paymentRepository.paymentByOrderID(paymentDTO.getOrderId())==null){
+      return  toDTO(paymentRepository.save(toEntity(paymentDTO)));
+    }else{ 
+      return paymentDTO;
+    }
     }
 
   @Override
@@ -39,7 +43,7 @@ public class PaymentServiceImp implements PaymentService{
     if(paymentRepository.existsById(id)){
       Payment payment=paymentRepository.findById(id).get();
       payment.setStatus(status);
-      return toDTO(paymentRepository.save(null));
+      return toDTO(paymentRepository.save(payment));
     }else{
       throw new RuntimeException("Payment not found with id"+id);
     }

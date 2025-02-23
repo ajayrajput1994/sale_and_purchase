@@ -2,6 +2,7 @@ package com.olxseller.olx.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -67,11 +68,13 @@ public class Order {
     @NotNull
     private double grandTotal;
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime orderDate;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime deliveredAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    @CreatedDate
-    private LocalDateTime deliveredAt;
     @NotBlank
     private String status;
 

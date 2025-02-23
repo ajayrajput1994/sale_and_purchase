@@ -48,6 +48,7 @@ public class Product {
   private User user;
 
   @CreatedDate
+  @Column(updatable = false)
   private LocalDateTime createdAt;
   
   @LastModifiedDate

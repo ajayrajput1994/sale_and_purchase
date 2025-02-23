@@ -3,6 +3,7 @@ package com.olxseller.olx.serviceImp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,9 @@ public class ReviewServiceImp implements ReviewService{
   @Override
   public ReviewDTO updateReview(ReviewDTO reviewDTO) {
     if(reviewRepo.existsById(reviewDTO.getId())){
-      return toDto(reviewRepo.save(toEntity(reviewDTO)));
+      Review existReview=reviewRepo.findById(reviewDTO.getId()).get();
+      BeanUtils.copyProperties(reviewDTO, existReview,"id","createdAt","updatedAt","userId","productId");
+      return toDto(reviewRepo.save(existReview));
     }else{
       throw new RuntimeException("Review not found with ID: "+reviewDTO.getId());
     }
@@ -63,9 +66,10 @@ public class ReviewServiceImp implements ReviewService{
 
   private ReviewDTO toDto(Review review){
     ReviewDTO reviewDTO=new ReviewDTO();
-    reviewDTO.setId(review.getId());
-    reviewDTO.setRating(review.getRating());
-    reviewDTO.setReview(review.getReview());
+    // reviewDTO.setId(review.getId());
+    // reviewDTO.setRating(review.getRating());
+    // reviewDTO.setReview(review.getReview());
+    BeanUtils.copyProperties(review, reviewDTO);
     reviewDTO.setUserId(review.getUser().getId());
     reviewDTO.setProductId(review.getProduct().getId());
     return reviewDTO;
@@ -73,9 +77,10 @@ public class ReviewServiceImp implements ReviewService{
   
   private Review toEntity(ReviewDTO reviewDTO){
     Review review=new Review();
-    review.setId(reviewDTO.getId());
-    review.setRating(reviewDTO.getRating());
-    review.setReview(reviewDTO.getReview());
+    // review.setId(reviewDTO.getId());
+    // review.setRating(reviewDTO.getRating());
+    // review.setReview(reviewDTO.getReview());
+    BeanUtils.copyProperties(reviewDTO,review); 
     User user=userRepo.findById(reviewDTO.getUserId()).orElseThrow(()->new RuntimeException("User not found with ID: "+reviewDTO.getUserId()));
     Product product=productRepo.findById(reviewDTO.getProductId()).orElseThrow(()->new RuntimeException("Product not found with ID: "+reviewDTO.getProductId()));
     review.setUser(user);

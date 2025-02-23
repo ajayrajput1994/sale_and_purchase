@@ -5,6 +5,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.Getter;
+import lombok.Setter;
+@Setter
+@Getter
 public class ProductDTO {
   private int id;
 
@@ -32,71 +36,6 @@ public class ProductDTO {
 
     @NotBlank(message = "Category is mandatory")
     private String category;
-
-    public int getId() {
-      return id;
-    }
-
-    public void setId(int id) {
-      this.id = id;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    public void setDescription(String description) {
-      this.description = description;
-    }
-
-    public double getPrice() {
-      return price;
-    }
-
-    public void setPrice(double price) {
-      this.price = price;
-    }
-
-    public int getQuantity() {
-      return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-      this.quantity = quantity;
-    }
-
-    public String getImage() {
-      return image;
-    }
-
-    public void setImage(String image) {
-      this.image = image;
-    }
-
-    public String getCategory() {
-      return category;
-    }
-
-    public void setCategory(String category) {
-      this.category = category;
-    }
-
-    public int getUserId() {
-      return userId;
-    }
-
-    public void setUserId(int userId) {
-      this.userId = userId;
-    }
-    
-    
+  
 }
 
