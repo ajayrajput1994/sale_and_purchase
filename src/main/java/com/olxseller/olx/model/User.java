@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.olxseller.olx.helper.AuditListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +28,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
+@EntityListeners({AuditListener.class,AuditingEntityListener.class})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -87,6 +92,14 @@ public class User implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
 	@BatchSize(size = 10)
 	private Set<Order> order=new HashSet<>();
+	@NotNull
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	private Set<Payment> payments=new HashSet<>();
+	@NotNull
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	private Set<Review> reviews=new HashSet<>();
 
 	public User(String email,String pass,String cdate,String udate) {
 		super(); 

@@ -43,6 +43,8 @@ public class AuditTrail {
 
     @NotBlank
     private String username; 
+    // @NotNull
+    // private int userId; 
 
     @CreatedDate
     private LocalDateTime actionDate;

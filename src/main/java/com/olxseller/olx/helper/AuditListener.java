@@ -1,5 +1,8 @@
 package com.olxseller.olx.helper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
@@ -15,31 +18,54 @@ import com.olxseller.olx.repository.AuditTrailRepository;
 public class AuditListener {
   
 
-    @Autowired
-    private AuditTrailRepository auditTrailRepository;
+  private static AuditTrailRepository auditTrailRepository;
 
+  @Autowired
+  public static void setAuditTrailRepository(AuditTrailRepository repository) {
+      auditTrailRepository = repository;
+  }
     @PrePersist
+    public void onPrePersist(Object entity) {
+        System.out.println("onPrePersist - auditTrailRepository: " + auditTrailRepository);
+        createAuditTrail(entity, "INSERT");
+    }
+
     @PreUpdate
+    public void onPreUpdate(Object entity) {
+        System.out.println("onPreUpdate - auditTrailRepository: " + auditTrailRepository);
+        createAuditTrail(entity, "UPDATE");
+    }
+
     @PreRemove
-    public void onEntityChange(Object entity) {
+    public void onPreRemove(Object entity) {
+        System.out.println("onPreRemove - auditTrailRepository: " + auditTrailRepository);
+        createAuditTrail(entity, "DELETE");
+    }
+
+    private void createAuditTrail(Object entity, String actionType) {
+        if (auditTrailRepository == null) {
+            System.err.println("auditTrailRepository is null in createAuditTrail");
+            return;
+        }
+
         AuditTrail auditTrail = new AuditTrail();
         auditTrail.setEntityName(entity.getClass().getSimpleName());
-        // auditTrail.setEntityId(getEntityId(entity));
+        auditTrail.setEntityId(getEntityId(entity));
         auditTrail.setChangedBy(getCurrentUsername());
         auditTrail.setUsername(getCurrentUsername());
-        // auditTrail.setUserId(getCurrentUserId());
-        // auditTrail.setAction(getActionType());
+        auditTrail.setAction(actionType);
 
         auditTrailRepository.save(auditTrail);
     }
 
-    // private int getEntityId(Object entity) {
-    //     // Implement logic to get the entity ID
-    // }
-
-    // private String getActionType() {
-    //     // Implement logic to determine the action type (INSERT, UPDATE, DELETE)
-    // }
+    private int getEntityId(Object entity) {
+        try {
+            Method getIdMethod = entity.getClass().getMethod("getId");
+            return (int) getIdMethod.invoke(entity);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Failed to get entity ID", e);
+        }
+    }
 
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,6 +77,13 @@ public class AuditListener {
     }
 
     // private int getCurrentUserId() {
-    //     // Implement logic to retrieve the user ID from the security context or user service
+    //     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    //     if (principal instanceof UserDetails) {
+    //         // Assuming your UserDetails implementation has a method getId()
+    //         return ((CustomUserDetails) principal).getId();
+    //     } else {
+    //         // Handle cases where principal is not an instance of UserDetails
+    //         throw new RuntimeException("User ID not found");
+    //     }
     // }
 }

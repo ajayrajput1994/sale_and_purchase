@@ -16,8 +16,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.olxseller.olx.helper.AuditListener;
+
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditListener.class,AuditingEntityListener.class})
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
