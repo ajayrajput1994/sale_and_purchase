@@ -27,7 +27,7 @@ import lombok.Setter;
 public class AuditTrail {
   
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @NotBlank
@@ -48,6 +48,6 @@ public class AuditTrail {
     // private int userId; 
 
     @CreatedDate
-     @Column(updatable = false)
+    @Column(updatable = false)
     private LocalDateTime actionDate;
 }

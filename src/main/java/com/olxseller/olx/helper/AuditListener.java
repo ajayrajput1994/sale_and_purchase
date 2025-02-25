@@ -57,18 +57,21 @@ public class AuditListener {
 
         auditTrailRepository.save(auditTrail);
     }
-
     private int getEntityId(Object entity) {
-        try {
-            Method getIdMethod = entity.getClass().getMethod("getId");
-            return (int) getIdMethod.invoke(entity);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to get entity ID", e);
-        }
-    }
+      try {
+          Method getIdMethod = entity.getClass().getMethod("getId");
+          int id = (int) getIdMethod.invoke(entity);
+          System.out.println("Entity ID: " + id);
+          return id;
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+          throw new RuntimeException("Failed to get entity ID", e);
+      }
+  }
+  
 
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("principal AuditListener: "+principal);
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();
         } else {
