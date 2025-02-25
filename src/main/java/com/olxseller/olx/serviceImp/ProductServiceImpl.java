@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.DTO.ProductDTO;
+import com.olxseller.olx.helper.UniqueIdGenerator;
 import com.olxseller.olx.model.Product;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.ProductRepository;
@@ -22,6 +23,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UniqueIdGenerator idGenerator;
 
     @Override
     public ProductDTO saveProduct(ProductDTO productDTO) {
@@ -38,7 +41,7 @@ public class ProductServiceImpl implements ProductService{
         Optional<Product> existProduct = productRepository.findById(productDTO.getId());
         if (existProduct.isPresent()) {
             Product product = existProduct.get();
-            BeanUtils.copyProperties(productDTO, product, "id","createdAt","updatedAt","userId");
+            BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
             return convertToDTO(productRepository.save(product));
         } else {
@@ -92,6 +95,9 @@ public class ProductServiceImpl implements ProductService{
         // product.setImage(productDTO.getImage());
         // product.setCategory(productDTO.getCategory());
         BeanUtils.copyProperties(productDTO, product);
+        if(productDTO.getId()==0){
+            product.setCode(idGenerator.generateProductId());
+        }
         User user = userRepository.findById(productDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + productDTO.getUserId()));
         product.setUser(user); 

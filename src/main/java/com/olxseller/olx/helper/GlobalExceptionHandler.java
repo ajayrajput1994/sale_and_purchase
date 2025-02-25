@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import javax.persistence.RollbackException;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,6 +45,30 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+    // Handle data integrity violations (e.g., duplicate entries)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        if (ex.getMostSpecificCause().getMessage().contains("Duplicate entry")) {
+            return new ResponseEntity<>("Duplicate entry found. Please use a unique value.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Data integrity violation occurred. Please check your input.", HttpStatus.BAD_REQUEST);
+    }
+
+    // Handle JPA transaction exceptions
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<String> handleTransactionSystemException(TransactionSystemException ex) {
+        if (ex.getMostSpecificCause() instanceof RollbackException) {
+            Throwable cause = ((RollbackException) ex.getMostSpecificCause()).getCause();
+            if (cause instanceof DataIntegrityViolationException) {
+                return new ResponseEntity<>("Duplicate entry found. Please use a unique value.", HttpStatus.BAD_REQUEST);
+            } else if (cause instanceof ConstraintViolationException) {
+                return new ResponseEntity<>("Constraint violation occurred. Please check your input.", HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>("Transaction error occurred. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 
     // Handle runtime exceptions
     @ExceptionHandler(RuntimeException.class)

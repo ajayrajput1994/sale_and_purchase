@@ -27,7 +27,8 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "customer_order") 
-@EntityListeners({AuditListener.class,AuditingEntityListener.class})
+@EntityListeners(AuditingEntityListener.class)
+// @EntityListeners({AuditListener.class,AuditingEntityListener.class})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -38,7 +38,8 @@ public class ProductDTO {
 
     @NotBlank(message = "Category is mandatory")
     private String category;
-
+    
+    private String code;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
   

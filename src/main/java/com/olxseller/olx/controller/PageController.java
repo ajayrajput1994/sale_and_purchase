@@ -234,8 +234,8 @@ public class PageController {
 			user.setRole("ROLE_USER");
 			user.setImage("default.png");
 			user.setOther_phone("");
-			user.setPasswordStr(user.getPassword());
-			user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
+			// user.setPasswordStr(user.getPassword());
+			// user.setPassword(myConfig.passwordEncoder().encode(user.getPassword()));
 			user.setCreate_at(dat);
 			user.setUpdate_at(dat);
 

@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.olxseller.olx.helper.AuditListener;
@@ -28,7 +30,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-// @EntityListeners({AuditListener.class,AuditingEntityListener.class})
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -41,22 +43,16 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@NotNull
-////@notblank(message="Name con't be empty !!")
-	//@Size(min=3, max=12,message="Name must be between 3-12 characters !")
+	@NotNull 
 	private String name="";
 	@NotNull
-	@Column(unique=true)
-//@Pattern(regexp="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Invalid Email !!")
+	@Column(unique=true) 
 	private String email="";
-	@NotNull
-////@notblank(message="Phone con't be empty !!")
-	//@Size(min=10, max=10,message="Phone must be between 10 digits !")
+	@NotNull 
 	private String phone="";
 	@NotNull
 	private String other_phone="";
-	@NotNull
-	////@notblank(message="Password can't be empty !")
+	@NotNull 
 	private String password="";
 	@NotNull
 	private String passwordStr="";
@@ -65,14 +61,15 @@ public class User implements Serializable {
 	@NotNull
 	private String role="ROLE_USER";
 	@NotNull
-	private Boolean enabled=true;
-	//@AssertTrue(message="Must agree term and conditions !!")
+	private Boolean enabled=true; 
 	private Boolean agreed=true;
 	
 	@NotNull
+	@CreatedDate
 	private String create_at;
 	
 	@NotNull
+	@LastModifiedDate
 	private String update_at;
 	@NotNull
 	private String passcode="";

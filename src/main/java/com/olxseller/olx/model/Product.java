@@ -24,7 +24,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@EntityListeners({AuditListener.class,AuditingEntityListener.class})
+@EntityListeners(AuditingEntityListener.class)
+// @EntityListeners({AuditListener.class,AuditingEntityListener.class})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,6 +34,9 @@ public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
+  
+  @NotBlank
+  private String code;
   
   @NotBlank
   private String name;

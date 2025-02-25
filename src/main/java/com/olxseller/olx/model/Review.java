@@ -27,7 +27,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@EntityListeners({AuditListener.class,AuditingEntityListener.class})
+@EntityListeners(AuditingEntityListener.class)
+// @EntityListeners({AuditListener.class,AuditingEntityListener.class})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -12,7 +12,7 @@ public class UniqueIdGenerator {
         return "ORD"+uuid;
     }
     @Bean
-    public static String generateProductId() {
+    public  String generateProductId() {
         String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
         return "P"+uuid;
     }

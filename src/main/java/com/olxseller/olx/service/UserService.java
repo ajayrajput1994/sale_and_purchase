@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.olxseller.olx.DTO.UserDTO;
 import com.olxseller.olx.model.User;
 
-@Transactional 
-@Service
+
 public interface UserService {
 	User createUser(User user);
 
@@ -24,7 +24,7 @@ public interface UserService {
 
 	void deleteUser(int id);
 
-	
+
 
 	// @Autowired
 	// private UserRepository userRepo;
