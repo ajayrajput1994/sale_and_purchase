@@ -137,6 +137,13 @@ public class AdminController {
 		return "admin/homeSeo";
 	}
 
+	@GetMapping("/product")
+	public String wishlist(Model m) {
+		m.addAttribute("ttl", "admin products");
+		m.addAttribute("desc", "admin products");
+		return "admin/product";
+	}
+
 	@GetMapping("/hello")
 	public String demo(Model m) {
 		m.addAttribute("ttl", "this is layout demo");

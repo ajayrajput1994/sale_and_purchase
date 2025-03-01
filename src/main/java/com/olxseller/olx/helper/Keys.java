@@ -1,13 +1,26 @@
 package com.olxseller.olx.helper;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Configuration
 public class Keys {
@@ -94,5 +107,41 @@ public class Keys {
 			file.mkdirs();
 		return path;
 	}
+	private String saveFile(MultipartFile file) throws IOException {
+			// Ensure the upload directory exists
+			String uploadDir = generateFilePath();
+			File uploadDirectory = new File(uploadDir);
+			if (!uploadDirectory.exists()) {
+					uploadDirectory.mkdirs();
+			}
+
+			// Generate a unique filename to avoid collisions
+			String originalFilename = file.getOriginalFilename();
+			String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+
+			// Save the file to the specified directory
+			Path filePath = Paths.get(uploadDir, uniqueFilename);
+			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+			// Return the unique filename for reference
+			return uniqueFilename;
+	}
+		// @GetMapping("/images/{filename}")
+		// @ResponseBody
+		// public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+		// 		try {
+		// 				Path file = Paths.get(uploadDir).resolve(filename);
+		// 				Resource resource = new UrlResource(file.toUri());
+		// 				if (resource.exists() || resource.isReadable()) {
+		// 						return ResponseEntity.ok()
+		// 										.contentType(MediaType.IMAGE_JPEG) // Adjust the media type if needed
+		// 										.body(resource);
+		// 				} else {
+		// 						return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		// 				}
+		// 		} catch (Exception e) {
+		// 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		// 		}
+		// }
 
 }

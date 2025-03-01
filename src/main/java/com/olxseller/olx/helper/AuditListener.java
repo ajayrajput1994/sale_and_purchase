@@ -17,13 +17,13 @@ import com.olxseller.olx.repository.AuditTrailRepository;
 @Component
 public class AuditListener {
   
-
+  @Autowired
   private static AuditTrailRepository auditTrailRepository;
 
-  @Autowired
-  public static void setAuditTrailRepository(AuditTrailRepository repository) {
-      auditTrailRepository = repository;
-  }
+//   @Autowired
+//   public static void setAuditTrailRepository(AuditTrailRepository repository) {
+//       auditTrailRepository = repository;
+//   }
     @PrePersist
     public void onPrePersist(Object entity) {
         System.out.println("onPrePersist - auditTrailRepository: " + auditTrailRepository);

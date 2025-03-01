@@ -9,7 +9,7 @@ import com.olxseller.olx.repository.AuditTrailRepository;
 public class AuditConfig {
   @Bean
     public AuditListener auditListener(AuditTrailRepository auditTrailRepository) {
-        AuditListener.setAuditTrailRepository(auditTrailRepository);
+        // AuditListener.setAuditTrailRepository(auditTrailRepository);
         return new AuditListener();
     }
 }

@@ -24,9 +24,7 @@ public class UserDtoServiceImp implements UserDtoService {
   
   @Transactional
   @Override
-  public UserDTO newUser(UserDTO userDTO) {
-    userDTO.setPassword(myConfig.passwordEncoder().encode(userDTO.getPassword()));
-    userDTO.setRole("ROLE_USER");
+  public UserDTO newUser(UserDTO userDTO) { 
     return toDTO(userRepo.save(toEntity(userDTO)));  
   }
 
@@ -117,10 +115,15 @@ public class UserDtoServiceImp implements UserDtoService {
 
 public  User toEntity(UserDTO userDTO) {
   System.out.println("User toEntity: "+userDTO.toString());
-    if (userDTO == null) {
-        return null;
-    }
     User user = new User();
+    // if(userDTO.getId()==0){
+    //   user.setAgreed(true);
+		// 	user.setEnabled(true);
+		// 	user.setRole("ROLE_USER");
+		// 	user.setImage("default.png");
+    //   user.setPasswordStr(userDTO.getPassword());
+    //   user.setPassword(myConfig.passwordEncoder().encode(userDTO.getPassword()));
+    // }
     user.setId(userDTO.getId());
     user.setName(userDTO.getName());
     user.setEmail(userDTO.getEmail());

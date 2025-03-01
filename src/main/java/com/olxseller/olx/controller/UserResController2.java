@@ -1,11 +1,20 @@
 package com.olxseller.olx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +29,24 @@ import com.olxseller.olx.service.UserDtoService;
 import com.olxseller.olx.service.UserService;
 
 @RestController
-@Validated
+// @Validated
 @RequestMapping("/user2")
 public class UserResController2 {
   @Autowired
   private UserDtoService userService;
 
   @PostMapping
-	public ResponseEntity<UserDTO> newUser(@RequestBody @Validated UserDTO userDTO){
-		// System.out.println("new user"+userDTO.toString());
+	public ResponseEntity<UserDTO> newUser(@Valid @RequestBody UserDTO userDTO){
+    
+    userDTO.setAgreed(true);
+    userDTO.setEnabled(true);
+    userDTO.setRole("ROLE_USER");
+    userDTO.setImage("default.png"); 
+    userDTO.setPasscode("12345"); 
+    userDTO.setPasswordStr(userDTO.getPassword()); 
+    userDTO.setOther_phone(userDTO.getPhone());
+    userDTO.setWishList("[]");
+		System.out.println("new user"+userDTO.toString());
 		return ResponseEntity.ok(userService.newUser(userDTO));
 	}
 
@@ -59,4 +77,26 @@ public class UserResController2 {
   public ResponseEntity<List<UserDTO>> getAllUsers(){
     return ResponseEntity.ok(userService.Users());
   }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(cv -> {
+            String fieldName = ((PathImpl) cv.getPropertyPath()).getLeafNode().toString();
+            String errorMessage = cv.getMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

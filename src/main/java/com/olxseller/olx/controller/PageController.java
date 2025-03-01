@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.olxseller.olx.DTO.UserDTO;
 import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
@@ -36,6 +37,7 @@ import com.olxseller.olx.service.EmailService;
 import com.olxseller.olx.service.SocialService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
+import com.olxseller.olx.service.UserDtoService;
 import com.olxseller.olx.service.UserService;
 import com.olxseller.olx.service.WebAddressService;
 import com.olxseller.olx.service.WebPageService;
@@ -47,6 +49,8 @@ public class PageController {
 	public MyConfig myConfig;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserDtoService uService;
 	@Autowired
 	private EmailService mailService;
 	@Autowired
@@ -337,6 +341,27 @@ public class PageController {
 		return "citypage";
 		}
 		return "index";
+	}
+	
+	@PostMapping("/newUser")
+	public String creatingNewUser(@ModelAttribute("regdata") UserDTO userDTO, Model m, HttpSession session) {
+		try { 
+			// ,
+			// if(result.hasErrors()) {
+			// System.out.print(result);
+			// return "signup";
+			// } 
+			userDTO = this.uService.newUser(userDTO);
+			System.out.println(userDTO);
+			m.addAttribute("regdata", new User()); 
+			session.setAttribute("message", new Message("Successfully registered !!", "alert-success"));
+			return "signup";
+		} catch (Exception e) {
+			e.printStackTrace(); 
+			m.addAttribute("regdata", userDTO);
+			session.setAttribute("message", new Message("Something went wrong!" + e.getMessage(), "alert-danger"));
+			return "signup";
+		} 
 	}
 
 }
