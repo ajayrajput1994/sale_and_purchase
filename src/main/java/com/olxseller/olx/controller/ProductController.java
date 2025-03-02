@@ -3,6 +3,7 @@ package com.olxseller.olx.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody @Validated ProductDTO productDTO) {
-        productDTO.setId(id);
+        productDTO.setId(id); 
         ProductDTO updatedProduct = productService.updateProduct(productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
@@ -54,6 +55,12 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         List<ProductDTO> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/items")
+    public Page<ProductDTO> srollingProduct(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "2") int size,@RequestParam(defaultValue = "0") int userId) {
+        Page<ProductDTO> products = productService.productScrolling(page,size,userId);
+        return products;
     }
 
     @GetMapping("/search")

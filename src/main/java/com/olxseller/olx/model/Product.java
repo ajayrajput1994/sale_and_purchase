@@ -16,12 +16,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.olxseller.olx.helper.AuditListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -30,6 +32,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,8 +59,12 @@ public class Product {
 
   @NotBlank
   private String category;
+
+  @NotBlank
+  private String subCategory;
   
   @ManyToOne
+  @JsonBackReference
   private User user;
 
   @CreatedDate

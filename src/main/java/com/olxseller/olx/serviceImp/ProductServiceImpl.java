@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.DTO.ProductDTO;
@@ -33,7 +35,16 @@ public class ProductServiceImpl implements ProductService{
         // product.setUser(user);
         // Product product = convertToEntity(productDTO);
         // product = productRepository.save(product);
-        return convertToDTO(productRepository.save(convertToEntity(productDTO)));
+        Optional<Product> existProduct = productRepository.findById(productDTO.getId());
+        if (existProduct.isPresent()) {
+            Product product = existProduct.get();
+            BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
+            // product = productRepository.save(product);
+            return convertToDTO(productRepository.save(product));
+        } else {
+            // throw new RuntimeException("Product not found with id: " + productDTO.getId());
+            return convertToDTO(productRepository.save(convertToEntity(productDTO)));
+        }
     }
 
     @Override
@@ -52,6 +63,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void deleteProduct(int id) {
         if (productRepository.existsById(id)) {
+            System.out.println("product existing: "+id);
             productRepository.deleteById(id);
         } else {
             throw new RuntimeException("Product not found with id: " + id);
@@ -131,6 +143,18 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.searchProducts(txt).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductDTO> productScrolling(int page,int size,int userId) {
+        if(userId>0){
+            Page<Product> productpages= productRepository.ProductsByUserId(userId,PageRequest.of(page,size));
+            return productpages.map(this::convertToDTO);
+        }else{
+
+            Page<Product> productpages= productRepository.findAll(PageRequest.of(page,size));
+            return productpages.map(this::convertToDTO);
+        }
     }
   
 }

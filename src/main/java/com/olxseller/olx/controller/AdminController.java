@@ -38,12 +38,14 @@ import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.repository.HomeSeoRepository;
 import com.olxseller.olx.repository.LogoRepository;
 import com.olxseller.olx.repository.MainCatRepository;
+import com.olxseller.olx.repository.ProductRepository;
 import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.repository.WebSiteAddressRepository;
 import com.olxseller.olx.repository.WebSiteSocialRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
+import com.olxseller.olx.service.ProductService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
 import com.olxseller.olx.service.UserService;
@@ -93,6 +95,8 @@ public class AdminController {
 	private CityService cityService;
 	@Autowired
 	private WebPageService pageService;
+	@Autowired
+	private ProductService productService;
 
 	@ModelAttribute
 	public void getCommonData(Model m,Principal principal) {
@@ -139,6 +143,13 @@ public class AdminController {
 
 	@GetMapping("/product")
 	public String wishlist(Model m) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("cats", catService.getAllMainCategory());
+		map.put("subcat", subcatService.getAllSubcat());
+		map.put("products", productService.getAllProducts());
+		var dta= responseData.jsonDataResponse("SUCCESS", "load data", map);
+		// System.out.println(map);
+		m.addAttribute("data", dta);
 		m.addAttribute("ttl", "admin products");
 		m.addAttribute("desc", "admin products");
 		return "admin/product";

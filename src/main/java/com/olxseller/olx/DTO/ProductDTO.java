@@ -7,10 +7,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.olxseller.olx.helper.LocalDateTimeDeserializer;
+import com.olxseller.olx.helper.LocalDateTimeSerializer;
+
 import lombok.Getter;
 import lombok.Setter;
 @Setter
-@Getter
+@Getter 
 public class ProductDTO {
   private int id;
 
@@ -38,9 +43,16 @@ public class ProductDTO {
 
     @NotBlank(message = "Category is mandatory")
     private String category;
+
+    @NotBlank(message = "Sub Category is mandatory")
+    private String subCategory;
     
     private String code;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedAt;
   
 }

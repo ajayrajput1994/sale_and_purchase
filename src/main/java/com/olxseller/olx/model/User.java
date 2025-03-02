@@ -21,6 +21,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.olxseller.olx.helper.AuditListener;
 
 import lombok.AllArgsConstructor;
@@ -35,7 +36,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class User implements Serializable {
 
 	private static final long serialVersionUID=1L;
@@ -97,6 +97,11 @@ public class User implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
 	@BatchSize(size = 10)
 	private Set<Review> reviews=new HashSet<>();
+	@NotNull
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@BatchSize(size = 10)
+	@JsonManagedReference
+	private Set<Product> product=new HashSet<>();
 
 	public User(String email,String pass,String cdate,String udate) {
 		super(); 

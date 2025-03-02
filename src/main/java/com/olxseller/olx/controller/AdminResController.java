@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.olxseller.olx.DTO.ProductDTO;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
@@ -42,6 +43,7 @@ import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.LogoService;
+import com.olxseller.olx.service.ProductService;
 import com.olxseller.olx.service.SeoService;
 import com.olxseller.olx.service.SocialService;
 import com.olxseller.olx.service.StateService;
@@ -77,6 +79,8 @@ public class AdminResController {
 	private LogoService logoService;
 	@Autowired
 	private BlogService blogService;
+	@Autowired
+	private ProductService productService;
 
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
@@ -443,4 +447,29 @@ public class AdminResController {
 		// return null;
 	}
 
+
+	@PostMapping("/product/create")
+	public ResponseEntity<?> createUpdateProduct(@RequestBody ProductDTO productDTO) {
+		try { 
+			String action="UPDATE";
+			if(productDTO.getId()==0){
+				action ="CREATE";
+			}
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, productService.saveProduct(productDTO)),
+					action=="CREATE"?HttpStatus.CREATED:HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} 
+	}
+	@GetMapping("/product/delete/{id}")
+	public ResponseEntity<?> deleteProductById(@PathVariable("id") int id) {
+		try { 
+			productService.deleteProduct(id);
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Deleted", "DELETE", id),
+					HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} 
+	}
 }
