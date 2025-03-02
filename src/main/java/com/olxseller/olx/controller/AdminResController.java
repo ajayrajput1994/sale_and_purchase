@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olxseller.olx.DTO.ProductDTO;
+import com.olxseller.olx.helper.Keys;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
 import com.olxseller.olx.model.Blog;
@@ -81,6 +82,8 @@ public class AdminResController {
 	private BlogService blogService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private Keys key;
 
 	@PostMapping("/category/create")
 	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
@@ -448,15 +451,40 @@ public class AdminResController {
 	}
 
 
-	@PostMapping("/product/create")
-	public ResponseEntity<?> createUpdateProduct(@RequestBody ProductDTO productDTO) {
+	@PostMapping(value ="/product/create" ,consumes = { "multipart/form-data" })
+	public ResponseEntity<?> createUpdateProduct(
+		@RequestParam("files") MultipartFile[] files,
+		@RequestParam("id") int id,
+		@RequestParam("userId") int userId,
+		@RequestParam("name") String name,
+		@RequestParam("price") double price,
+		@RequestParam("quantity") int quantity,
+		@RequestParam("category") String category,
+		@RequestParam("subCategory") String subCategory,
+		@RequestParam("description") String description
+		) {
 		try { 
+			ProductDTO p=new ProductDTO();
+			p.setId(id);
+			p.setUserId(userId);
+			p.setName(name);
+			p.setPrice(price);
+			p.setQuantity(quantity);
+			p.setCategory(category);
+			p.setSubCategory(subCategory);
+			p.setDescription(description);
+			if(files.length>0){
+				String imagepath=key.saveFile(files);
+				p.setImage(imagepath);
+			}else{
+				p.setImage("http://example.com/image.jpg");
+			}
 			String action="UPDATE";
-			if(productDTO.getId()==0){
+			if(p.getId()==0){
 				action ="CREATE";
 			}
 			return new ResponseEntity<>(
-					responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, productService.saveProduct(productDTO)),
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, productService.saveProduct(p)),
 					action=="CREATE"?HttpStatus.CREATED:HttpStatus.OK);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

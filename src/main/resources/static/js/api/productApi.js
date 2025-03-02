@@ -2,8 +2,9 @@ var productList=[],
 catList=[],
 subCatDict={};
 
-var DT; 
+var DT,imgPath; 
 function onload(){ 
+  imgPath=loadedUserDTA.imgpath;
   loadedUserDTA.cats.forEach(d=>{
     if(!catList.includes(d.title)){ 
       catList.push(d.title);
@@ -44,7 +45,7 @@ function onload(){
       { "data": 'action' },
     ],
     columnDefs: [
-      { visible: true, targets: [0,1,4,5,6,7,8,10,11,12] },
+      { visible: true, targets: [0,1,2,4,5,6,7,8,10,11,12] },
       { visible: false, targets: ['_all'] },
     ],
     initComplete: function () {
@@ -77,7 +78,7 @@ function onload(){
 };
 
 function scrolling(){
-  let page = 0,size=10;
+  let page = 0,size=8;
   const loadMoreItems = async () => {
       try {
           const response = await fetch(`/product/items?page=${page}&size=${size}&userId=0`);
@@ -85,7 +86,9 @@ function scrolling(){
 
           data.content.forEach(d => {
             if(d){
+              let img=d.image.split(',');
               d['DT_RowId']=d.id;
+              d['image']=`<img src="/image/${d.image}" style="height:40px;" alt="${img[0]}"/>`;
               d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
               // console.log(d)
               DT.row.add(d).draw();
@@ -144,7 +147,8 @@ function addProduct(){
   }
   if(productValidate()){
     	// createPostRequest('product_form', '/product', 'addProductCB');
-    	createPostRequest('product_form', '/admin/product/create', 'addProductCB');
+    	// createPostRequest('product_form', '/admin/product/create', 'addProductCB');
+    	uploadFiles('product_form', '/admin/product/create', 'addProductCB');
   }
 }
 
@@ -152,8 +156,10 @@ function addProductCB(r){
   console.log(r);
   $('#product_form')[0].reset();
   recordDomOpen();
-  let d = r.data;
+  let d =JSON.parse(r).data;
+  let img=d.image.split(',');
   d['DT_RowId']=d.id;
+  d['image']=`<img src="/image/${d.image}" style="height:40px;" alt="${img[0]}"/>`;
   d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
   if (r.action == "UPDATE") {
     DT.row(`#${d.id}`).data(d).draw();
@@ -199,4 +205,27 @@ function productValidate(){
   }
 
   return true;
+}
+
+async function submitForm(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  let form = document.getElementById('product_form');
+  let formData = new FormData(form);
+  try {
+      let response = await fetch('/admin/product/create', {
+          method: 'POST',
+          body: formData
+      });
+
+      if (response.ok) {
+          let result = await response.text();
+          addProductCB(result);
+      } else {
+          toastr.warning('Failed to upload files');
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      toastr.warning('Failed to upload files');
+  }
 }

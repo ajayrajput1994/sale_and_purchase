@@ -10,9 +10,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -107,24 +109,28 @@ public class Keys {
 			file.mkdirs();
 		return path;
 	}
-	private String saveFile(MultipartFile file) throws IOException {
+
+	// @Bean
+	public String saveFile(MultipartFile[] files) throws IOException {
+		StringJoiner fileNames=new StringJoiner(",");
+		for(MultipartFile file : files){
 			// Ensure the upload directory exists
 			String uploadDir = generateFilePath();
 			File uploadDirectory = new File(uploadDir);
 			if (!uploadDirectory.exists()) {
 					uploadDirectory.mkdirs();
 			}
-
 			// Generate a unique filename to avoid collisions
-			String originalFilename = file.getOriginalFilename();
+			String originalFilename = file.getOriginalFilename(); 
 			String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
 
 			// Save the file to the specified directory
-			Path filePath = Paths.get(uploadDir, uniqueFilename);
+			Path filePath = Paths.get(uploadDir, uniqueFilename); 
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
+			fileNames.add(getDate()+"/"+uniqueFilename);
+		}
 			// Return the unique filename for reference
-			return uniqueFilename;
+			return fileNames.toString();
 	}
 		// @GetMapping("/images/{filename}")
 		// @ResponseBody
