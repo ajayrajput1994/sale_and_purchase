@@ -123,50 +123,9 @@
 	<th:block th:include="admin/adminbase_layout :: myscript">
 	</th:block> 
 	<script th:src="@{/../js/api/productApi.js}"></script>
-  
 	<script th:inline="javascript">
 		//onload function
-    $(()=>{
-			onload();
-		})
-
-		function formDomOpen() {
-			$('#product_form')[0].reset();
-			OpenHide('#blogFormDom','#recordDom');
-			// addNewArticle();
-			$('#action').val('yes');
-		}
-		
-		function recordDomOpen() {
-			OpenHide('#recordDom','#blogFormDom');
-		}
-		function createStates() {
-			let userID=$('#user').val();
-			if(!userID){
-				userID=1;
-			}
-			articleSubmit(false,userID);
-			// if (formValidate('product_form')) {
-			// 	createPostRequest('product_form', '/admin/blog/create/'+userID, 'createStatesCB');
-			// }
-		}
-	/*	{
-    "id": 93,
-    "code": "wrerew",
-    "image": "http://example.com/image.jpg",
-    "userId": 1,
-    "name": "Sample Product",
-    "price": 350.99,
-    "quantity": 10,
-    "category": "Fashion",
-    "subCategory": "Kids Fashion",
-    "description": "This is a sample product",
-    "createdAt": null,
-    "updatedAt": "2025-03-02 12:59:51"
-}*/
-		
-		
-
+    $(()=>onload());
 	</script>
 
 </html>

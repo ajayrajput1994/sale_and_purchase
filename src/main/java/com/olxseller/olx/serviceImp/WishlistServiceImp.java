@@ -37,7 +37,6 @@ public class WishlistServiceImp implements WishlistService{
   @Override
   public void deleteWishlist(int id) {
     if(wishRepo.existsById(id)){
-
       wishRepo.deleteById(id);  
     }
   }

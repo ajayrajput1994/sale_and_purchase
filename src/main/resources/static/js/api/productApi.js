@@ -77,40 +77,48 @@ function onload(){
 };
 
 function scrolling(){
-  let page = 0;
+  let page = 0,size=10;
+  const loadMoreItems = async () => {
+      try {
+          const response = await fetch(`/product/items?page=${page}&size=${size}&userId=0`);
+          const data = await response.json();
 
-const loadMoreItems = async () => {
-    try {
-        const response = await fetch(`/product/items?page=${page}&size=5`);
-        const data = await response.json();
+          data.content.forEach(d => {
+            if(d){
+              d['DT_RowId']=d.id;
+              d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
+              // console.log(d)
+              DT.row.add(d).draw();
+            }
+              
+          });
 
-        data.content.forEach(d => {
-          if(d){
-            d['DT_RowId']=d.id;
-            d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
-            // console.log(d)
-            DT.row.add(d).draw();
-          }
-            
-        });
+          page++;
+      } catch (error) {
+          console.error('Error loading items:', error);
+      }
+  };
+  const onScroll = () => {
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+          loadMoreItems();
+      }
+  };
 
-        page++;
-    } catch (error) {
-        console.error('Error loading items:', error);
-    }
-};
+  window.addEventListener('scroll', onScroll);
 
-const onScroll = () => {
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
-        loadMoreItems();
-    }
-};
+  // Load initial items
+  loadMoreItems();
 
-window.addEventListener('scroll', onScroll);
+}
+function formDomOpen() {
+  $('#product_form')[0].reset();
+  OpenHide('#blogFormDom','#recordDom');
+  // addNewArticle();
+  $('#action').val('yes');
+}
 
-// Load initial items
-loadMoreItems();
-
+function recordDomOpen() {
+  OpenHide('#recordDom','#blogFormDom');
 }
 function loadTable(){
   loadedUserDTA.products.forEach(d => {

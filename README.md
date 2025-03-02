@@ -85,3 +85,46 @@ user: signin,signup,role-base,user-account,edit-post,create-newpost,
     "grandTotal": 119.0,
     "status": "PENDING"
 }
+
+
+for flutter 
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.3
+  cached_network_image: ^3.2.0
+
+
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+class ImageScreen extends StatelessWidget {
+  final String filename;
+
+  ImageScreen({required this.filename});
+
+  @override
+  Widget build(BuildContext context) {
+    // Construct the image URL using the filename
+    final String imageUrl = 'http://localhost:8080/api/images/$filename';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image Display'),
+      ),
+      body: Center(
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        ),
+      ),
+    );
+  }
+}
+
+
+#wishlist
+id
+collection string,
+items string "[]"//json

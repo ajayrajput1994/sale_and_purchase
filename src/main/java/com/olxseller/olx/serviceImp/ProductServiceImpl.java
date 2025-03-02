@@ -62,11 +62,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void deleteProduct(int id) {
-        if (productRepository.existsById(id)) {
-            System.out.println("product existing: "+id);
-            productRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Product not found with id: " + id);
+        if (productRepository.existsById(id)) { 
+            // productRepository.deleteById(id);
+            productRepository.deleteProduct(id);
         }
     }
 

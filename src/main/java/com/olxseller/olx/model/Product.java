@@ -1,5 +1,6 @@
 package com.olxseller.olx.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -17,7 +18,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.olxseller.olx.helper.AuditListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +33,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Product {
+public class Product implements Serializable{
+  
+	private static final long serialVersionUID=1L;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
