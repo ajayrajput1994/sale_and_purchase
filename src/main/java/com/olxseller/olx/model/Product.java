@@ -48,7 +48,7 @@ public class Product implements Serializable{
   private String name;
   
   @NotBlank
-  @Column(length = 1000)
+  @Column(length = 3000)
   private String description;
   
   @NotNull
@@ -58,6 +58,7 @@ public class Product implements Serializable{
   private int quantity;
   
   @NotBlank
+  @Column(length = 1000)
   private String image;
 
   @NotBlank

@@ -134,6 +134,34 @@ function uploadFiles(formid,url,callBack){
   });
 }
 
+async function createMultipartPost(formId,url,callBack){
+  $("button").attr("disabled", true);
+  let form = document.getElementById(formId);
+  let formData = new FormData(form);
+  try {
+      let response = await fetch(url, {
+          method: 'POST',
+          body: formData
+      });
+
+      if (response.ok) {
+          let result = await response.text();
+          // addProductCB(result);
+          if (callBack != null) {
+            var callbackMethod = eval(callBack);
+            callbackMethod(result, formId);
+            $(`#${formId}`)[0].reset();
+          }
+          $("button").attr("disabled", false);
+          messageConfirmation(result);
+      } else {
+          toastr.warning('Failed to upload files');
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      toastr.warning('Failed to upload files');
+  }
+}
 
 
 function messageConfirmation(obj){

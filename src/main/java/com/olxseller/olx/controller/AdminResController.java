@@ -1,6 +1,7 @@
 package com.olxseller.olx.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -454,30 +455,33 @@ public class AdminResController {
 	@PostMapping(value ="/product/create" ,consumes = { "multipart/form-data" })
 	public ResponseEntity<?> createUpdateProduct(
 		@RequestParam("files") MultipartFile[] files,
-		@RequestParam("id") int id,
-		@RequestParam("userId") int userId,
+		@RequestParam("id") String id,
+		@RequestParam("userId") String userId,
 		@RequestParam("name") String name,
-		@RequestParam("price") double price,
-		@RequestParam("quantity") int quantity,
+		@RequestParam("price") String price,
+		@RequestParam("quantity") String quantity,
 		@RequestParam("category") String category,
 		@RequestParam("subCategory") String subCategory,
 		@RequestParam("description") String description
-		) {
-		try { 
+		) throws IOException {
+		// try { 
 			ProductDTO p=new ProductDTO();
-			p.setId(id);
-			p.setUserId(userId);
+			// if(id!=""){
+			// 	p.setId(Integer.parseInt(id));
+			// }
+			p.setUserId(Integer.parseInt(userId));
 			p.setName(name);
-			p.setPrice(price);
-			p.setQuantity(quantity);
+			p.setPrice(Double.parseDouble(price));
+			p.setQuantity(Integer.parseInt(quantity));
 			p.setCategory(category);
 			p.setSubCategory(subCategory);
 			p.setDescription(description);
 			if(files.length>0){
 				String imagepath=key.saveFile(files);
+				// System.out.println("img length: "+imagepath.length());
 				p.setImage(imagepath);
 			}else{
-				p.setImage("http://example.com/image.jpg");
+				p.setImage("no_img.jpg");
 			}
 			String action="UPDATE";
 			if(p.getId()==0){
@@ -486,9 +490,9 @@ public class AdminResController {
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, productService.saveProduct(p)),
 					action=="CREATE"?HttpStatus.CREATED:HttpStatus.OK);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} 
+		// } catch (Exception ex) {
+		// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		// } 
 	}
 	@GetMapping("/product/delete/{id}")
 	public ResponseEntity<?> deleteProductById(@PathVariable("id") int id) {

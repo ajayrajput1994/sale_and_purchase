@@ -33,6 +33,7 @@ function onload(){
       { "data": 'id' },
       { "data": 'code' },
       { "data": 'image' },  
+      { "data": 'img' },  
       { "data": 'userId' },
       { "data": 'name' },
       { "data": 'price' },
@@ -45,7 +46,7 @@ function onload(){
       { "data": 'action' },
     ],
     columnDefs: [
-      { visible: true, targets: [0,1,2,4,5,6,7,8,10,11,12] },
+      { visible: true, targets: [0,1,3,4,5,6,7,8,9,11,12,13] },
       { visible: false, targets: ['_all'] },
     ],
     initComplete: function () {
@@ -70,7 +71,14 @@ function onload(){
     $('#category').val(data.category);
     loadSubCategory(data.category);
     $('#subCategory').val(data.subCategory);
-    $('#description').val(data.description);  
+    $('#description').val(data.description);
+    if(data.image!=""){
+      let h=[];
+      data.image.split(',').forEach(img=>{
+        h.push(`<img src="/image/${img}" style="height:50px;margin-right:10px" alt="${img}"/>`);
+      });
+      $("#imageDom").html(h.join(''));
+    } 
   });
   OpenHide('#recordDom','#loaderDom');
   // loadTable();
@@ -82,13 +90,13 @@ function scrolling(){
   const loadMoreItems = async () => {
       try {
           const response = await fetch(`/product/items?page=${page}&size=${size}&userId=0`);
-          const data = await response.json();
-
+          const data = await response.json(); 
           data.content.forEach(d => {
             if(d){
               let img=d.image.split(',');
               d['DT_RowId']=d.id;
-              d['image']=`<img src="/image/${d.image}" style="height:40px;" alt="${img[0]}"/>`;
+              // d['image']=`<img src="/image/${d.image}" style="height:40px;" alt="${img[0]}"/>`;
+              d['img']=`<img src="/image/${img[0]}" style="height:40px;" alt="${img[0]}"/>`;
               d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
               // console.log(d)
               DT.row.add(d).draw();
@@ -141,14 +149,12 @@ function loadSubCategory(value){
   }
   $("#subCategory").html(h.join(''));
 }
-function addProduct(){
+async function addProduct(){
   if(!$("#userId").val()){
     toastr.info("User not found!");
   }
-  if(productValidate()){
-    	// createPostRequest('product_form', '/product', 'addProductCB');
-    	// createPostRequest('product_form', '/admin/product/create', 'addProductCB');
-    	uploadFiles('product_form', '/admin/product/create', 'addProductCB');
+  if(productValidate()){ 
+    await	createMultipartPost('product_form', '/admin/product/create', 'addProductCB');
   }
 }
 
@@ -159,7 +165,7 @@ function addProductCB(r){
   let d =JSON.parse(r).data;
   let img=d.image.split(',');
   d['DT_RowId']=d.id;
-  d['image']=`<img src="/image/${d.image}" style="height:40px;" alt="${img[0]}"/>`;
+  d['img']=`<img src="/image/${img[0]}?${new Date().getTime()}" style="height:40px;" alt="${img[0]}"/>`;
   d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
   if (r.action == "UPDATE") {
     DT.row(`#${d.id}`).data(d).draw();
@@ -202,30 +208,7 @@ function productValidate(){
   if(desc.length<5){
     toastr.warning("Description must be greater than 5 words.");
     return false;
-  }
-
+  } 
   return true;
 }
-
-async function submitForm(event) {
-  event.preventDefault(); // Prevent the default form submission
-
-  let form = document.getElementById('product_form');
-  let formData = new FormData(form);
-  try {
-      let response = await fetch('/admin/product/create', {
-          method: 'POST',
-          body: formData
-      });
-
-      if (response.ok) {
-          let result = await response.text();
-          addProductCB(result);
-      } else {
-          toastr.warning('Failed to upload files');
-      }
-  } catch (error) {
-      console.error('Error:', error);
-      toastr.warning('Failed to upload files');
-  }
-}
+ 
