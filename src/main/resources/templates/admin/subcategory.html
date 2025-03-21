@@ -41,7 +41,7 @@
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" style="display: none;">
 										<div class="form-group col">
 											<label for="keyword">Keyword</label>
 											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
@@ -54,7 +54,7 @@
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" style="display: none;">
 										<div class="form-group col">
 											<label for="seoTitle">Seo Title</label>
 											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
@@ -69,7 +69,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" style="display: none;">
 										<div class="form-group">
 											<label for="seoContent">Seo Content </label>
 											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
@@ -98,18 +98,19 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title text-center">All Sub Catalogs</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
-										onclick="formDomOpen()">Create</button>
+										onclick="formDomOpen(true)">Create</button>
 								</div>
 								<table class="table table-strip display" id="subcategory_table">
 									<thead>
 										<tr>
 											<th>Name</th>
-											<th>Title</th>
+											<th>Sub Category</th>
 											<th>Keyword</th>
 											<th>Description</th>
 											<th>Seo Title</th>
 											<th>Seo Description</th>
 											<th>Seo content</th>
+											<th>Category</th>
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
@@ -123,6 +124,7 @@
 												<td th:text="${u.seoTitle}"></td>
 												<td th:text="${u.seoDescription}"></td>
 												<td th:text="${u.seoContent}"></td>
+												<td th:text="${u.mainCatalog}"></td>
 												<td class="text-center" >
 													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCategory(this)"
 														style="cursor: pointer;"></i>
@@ -163,10 +165,11 @@
 					{ "data": 'seoTitle' },
 					{ "data": 'seoDescription' },
 					{ "data": 'seoContent' },
+					{ "data": 'mainCatalog' },
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [0, 1, 2, 7] },
+					{ visible: true, targets: [ 1,7, 8] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
@@ -176,7 +179,7 @@
 				}
 				var data = categoryDT.row(this).data();
 				console.log(data);
-				formDomOpen();
+				formDomOpen(false);
 				$('#subId').val(data.DT_RowId);
 				$('#subCatalog').val(data.subCatalog);
 				$('#title').val(data.title);
@@ -185,11 +188,15 @@
 				$('#seoTitle').val(data.seoTitle);
 				$('#seoDescription').val(data.seoDescription);
 				$('#seoContent').val(data.seoContent);
+				$('#mainCatalog').val(data.mainCatalog);
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 			});
 			$('#loaderDom').hide();
 		});
-		function formDomOpen() {
+		function formDomOpen(v) {
+			if(v){
+				$('#category_form')[0].reset();
+			}
 			OpenHide('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
@@ -212,7 +219,8 @@
 				categoryDT.cell(`#${d.subId}`, 4).data(d.seoTitle);
 				categoryDT.cell(`#${d.subId}`, 5).data(d.seoDescription);
 				categoryDT.cell(`#${d.subId}`, 6).data(d.seoContent);
-				categoryDT.cell(`#${d.subId}`, 7).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
+				categoryDT.cell(`#${d.subId}`, 7).data(d.mainCatalog);
+				categoryDT.cell(`#${d.subId}`, 8).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
 				categoryDT.draw();
 			} else {
 				categoryDT.row.add({
@@ -224,6 +232,7 @@
 					seoTitle: d.seoTitle,
 					seoDescription: d.seoDescription,
 					seoContent: d.seoContent,
+					mainCatalog: d.mainCatalog,
 					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
 				}).draw();
 

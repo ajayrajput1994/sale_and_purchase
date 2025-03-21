@@ -12,6 +12,9 @@ import com.olxseller.olx.model.Wishlist;
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist,Integer> {
  
+  // @Query("From Wishlist as w where w.user.id=:userid")
+  // List<Wishlist> getWishlistByUserId(@Param("userid") int userid);
+
   @Query("From Wishlist as w where w.user.id=:userid")
-  List<Wishlist> getWishlistByUserId(@Param("userid") int userid);
+  Wishlist getWishlistByUserId(@Param("userid") int userid);
 }

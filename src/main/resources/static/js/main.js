@@ -19,6 +19,7 @@ $(function(){
     "hideMethod": "fadeOut"
   }
   checkPhoneNumber()
+  $('#loaderDom').addClass('loading');
 })
 function checkPhoneNumber() {
 

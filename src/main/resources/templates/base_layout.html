@@ -9,13 +9,16 @@
     <meta name="keyword" th:content="|${description}|"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/loader.css}" />
     <link rel="stylesheet" th:href="@{/css/animate.css}" />
     <link rel="stylesheet" th:href="@{/css/css5/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/fontawesome/all.css}" />
     <link rel="stylesheet" th:href="@{/css/datatables.css}" />
     <link rel="stylesheet" th:href="@{/css/datatables.min.css}" />
     <link rel="stylesheet" th:href="@{/css/sweetAlert.css}" />
+    <link rel="stylesheet" th:href="@{/css/sweetAlert2.css}" />
     <link rel="stylesheet" th:href="@{/plugins/toastr.css}" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.css"> -->
     <script th:src="@{/js/jquery-3.7.1.js}"></script>
     <script th:src="@{/js/sweetAlert.js}"></script>
@@ -64,6 +67,17 @@
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item"><a class="nav-link"><i class="fas fa-search" onclick="searchBox(true)"></i></a></li>
+                <li class="nav-item">
+                  <!-- <div class="cart-container">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </div> -->
+                  
+                  <a class="nav-link cart-container" href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </a>
+                </li>
                 <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link"  th:href="@{/signin}">Login</a></li>
                 <li class="nav-item dropdown " th:if="${user?.name!=''}">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
@@ -108,6 +122,14 @@
         </div>
 
       </footer> -->
+      <!-- <div class="overlay" id="loaderDom" >
+        <img src="/image/favicon.png" style="width: 50px;">
+          <h3>Please wait...</h3>
+        </div> -->
+        <div class="overlay2" id="loaderDom"> 
+          <span class="loader"></span>
+          <h3>Please wait...</h3>
+        </div>
     </div>
    
   </body>
@@ -227,13 +249,17 @@
   </footer>
   <!-- Footer -->
   </div>
+  
   <th:block th:fragment="myscript">
     <script th:src="@{/js/js5/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/datatables.js}"></script>
     <script th:src="@{/js/datatables.min.js}"></script>
     <script th:src="@{/js/jszip.js}"></script>
     <script th:src="@{/plugins/toastr.js}"></script>
+    <script th:src="@{/js/sweetAlert2.js}"></script>
     <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/sweetToaster.js}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script> -->
     <script th:inline="javascript">
      /*
       $(window).on('resize', function () {

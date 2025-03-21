@@ -30,7 +30,11 @@ public class CartServiceImp implements CartService{
   }
   @Override
   public CartDTO getCartItems(int userId) {
-    return toDTO(cartRepo.cartByUserId(userId));  
+    Cart cart=cartRepo.cartByUserId(userId);
+    if(cart!=null){
+      return toDTO(cart);
+    }
+    return toDTO(new Cart());  
   }
 
   private Cart toEntity(CartDTO cartDTO){
@@ -46,7 +50,13 @@ public class CartServiceImp implements CartService{
     CartDTO cartDTO=new CartDTO();
     cartDTO.setId(cart.getId());
     cartDTO.setItems(cart.getItems());
-    cartDTO.setUserId(cart.getUser().getId());
+    if(cart.getId()==0){
+      cartDTO.setUserId(0);
+
+    }else{
+
+      cartDTO.setUserId(cart.getUser().getId());
+    }
     return cartDTO;
   }
   

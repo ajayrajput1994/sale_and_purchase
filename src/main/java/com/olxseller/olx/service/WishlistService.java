@@ -11,5 +11,6 @@ public interface WishlistService {
 
   void deleteWishlist(int id);
 
-  List<WishlistDTO> getWishlist(int userId);
+  WishlistDTO getWishlist(int userId);
+  // List<WishlistDTO> getWishlist(int userId);
 }

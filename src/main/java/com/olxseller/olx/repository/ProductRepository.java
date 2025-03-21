@@ -25,6 +25,9 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("from Product as p where p.user.id=:userId")
     List<Product> getProductsByUserId(@Param("userId") String userId);
 
+    @Query("from Product as p where p.id IN :ids")
+    List<Product> getProductsByIds(@Param("ids") List<Integer> ids);
+
     @Query("from Product as p where p.user.id=:userId")
     Page<Product> ProductsByUserId(int userId,Pageable pageable);
 

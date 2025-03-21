@@ -13,6 +13,7 @@ public interface ProductService {
     ProductDTO updatePriceAndQty(ProductDTO productDTO);
     void deleteProduct(int id);
     List<ProductDTO> getAllProducts();
+    List<ProductDTO> getAllProductsByIds(List<Integer> ids);
     Page<ProductDTO> productScrolling(int index,int count,int userId);
     Optional<ProductDTO> getProductById(int id);
     List<ProductDTO> searchProductsByTxt(String txt);

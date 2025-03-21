@@ -2,8 +2,10 @@ package com.olxseller.olx.controller;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.olxseller.olx.DTO.CartDTO;
 import com.olxseller.olx.DTO.UserDTO;
+import com.olxseller.olx.DTO.WishlistDTO;
 import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.Message;
 import com.olxseller.olx.helper.ResponseData;
@@ -30,10 +34,12 @@ import com.olxseller.olx.model.UserAndPost;
 import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.repository.BannerRepository;
 import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.CartService;
 import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.ContactService;
 import com.olxseller.olx.service.EmailService;
+import com.olxseller.olx.service.ProductService;
 import com.olxseller.olx.service.SocialService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
@@ -41,6 +47,7 @@ import com.olxseller.olx.service.UserDtoService;
 import com.olxseller.olx.service.UserService;
 import com.olxseller.olx.service.WebAddressService;
 import com.olxseller.olx.service.WebPageService;
+import com.olxseller.olx.service.WishlistService;
 
 @Controller
 public class PageController {
@@ -75,6 +82,12 @@ public class PageController {
   public ContactService contactService;
 	@Autowired
   public BannerRepository bannerRepo;
+	@Autowired
+  public CartService cartService;
+	@Autowired
+  public WishlistService wishlistService;
+	@Autowired
+  public ProductService productService;
 
 	@ModelAttribute
 	public void commondata(Model m,Principal principal) {
@@ -204,6 +217,55 @@ public class PageController {
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "index";
+	}
+	@GetMapping( "/home" )
+	public String home(Model m,Principal principal) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("category", catService.getAllMainCategory());  
+		map.put("subCategory", subcatService.getAllSubcat());
+		map.put("productList", productService.getAllProducts());
+		if(principal!=null){
+			int userId = uService.findUserByEmail2(principal.getName()).getId();
+			// System.out.println("cart product ids: "+ids); 
+			CartDTO cart=cartService.getCartItems(userId);
+			WishlistDTO wishlist=wishlistService.getWishlist(userId);
+			map.put("cartItems",cart.getItems()); 
+			map.put("wishlist",wishlist.getItems()); 
+		}
+		map.put("user",principal==null? new UserDTO():uService.findUserByEmail2(principal.getName()));
+		var dta= responseData.jsonDataResponse("SUCCESS", "Home data loaded", map);
+		m.addAttribute("dta",dta);
+		Banner banner = this.bannerRepo.getHomeBanner();
+		m.addAttribute("blogs", blogService.getAllBlogs());
+		m.addAttribute("homebanner", banner == null ? new Banner() : banner);
+		m.addAttribute("title", "this is home demo keep stay ");
+		m.addAttribute("disc", "this is home demo Description keep stay  ");
+		return "home";
+	}
+	@GetMapping( "/cart" )
+	public String cart(Model m,Principal principal) {
+		Map<String,Object> map=new HashMap<>(); 
+		// map.put("productList", productService.getAllProducts());
+		if(principal!=null){
+			CartDTO cart=cartService.getCartItems(uService.findUserByEmail2(principal.getName()).getId());
+			List<Integer> ids=responseData.getIntKeysFromMap(cart.getItems());
+			// System.out.println("cart product ids: "+ids); 
+			map.put("cartItems",cart.getItems());
+			if(ids.isEmpty()){
+				map.put("productList",new ArrayList<>());
+			}else{ 
+				map.put("productList", productService.getAllProductsByIds(ids));
+			}
+		}else{
+			map.put("productList",new ArrayList<>());
+
+		}
+		map.put("user",principal==null? new UserDTO():uService.findUserByEmail2(principal.getName())); 
+		var dta= responseData.jsonDataResponse("SUCCESS", "Home data loaded", map);
+		m.addAttribute("dta",dta); 
+		m.addAttribute("title", "this is home demo keep stay ");
+		m.addAttribute("disc", "this is home demo Description keep stay  ");
+		return "cart";
 	}
 
 	@GetMapping({ "/signup", "/register" })

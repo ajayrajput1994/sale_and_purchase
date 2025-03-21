@@ -36,7 +36,7 @@ public class WishlistController {
   }
 
   @GetMapping("/{userid}")
-  public ResponseEntity<List<WishlistDTO>> getWishList(@PathVariable int userid){
+  public ResponseEntity<WishlistDTO> getWishList(@PathVariable int userid){
 
     return ResponseEntity.ok(wishlistService.getWishlist(userid));
   }

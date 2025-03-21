@@ -159,10 +159,11 @@ async function addProduct(){
 }
 
 function addProductCB(r){
+  r =JSON.parse(r),
   console.log(r);
   $('#product_form')[0].reset();
   recordDomOpen();
-  let d =JSON.parse(r).data;
+  let d=r.data;
   let img=d.image.split(',');
   d['DT_RowId']=d.id;
   d['img']=`<img src="/image/${img[0]}?${new Date().getTime()}" style="height:40px;" alt="${img[0]}"/>`;

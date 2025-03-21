@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.DTO.ProductDTO;
+import com.olxseller.olx.controller.AdminController;
 import com.olxseller.olx.helper.UniqueIdGenerator;
 import com.olxseller.olx.model.Product;
 import com.olxseller.olx.model.User;
@@ -20,6 +23,7 @@ import com.olxseller.olx.service.ProductService;
 @Service
 public class ProductServiceImpl implements ProductService{
 
+	private static final Logger LOGGER=LoggerFactory.getLogger(AdminController.class);
   @Autowired
     private ProductRepository productRepository;
 
@@ -40,9 +44,11 @@ public class ProductServiceImpl implements ProductService{
             Product product = existProduct.get();
             BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
+            LOGGER.info("Product update:{}",product.getId());
             return convertToDTO(productRepository.save(product));
         } else {
             // throw new RuntimeException("Product not found with id: " + productDTO.getId());
+            LOGGER.info("Product create:{}",productDTO.getId());
             return convertToDTO(productRepository.save(convertToEntity(productDTO)));
         }
     }
@@ -54,6 +60,7 @@ public class ProductServiceImpl implements ProductService{
             Product product = existProduct.get();
             BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
+            LOGGER.info("Product update:{}",product.getId());
             return convertToDTO(productRepository.save(product));
         } else {
             throw new RuntimeException("Product not found with id: " + productDTO.getId());
@@ -64,6 +71,7 @@ public class ProductServiceImpl implements ProductService{
     public void deleteProduct(int id) {
         if (productRepository.existsById(id)) { 
             // productRepository.deleteById(id);
+            LOGGER.info("Product delete:{}",id);
             productRepository.deleteProduct(id);
         }
     }
@@ -78,6 +86,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Optional<ProductDTO> getProductById(int id) {
         Optional<Product> product = productRepository.findById(id);
+        LOGGER.info("Product get by id:{}",id);
         return product.map(this::convertToDTO);
     }
 
@@ -125,6 +134,7 @@ public class ProductServiceImpl implements ProductService{
         // } else {
         //     throw new RuntimeException("Product not found with id: " + productDTO.getId());
         // }  
+            LOGGER.info("Product update price and qty:{}",productDTO.getId());
         return convertToDTO(productRepository.save(productRepository.findById(productDTO.getId())
                     .map(product -> {
                         product.setPrice(productDTO.getPrice());
@@ -145,6 +155,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Page<ProductDTO> productScrolling(int page,int size,int userId) {
+        // LOGGER.info("scrolling get products:{}", userId);
         if(userId>0){
             Page<Product> productpages= productRepository.ProductsByUserId(userId,PageRequest.of(page,size));
             return productpages.map(this::convertToDTO);
@@ -153,6 +164,11 @@ public class ProductServiceImpl implements ProductService{
             Page<Product> productpages= productRepository.findAll(PageRequest.of(page,size));
             return productpages.map(this::convertToDTO);
         }
+    }
+
+    @Override
+    public List<ProductDTO> getAllProductsByIds(List<Integer> ids) {
+        return productRepository.getProductsByIds(ids).stream().map(this::convertToDTO).toList();    
     }
   
 }

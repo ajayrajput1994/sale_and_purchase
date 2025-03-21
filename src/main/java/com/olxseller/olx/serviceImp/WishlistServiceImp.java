@@ -22,12 +22,11 @@ public class WishlistServiceImp implements WishlistService{
   private UserRepository userRepo;
   @Override
   public WishlistDTO addToWishlist(WishlistDTO wishlistDTO) {
-    Optional<Wishlist> existing=wishRepo.findById(wishlistDTO.getId()); 
-    if(existing.isPresent()){
-      Wishlist wish=existing.get();
-      wish.setCollection(wishlistDTO.getCollection());
-      wish.setItems(wishlistDTO.getItems());
-      return tDto(wishRepo.save(wish));
+    Wishlist existing=wishRepo.getWishlistByUserId(wishlistDTO.getUserId()); 
+    if(existing!=null){ 
+      existing.setCollection(wishlistDTO.getCollection());
+      existing.setItems(wishlistDTO.getItems());
+      return tDto(wishRepo.save(existing));
     }else{
       return tDto(wishRepo.save(toEntity(wishlistDTO)));
     }
@@ -42,8 +41,8 @@ public class WishlistServiceImp implements WishlistService{
   }
 
   @Override
-  public List<WishlistDTO> getWishlist(int userId) {
-    return wishRepo.getWishlistByUserId(userId).stream().map(this::tDto).toList();
+  public WishlistDTO getWishlist(int userId) {
+    return tDto(wishRepo.getWishlistByUserId(userId));
   }
   
 

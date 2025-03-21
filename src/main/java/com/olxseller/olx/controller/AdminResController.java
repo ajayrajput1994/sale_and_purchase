@@ -455,10 +455,11 @@ public class AdminResController {
 	@PostMapping(value ="/product/create" ,consumes = { "multipart/form-data" })
 	public ResponseEntity<?> createUpdateProduct(
 		@RequestParam("files") MultipartFile[] files,
-		@RequestParam("id") String id,
-		@RequestParam("userId") String userId,
+		@RequestParam("id") int id,
+		@RequestParam("userId") int userId,
 		@RequestParam("name") String name,
 		@RequestParam("price") String price,
+		@RequestParam("image") String image,
 		@RequestParam("quantity") String quantity,
 		@RequestParam("category") String category,
 		@RequestParam("subCategory") String subCategory,
@@ -469,18 +470,20 @@ public class AdminResController {
 			// if(id!=""){
 			// 	p.setId(Integer.parseInt(id));
 			// }
-			p.setUserId(Integer.parseInt(userId));
+			p.setId(id);
+			p.setUserId(userId);
 			p.setName(name);
 			p.setPrice(Double.parseDouble(price));
 			p.setQuantity(Integer.parseInt(quantity));
 			p.setCategory(category);
 			p.setSubCategory(subCategory);
 			p.setDescription(description);
-			if(files.length>0){
+			p.setImage(image); 
+			if(!files[0].isEmpty()){
 				String imagepath=key.saveFile(files);
 				// System.out.println("img length: "+imagepath.length());
 				p.setImage(imagepath);
-			}else{
+			}else if(p.getImage().isEmpty()){
 				p.setImage("no_img.jpg");
 			}
 			String action="UPDATE";

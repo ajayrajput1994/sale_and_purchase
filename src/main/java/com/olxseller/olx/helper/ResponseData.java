@@ -1,7 +1,12 @@
 package com.olxseller.olx.helper;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olxseller.olx.model.Blog;
 
@@ -57,4 +62,48 @@ public class ResponseData {
     }
     return data;
   }
+
+  public Object getObjectFromJson(String jsonString){
+      try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+            if (jsonNode.isObject()) { 
+                return objectMapper.convertValue(jsonNode, Map.class); 
+            } else if (jsonNode.isArray()) { 
+                return objectMapper.convertValue(jsonNode, List.class); 
+            } else {
+                System.out.println("Input is neither a Map nor a List.");
+                System.out.println("Raw Value: " + jsonNode.toString());
+                return jsonNode.toString();
+            }
+          } catch (Exception e) {
+              return null;
+          } 
+    }
+  
+    public List<Integer> getIntKeysFromMap(String jsoString){
+      List<Integer> list = new ArrayList<>();
+      try {
+          ObjectMapper objectMapper = new ObjectMapper();
+          JsonNode jsonNode = objectMapper.readTree(jsoString); 
+          Map<String, Object> map = objectMapper.convertValue(jsonNode, Map.class);  
+          for (String key : map.keySet()) {
+              // System.out.println("Key: " + key);
+              try {
+                  Integer intKey = Integer.valueOf(key); 
+                  list.add(intKey);
+              } catch (NumberFormatException e) {
+                  System.err.println("Invalid key format: " + key);
+              }
+          }
+          // System.out.println("Final List: " + list); 
+      } catch (Exception e) {
+          e.printStackTrace(); 
+          return list; 
+      }
+      return list;
+
+  }
+
+
 }

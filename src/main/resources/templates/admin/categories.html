@@ -33,7 +33,7 @@
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" style="display: none;">
 										<div class="form-group col">
 											<label for="keyword">Keyword</label>
 											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
@@ -46,7 +46,7 @@
 											<div class="invalid-feedback"></div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row"  style="display: none;">
 										<div class="form-group col">
 											<label for="seoTitle">Seo Title</label>
 											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
@@ -61,7 +61,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row"  style="display: none;">
 										<div class="form-group">
 											<label for="seoContent">Seo Content </label>
 											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
@@ -89,7 +89,7 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title text-center">All Catalogs</h4>
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
-										onclick="formDomOpen()">Create</button>
+										onclick="formDomOpen(true)">Create</button>
 								</div>
 								<table class="table table-strip display" id="category_table">
 									<thead>
@@ -218,7 +218,7 @@
 				}
         var data = categoryDT.row( this ).data();
 				console.log(data);
-				formDomOpen();
+				formDomOpen(false);
 				$('#mainId').val(data.DT_RowId);
 				$('#mainCatalog').val(data.mainCatalog);
 				$('#title').val(data.title);
@@ -231,7 +231,10 @@
     } );
 		$('#loaderDom').hide();
 		});
-		function formDomOpen() {
+		function formDomOpen(v) {
+			if(v){
+				$("#category_form")[0].reset();
+			}
 			// console.log('creating on');
 			OpenHide('#categoryFromDom', '#recordDom');
 		}
