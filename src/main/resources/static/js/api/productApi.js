@@ -123,6 +123,7 @@ function scrolling(){
 }
 function formDomOpen() {
   $('#product_form')[0].reset();
+  $('#product_id').val(0);
   OpenHide('#blogFormDom','#recordDom');
   // addNewArticle();
   $('#action').val('yes');
@@ -159,8 +160,8 @@ async function addProduct(){
 }
 
 function addProductCB(r){
-  r =JSON.parse(r),
   console.log(r);
+  // r =JSON.parse(r),
   $('#product_form')[0].reset();
   recordDomOpen();
   let d=r.data;

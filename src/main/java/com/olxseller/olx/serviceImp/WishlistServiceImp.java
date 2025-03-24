@@ -42,7 +42,11 @@ public class WishlistServiceImp implements WishlistService{
 
   @Override
   public WishlistDTO getWishlist(int userId) {
-    return tDto(wishRepo.getWishlistByUserId(userId));
+    Wishlist wish=wishRepo.getWishlistByUserId(userId);
+    if(wish!=null){
+      return tDto(wish);
+    } 
+    return new WishlistDTO();
   }
   
 

@@ -148,13 +148,14 @@ async function createMultipartPost(formId,url,callBack){
       if (response.ok) {
           let result = await response.text();
           // addProductCB(result);
+          let res=JSON.parse(result);
           if (callBack != null) {
             var callbackMethod = eval(callBack);
-            callbackMethod(result, formId);
+            callbackMethod(res, formId);
             $(`#${formId}`)[0].reset();
           }
           $("button").attr("disabled", false);
-          messageConfirmation(result);
+          messageConfirmation(res);
       } else {
           toastr.warning('Failed to upload files');
       }

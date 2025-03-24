@@ -5,7 +5,6 @@
 		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
 		<title>Insert title here</title>
 	</head>
-
 	<body>
 		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
 			<section id="myContent">
@@ -18,59 +17,25 @@
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
-								<form id="category_form">
-									<input type="hidden" name="mainId" id="mainId" >
-									<div class="row">
-										<div class="form-group col">
-											<label for="mainCatalog">Category Name</label>
-											<input type="text" name="mainCatalog" class="form-control" id="mainCatalog"
-												placeholder="Category Name" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
+								<form id="category_form" enctype="multipart/form-data">
+									<input type="hidden" name="id" id="mainId" value="0" style="display: none;"> 
+									<input type="hidden" name="image" id="image" value="no_img.jpg">
+									<input type="hidden" name="path" id="imagePath" value="def">
+									<div class="row"> 
+										<div class="form-group col-6">
 											<label for="title">Title</label>
 											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
 										</div>
-									</div>
-									<div class="row" style="display: none;">
-										<div class="form-group col">
-											<label for="keyword">Keyword</label>
-											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
+										
+										<div class="form-group col-2">
+											<label for="files">Images</label>
+											<input type="file" name="files" id="files"
+												class="form-control"accept="image/*" placeholder="Enter title" multiple/>
 											<div class="invalid-feedback"></div>
 										</div>
-										<div class="form-group col">
-											<label for="description">Description </label>
-											<input type="text" name="description" class="form-control" id="description"
-												placeholder="Enter Description" />
-											<div class="invalid-feedback"></div>
-										</div>
-									</div>
-									<div class="row"  style="display: none;">
-										<div class="form-group col">
-											<label for="seoTitle">Seo Title</label>
-											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
-												placeholder="Enter Seo Title" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="seoDescription">Seo Description </label>
-											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
-												placeholder="Seo Description" />
-											<div class="invalid-feedback">
-											</div>
-										</div>
-									</div>
-									<div class="row"  style="display: none;">
-										<div class="form-group">
-											<label for="seoContent">Seo Content </label>
-											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
-												placeholder="Seo Content"></textarea>
-											<div class="invalid-feedback"></div>
-										</div>
-									</div>
-
-
+										<div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
+									</div> 
 
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0" style="margin-right: 7px;">Reset</button>
@@ -93,27 +58,19 @@
 								</div>
 								<table class="table table-strip display" id="category_table">
 									<thead>
-										<tr>
-											<th>Name</th>
+										<tr> 
 											<th>Title</th>
-											<th>Keyword</th>
-											<th>Description</th>
-											<th>Seo Title</th>
-											<th>Seo Description</th>
-											<th>Seo content</th>
+											<th>Image</th>
+											<th>Path</th> 
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:each="u : ${catalogs}">
-											<tr th:id="${u.mainId}">
-												<td th:text="${u.mainCatalog}">adf</td>
-												<td th:text="${u.title}">afd</td>
-												<td th:text="${u.keyword}">afd</td>
-												<td th:text="${u.description}">afd</td>
-												<td th:text="${u.seoTitle}">afd</td>
-												<td th:text="${u.seoDescription}">afd</td>
-												<td th:text="${u.seoContent}">afd</td>
+										<th:block th:each="u : ${categories}">
+											<tr th:id="${u.id}"> 
+												<td th:text="${u.title}"></td>
+												<td th:text="${u.image}"></td>
+												<td th:text="${u.path}"></td> 
 												<td class="text-center " >
 													<i class="fas fa-trash red-text text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
 												</td>
@@ -121,59 +78,6 @@
 										</th:block>
 									</tbody>
 								</table>
-								<!-- <table class="table">
-									<thead>
-										<tr>
-											<th scope="col">#Name</th>
-											<th scope="col">Title</th>
-											<th scope="col">Keyword</th>
-											<th scope="col">Seo Title</th>
-											<th scope="col">Seo Description</th>
-											<th scope="col">Seo Content</th>
-											<th scope="col" colspan="2">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="u : ${catalogs}">
-											<th scope="row"><span th:text="${u.mainCatalog}"></span></th>
-											<td><span th:text="${u.title}"></span></td>
-											<td><span th:text="${u.description}"></span></td>
-											<td><span th:text="${u.seoTitle}"></span></td>
-											<td><span th:text="${u.seoDescription}"></span></td>
-											<td><span th:text="${u.seoContent}"></span></td>
-											<td>
-												<form th:action="@{'/admin/maincategory/edit/'+${u.mainId}}" method="post">
-													<button class="btn btn-info btn-sm btn-rounded ">edit</button>
-												</form>
-											</td>
-											<td>
-												<a th:href="@{'/admin/catalog/delete/'+${u.mainId}}"
-													class="btn btn-danger btn-sm btn-rounded mt-1">delete</a>
-											</td>
-										</tr>
-									</tbody>
-								</table> -->
-								<!-- Pagination -->
-								<!-- <nav class="my-4 d-flex justify-content-center"> 
-									<ul class="pagination pagination-circle pg-blue mb-0"> 
-										<li th:if="${currentpage != 0}" class="page-item">
-											<a th:href="@{'/admin/all-users/'+${currentpage-1}}" class="page-link" aria-label="Previous">
-												<span aria-hidden="true">Previous</span>
-												<span class="sr-only">Previous</span>
-											</a>
-										</li> 
-										<li th:classappend="${currentpage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalpage)}"
-											class="page-item"><a href="" th:href="@{'/admin/all-users/'+${i-1}}" class="page-link"><span
-													th:text="${i}"></span></a></li> 
-										<li th:if="${currentpage+1 != totalpage}" class="page-item">
-											<a th:href="@{'/admin/all-users/'+${currentpage+1}}" class="page-link" aria-label="Next">
-												<span aria-hidden="true">Next</span>
-												<span class="sr-only">Next</span>
-											</a>
-										</li> 
-									</ul>
-								</nav> -->
-								<!-- Pagination -->
 
 							</div>
 						</div>
@@ -197,18 +101,14 @@
 						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
 					}
 				},
-				columns: [
-                {"data": 'mainCatalog'},
+				columns: [ 
                 {"data": 'title'},
-                {"data": 'keyword'},
-                {"data": 'description'},
-                {"data": 'seoTitle'},
-                {"data": 'seoDescription'},
-                {"data": 'seoContent'},
+                {"data": 'image'},
+                {"data": 'path'}, 
                 {"data": 'action'},
                 ],
 				columnDefs: [
-					{ visible: true, targets: [0, 1, 2, 7] },
+					{ visible: true, targets: [0, 3] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
@@ -219,20 +119,18 @@
         var data = categoryDT.row( this ).data();
 				console.log(data);
 				formDomOpen(false);
-				$('#mainId').val(data.DT_RowId);
-				$('#mainCatalog').val(data.mainCatalog);
+				$('#mainId').val(data.DT_RowId); 
 				$('#title').val(data.title);
-				$('#keyword').val(data.keyword);
-				$('#description').val(data.description);
-				$('#seoTitle').val(data.seoTitle);
-				$('#seoDescription').val(data.seoDescription);
-				$('#seoContent').val(data.seoContent);
-        // alert( 'You clicked on '+$(this).index()+'\'s row' );
+				$('#image').val(data.image);
+				$('#imagePath').val(data.path); 
     } );
 		$('#loaderDom').hide();
 		});
 		function formDomOpen(v) {
 			if(v){
+				$('#mainId').val(0);  
+				$('#image').val("no_img.jpg");
+				$('#imagePath').val("def");
 				$("#category_form")[0].reset();
 			}
 			// console.log('creating on');
@@ -242,39 +140,23 @@
 			// console.log('creating on');
 			OpenHide('#recordDom', '#categoryFromDom');
 		}
-		function createCategory() {
+	async	function createCategory() {
 			if (formValidate('category_form')) {
-				createPostRequest('category_form', '/admin/category/create', 'createCategoryCB');
+				// createPostRequest('category_form', '/admin/category/create', 'createCategoryCB');
+				await	createMultipartPost('category_form', '/admin/category/create', 'createCategoryCB');
 			}
 		}
-		function createCategoryCB(r) {
+	function createCategoryCB(r) {
 			// console.log('callback', r);
 			recordDomOpen();
 			let d=r.data;
-			if(r.action=="UPDATE"){
-			categoryDT.cell(`#${d.mainId}`,0).data(d.mainCatalog);
-			categoryDT.cell(`#${d.mainId}`,1).data(d.title);
-			categoryDT.cell(`#${d.mainId}`,2).data(d.keyword);
-			categoryDT.cell(`#${d.mainId}`,3).data(d.description);
-			categoryDT.cell(`#${d.mainId}`,4).data(d.seoTitle);
-			categoryDT.cell(`#${d.mainId}`,5).data(d.seoDescription);
-			categoryDT.cell(`#${d.mainId}`,6).data(d.seoContent);
-			categoryDT.cell(`#${d.mainId}`,7).data('<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>');
-			categoryDT.draw();
-			}else{
-				categoryDT.row.add({
-					DT_RowId:d.mainId,
-					mainCatalog:d.mainCatalog,
-					title:d.title,
-					keyword:d.keyword,
-					description:d.description,
-					seoTitle:d.seoTitle,
-					seoDescription:d.seoDescription,
-					seoContent:d.seoContent,
-					action:'<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>',
-				}).draw();
-				
-		}
+			d['DT_RowId']=d.id;
+			d['action']='<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>';
+			if (r.action == "UPDATE") {
+				categoryDT.row(`#${d.id}`).data(d).draw();
+			} else {
+				categoryDT.row.add(d).draw();
+			} 
 
 		}
 		function deleteCategory(btn) {

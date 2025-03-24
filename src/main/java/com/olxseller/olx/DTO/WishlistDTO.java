@@ -22,7 +22,7 @@ public class WishlistDTO {
   @NotBlank(message="Collection Name can't ne blank")
   private String collection;
 
-  private String items;
+  private String items="{\"default\":[]}";
 
   
 }

@@ -44,11 +44,11 @@ public class ProductServiceImpl implements ProductService{
             Product product = existProduct.get();
             BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
-            LOGGER.info("Product update:{}",product.getId());
+            LOGGER.info("Product update:{}",product.getName());
             return convertToDTO(productRepository.save(product));
         } else {
             // throw new RuntimeException("Product not found with id: " + productDTO.getId());
-            LOGGER.info("Product create:{}",productDTO.getId());
+            LOGGER.info("Product create:{}",productDTO.getName());
             return convertToDTO(productRepository.save(convertToEntity(productDTO)));
         }
     }

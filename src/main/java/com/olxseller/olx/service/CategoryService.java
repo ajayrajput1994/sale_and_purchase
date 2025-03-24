@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.olxseller.olx.DTO.CategoryDTO;
 import com.olxseller.olx.model.MainCategory;
 @Component
 public interface CategoryService {
@@ -19,4 +20,11 @@ public interface CategoryService {
   MainCategory getCategoryByName(String name);
 
   void updateCategory(MainCategory cat,int id);
+
+  //category with dto
+  CategoryDTO addCategory(CategoryDTO categoryDTO);
+  CategoryDTO getCategory(int catId);
+  CategoryDTO getCategoryByTitle(String title);
+  List<CategoryDTO> AllCategories();
+
 }

@@ -22,7 +22,7 @@
 								</div> 
 								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
 								<form id="product_form" enctype="multipart/form-data">
-									<input type="hidden" name="id" id="product_id">
+									<input type="hidden" name="id" id="product_id" style="display: none;">
 									<input type="hidden" name="userId" id="userId" th:value="${user.id}">
 									<input type="hidden" name="image" id="image" value="no_img.jpg">
 									<div class="row">

@@ -1,22 +1,13 @@
 package com.olxseller.olx.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.mail.Multipart;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.olxseller.olx.DTO.CategoryDTO;
 import com.olxseller.olx.DTO.ProductDTO;
+import com.olxseller.olx.DTO.SubCatDTO;
 import com.olxseller.olx.helper.Keys;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Banner;
@@ -86,23 +79,57 @@ public class AdminResController {
 	@Autowired
 	private Keys key;
 
-	@PostMapping("/category/create")
-	public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
-		System.out.println("category:" + cat);
-		try {
-			if (cat.getMainId() > 0) {
-				catService.updateCategory(cat, cat.getMainId());
-				return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", cat),
-						HttpStatus.OK);
+	@PostMapping(value ="/category/create",consumes={"multipart/form-data"})
+	public ResponseEntity<?> createCategory(
+		@RequestParam("files") MultipartFile[] files,
+		@RequestParam("id") String id,
+		@RequestParam("title") String title,
+		@RequestParam("image") String image,
+		@RequestParam("path") String path
+		) {
+			String action="UPDATE";
+			CategoryDTO cat=new CategoryDTO();
+			cat.setId(Integer.parseInt(id));
+			cat.setTitle(title);
+			cat.setImage(image);
+			cat.setPath(path); 
+			System.out.println(cat.toString());
+			try{ 
+				if(!files[0].isEmpty()){ 
+					String imagepath=key.saveFile(files);
+					// System.out.println("img length: "+imagepath.length());
+					cat.setImage(imagepath);
+				}else if(cat.getImage().isEmpty()){
+					cat.setImage("no_img.jpg"); 
+				}
+				if(cat.getId()==0){
+					action ="CREATE";
+				} 
+			}catch(Exception e){
+				System.out.println("AdminResController.createCategory()"
+				+e);
 			}
-			MainCategory category = catService.CreateMainCategory(cat);
-			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", category),
-					HttpStatus.OK);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, catService.addCategory(cat)),
+			action=="CREATE"?HttpStatus.CREATED:HttpStatus.OK);
+		
 	}
+	// @PostMapping("/category/create")
+	// public ResponseEntity<?> createCategory(@RequestBody MainCategory cat) {
+	// 	System.out.println("category:" + cat);
+	// 	try {
+	// 		if (cat.getMainId() > 0) {
+	// 			catService.updateCategory(cat, cat.getMainId());
+	// 			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE", cat),
+	// 					HttpStatus.OK);
+	// 		}
+	// 		MainCategory category = catService.CreateMainCategory(cat);
+	// 		return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", category),
+	// 				HttpStatus.OK);
+	// 	} catch (Exception ex) {
+	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	}
+	// 	// return null;
+	// }
 
 	@GetMapping("/category/{id}")
 	public ResponseEntity<?> getCategoryById(@PathVariable("id") int id) {
@@ -144,25 +171,61 @@ public class AdminResController {
 		// return null;
 	}
 
-	@PostMapping("/sub-category/create")
-	public ResponseEntity<?> createUpdateSubCategory(@RequestBody SubCategory sub) {
-		System.out.println("sub-category:" + sub);
-		try {
-			if (sub.getSubId() > 0) {
-				return new ResponseEntity<>(
-						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
-								subcatService.updateSubCategory(sub, sub.getSubId())),
-						HttpStatus.OK);
+	@PostMapping(value ="/SubCategory/create",consumes={"multipart/form-data"})
+	public ResponseEntity<?> createSubCategory(
+		@RequestParam("files") MultipartFile[] files,
+		@RequestParam("id") String id,
+		@RequestParam("mainCatalog") String category,
+		@RequestParam("title") String title,
+		@RequestParam("image") String image,
+		@RequestParam("path") String path
+		) {
+			String action="UPDATE";
+			SubCatDTO sub=new SubCatDTO();
+			sub.setId(Integer.parseInt(id));
+			sub.setTitle(title);
+			sub.setMainCatalog(category);
+			sub.setImage(image);
+			sub.setPath(path); 
+			System.out.println(sub.toString());
+			try{ 
+				if(!files[0].isEmpty()){ 
+					String imagepath=key.saveFile(files);
+					// System.out.println("img length: "+imagepath.length());
+					sub.setImage(imagepath);
+				}else if(sub.getImage().isEmpty()){
+					sub.setImage("no_img.jpg"); 
+				}
+				if(sub.getId()==0){
+					action ="CREATE";
+				} 
+			}catch(Exception e){
+				System.out.println("AdminResController.createSubCategory()"
+				+e);
 			}
-			return new ResponseEntity<>(
-					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE",
-							subcatService.createSubCategory(sub)),
-					HttpStatus.CREATED);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS", "Successfuly "+action, action, subcatService.addSubCategory(sub)),
+			action=="CREATE"?HttpStatus.CREATED:HttpStatus.OK);
+		
 	}
+	// @PostMapping("/sub-category/create")
+	// public ResponseEntity<?> createUpdateSubCategory(@RequestBody SubCategory sub) {
+	// 	System.out.println("sub-category:" + sub);
+	// 	try {
+	// 		if (sub.getSubId() > 0) {
+	// 			return new ResponseEntity<>(
+	// 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+	// 							subcatService.updateSubCategory(sub, sub.getSubId())),
+	// 					HttpStatus.OK);
+	// 		}
+	// 		return new ResponseEntity<>(
+	// 				responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE",
+	// 						subcatService.createSubCategory(sub)),
+	// 				HttpStatus.CREATED);
+	// 	} catch (Exception ex) {
+	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	}
+	// 	// return null;
+	// }
 
 	@GetMapping("/sub-category/delete/{id}")
 	public ResponseEntity<?> deleteSubCategoryById(@PathVariable("id") int id) {
@@ -455,8 +518,8 @@ public class AdminResController {
 	@PostMapping(value ="/product/create" ,consumes = { "multipart/form-data" })
 	public ResponseEntity<?> createUpdateProduct(
 		@RequestParam("files") MultipartFile[] files,
-		@RequestParam("id") int id,
-		@RequestParam("userId") int userId,
+		@RequestParam("id") String id,
+		@RequestParam("userId") String userId,
 		@RequestParam("name") String name,
 		@RequestParam("price") String price,
 		@RequestParam("image") String image,
@@ -470,8 +533,8 @@ public class AdminResController {
 			// if(id!=""){
 			// 	p.setId(Integer.parseInt(id));
 			// }
-			p.setId(id);
-			p.setUserId(userId);
+			p.setId(Integer.parseInt(id));
+			p.setUserId(Integer.parseInt(userId));
 			p.setName(name);
 			p.setPrice(Double.parseDouble(price));
 			p.setQuantity(Integer.parseInt(quantity));

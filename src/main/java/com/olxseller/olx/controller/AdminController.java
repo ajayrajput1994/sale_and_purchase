@@ -197,6 +197,7 @@ public class AdminController {
 	public String AllCategories(Model m) { 
 		m.addAttribute("title", "all catalogs"); 
 		m.addAttribute("catalogs", catService.getAllMainCategory());  
+		m.addAttribute("categories", catService.AllCategories());  
 		return "admin/categories";
 	}
 
@@ -205,7 +206,8 @@ public class AdminController {
 	public String subCategories( Model m) {
 		m.addAttribute("title", "all catalogs"); 
 		m.addAttribute("catalogs", subcatService.getAllSubcat());  
-		m.addAttribute("mainCategories", catService.getAllMainCategory());
+		m.addAttribute("subcats", subcatService.allSubcats());  
+		m.addAttribute("mainCategories", catService.AllCategories());
 		return "admin/subcategory";
 	}
 

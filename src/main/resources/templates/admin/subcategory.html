@@ -18,68 +18,34 @@
 									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
-								<form id="category_form">
-									<input type="hidden" name="subId" id="subId">
-									<div class="form-group mt-2">
-										<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" required>
-											<option disabled="" value="" selected="">Select Main Category</option>
-		                  <th:block  th:each="m : ${mainCategories}" >
-												<option th:value="${m.mainCatalog}" th:text="${m.mainCatalog}"></option>
-										</th:block>
-										</select>
-									</div>
+								<form id="category_form"> 
+									<input type="hidden" name="id" id="mainId"  style="display: none;"> 
+									<input type="hidden" name="image" id="image" value="no_img.jpg">
+									<input type="hidden" name="path" id="imagePath" value="def">
 									<div class="row">
-										<div class="form-group col">
-											<label for="subCatalog">Sub Category Name</label>
-											<input type="text" name="subCatalog" class="form-control" id="subCatalog"
-												placeholder="Sub Category Name" required>
+										<div class="form-group mt-2 col-6">
+											<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" required>
+												<option disabled="" value="" selected="">Select Main Category</option>
+												<th:block  th:each="m : ${mainCategories}" >
+													<option th:value="${m.title}" th:text="${m.title}"></option>
+											</th:block>
+											</select>
+										</div> 
+										
+										<div class="form-group col-2">
+											<label for="files">Images</label>
+											<input type="file" name="files" id="files"
+												class="form-control"accept="image/*" placeholder="Enter title" multiple/>
 											<div class="invalid-feedback"></div>
 										</div>
+										<div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
+									</div>
 										<div class="form-group col">
 											<label for="title">Title</label>
 											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
 											<div class="invalid-feedback"></div>
 										</div>
-									</div>
-									<div class="row" style="display: none;">
-										<div class="form-group col">
-											<label for="keyword">Keyword</label>
-											<input type="text" name="keyword" class="form-control" id="keyword" placeholder="Enter keyword" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="description">Description </label>
-											<input type="text" name="description" class="form-control" id="description"
-												placeholder="Enter Description" />
-											<div class="invalid-feedback"></div>
-										</div>
-									</div>
-									<div class="row" style="display: none;">
-										<div class="form-group col">
-											<label for="seoTitle">Seo Title</label>
-											<input type="text" name="seoTitle" class="form-control" id="seoTitle"
-												placeholder="Enter Seo Title" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="seoDescription">Seo Description </label>
-											<input type="text" name="seoDescription" class="form-control" id="seoDescription"
-												placeholder="Seo Description" />
-											<div class="invalid-feedback">
-											</div>
-										</div>
-									</div>
-									<div class="row" style="display: none;">
-										<div class="form-group">
-											<label for="seoContent">Seo Content </label>
-											<textarea type="text" name="seoContent" rows="2" class="form-control rounded-0" id="seoContent"
-												placeholder="Seo Content"></textarea>
-											<div class="invalid-feedback"></div>
-										</div>
-									</div>
-
-
-
+									</div> 
 									<div class="d-flex justify-content-end">
 										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
 											style="margin-right: 7px;">Reset</button>
@@ -102,29 +68,21 @@
 								</div>
 								<table class="table table-strip display" id="subcategory_table">
 									<thead>
-										<tr>
-											<th>Name</th>
+										<tr> 
 											<th>Sub Category</th>
-											<th>Keyword</th>
-											<th>Description</th>
-											<th>Seo Title</th>
-											<th>Seo Description</th>
-											<th>Seo content</th>
 											<th>Category</th>
+											<th>image</th>
+											<th>path</th> 
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:each="u : ${catalogs}">
-											<tr th:id="${u.subId}">
-												<td th:text="${u.subCatalog}"></td>
+										<th:block th:each="u : ${subcats}">
+											<tr th:id="${u.id}">
 												<td th:text="${u.title}"></td>
-												<td th:text="${u.keyword}"></td>
-												<td th:text="${u.description}"></td>
-												<td th:text="${u.seoTitle}"></td>
-												<td th:text="${u.seoDescription}"></td>
-												<td th:text="${u.seoContent}"></td>
 												<td th:text="${u.mainCatalog}"></td>
+												<td th:text="${u.image}"></td>
+												<td th:text="${u.path}"></td> 
 												<td class="text-center" >
 													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCategory(this)"
 														style="cursor: pointer;"></i>
@@ -158,18 +116,14 @@
 					}
 				},
 				columns: [
-					{ "data": 'subCatalog' },
 					{ "data": 'title' },
-					{ "data": 'keyword' },
-					{ "data": 'description' },
-					{ "data": 'seoTitle' },
-					{ "data": 'seoDescription' },
-					{ "data": 'seoContent' },
 					{ "data": 'mainCatalog' },
+					{ "data": 'image' },
+					{ "data": 'path' }, 
 					{ "data": 'action' },
 				],
 				columnDefs: [
-					{ visible: true, targets: [ 1,7, 8] },
+					{ visible: true, targets: [ 0,1, 4] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
@@ -180,64 +134,44 @@
 				var data = categoryDT.row(this).data();
 				console.log(data);
 				formDomOpen(false);
-				$('#subId').val(data.DT_RowId);
-				$('#subCatalog').val(data.subCatalog);
-				$('#title').val(data.title);
-				$('#keyword').val(data.keyword);
-				$('#description').val(data.description);
-				$('#seoTitle').val(data.seoTitle);
-				$('#seoDescription').val(data.seoDescription);
-				$('#seoContent').val(data.seoContent);
+				$('#mainId').val(data.DT_RowId);
 				$('#mainCatalog').val(data.mainCatalog);
+				$('#title').val(data.title);
+				$('#image').val(data.image);
+				$('#path').val(data.path); 
 				// alert( 'You clicked on '+$(this).index()+'\'s row' );
 			});
 			$('#loaderDom').hide();
 		});
 		function formDomOpen(v) {
-			if(v){
-				$('#category_form')[0].reset();
+			if(v){ 
+				$('#mainId').val(0);  
+				$('#image').val("no_img.jpg");
+				$('#imagePath').val("def");
+				$("#category_form")[0].reset();
 			}
 			OpenHide('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
 			OpenHide('#recordDom', '#categoryFromDom');
 		}
-		function createCategory() {
+	async	function createCategory() {
 			if (formValidate('category_form')) {
-				createPostRequest('category_form', '/admin/sub-category/create', 'createCategoryCB');
+				// createPostRequest('category_form', '/admin/sub-category/create', 'createCategoryCB');
+				await	createMultipartPost('category_form', '/admin/SubCategory/create', 'createCategoryCB');
 			}
 		}
 		function createCategoryCB(r) {
 			// console.log('callback', r);
 			recordDomOpen();
 			let d = r.data;
+			d['DT_RowId']=d.id;
+			d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
 			if (r.action == "UPDATE") {
-				categoryDT.cell(`#${d.subId}`, 0).data(d.subCatalog);
-				categoryDT.cell(`#${d.subId}`, 1).data(d.title);
-				categoryDT.cell(`#${d.subId}`, 2).data(d.keyword);
-				categoryDT.cell(`#${d.subId}`, 3).data(d.description);
-				categoryDT.cell(`#${d.subId}`, 4).data(d.seoTitle);
-				categoryDT.cell(`#${d.subId}`, 5).data(d.seoDescription);
-				categoryDT.cell(`#${d.subId}`, 6).data(d.seoContent);
-				categoryDT.cell(`#${d.subId}`, 7).data(d.mainCatalog);
-				categoryDT.cell(`#${d.subId}`, 8).data('<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>');
-				categoryDT.draw();
+				categoryDT.row(`#${d.id}`).data(d).draw();
 			} else {
-				categoryDT.row.add({
-					DT_RowId: d.subId,
-					subCatalog: d.subCatalog,
-					title: d.title,
-					keyword: d.keyword,
-					description: d.description,
-					seoTitle: d.seoTitle,
-					seoDescription: d.seoDescription,
-					seoContent: d.seoContent,
-					mainCatalog: d.mainCatalog,
-					action: '<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>',
-				}).draw();
-
-			}
-
+				categoryDT.row.add(d).draw();
+			}   
 		}
 		function deleteCategory(btn) {
 			var id = btn.parentNode.parentNode.id;
