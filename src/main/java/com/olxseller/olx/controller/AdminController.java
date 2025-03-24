@@ -43,7 +43,7 @@ import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.repository.WebSiteAddressRepository;
 import com.olxseller.olx.repository.WebSiteSocialRepository;
 import com.olxseller.olx.service.BlogService;
-import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.ProductService;
 import com.olxseller.olx.service.StateService;
@@ -86,7 +86,7 @@ public class AdminController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private CategoryService catService;
+	private MainCategoryService catService;
 	@Autowired
 	private SubCategoryService subcatService;
 	@Autowired

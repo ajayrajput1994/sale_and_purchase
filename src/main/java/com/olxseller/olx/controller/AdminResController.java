@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.olxseller.olx.DTO.CategoryDTO;
+import com.olxseller.olx.DTO.MainCatDTO;
 import com.olxseller.olx.DTO.ProductDTO;
 import com.olxseller.olx.DTO.SubCatDTO;
 import com.olxseller.olx.helper.Keys;
@@ -35,7 +35,7 @@ import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.model.WebSiteAddress;
 import com.olxseller.olx.model.WebSiteSocial;
 import com.olxseller.olx.service.BlogService;
-import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.LogoService;
 import com.olxseller.olx.service.ProductService;
@@ -53,7 +53,7 @@ public class AdminResController {
 	@Autowired
 	public ResponseData responseData;
 	@Autowired
-	private CategoryService catService;
+	private MainCategoryService catService;
 	@Autowired
 	private SubCategoryService subcatService;
 	@Autowired
@@ -88,7 +88,7 @@ public class AdminResController {
 		@RequestParam("path") String path
 		) {
 			String action="UPDATE";
-			CategoryDTO cat=new CategoryDTO();
+			MainCatDTO cat=new MainCatDTO();
 			cat.setId(Integer.parseInt(id));
 			cat.setTitle(title);
 			cat.setImage(image);

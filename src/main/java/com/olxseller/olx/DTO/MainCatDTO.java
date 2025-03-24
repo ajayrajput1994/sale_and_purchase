@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CategoryDTO {
+public class MainCatDTO {
   private int id;
   @NotNull(message = "Title missing.")
   private String title;

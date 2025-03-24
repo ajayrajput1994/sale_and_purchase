@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.olxseller.olx.DTO.CategoryDTO;
+import com.olxseller.olx.DTO.MainCatDTO;
 import com.olxseller.olx.model.MainCategory;
 @Component
-public interface CategoryService {
+public interface MainCategoryService {
   
   MainCategory CreateMainCategory(MainCategory cat);
 
@@ -22,9 +22,9 @@ public interface CategoryService {
   void updateCategory(MainCategory cat,int id);
 
   //category with dto
-  CategoryDTO addCategory(CategoryDTO categoryDTO);
-  CategoryDTO getCategory(int catId);
-  CategoryDTO getCategoryByTitle(String title);
-  List<CategoryDTO> AllCategories();
+  MainCatDTO addCategory(MainCatDTO categoryDTO);
+  MainCatDTO getCategory(int catId);
+  MainCatDTO getCategoryByTitle(String title);
+  List<MainCatDTO> AllCategories();
 
 }

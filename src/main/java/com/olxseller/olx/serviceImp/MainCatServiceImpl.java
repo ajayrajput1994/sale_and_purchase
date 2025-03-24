@@ -7,13 +7,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.olxseller.olx.DTO.CategoryDTO;
+import com.olxseller.olx.DTO.MainCatDTO;
 import com.olxseller.olx.model.MainCategory;
 import com.olxseller.olx.repository.MainCatRepository;
-import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.MainCategoryService;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class MainCatServiceImpl implements MainCategoryService {
   @Autowired
   private MainCatRepository CatRepo;
   @Override
@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public CategoryDTO addCategory(CategoryDTO categoryDTO) {
+  public MainCatDTO addCategory(MainCatDTO categoryDTO) {
     Optional<MainCategory> exisCategory=CatRepo.findById(categoryDTO.getId());
     if(exisCategory.isPresent()){ 
       MainCategory category=exisCategory.get();
@@ -63,22 +63,22 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public CategoryDTO getCategory(int catId) {
+  public MainCatDTO getCategory(int catId) {
     return toDTO(CatRepo.findById(catId).orElse(new MainCategory()));
   }
 
   @Override
-  public CategoryDTO getCategoryByTitle(String title) {
+  public MainCatDTO getCategoryByTitle(String title) {
     return toDTO(new MainCategory());
   }
 
   @Override
-  public List<CategoryDTO> AllCategories() {
+  public List<MainCatDTO> AllCategories() {
     return CatRepo.findAll().stream().map(this::toDTO).toList();  
   }
   
-  private CategoryDTO toDTO(MainCategory category){
-    CategoryDTO categoryDTO=new CategoryDTO();
+  private MainCatDTO toDTO(MainCategory category){
+    MainCatDTO categoryDTO=new MainCatDTO();
     categoryDTO.setId(category.getMainId());
     categoryDTO.setTitle(category.getTitle());
     categoryDTO.setImage(category.getImage());
@@ -86,7 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryDTO;
   }
 
-  private MainCategory toEntity(CategoryDTO categoryDTO){
+  private MainCategory toEntity(MainCatDTO categoryDTO){
     MainCategory category=new MainCategory();
     category.setMainId(categoryDTO.getId());
     category.setTitle(categoryDTO.getTitle());

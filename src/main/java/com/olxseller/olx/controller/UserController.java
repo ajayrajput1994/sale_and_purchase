@@ -35,7 +35,7 @@ import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.BlogRepository;
 import com.olxseller.olx.repository.PublisherService;
 import com.olxseller.olx.service.BlogService;
-import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CommentService;
 import com.olxseller.olx.service.StateService;
 import com.olxseller.olx.service.SubCategoryService;
@@ -57,11 +57,11 @@ public class UserController {
 	@Autowired
 	private BlogRepository blogRepo;
 	@Autowired
-	private CategoryService mainService;
+	private MainCategoryService mainService;
 	@Autowired
 	private StateService stateService;
 	@Autowired
-	private CategoryService catService;
+	private MainCategoryService catService;
 	@Autowired
 	private SubCategoryService subcatService;
   @Autowired

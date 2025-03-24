@@ -35,7 +35,7 @@ import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.repository.BannerRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CartService;
-import com.olxseller.olx.service.CategoryService;
+import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.ContactService;
 import com.olxseller.olx.service.EmailService;
@@ -75,7 +75,7 @@ public class PageController {
 	@Autowired
 	private CityService cityService;
 	@Autowired
-	private CategoryService catService;
+	private MainCategoryService catService;
 	@Autowired
 	private BlogService blogService;
 	@Autowired
