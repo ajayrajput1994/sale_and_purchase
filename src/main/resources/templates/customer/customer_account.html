@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <th:block th:include="~{customer/customerbase_layout :: myhead}"></th:block>
+    <title th:text="${title}"></title>
+    <style>
+      /* .cart_card{} */
+      .cart_img {
+        display: grid;
+        place-items: center;
+        width: 200px;
+        padding: 5px;
+      }
+
+      .cart_img img {
+        height: 142px;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        grid-gap: 5px;
+      }
+
+      .grid-item {
+        padding: 5px;
+      }
+
+      .grid-item:nth-child(1) {
+        justify-content: center;
+        width: 200px;
+        overflow: hidden;
+        height: 160px;
+        display: flex;
+        align-items: center;
+      }
+
+      .grid-item img {
+        max-width: 100%;
+        /* Restrict image width to the div's width */
+        max-height: 100%;
+        /* Restrict image height to the div's height */
+        object-fit: contain;
+        /* Ensure the image scales proportionally while staying within bounds */
+      }
+
+      .card_icon {
+        display: flex;
+        gap: 5px;
+        margin-top: 8px;
+
+      }
+
+      .card_icon span {
+        font-size: 15px;
+        width: 45px;
+      }
+
+      .card_icon span i {
+        margin-top: 3px;
+        cursor: pointer;
+      }
+
+      .wishlistItemsDom {
+        height: 73vh;
+        overflow-y: scroll;
+        background: #ffff;
+        padding: 5px;
+        margin-left: 5px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      .price_icon {
+        margin-right: 5px;
+        font-size: 13px;
+      }
+
+      .price_btn {
+        color: #f60303;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 11px;
+        margin-left: 0px;
+      }
+
+      .add_more_icon {
+        background: black;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .add_more_icon:hover {
+        color: white;
+        background: green
+      }
+
+      .border-b {
+        border-bottom: 1px solid gray;
+        padding-bottom: 14px;
+      }
+
+      /*for tablet*/
+      @media (min-width: 768px) and (max-width: 1024px) {}
+
+      /*for mobile*/
+      @media (max-width: 450px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+          grid-gap: 5px;
+        }
+
+        .grid-item:nth-child(1) {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+
+      /* .loading{display: none !important;} */
+      .footer section {
+        display: none !important;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: translateX(-50%) rotate(360deg)
+        }
+      }
+
+      @keyframes move {
+        0% {
+          transform: rotate(10deg)
+        }
+
+        100% {
+          transform: rotate(-10deg)
+        }
+      }
+
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container" th:replace="~{customer/customerbase_layout :: contentDom}">
+      <div id="myContent">
+        <style>
+          input,
+          textarea {
+            text-transform: uppercase !important;
+          }
+        </style>
+        <div class="container-fluid">
+          <div class="row">
+            <section class="col-md-4">
+              <div class="card text-bg-success rounded-0" style="margin-top: 20%;">
+                <div class="card-body text-center" style="padding-top: 2rem;">
+                  <div class="d-flex justify-content-start ">
+                    <img th:src="@{'/image/Desert.jpg'}" class="card-img-top" alt="..."
+                      style="position: absolute;border-radius: 80px;height: 10rem; width: 10rem;z-index: 27;top: -62px;">
+                  </div>
+                  <div style="margin-left: 40%;">
+                    <h3 class="d-flex justify-content-start" th:text="@{'#'+${user?.id}}">1</h3>
+                    <h4 class="d-flex justify-content-start" th:text="${user?.name}"></h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card  rounded-0 mt-3">
+                <div class="card-body p-0">
+                  <ul class="list-group">
+                    <!-- <a href="/user/" class="list-group-item list-group-item-action "><i
+                        class="fa-solid fa-chart-line"></i> Dashboard</a> -->
+                    <a href="javascript:" onclick="operDom('personal')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-shield-halved"></i> Personal
+                      Information</a>
+                    <a href="javascript:" onclick="operDom('orders')" class="list-group-item list-group-item-action "><i
+                        class="fa-solid fa-shopping-cart"></i> Orders
+                    </a>
+                    <a href="javascript:" onclick="operDom('wishlist')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-heart"></i> Wish List</a>
+                    <a href="javascript:" onclick="operDom('address')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-address-card"></i>
+                      Address</a>
+                    <a href="javascript:" onclick="operDom('article')"
+                      class="list-group-item list-group-item-action "><i class="fa-regular fa-newspaper"></i> My
+                      Article</a>
+                    <a href="javascript:" onclick="operDom('password')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-lock"></i> Change
+                      Password</a>
+                    <a href="javascript:" onclick="operDom('setting')"
+                      class="list-group-item list-group-item-action "><i class="fa-solid fa-sliders"></i> Settings</a>
+                  </ul>
+                </div>
+              </div>
+            </section>
+            <!-- Section: Inputs -->
+            <section class="section col-md-8 mb-5 mt-3  ">
+              <div class="card rounded-0" id="personalDom">
+                <div class="card-header text-bg-primary rounded-0 d-flex justify-content-between">
+                  <h1>Personal Information</h1>
+                  <div class="mt-3">
+                    <a href="javascript:" id="infoEditBtn" onclick="infoForm(true)"
+                      style="color: white;margin-top: 18px;">Edit</a>
+                    <a href="javascript:" id="infoBackBtn" onclick="infoForm(false)"
+                      style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
+
+                </div>
+                <div class="card-body">
+                  <div id="infoAddressDom">
+                    <div class="row">
+                      <div class="col-width"><span><b>Name:</b></span> <span id="info_name"></span></div>
+                      <div class="col-width"><b><span>Phone:</b></span> <span id="info_phone"></span></div>
+                      <div class="col-width-sm100 mt-3"><b><span>Email:</b></span> <span id="info_email"></span></div>
+                      <div class="col-width mt-3"><b><span>Gender:</b></span> <span>Not Define</span></div>
+                      <div class="col-width mt-3"><b><span>Other Phone:</b></span> <span id="info_ophone"></span></div>
+                      <div class="col-width mt-3"><b><span>Create At:</b></span> <span id="info_create_date"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <form id="userInfoForm" style="display: none;">
+                    <!-- Section heading -->
+                    <!-- Grid row -->
+                    <div class="row">
+                      <input type="hidden" name="id" th:value="${user.id}">
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label for="u_name" class="">Enter Name</label>
+                          <input type="text" name="name" id="u_name" class="form-control" required="">
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="u_email">email</label>
+                          <input type="email" name="email" id="u_email" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Grid row -->
+                    <!-- Grid row -->
+                    <div class="row">
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="u_phone">phone</label>
+                          <input type="text" name="phone" id="u_phone" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="md-form md-outline">
+                          <label class="active" for="uother_phone">other phone</label>
+                          <input type="text" name="other_phone" id="uother_phone" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Grid row -->
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-success rounded-0 btn-sm px-5 py-2"
+                        onclick="updateInfo()">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="card rounded-0" id="addressDom" style="display: none;">
+                <div class="card-header text-bg-success rounded-0 d-flex justify-content-between">
+                  <h1>Address</h1>
+                  <div class="mt-3">
+                    <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)"
+                      style="color: white;margin-top: 18px;">Add New</a>
+                    <a href="javascript:" id="addressBackBtn" onclick="addressForm(false)"
+                      style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="addressFormDom">
+                    <div class=" card border-success p-2">
+                      <div class="edit_icon_right">
+                        <a href="javascript:" id="addressEditBtn" onclick="addressForm(true)"
+                          style="color: blue;margin-top: 18px;"><i class="fa-solid fa-pen-to-square"></i></a>
+                      </div>
+                      <div class="row ">
+                        <div class="col-md-6"><span><b>Name:</b></span> <span th:text="${user.name}"></span></div>
+                        <div class="col-md-6"><b><span>Phone:</b></span> <span th:text="${user.phone}"></span></div>
+                        <div class="col-md-6 mt-3"><b><span>Pincode:</b></span> <span th:text="${user.email}"></span>
+                        </div>
+                        <div class="col-md-6 mt-3"><b><span>Landmark:</b></span> <span>Not Define</span></div>
+                        <div class="col-md-12 mt-3"><b><span>Address:</b></span> <span></span></div>
+                        <div class="col-md-6 mt-3"><b><span>City:</b></span> <span>Not Define</span></div>
+                        <div class="col-md-6 mt-3"><b><span>State:</b></span> <span>Not Define</span></div>
+                        <div class="col-md-6 mt-3"><b><span>Region:</b></span> <span>Not Define</span></div>
+                        <div class="col-md-6 mt-3"><b><span>Phone (Optional):</b></span> <span>Not Define</span></div>
+                        <div class="col-md-6 mt-3"><b><span>Type:</b></span> <span
+                            class="badge text-bg-danger">Work</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <form id="addressForm" style="display: none;">
+                    <input type="hidden" name="id" id="ad_id">
+                    <input type="hidden" name="uid" id="uid">
+                    <div class="row">
+                      <div class="form-group col-md-6 ">
+                        <label for="ad_name">Name</label>
+                        <input type="text" id="ad_name" name="name" class="form-control"
+                          style="text-transform: uppercase;">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="ad_phone">Phone</label>
+                        <input type="number" id="ad_phone" name="phone" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="pin_code">Pincode</label>
+                        <input type="text" id="pin_code" name="pin_code" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="landmark">Landmark</label>
+                        <input type="text" id="landmark" name="landmark" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="region">Region</label>
+                        <input type="text" id="region" name="region" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="other_phone">Other Phone (Optional)</label>
+                        <input type="text" id="other_phone" name="other_phone" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="address">Address</label>
+                      <textarea id="address" name="address" rows="2" class="form-control"></textarea>
+                    </div>
+                    <div class="row">
+                      <!-- <div class="ml-1 mb-1">Address Type</div> -->
+                      <div class="form-group col3-width">
+                        <input type="radio" class="btn-check" name="address_type" value="home" id="home"
+                          autocomplete="off" checked>
+                        <label class="btn btn-outline-secondary rounded-pill px-5" for="home">Home</label>
+                      </div>
+                      <div class="form-group col3-width">
+                        <input type="radio" class="btn-check" name="address_type" value="work" id="work"
+                          autocomplete="off">
+                        <label class="btn btn-outline-secondary rounded-pill px-5" for="work">Work</label>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-success rounded-0 " onclick="addAddress()">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="card rounded-0" id="ordersDom" style="display: none;">
+                <div class="card-header text-bg-danger rounded-0">
+                  <h1>Orders</h1>
+                </div>
+                <div class="card-body">
+                  <div class="row" id="orderItemsDom" style="display:none ;">
+                    <div id="OrderRowDom"></div>
+                  </div>
+                  <div id="emptyDom2  " style="display: none;">
+                    <div class="col-8 mx-auto">
+                      <div class="card my-5 rounded-0">
+                        <div class="card-body text-center">
+                          <img src="/image/Empty_Wishlist.png" class="img-fluid" style="width: 225px;" alt="">
+                          <h5>Your Wishlist Is Waiting to Be Fulfilled!!</h5>
+                          <p>Explore your favorite picks, discover new must-haves, and make your dreams a reality!
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card rounded-0" id="wishlistDom" style="display: none;">
+                <div class="card-header text-bg-danger rounded-0">
+                  <h1>Wish List</h1>
+                </div>
+                <div class="card-body">
+                  <div class="row" id="wishlistItemsDom" style="display:none ;">
+                    <div class="col-12 wishlistItemsDom">
+
+                    </div>
+                  </div>
+                  <div id="emptyDom" style="display: none;">
+                    <div class="col-8 mx-auto">
+                      <div class="card my-5 rounded-0">
+                        <div class="card-body text-center">
+                          <img src="/image/Empty_Wishlist.png" class="img-fluid" style="width: 225px;" alt="">
+                          <h5>Your Wishlist Is Waiting to Be Fulfilled!!</h5>
+                          <p>Explore your favorite picks, discover new must-haves, and make your dreams a reality!
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card rounded-0" id="articleDom" style="display: none;">
+                <div class="card-header text-bg-success rounded-0 d-flex justify-content-between">
+                  <h1>Articles</h1>
+                  <div class="mt-3">
+                    <a href="javascript:addNewArticle()" id="articleEditBtn" style="color: white;margin-top: 18px;">Add
+                      New</a>
+                    <a href="javascript:OpenHide('#articleRowDom, #articleEditBtn','#articleFormDom, #articleBackBtn ')"
+                      id="articleBackBtn" style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="articleRowDom"></div>
+                  <div id="articleFormDom"></div>
+                </div>
+              </div>
+              <div class="card rounded-0" id="passwordDom" style="display: none;">
+                <div class="card-header text-bg-info rounded-0">
+                  <h1>Change Password</h1>
+                </div>
+                <div class="card-body">
+                  <form id="passwordFormDisplay">
+                    <div class="form-group">
+                      <label>Password</label>
+                      <input type="password" th:value="${user.passwordStr}" class="form-control" disabled>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-success btn-sm rounded-0"
+                        onclick="OpenHide('#passwordForm','#passwordFormDisplay')">Change</button>
+                    </div>
+                  </form>
+                  <form id="passwordForm" style="display: none;">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="conf_password">Confirm Password</label>
+                      <input type="text" id="conf_password" class="form-control">
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-secondary btn-sm rounded-0 " style="margin-right: 5px;"
+                        onclick="OpenHide('#passwordFormDisplay','#passwordForm')">Cancel</button>
+                      <button type="button" class="btn btn-success btn-sm rounded-0 mr-5"
+                        onclick="updatePassword()">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="card rounded-0" id="settingDom" style="display: none;">
+                <div class="card-header text-bg-warning rounded-0">
+                  <h1>Settings</h1>
+                </div>
+                <div class="card-body">
+                </div>
+              </div>
+            </section>
+            <!-- Section: Inputs -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- <div th:insert="~{normal/userbase_layout :: myFooter}">
+<span>demo page</span>
+
+</div> -->
+  <th:block th:include="customer/customerbase_layout :: myscript">
+  </th:block>
+  <script th:src="@{/../js/customerLogic/customer.js}"></script>
+  <script th:src="@{/../js/userlogic/renderInfo.js}"></script>
+  <script th:src="@{/../js/api/articleLogic.js}"></script>
+
+</html>

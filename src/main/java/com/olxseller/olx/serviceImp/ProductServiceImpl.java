@@ -41,10 +41,10 @@ public class ProductServiceImpl implements ProductService{
         // product = productRepository.save(product);
         Optional<Product> existProduct = productRepository.findById(productDTO.getId());
         if (existProduct.isPresent()) {
-            Product product = existProduct.get();
+            Product product = existProduct.get();  
             BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
-            LOGGER.info("Product update:{}",product.getName());
+            LOGGER.info("Product update:{}",product.getName()+","+product.getId());
             return convertToDTO(productRepository.save(product));
         } else {
             // throw new RuntimeException("Product not found with id: " + productDTO.getId());
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService{
     public ProductDTO updateProduct(ProductDTO productDTO) {
         Optional<Product> existProduct = productRepository.findById(productDTO.getId());
         if (existProduct.isPresent()) {
-            Product product = existProduct.get();
+            Product product = existProduct.get(); 
             BeanUtils.copyProperties(productDTO, product, "id","code","createdAt","updatedAt","userId");
             // product = productRepository.save(product);
             LOGGER.info("Product update:{}",product.getId());
@@ -65,8 +65,7 @@ public class ProductServiceImpl implements ProductService{
         } else {
             throw new RuntimeException("Product not found with id: " + productDTO.getId());
         }
-    }
-
+    } 
     @Override
     public void deleteProduct(int id) {
         if (productRepository.existsById(id)) { 
@@ -84,10 +83,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Optional<ProductDTO> getProductById(int id) {
+    public ProductDTO getProductById(int id) {
         Optional<Product> product = productRepository.findById(id);
         LOGGER.info("Product get by id:{}",id);
-        return product.map(this::convertToDTO);
+        if(product.isPresent()){
+            return product.map(this::convertToDTO).get();
+        }else{
+
+            return new ProductDTO();
+        }
     }
 
     private ProductDTO convertToDTO(Product product) { 
@@ -116,6 +120,7 @@ public class ProductServiceImpl implements ProductService{
         BeanUtils.copyProperties(productDTO, product);
         if(productDTO.getId()==0){
             product.setCode(idGenerator.generateProductId());
+            LOGGER.info("Product code:{}",product.getCode());
         }
         User user = userRepository.findById(productDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + productDTO.getUserId()));
@@ -169,6 +174,11 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<ProductDTO> getAllProductsByIds(List<Integer> ids) {
         return productRepository.getProductsByIds(ids).stream().map(this::convertToDTO).toList();    
+    }
+
+    @Override
+    public ProductDTO getProductByCode(String code) {
+        return convertToDTO(productRepository.getProductByCode(code));    
     }
   
 }

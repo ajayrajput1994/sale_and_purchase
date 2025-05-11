@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title th:text="${title}">admin base head</title>
     <link rel="icon" type="image/png" href="/image/favicon.png">
-    <meta name="description" th:content="|${keyword}|"/>
-    <meta name="keyword" th:content="|${description}|"/>
+    <meta name="description" th:content="|${keyword}|" />
+    <meta name="keyword" th:content="|${description}|" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/loader.css}" />
@@ -23,22 +23,24 @@
     <script th:src="@{/js/jquery-3.7.1.js}"></script>
     <script th:src="@{/js/sweetAlert.js}"></script>
     <!-- <meta name="descriptoin" th:content="${pageDesc}"></meta> -->
-     <style>
-      .carousel-inner img{
+    <style>
+      .carousel-inner img {
         height: 15rem;
         border-radius: 0.5rem;
       }
-      .fa-angle-double-right{
+
+      .fa-angle-double-right {
         float: right;
       }
-     </style>
+    </style>
   </head>
 
   <body>
     <div class="container-fluid" style="margin-top: 4.5rem;" th:fragment="contentDom">
       <nav class="navbar navbar-expand-lg navbar-expand-md bg-light fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand dashbar_logo"  th:href="@{/}"><span class="logo_start">The</span> <span class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
+          <a class="navbar-brand dashbar_logo" th:href="@{/}"><span class="logo_start">The</span> <span
+              class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
           <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -46,7 +48,9 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/}" ><span class="logo_start">The</span> <span class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
+              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/}"><span
+                  class="logo_start">The</span> <span class="logo_mid">Digital</span> <span
+                  class="logo_end">Den</span></a>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
@@ -66,23 +70,30 @@
                 </li> -->
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item"><a class="nav-link"><i class="fas fa-search" onclick="searchBox(true)"></i></a></li>
+                <li class="nav-item"><a class="nav-link"><i class="fas fa-search" onclick="searchBox(true)"></i></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link cart-container" href="/wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </a>
+                </li>
                 <li class="nav-item">
                   <!-- <div class="cart-container">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count" class="cart-count">0</span>
                   </div> -->
-                  
+
                   <a class="nav-link cart-container" href="/cart">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count" class="cart-count">0</span>
                   </a>
                 </li>
-                <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link"  th:href="@{/signin}">Login</a></li>
-                <li class="nav-item dropdown " th:if="${user?.name!=''}">
+                <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link" th:href="@{/signin}">Login</a></li>
+                <li class="nav-item dropdown user-menu" th:if="${user?.name!=''}">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false" th:text="${user?.name}">
-                    
+
                   </a>
                   <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_ADMIN'}">
                     <li><a class="dropdown-item" href="javascript:">Account</a></li>
@@ -90,7 +101,7 @@
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="javascript:"  th:href="@{/logout}">Logout</a></li>
+                    <li><a class="dropdown-item" href="javascript:" th:href="@{/logout}">Logout</a></li>
                   </ul>
                   <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_USER'}">
                     <li><a class="dropdown-item" href="/user/">Account</a></li>
@@ -98,9 +109,17 @@
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="javascript:"  th:href="@{/logout}">Logout</a></li>
+                    <li><a class="dropdown-item" href="javascript:" th:href="@{/logout}">Logout</a></li>
                   </ul>
-                </li> 
+                  <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_CUSTOMER'}">
+                    <li><a class="dropdown-item" href="/Customer/">Account</a></li>
+                    <li><a class="dropdown-item" href="javascript:">Settings</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:" th:href="@{/logout}">Logout</a></li>
+                  </ul>
+                </li>
                 <!-- <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link" th:href="@{/signin}">Sign Up</a></li> -->
               </ul>
               <!-- <form class="d-flex mt-3" role="search">
@@ -126,130 +145,130 @@
         <img src="/image/favicon.png" style="width: 50px;">
           <h3>Please wait...</h3>
         </div> -->
-        <div class="overlay2" id="loaderDom"> 
-          <span class="loader"></span>
-          <h3>Please wait...</h3>
-        </div>
+      <div class="overlay2" id="loaderDom">
+        <span class="loader"></span>
+        <h3>Please wait...</h3>
+      </div>
     </div>
-   
+
   </body>
 
   <div class="footer" th:fragment="myFooter">
     <!-- Footer -->
-  <footer class="page-footer pt-0 mt-5">
-    <!-- Section: Social media -->
-    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-      <!-- Left -->
-      <div class="me-5 d-none d-lg-block">
-        <span>Get connected with us on social networks:</span>
-      </div>
-      <!-- Left -->
-  
-      <!-- Right -->
-      <div class="fs-icon">
-        <a th:href="@{${social.facebook}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a th:href="@{${social.twitter}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a th:href="@{${social.gmail}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-google"></i>
-        </a>
-        <a th:href="@{${social.instagram}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a th:href="@{${social.linkedin}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a th:href="@{${social.gethub}}" target="blank" class="me-3 text-reset">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <!-- Right -->
-    </section>
-    <!-- Section: Social media -->
-  
-    <!-- Section: Links  -->
-    <section class="">
-      <div class="container  text-md-start mt-5">
-        <!-- Grid row -->
-        <div class="row mt-3">
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-4 col-xl-3 mx-auto mb-4">
-            <!-- Content -->
-            <h6 class="text-uppercase fw-bold mb-4">
-              <i class="fas fa-gem me-3"></i> One to Z
-            </h6>
-            <p > <span th:text="@{${address.Address}}"></span>
-            </p>
-          </div>
-          <!-- Grid column -->
-  
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">
-              Popular Location
-            </h6>
-            <p th:each="c : ${allstates}">
-              <a th:href="@{'/'+${c.stateName}}" class="text-reset"><span th:text="${c.stateName}"></span></a>
-            </p>
-          </div>
-          <!-- Grid column -->
-  
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">
-              Useful links
-            </h6>
-            <p>
-              <a href="/about" class="text-reset">About</a>
-            </p>
-            <p>
-              <a href="/contact" class="text-reset">Contact</a>
-            </p>
-            <p>
-              <a href="/privacy-policy" class="text-reset">Privacy Policy</a>
-            </p>
-            <p>
-              <a href="/term-and-condition" class="text-reset">Terms And Conditions</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-  
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">
-              Contact
-            </h6>
-            <p><i class="fas fa-envelope me-3"></i><span th:text="@{${address.infoEmail}}"></span></p>
-            <p>
-              <i class="fas fa-envelope me-3"></i>
-              <span th:text="@{${address.adminEmail}}"></span>
-            </p>
-            <p><i class="fas fa-phone me-3"></i><span th:text="@{${address.phone}}"></span></p>
-            <p><i class="fas fa-phone me-3"></i> <span th:text="@{${address.phone2}}"></span></p>
-          </div>
-          <!-- Grid column -->
+    <footer class="page-footer pt-0 mt-5">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
         </div>
-        <!-- Grid row -->
+        <!-- Left -->
+
+        <!-- Right -->
+        <div class="fs-icon">
+          <a th:href="@{${social.facebook}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a th:href="@{${social.twitter}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a th:href="@{${social.gmail}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a th:href="@{${social.instagram}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a th:href="@{${social.linkedin}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a th:href="@{${social.gethub}}" target="blank" class="me-3 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container  text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-gem me-3"></i> One to Z
+              </h6>
+              <p> <span th:text="@{${address.Address}}"></span>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Popular Location
+              </h6>
+              <p th:each="c : ${allstates}">
+                <a th:href="@{'/'+${c.stateName}}" class="text-reset"><span th:text="${c.stateName}"></span></a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="/about" class="text-reset">About</a>
+              </p>
+              <p>
+                <a href="/contact" class="text-reset">Contact</a>
+              </p>
+              <p>
+                <a href="/privacy-policy" class="text-reset">Privacy Policy</a>
+              </p>
+              <p>
+                <a href="/term-and-condition" class="text-reset">Terms And Conditions</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Contact
+              </h6>
+              <p><i class="fas fa-envelope me-3"></i><span th:text="@{${address.infoEmail}}"></span></p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                <span th:text="@{${address.adminEmail}}"></span>
+              </p>
+              <p><i class="fas fa-phone me-3"></i><span th:text="@{${address.phone}}"></span></p>
+              <p><i class="fas fa-phone me-3"></i> <span th:text="@{${address.phone2}}"></span></p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2021 Copyright:
+        <a class="text-reset fw-bold" href="https://onetoz.com/">One To Z</a>
       </div>
-    </section>
-    <!-- Section: Links  -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2021 Copyright:
-      <a class="text-reset fw-bold" href="https://onetoz.com/">One To Z</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
   </div>
-  
+
   <th:block th:fragment="myscript">
     <script th:src="@{/js/js5/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/datatables.js}"></script>
@@ -261,35 +280,35 @@
     <script th:src="@{/js/sweetToaster.js}"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script> -->
     <script th:inline="javascript">
-     /*
-      $(window).on('resize', function () {
-        if ($(window).width() < 768) {
-          $('.page-footer').removeClass("fixed-bottom");
-        } else {
-          $('.page-footer').addClass("fixed-bottom");
+      /*
+       $(window).on('resize', function () {
+         if ($(window).width() < 768) {
+           $('.page-footer').removeClass("fixed-bottom");
+         } else {
+           $('.page-footer').addClass("fixed-bottom");
+         }
+       });
+       */
+      $(function () {
+        /*<![CDATA[*/
+        var dta = /*[[${dta}]]*/ "";
+        // alert(value);
+        /*]]*/
+        if (dta) {
+          dta = JSON.parse(dta);
+          console.log(dta);
+          loadedDTA = dta.data;
+          // loadData();
         }
-      });
-      */
-      $(function(){
-      /*<![CDATA[*/
-      var dta = /*[[${dta}]]*/ "";
-      // alert(value);
-      /*]]*/
-      if(dta){
-        dta = JSON.parse(dta);
-        console.log(dta);
-        loadedDTA=dta.data;
-        // loadData();
-      }
-      
-    });
-    function searchBox(v){
-      if(v){
-        OpenHide('.searchBox','.container-fluid, .footer');
-      }else{
 
-        OpenHide('.container-fluid, .footer','.searchBox');
-      }
+      });
+      function searchBox(v) {
+        if (v) {
+          OpenHide('.searchBox', '.container-fluid, .footer');
+        } else {
+
+          OpenHide('.container-fluid, .footer', '.searchBox');
+        }
       }
     </script>
   </th:block>

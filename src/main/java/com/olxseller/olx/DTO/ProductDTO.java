@@ -46,6 +46,9 @@ public class ProductDTO {
 
     @NotBlank(message = "Sub Category is mandatory")
     private String subCategory;
+
+    @NotBlank(message = "Main Category is mandatory")
+    private String mainCategory;
     
     private String code;
     @JsonSerialize(using = LocalDateTimeSerializer.class)

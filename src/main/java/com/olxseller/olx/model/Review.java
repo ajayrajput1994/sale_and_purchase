@@ -1,5 +1,4 @@
 
-
 package com.olxseller.olx.model;
 
 import java.io.Serializable;
@@ -35,21 +34,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Review  implements Serializable {
-	private static final long serialVersionUID=1L;
+public class Review implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotNull
     @ManyToOne
     private User user;
-    @NotNull
+
     @ManyToOne
     private Product product;
-    
+
     @NotNull
-    private int rating;  // Rating out of 5
-    
+    private float rating; // Rating out of 5
+
     @NotBlank
     @Column(length = 1500)
     private String review;
@@ -59,5 +58,5 @@ public class Review  implements Serializable {
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-  
+
 }

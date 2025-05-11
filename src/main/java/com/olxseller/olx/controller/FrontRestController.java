@@ -2,11 +2,16 @@ package com.olxseller.olx.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.Comments;
@@ -15,6 +20,7 @@ import com.olxseller.olx.model.ContactUs;
 import com.olxseller.olx.repository.PublisherService;
 import com.olxseller.olx.service.CommentService;
 import com.olxseller.olx.service.ContactService;
+import com.olxseller.olx.service.ProductService;
 
 @RestController
 public class FrontRestController {
@@ -26,6 +32,8 @@ public class FrontRestController {
   public PublisherService pubService;
   @Autowired
   public ContactService contactService;
+  @Autowired
+  public ProductService productService;
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	String date = sdf.format(new Date());
@@ -85,6 +93,20 @@ public class FrontRestController {
 			return new ResponseEntity<>(
 					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", contactService.addContact(contact)),
 					HttpStatus.CREATED);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
+  @GetMapping("/items/{Ids}")
+	public ResponseEntity<?> getProductListByIds(@PathVariable("Ids") List<Integer> Ids ) { 
+		System.out.println("Ids:" + Ids);
+		try { 
+				return new ResponseEntity<>(
+						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loaded", "RETRIEVE",
+						productService.getAllProductsByIds(Ids)),
+						HttpStatus.OK); 
 		} catch (Exception ex) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

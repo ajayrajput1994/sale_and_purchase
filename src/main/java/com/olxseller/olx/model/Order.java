@@ -27,7 +27,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "customer_order") 
+@Table(name = "customer_order")
 @EntityListeners(AuditingEntityListener.class)
 // @EntityListeners({AuditListener.class,AuditingEntityListener.class})
 @Getter
@@ -36,24 +36,24 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Order implements Serializable {
-	private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id; 
+    private int id;
     @NotBlank
-    private String orderId; 
+    private String orderId;
     @ManyToOne
-    private User user; 
+    private User user;
     @NotBlank
-    private String customerName; 
+    private String customerName;
     @NotBlank
-    private String itemDta;//"[]"
+    private String itemDta;// "[]"
     @NotBlank
-    private String billing;//"{}"
+    private String billing;// "{}"
     @NotBlank
-    private String shipping;//"{}" 
+    private String shipping;// "{}"
     @NotBlank
-    private String vouchers;//"[]"
+    private String vouchers;// "[]"
     @NotNull
     private int gst;
     @NotNull

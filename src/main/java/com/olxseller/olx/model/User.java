@@ -1,6 +1,5 @@
 package com.olxseller.olx.model;
 
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,79 +37,78 @@ import lombok.ToString;
 @AllArgsConstructor
 public class User implements Serializable {
 
-	private static final long serialVersionUID=1L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@NotNull 
-	private String name="";
 	@NotNull
-	@Column(unique=true) 
-	private String email="";
-	@NotNull 
-	private String phone="";
+	private String name = "";
 	@NotNull
-	private String other_phone="";
-	@NotNull 
-	private String password="";
+	@Column(unique = true)
+	private String email = "";
 	@NotNull
-	private String passwordStr="";
+	private String phone = "";
 	@NotNull
-	private String image="default.png";
+	private String other_phone = "";
 	@NotNull
-	private String role="ROLE_USER";
+	private String password = "";
 	@NotNull
-	private Boolean enabled=true; 
-	private Boolean agreed=true;
-	
+	private String passwordStr = "";
+	@NotNull
+	private String image = "default.png";
+	@NotNull
+	private String role = "ROLE_USER";
+	@NotNull
+	private Boolean enabled = true;
+	private Boolean agreed = true;
+
 	@NotNull
 	@CreatedDate
 	private String create_at;
-	
+
 	@NotNull
 	@LastModifiedDate
 	private String update_at;
 	@NotNull
-	private String passcode="";
+	private String passcode = "";
 	@NotNull
-	private String wishList="[default]";
-	
+	private String wishList = "[default]";
+
 	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@BatchSize(size = 10)
-	private Set<Blog> blog=new HashSet<>();
+	private Set<Blog> blog = new HashSet<>();
 	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
-	@BatchSize(size = 10)
-	private Set<UserAddress> addresses=new HashSet<>();
-	// private List<UserAddress> addresses=new ArrayList<>();
-	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
-	@BatchSize(size = 10)
-	private Set<Order> order=new HashSet<>();
-	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
-	@BatchSize(size = 10)
-	private Set<Payment> payments=new HashSet<>();
-	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
-	@BatchSize(size = 10)
-	private Set<Review> reviews=new HashSet<>();
-	@NotNull
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@BatchSize(size = 10)
 	@JsonManagedReference
-	private Set<Product> product=new HashSet<>();
+	private Set<UserAddress> addresses = new HashSet<>();
+	// private List<UserAddress> addresses=new ArrayList<>();
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@BatchSize(size = 10)
+	private Set<Order> order = new HashSet<>();
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@BatchSize(size = 10)
+	private Set<Payment> payments = new HashSet<>();
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@BatchSize(size = 10)
+	private Set<Review> reviews = new HashSet<>();
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@BatchSize(size = 10)
+	@JsonManagedReference
+	private Set<Product> product = new HashSet<>();
 
-	public User(String email,String pass,String cdate,String udate) {
-		super(); 
-		this.email=email;
-		this.password=pass;
-		this.create_at=cdate;
-		this.update_at=udate;
+	public User(String email, String pass, String cdate, String udate) {
+		super();
+		this.email = email;
+		this.password = pass;
+		this.create_at = cdate;
+		this.update_at = udate;
 	}
 
-
-	
 }

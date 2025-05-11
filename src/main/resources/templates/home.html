@@ -54,10 +54,19 @@
       .categoryDomChild div{ 
         display: grid;
       }
+      .minCatDomChild{
+        display: flex;
+        gap: 5px;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
+      
       .subcat{height: 7rem;margin-bottom: 2px;}
       .subcatImg{width: 9vw;}
       .subcatTitle{font-size: 12px;}
       .subcat2{height: 4rem;}
+      .subcat2 img{height: 4rem;}
+      .subcat2 span{font-size: 10px;}
       .newProductDom{
         background: #e0fffd;
         padding: 20px 5px;
@@ -99,9 +108,10 @@
       .my_btn{
         background: #ff5707;
         border-radius: 50px;
-        padding: 5px 15px;
+        padding: 5px 15px 9px 15px;
         color: white;
         font-size: 13px; 
+        cursor: pointer;
       }
       .my_btn:hover{
         background-color:#000;
@@ -178,38 +188,25 @@
         <section class="row mt-2" id="RecentlyVisitDom" style="display: none;"></section> -->
         <div ng-app="homeModule">
           <div ng-controller="homeController">
-            <section><div class="row mt-2 categoryDom" id="categoryDom"></div></section>
-            <section class="newProductDom"  style="display: none;"><h4 class="heading">Newly Added</h4><div class="mt-2 productDom" id="newProductDom">
-              <div class="card card-b rounded-0" ng-repeat="p in newproductList">
-                <div class="card_img_parent"> 
-                <img src="/image/{{p.image}}"  class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/{{p.name}}" class="card-title  card-title-line-limit"><h6>{{p.name}}</h6></a>
-                  <span class="card_price">{{p.price}} Rs/-</span><span class="cat_title">({{p.category}})</span>
-                  <p class="card-text card-text-line-limit">{{p.description}}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(p.id)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(p.id)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
+            <section>
+              <div class="row mt-2 categoryDom" id="categoryDom"></div>
+            </section>
+            <section class="newProductDom"  style="display: none;">
+              <h4 class="heading">Newly Added</h4>
+              <div class="mt-2 productDom" id="newProductDom">
             </div>
-          </section>
-          <section class="subCatDom"  style="display: none;">
-            <h4 class="heading">Newly Added</h4><div class="mt-2 productDom" id="newProductDom"></div>
-            <div class="row mt-2" id="subCatDom">
-
-            </div>
-          </section>
-          <section class="topPicksDom"  style="display: none;"><h4 class="heading">Hand picked</h4><div class="mt-2 productDom" id="topPicksDom"></div></section>
-          <section class="RecentlyVisitDom"  style="display: none;"><h4 class="heading">Recently viewed</h4><div class="mt-2 productDom" id="RecentlyVisitDom" ></div></section>
-            
-            
-            
-            
+            </section>
+            <section class="subCatDom"  style="display: none;"> 
+              <div class="row mt-2" id="subCatDom"></div>
+            </section>
+            <section class="topPicksDom"  style="display: none;">
+              <h4 class="heading">Hand picked</h4>
+              <div class="mt-2 productDom" id="topPicksDom"></div>
+            </section>
+            <section class="RecentlyVisitDom"  style="display: none;">
+              <h4 class="heading">Recently viewed</h4>
+              <div class="mt-2 productDom" id="RecentlyVisitDom" ></div>
+            </section>
           </div>
         </div>
       </div>

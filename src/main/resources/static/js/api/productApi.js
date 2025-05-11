@@ -1,16 +1,17 @@
 var productList=[],
-catList=[],
+catDict={},
+mainCatList=[],
 subCatDict={};
 
 var DT,imgPath; 
 function onload(){ 
   imgPath=loadedUserDTA.imgpath;
   loadedUserDTA.cats.forEach(d=>{
-    if(!catList.includes(d.title)){ 
-      catList.push(d.title);
+    if(!mainCatList.includes(d.title)){ 
+      mainCatList.push(d.title);
     }
   });
-  console.log(catList);
+  console.log(mainCatList);
   loadedUserDTA.subcat.forEach(d=>{
     if(d.mainCatalog in subCatDict){
       subCatDict[d.mainCatalog].push(d.title);
@@ -18,7 +19,15 @@ function onload(){
       subCatDict[d.mainCatalog]=[d.title];
     }
   });
+  loadedUserDTA.catList.forEach(d=>{
+    if(d.subCategory in catDict){
+      catDict[d.subCategory].push(d.title);
+    }else{
+      catDict[d.subCategory]=[d.title];
+    }
+  });
   console.log(subCatDict);
+  console.log(catDict);
   DT = $('#states_table').DataTable({
     // "pageLength": 50,
     // "info":false,
@@ -40,13 +49,14 @@ function onload(){
       { "data": 'quantity' },
       { "data": 'category' },
       { "data": 'subCategory' },
+      { "data": 'mainCategory' },
       { "data": 'description' },
       { "data": 'createdAt' },
       { "data": 'updatedAt' },
       { "data": 'action' },
     ],
     columnDefs: [
-      { visible: true, targets: [0,1,3,4,5,6,7,8,9,11,12,13] },
+      { visible: true, targets: [0,1,3,5,6,8,9,10] },
       { visible: false, targets: ['_all'] },
     ],
     initComplete: function () {
@@ -68,9 +78,11 @@ function onload(){
     $('#name').val(data.name);
     $('#price').val(data.price);
     $('#quantity').val(data.quantity);
-    $('#category').val(data.category);
-    loadSubCategory(data.category);
+    $('#mainCategory').val(data.mainCategory);
+    loadSubCategory(data.mainCategory);
     $('#subCategory').val(data.subCategory);
+    loadCategory(data.subCategory);
+    $('#category').val(data.category);
     $('#description').val(data.description);
     if(data.image!=""){
       let h=[];
@@ -150,6 +162,15 @@ function loadSubCategory(value){
   }
   $("#subCategory").html(h.join(''));
 }
+function loadCategory(value){
+  let h=['<option disabled="" selected="">-Select-</option>'];
+  if(value in catDict){
+    catDict[value].forEach(name=>{
+      h.push(`<option value="${name}">${name}</option>`);
+    })
+  }
+  $("#category").html(h.join(''));
+}
 async function addProduct(){
   if(!$("#userId").val()){
     toastr.info("User not found!");
@@ -196,6 +217,10 @@ function productValidate(){
   }
   if(!$("#quantity").val()){
     toastr.warning("Quantity can't be Empty.");
+    return false;
+  }
+  if(!$("#mainCategory").val()){
+    toastr.warning("Main Category can't be Empty.");
     return false;
   }
   if(!$("#category").val()){

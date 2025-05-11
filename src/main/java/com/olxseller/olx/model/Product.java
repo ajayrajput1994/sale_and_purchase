@@ -66,6 +66,9 @@ public class Product implements Serializable{
 
   @NotBlank
   private String subCategory;
+
+  @NotBlank
+  private String mainCategory;
   
   @ManyToOne
   @JsonBackReference

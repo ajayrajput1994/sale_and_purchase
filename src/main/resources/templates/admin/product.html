@@ -54,21 +54,27 @@
 									</div>
 									<div class="row">
 										<div class="form-group col">
-											<label for="category">Category</label>
-											<select name="category" id="category" class="form-select rounded-0 form-control " onchange="loadSubCategory(this.value)" required="">
+											<label for="mainCategory">Main Category</label>
+											<select name="mainCategory" id="mainCategory" class="form-select rounded-0 form-control " onchange="loadSubCategory(this.value)" required="">
 												<option disabled="" selected="">Select Main Category</option>
-												<option   th:each="m : ${mainCategories}" th:value="${m.mainCatalog}" th:text="${m.title}"></option>
+												<option   th:each="m : ${mainCategories}" th:value="${m.title}" th:text="${m.title}"></option>
 											</select>
 										</div>
 										<div class="form-group col">
 											<label for="subCategory">Sub Category</label>
-											<select name="subCategory" id="subCategory" class="form-select rounded-0 form-control "  required="">
+											<select name="subCategory" id="subCategory" class="form-select rounded-0 form-control "  onchange="loadCategory(this.value)"  required="">
 												<option disabled="" selected="">Select Category</option>
 											</select>
 										</div>
 									</div>  
 									<div class="row">
-										<div class="form-group">
+										<div class="form-group col">
+											<label for="category">Category</label>
+											<select name="category" id="category" class="form-select rounded-0 form-control " required="">
+												<option disabled="" selected="">Select Main Category</option> 
+											</select>
+										</div>
+										<div class="form-group col">
 											<label for="description">Description</label>
 											<textarea type="text" name="description" rows="2" class="form-control rounded-0" id="description"
 												placeholder="Seo Content"></textarea>
@@ -108,6 +114,7 @@
 											<th>Qty</th>
 											<th>Category</th> 
 											<th>Sub Category</th> 
+											<th>Main Category</th> 
 											<th>Desc</th>
 											<th>createdAt</th>
 											<th>updatedAt</th>  

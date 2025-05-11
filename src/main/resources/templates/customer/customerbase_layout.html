@@ -4,7 +4,7 @@
   <head th:fragment="myhead">
     <meta charset="UTF-8">
     <!-- <title th:text="${pageTitle}">admin base head</title> -->
-     
+
     <link rel="icon" type="image/png" href="/image/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/../css/style.css}" />
@@ -15,16 +15,14 @@
     <link rel="stylesheet" th:href="@{/../plugins/toastr.css}" />
     <script th:src="@{/../js/jquery-3.7.1.js}"></script>
     <!-- <meta name="descriptoin" th:content="${pageDesc}"></meta> -->
-     <style>
-      .my-btn{padding: 3px 25px;border-radius: 20px !important;max-height: 30px;}
-     </style>
   </head>
 
   <body>
     <div class="container-fluid" style="margin-top: 4.5rem;" th:fragment="contentDom">
       <nav class="navbar navbar-expand-lg navbar-expand-md bg-light fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand dashbar_logo"  th:href="@{/admin/}"><span class="logo_start">The</span> <span class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
+          <a class="navbar-brand dashbar_logo" th:href="@{/}"><span class="logo_start">The</span> <span
+              class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
           <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -32,61 +30,30 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/admin/}" ><span class="logo_start">The</span> <span class="logo_mid">Digital</span> <span class="logo_end">Den</span></a>
+              <a class="offcanvas-title dashbar_logo" id="offcanvasNavbarLabel" th:href="@{/}"><span
+                  class="logo_start">The</span> <span class="logo_mid">Digital</span> <span
+                  class="logo_end">Den</span></a>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" th:href="@{/admin/all-posts}">All Post</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" th:href="@{/admin/product}">Products</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/admin/all-users}">All User</a>
-                </li>
-                <li class="nav-item dropdown ">
-                  <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Categories
-                  </a>
-                  <ul class="dropdown-menu  dropdown-menu-right">
-                    <li><a class="dropdown-item" th:href="@{/admin/main-categories}">Main-Category</a></li>
-                    <li><a class="dropdown-item" th:href="@{/admin/sub-category}">Sub-Category</a></li>
-                    <li><a class="dropdown-item" th:href="@{/admin/Categories}">Category</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown ">
-                  <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Locations
-                  </a>
-                  <ul class="dropdown-menu p-0">
-                    <li><a class="dropdown-item" th:href="@{/admin/all-states}">States</a></li>
-                    <li><a class="dropdown-item" th:href="@{/admin/all-cities}">Cities</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/admin/pages-setup}" >Page Setup</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/admin/home-seo}">Home Seo</a>
+                  <a class="nav-link" aria-current="page" href="/user/profile">Profile</a>
                 </li>
               </ul>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item dropdown user-menu">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"  th:text="@{${user?.name}}">
+                    aria-expanded="false" th:text="@{${user?.name}}">
                     Account
                   </a>
-                  <ul class="dropdown-menu p-0">
-                    <li><a class="dropdown-item" href="javascript:">Profile</a></li>
+                  <ul class="dropdown-menu p-0" style="margin-left: -57px;">
+                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
                     <li><a class="dropdown-item" href="javascript:">Settings</a></li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="javascript:"  th:href="@{/logout}">Logout</a></li>
+                    <li><a class="dropdown-item" href="javascript:" th:href="@{/logout}">Logout</a></li>
                   </ul>
                 </li>
               </ul>
@@ -98,9 +65,7 @@
           </div>
         </div>
       </nav>
-      <th:block th:replace=":: #myContent">
-        
-      </th:block>
+      <th:block th:replace=":: #myContent"></th:block>
       <!-- <footer class="page-footer pt-0 mt-5 mdb-color fixed-bottom lighten-4">
 
         <div class="footer-copyright py-3 text-center">
@@ -111,11 +76,6 @@
         </div>
 
       </footer> -->
-      
-				<div class="overlay" id="loaderDom" >
-				<img src="/image/favicon.png" style="width: 50px;">
-					<h3>Please wait...</h3>
-				</div>
     </div>
   </body>
 
@@ -133,10 +93,8 @@
     <script th:src="@{/../js/datatables.min.js}"></script>
     <script th:src="@{/../js/jszip.js}"></script>
     <script th:src="@{/../plugins/toastr.js}"></script>
-    <script th:src="@{/../plugins/xlsx.min.js}"></script>
     <script th:src="@{/../js/main.js}"></script>
-    <script th:src="@{/../js/api/fileUploadApi.js}"></script>
-    <script th:src="@{/../js/adminLogic/adminArticleLogic.js}"></script>
+    <script th:src="@{/../js/angular.min.js}"></script>
     <script th:inline="javascript">
       $(window).on('resize', function () {
         if ($(window).width() < 768) {
@@ -145,19 +103,19 @@
           $('.page-footer').addClass("fixed-bottom");
         }
       });
-      $(function(){
-      /*<![CDATA[*/
-      var dta = /*[[${data}]]*/ "";
-      // alert(value);
-      /*]]*/
-      if(dta){
-        dta = JSON.parse(dta);
-        console.log(dta);
-        loadedUserDTA=dta.data;
-        // console.log(loadedUserDTA);
-        // loadDashboard();
-      }
-    });
+      $(function () {
+        /*<![CDATA[*/
+        var dta = /*[[${data}]]*/ "";
+        // alert(value);
+        /*]]*/
+        if (dta) {
+          dta = JSON.parse(dta);
+          console.log(dta);
+          loadedUserDTA = dta.data;
+          // console.log(loadedUserDTA);
+          // loadDashboard(); 
+        }
+      });
     </script>
   </th:block>
 

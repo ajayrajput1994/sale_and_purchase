@@ -2,10 +2,13 @@ var userInfo = {},
   addressList = [],
   wishList = [],
   blogDict = {},
+  orderDict = {},
   addressDict = {},
   productList = [],
   productDict = {},
-  wishlistItems = {};
+  reviewsDict = {},
+  reviewsList = [];
+wishlistItems = {};
 
 $(function () {
   loadData();
@@ -14,25 +17,37 @@ function loadData() {
   // console.log('user',loadedUserDTA.user);
   // addressList=loadedUserDTA.user.addresses;
   setUserInfo(loadedUserDTA.user, true);
-  console.log(userInfo);
+  // console.log(userInfo);
   wishList = loadedUserDTA.wishlist;
   productList = loadedUserDTA.productList;
-  loadedUserDTA.blogs.forEach((d) => (blogDict[d.id] = d));
+  reviewsList = loadedUserDTA.reviews;
+  // loadedUserDTA.blogs.forEach((d) => (blogDict[d.id] = d));
+  loadedUserDTA.orders.forEach((d) => (orderDict[d.id] = d));
   loadedUserDTA.addressList.forEach((d) => (addressDict[d.id] = d));
+  loadedUserDTA.productList.forEach((d) => (productDict[d.id] = d));
+  loadedUserDTA.reviews.forEach((d) => {
+    if (reviewsDict.hasOwnProperty(d.productId)) {
+      reviewsDict[d.productId]["r"] += d.rating;
+      reviewsDict[d.productId]["t"] += 1;
+    } else {
+      reviewsDict[d.productId] = { r: d.rating, t: 1 };
+    }
+  });
   wishlistItems = JSON.parse(loadedUserDTA.wishlistItems);
-  // console.log(addressDict);
+  console.log(reviewsDict);
   // console.log(blogDict);
   renderWishlistItems();
-  renderArticles();
+  renderOrders();
   renderAddresses();
 }
 function addAddress() {
-  createPostRequest("addressForm", "/user/Address/create", "addAddressCB");
+  createPostRequest("addressForm", "/Api/Address/create", "addAddressCB");
 }
 function addAddressCB(r) {
-  // console.log(r);
+  console.log(r);
+  // d = addressDict[dta.id];
   let dta = r.data,
-    d = addressDict[dta.id];
+    d = {};
   d["name"] = dta.name;
   d["phone"] = dta.phone;
   d["landmark"] = dta.landmark;
@@ -43,14 +58,14 @@ function addAddressCB(r) {
   d["city"] = dta.city;
   d["address"] = dta.address;
   d["address_type"] = dta.address_type;
-  // addressDict[dta.id]=d;
+  addressDict[dta.id] = d;
   $("#addressForm")[0].reset();
   renderAddresses();
   addressForm(false);
 }
 
 function updateInfo() {
-  createPostRequest("userInfoForm", "/user/info", "infoCB");
+  createPostRequest("userInfoForm", "/Api/info", "infoCB");
 }
 function infoCB(r) {
   console.log(r);
@@ -80,7 +95,7 @@ function updatePassword() {
     toastr.warning("Confirm password is not matched");
   }
   if (isTrue) {
-    createPostRequest("passwordForm", "/user/password", "updatePasswordCB");
+    createPostRequest("passwordForm", "/Api/password", "updatePasswordCB");
   }
 }
 
@@ -91,7 +106,7 @@ function updatePasswordCB(r) {
 }
 
 function setDefaultAddress(id) {
-  createGetRequest("blankForm", "/user/Address/" + id, "setDefaultAddressCB");
+  createGetRequest("blankForm", "/Api/Address/" + id, "setDefaultAddressCB");
 }
 
 function setDefaultAddressCB(r) {
@@ -107,7 +122,7 @@ function renderWishlistItems() {
       }
     });
   });
-  if (productList.length == 0 && ids.length == 0) {
+  if (productList.length == 0 || ids.length == 0) {
     $("#emptyDom").show();
   } else {
     $("#wishListDom").show();
@@ -119,17 +134,17 @@ function getWishlistProducts(id) {
     .done((response) => {
       JSON.parse(response).data.forEach((p) => {
         productList.push(p);
-        productDict[p.id] = p;
+        wishlistItemDict[p.id] = p;
       });
-      renderWishlistProducts(productDict);
+      renderWishlistProducts(wishlistItemDict);
     })
     .fail(() => console.error("Error fetching wishlist products"));
 }
 
 function removeFromWishlist(id) {
-  if (productDict.hasOwnProperty(id)) {
-    delete productDict[id];
-    wishlistItems["default"] = Object.keys(productDict);
+  if (wishlistItemDict.hasOwnProperty(id)) {
+    delete wishlistItemDict[id];
+    wishlistItems["default"] = Object.keys(wishlistItemDict);
     $.post({
       url: "/wishlist",
       method: "POST",
@@ -144,7 +159,7 @@ function removeFromWishlist(id) {
     })
       .then(function (response) {
         console.log(response.items);
-        renderWishlistProducts(productDict);
+        renderWishlistProducts(wishlistItemDict);
       })
       .catch(function (error) {
         console.error("Error fetching data:", error); // Handle errors

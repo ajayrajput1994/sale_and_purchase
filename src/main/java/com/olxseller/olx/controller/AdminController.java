@@ -43,6 +43,7 @@ import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.repository.WebSiteAddressRepository;
 import com.olxseller.olx.repository.WebSiteSocialRepository;
 import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.ProductService;
@@ -89,6 +90,8 @@ public class AdminController {
 	private MainCategoryService catService;
 	@Autowired
 	private SubCategoryService subcatService;
+	@Autowired
+	private CategoryService miniCatService;
 	@Autowired
 	private StateService stateService;
 	@Autowired
@@ -146,6 +149,7 @@ public class AdminController {
 		Map<String,Object> map=new HashMap<>();
 		map.put("cats", catService.getAllMainCategory());
 		map.put("subcat", subcatService.getAllSubcat());
+		map.put("catList", miniCatService.getAllCategory());
 		map.put("products", productService.getAllProducts());
 		var dta= responseData.jsonDataResponse("SUCCESS", "load data", map);
 		// System.out.println(map);
@@ -193,12 +197,12 @@ public class AdminController {
  
 
 	// main catalogs
-	@GetMapping("/categories")
-	public String AllCategories(Model m) { 
+	@GetMapping("/main-categories")
+	public String AllMainCategories(Model m) { 
 		m.addAttribute("title", "all catalogs"); 
 		m.addAttribute("catalogs", catService.getAllMainCategory());  
 		m.addAttribute("categories", catService.AllCategories());  
-		return "admin/categories";
+		return "admin/MainCategories";
 	}
 
 	// sub catalogs
@@ -209,6 +213,22 @@ public class AdminController {
 		m.addAttribute("subcats", subcatService.allSubcats());  
 		m.addAttribute("mainCategories", catService.AllCategories());
 		return "admin/subcategory";
+	}
+
+	
+	// Catalogs
+	@GetMapping("/Categories")
+	public String AllCategories(Model m) { 
+		m.addAttribute("title", "all catalogs"); 
+		Map<String,Object> map=new HashMap<>();
+		map.put("catList", miniCatService.getAllCategory());
+		map.put("subCats", subcatService.allSubcats());
+		map.put("blogs", blogService.getAllBlogs());
+		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
+		m.addAttribute("data", dta);
+		m.addAttribute("mainCats", catService.getAllMainCategory());   
+		m.addAttribute("catList", miniCatService.getAllCategory());  
+		return "admin/Categories";
 	}
 
 	// all states
@@ -335,7 +355,7 @@ public class AdminController {
 	public String createNewMainCategory(@RequestBody MainCategory maincategory, Model m,
 			HttpSession session) {
 		// System.out.println("category:" + maincategory);
-		String pageurl = "admin/categories";
+		String pageurl = "admin/MainCategories";
 		try {
 			// System.out.println(maincategory);
 			// if(result.hasErrors()) {

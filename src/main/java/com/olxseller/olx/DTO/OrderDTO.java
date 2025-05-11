@@ -6,19 +6,23 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.olxseller.olx.helper.LocalDateTimeDeserializer;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class OrderDTO {
-  private int id; 
+  private int id;
 
-  @NotBlank(message = "order ID cannot be null") 
+  @NotBlank(message = "order ID cannot be null")
   private String orderId;
 
   @NotNull(message = "User ID cannot be null")
-  @Min(value = 1,message="User ID must be greater than 0")
+  @Min(value = 1, message = "User ID must be greater than 0")
   private Integer userId;
 
   @NotBlank(message = "Customer Name cannot be null")
@@ -37,7 +41,7 @@ public class OrderDTO {
   private String vouchers;
 
   @NotNull(message = "GST cannot be null")
-  @Min(value = 1,message="GST must be greater than 0")
+  @Min(value = 1, message = "GST must be greater than 0")
   private int gst;
 
   @NotNull(message = "Voucher Discount cannot ne null")
@@ -61,15 +65,17 @@ public class OrderDTO {
   private double deliveryFee;
 
   @NotNull(message = "Total Price cannot ne null")
-  @Min(value = 1,message="Total Price must be greater than 0")
+  @Min(value = 1, message = "Total Price must be greater than 0")
   private double totalPrice;
 
   @NotNull(message = "Grand Total cannot ne null")
-  @Min(value = 1,message="Grand Total must be greater than 0")
+  @Min(value = 1, message = "Grand Total must be greater than 0")
   private double grandTotal;
 
   @NotBlank(message = "Status is mandatory")
   private String status;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime orderDate;
   private LocalDateTime deliveredAt;
   private LocalDateTime updatedAt;

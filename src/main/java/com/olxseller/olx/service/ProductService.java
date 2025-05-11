@@ -15,7 +15,8 @@ public interface ProductService {
     List<ProductDTO> getAllProducts();
     List<ProductDTO> getAllProductsByIds(List<Integer> ids);
     Page<ProductDTO> productScrolling(int index,int count,int userId);
-    Optional<ProductDTO> getProductById(int id);
+    ProductDTO getProductById(int id);
+    ProductDTO getProductByCode(String code);
     List<ProductDTO> searchProductsByTxt(String txt);
   
 }

@@ -55,14 +55,16 @@ public class MyConfig{
 		
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		String[] adminAccess={"/admin/**","/user/**"};
+		// String[] adminAccess={"/admin/**","/user/**"};
+		// .antMatchers(adminAccess).hasRole("ADMIN")
 		http
 				.csrf(csrf-> csrf.disable())
 				.cors(cors-> cors.disable())
 				.authorizeRequests(auth -> auth
-					.antMatchers(adminAccess).hasRole("ADMIN")
-					.antMatchers("/user/**").hasRole("USER")
-					.antMatchers("/**").permitAll())
+				.antMatchers("/user/**").hasRole("USER")
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/Customer/**").hasRole("CUSTOMER")
+				.antMatchers("/**").permitAll())
 				.formLogin(form -> form
 					.loginPage("/signin").loginProcessingUrl("/login_process").successHandler(successhandler))
 				.authenticationProvider(authenticatinProvider())

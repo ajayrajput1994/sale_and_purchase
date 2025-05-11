@@ -5,6 +5,7 @@
 		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
 		<title>Insert title here</title>
 	</head>
+
 	<body>
 		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
 			<section id="myContent">
@@ -13,21 +14,31 @@
 						<div class="card rounded-0">
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
-									<h4 class="text-center">Create Main Category</h4>
-									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+									<h4 class="text-center">Create Category</h4>
+									<button type="button" class="btn btn-info btn-sm my-btn text-white "
 										onclick="recordDomOpen()">Back</button>
 								</div>
-								<form id="category_form" enctype="multipart/form-data">
-									<input type="hidden" name="id" id="mainId" value="0" style="display: none;"> 
+								<form id="category_form"> 
+									<input type="hidden" name="id" id="mainId"  style="display: none;"> 
 									<input type="hidden" name="image" id="image" value="no_img.jpg">
 									<input type="hidden" name="path" id="imagePath" value="def">
-									<div class="row"> 
-										<div class="form-group col-6">
-											<label for="title">Title</label>
-											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
-											<div class="invalid-feedback"></div>
-										</div>
+									<div class="row">
+										<div class="form-group mt-2 col-6">
+											<select name="mainCatalog" id="mainCatalog" class="select form-control rounded-0" onchange="laodSubCatalog(this.value)" required>
+												<option disabled="" value="" selected="">Select Main Category</option>
+												<th:block  th:each="m : ${mainCats}" >
+													<option th:value="${m.title}" th:text="${m.title}"></option>
+											</th:block>
+											</select>
+										</div> 
+                    <div class="form-group mt-2 col-md-6">
+                      <select name="subCategory" id="subCategory" class="select form-control rounded-0"  required>
+                        <option disabled="" value="" selected="">Select Sub Category</option>
+                      </select>
+                    </div> 
 										
+									</div>
+                  <div class="row">
 										<div class="form-group col-2">
 											<label for="files">Images</label>
 											<input type="file" name="files" id="files"
@@ -35,12 +46,43 @@
 											<div class="invalid-feedback"></div>
 										</div>
 										<div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
+                  <div class="form-group col-md-6">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+                    <div class="invalid-feedback"></div>
+                  </div>
 									</div> 
-
 									<div class="d-flex justify-content-end">
-										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0" style="margin-right: 7px;">Reset</button>
+										<button type="reset" class="btn btn-warning  btn-sm my-btn"
+											style="margin-right: 7px;">Reset</button>
 										<button type="button" onclick="createCategory()"
-											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
+											class="btn btn-primary  btn-sm my-btn">Submit</button>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 mx-auto" id="uplaodFromDom" style="display: none;">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="text-center">Upload Category</h4>
+									<button type="button" class="btn btn-info btn-sm  my-btn text-white "
+										onclick="recordDomOpen()">Back</button>
+								</div>
+								<form id="categoryUploadForm"  enctype="multipart/form-data"> 
+                  <div class="row">
+										<div class="form-group col-12">
+											<label for="fileInput">File upload (.xls, .xlsx, .csv)</label>
+											<input type="file" name="fileInput" id="fileInput" accept=".csv,.xls,.xlsx"
+												class="form-control" placeholder="Enter title" />
+											<div class="invalid-feedback"></div>
+										</div> 
+									</div> 
+									<div class="d-flex justify-content-end">
+										<button type="reset" class="btn btn-warning  btn-sm  my-btn" style="margin-right: 7px;">Reset</button>
+										<button type="button" onclick="uploadCategory()" class="btn btn-primary  btn-sm my-btn ">Uplaod</button>
 									</div>
 								</form>
 
@@ -53,31 +95,42 @@
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title text-center">All Catalogs</h4>
-									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+									<div>
+
+										<button type="button" class="btn btn-dark btn-sm my-btn text-white "
+										onclick="formDomOpen(false)">Upload</button>
+										<button type="button" class="btn btn-info btn-sm my-btn text-white "
 										onclick="formDomOpen(true)">Create</button>
+									</div>
 								</div>
 								<table class="table table-strip display" id="category_table">
 									<thead>
 										<tr> 
-											<th>Title</th>
-											<th>Image</th>
-											<th>Path</th> 
+											<th>Main Category</th>
+											<th>Sub Category</th>
+											<th>Category</th>
+											<th>image</th>
+											<th>path</th> 
 											<th class="text-center">Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:each="u : ${categories}">
-											<tr th:id="${u.id}"> 
+										<th:block th:each="u : ${catList}">
+											<tr th:id="${u.id}">
+												<td th:text="${u.mainCategory}"></td>
+												<td th:text="${u.subCategory}"></td>
 												<td th:text="${u.title}"></td>
 												<td th:text="${u.image}"></td>
 												<td th:text="${u.path}"></td> 
-												<td class="text-center " >
-													<i class="fas fa-trash red-text text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
+												<td class="text-center" >
+													<i class="fas fa-trash red-text text-center text-danger" onclick="deleteCategory(this)"
+														style="cursor: pointer;"></i>
 												</td>
 											</tr>
 										</th:block>
 									</tbody>
 								</table>
+
 
 							</div>
 						</div>
@@ -91,84 +144,134 @@
 	<th:block th:include="admin/adminbase_layout :: myscript">
 	</th:block>
 	<script>
-	var categoryDT;
+		var categoryDT,subcatDict={};
 		$(document).ready(function () {
-			categoryDT=$('#category_table').DataTable({
-				"pageLength":50,
+			categoryDT = $('#category_table').DataTable({
+				"pageLength": 50,
 				"layout": {
 					topStart: {
 						buttons: ['csvHtml5', 'excelHtml5']
 						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
 					}
 				},
-				columns: [ 
-                {"data": 'title'},
-                {"data": 'image'},
-                {"data": 'path'}, 
-                {"data": 'action'},
-                ],
+				columns: [
+					{ "data": 'mainCategory' },
+					{ "data": 'subCategory' },
+					{ "data": 'title' },
+					{ "data": 'image' },
+					{ "data": 'path' }, 
+					{ "data": 'action' },
+				],
 				columnDefs: [
-					{ visible: true, targets: [0, 3] },
+					{ visible: true, targets: [ 0,1,2, 5] },
 					{ visible: false, targets: ['_all'] },
 				]
 			});
 			$('#category_table tbody').on('click', 'tr td', function () {
-			if ($(this).index() == 3 ) {
+				if ($(this).index() == 3) {
 					return false;
 				}
-        var data = categoryDT.row( this ).data();
+				var data = categoryDT.row(this).data();
 				console.log(data);
-				formDomOpen(false);
-				$('#mainId').val(data.DT_RowId); 
+				formDomOpen(true);
+				$('#mainId').val(data.DT_RowId);
+				$('#mainCatalog').val(data.mainCategory);
+        laodSubCatalog(data.mainCategory);
+				$('#subCategory').val(data.subCategory);
 				$('#title').val(data.title);
 				$('#image').val(data.image);
-				$('#imagePath').val(data.path); 
-    } );
-		$('#loaderDom').hide();
+				$('#path').val(data.path); 
+				// alert( 'You clicked on '+$(this).index()+'\'s row' );
+			});
+			$('#loaderDom').hide();
+      loadedUserDTA.subCats.forEach(e => {
+        if(e.mainCatalog in subcatDict){
+          subcatDict[e.mainCatalog].push(e.title);
+
+        }else{ 
+          subcatDict[e.mainCatalog]=[e.title]
+        }
+      });
+      console.log(subcatDict);
 		});
+    function laodSubCatalog(val){
+      $('#subCategory').html(`<option disabled="" value="" selected="">Select Sub Category</option>`);
+      if(subcatDict.hasOwnProperty(val)){
+        subcatDict[val].forEach(title=>{
+          $('#subCategory').append(`<option value="${title}">${title}</option>`);
+        })
+      }
+    }
 		function formDomOpen(v) {
-			if(v){
+			if(v){ 
 				$('#mainId').val(0);  
 				$('#image').val("no_img.jpg");
 				$('#imagePath').val("def");
 				$("#category_form")[0].reset();
+				OpenHide('#categoryFromDom', '#recordDom,#uplaodFromDom');
+			}else{ 
+				OpenHide('#uplaodFromDom', '#categoryFromDom,#recordDom');
 			}
-			// console.log('creating on');
-			OpenHide('#categoryFromDom', '#recordDom');
 		}
 		function recordDomOpen() {
-			// console.log('creating on');
-			OpenHide('#recordDom', '#categoryFromDom');
+				OpenHide('#recordDom', '#categoryFromDom,#uplaodFromDom'); 
 		}
 	async	function createCategory() {
 			if (formValidate('category_form')) {
-				// createPostRequest('category_form', '/admin/category/create', 'createCategoryCB');
-				await	createMultipartPost('category_form', '/admin/category/create', 'createCategoryCB');
+				// createPostRequest('category_form', '/admin/Category/create', 'createCategoryCB');
+				await	createMultipartPost('category_form', '/admin/Category/create', 'createCategoryCB');
 			}
 		}
-	function createCategoryCB(r) {
+		function createCategoryCB(r) {
 			// console.log('callback', r);
 			recordDomOpen();
-			let d=r.data;
+			let d = r.data;
 			d['DT_RowId']=d.id;
-			d['action']='<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>';
+			d['action']='<i class="fas fa-trash red-text text-center text-danger" onclick="deleteState(this)" style="cursor: pointer;"></i>';
 			if (r.action == "UPDATE") {
 				categoryDT.row(`#${d.id}`).data(d).draw();
 			} else {
 				categoryDT.row.add(d).draw();
-			} 
-
+			}   
 		}
 		function deleteCategory(btn) {
 			var id = btn.parentNode.parentNode.id;
 			console.log(id);
-			createGetRequest('category_form', '/admin/category/delete/' + id, 'deleteCategoryCB');
+			createGetRequest('category_form', '/admin/Category/delete/' + id, 'deleteCategoryCB');
 		}
 		function deleteCategoryCB(r) {
 			console.log(r);
 			categoryDT.row(`#${r.data}`).remove().draw();
 		}
-		
+		function uploadCategory(){  
+			let header = ['main_category','sub_category', 'category'];
+			// fileUpload('categoryUploadForm', '/admin/Upload',header);
+		readFile('categoryUploadForm',header).then(data => {
+			let mcat=[],subcat={};
+			data.forEach(d=>{
+					if(!mcat.includes(d.MAIN_CATEGORY)){
+						mcat.push(d.MAIN_CATEGORY);
+					}
+					if(subcat.hasOwnProperty(d.MAIN_CATEGORY)){
+						if(!subcat[d.MAIN_CATEGORY].includes(d.SUB_CATEGORY)){ 
+							subcat[d.MAIN_CATEGORY].push(d.SUB_CATEGORY);
+						}
+					}else{
+						subcat[d.MAIN_CATEGORY]=[d.SUB_CATEGORY];
+					}
+				})
+				console.log('MAIN_CATEGORY:', mcat); // Successfully processed data
+				console.log('SUB_CATEGORY:', subcat); // Successfully processed data
+				const formData = new FormData(); 
+				formData.append('mList', JSON.stringify(mcat));
+				formData.append('subList', JSON.stringify(subcat));
+				formData.append('catList', JSON.stringify(data));
+				uplaodFormDataToServer(formData,'/admin/Upload');
+				})
+				.catch(error => {
+					console.error('Error:', error); // Handle errors
+				}); 
+		}
 	</script>
 
 </html>

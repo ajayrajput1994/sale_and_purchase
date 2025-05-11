@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olxseller.olx.DTO.CartDTO;
+import com.olxseller.olx.DTO.ProductDTO;
 import com.olxseller.olx.DTO.UserDTO;
 import com.olxseller.olx.DTO.WishlistDTO;
 import com.olxseller.olx.config.MyConfig;
@@ -35,6 +38,7 @@ import com.olxseller.olx.model.WebPage;
 import com.olxseller.olx.repository.BannerRepository;
 import com.olxseller.olx.service.BlogService;
 import com.olxseller.olx.service.CartService;
+import com.olxseller.olx.service.CategoryService;
 import com.olxseller.olx.service.MainCategoryService;
 import com.olxseller.olx.service.CityService;
 import com.olxseller.olx.service.ContactService;
@@ -51,6 +55,7 @@ import com.olxseller.olx.service.WishlistService;
 
 @Controller
 public class PageController {
+	final static private Logger LOGGER=LoggerFactory.getLogger(PageController.class);
 
 	@Autowired
 	public MyConfig myConfig;
@@ -75,7 +80,9 @@ public class PageController {
 	@Autowired
 	private CityService cityService;
 	@Autowired
-	private MainCategoryService catService;
+	private MainCategoryService mainCatService;
+	@Autowired
+	private CategoryService catService;
 	@Autowired
 	private BlogService blogService;
 	@Autowired
@@ -92,7 +99,7 @@ public class PageController {
 	@ModelAttribute
 	public void commondata(Model m,Principal principal) {
 		Map<String,Object> map=new HashMap<>();
-		map.put("cats", catService.getAllMainCategory());
+		map.put("cats", mainCatService.getAllMainCategory());
 		map.put("states", stateService.getAllStates());
 		map.put("cities", cityService.getAllCity());
 		map.put("subcats", subcatService.getAllSubcat());
@@ -209,7 +216,7 @@ public class PageController {
 	}
 	*/
 
-	@GetMapping({"", "/" })
+	@GetMapping("/index")
 	public String demo(Model m) {
 		Banner banner = this.bannerRepo.getHomeBanner();
 		m.addAttribute("blogs", blogService.getAllBlogs());
@@ -218,10 +225,27 @@ public class PageController {
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "index";
 	}
-	@GetMapping( "/home" )
+
+
+	@GetMapping("/{code}")
+	public String productDetails(@PathVariable("code") String code,Model m) { 
+		ProductDTO p=productService.getProductByCode(code);
+		System.out.println(p.toString());
+		Map<String,Object> map=new HashMap<>(); 
+		map.put("relatedList", productService.searchProductsByTxt(p.getCategory()));   
+		var dta= responseData.jsonDataResponse("SUCCESS", "Home data loaded", map);
+		m.addAttribute("dta",dta); 
+		m.addAttribute("product", productService.getProductByCode(code)); 
+		m.addAttribute("title", "this is home demo keep stay ");
+		m.addAttribute("disc", "this is home demo Description keep stay  ");
+		return "product_details";
+	}
+
+	@GetMapping( {"","/","/home"} )
 	public String home(Model m,Principal principal) {
 		Map<String,Object> map=new HashMap<>();
-		map.put("category", catService.getAllMainCategory());  
+		map.put("mainCategory", mainCatService.getAllMainCategory());  
+		map.put("category", catService.getAllCategory());  
 		map.put("subCategory", subcatService.getAllSubcat());
 		map.put("productList", productService.getAllProducts());
 		if(principal!=null){
@@ -266,6 +290,32 @@ public class PageController {
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "cart";
+	}
+	@GetMapping( "/wishlist" )
+	public String wishlist(Model m,Principal principal) {
+		Map<String,Object> map=new HashMap<>(); 
+		// map.put("productList", productService.getAllProducts());
+		if(principal!=null){
+			WishlistDTO wish=wishlistService.getWishlist(uService.findUserByEmail2(principal.getName()).getId());
+			List<Integer> ids=responseData.getIntKeysFromMap(wish.getItems());
+			// System.out.println("cart product ids: "+ids); 
+			map.put("wishlistItems",wish.getItems());
+			LOGGER.info("WISHLIST ITEMS: {}",wish.getItems());
+			if(ids.isEmpty()){
+				map.put("productList",new ArrayList<>());
+			}else{ 
+				map.put("productList", productService.getAllProductsByIds(ids));
+			}
+		}else{
+			map.put("productList",new ArrayList<>());
+
+		}
+		map.put("user",principal==null? new UserDTO():uService.findUserByEmail2(principal.getName())); 
+		var dta= responseData.jsonDataResponse("SUCCESS", "Home data loaded", map);
+		m.addAttribute("dta",dta); 
+		m.addAttribute("title", "this is home demo keep stay ");
+		m.addAttribute("disc", "this is home demo Description keep stay  ");
+		return "Wishlist";
 	}
 
 	@GetMapping({ "/signup", "/register" })
@@ -375,11 +425,11 @@ public class PageController {
 	@GetMapping("/new-post")
 	public String addNewPost(Model m) {
 		Map<String,Object> map=new HashMap<>();
-		map.put("cats", catService.getAllMainCategory());
+		map.put("cats", mainCatService.getAllMainCategory());
 		map.put("subcat", subcatService.getAllSubcat());
 		var dta= responseData.jsonDataResponse("SUCCESS", "load categories", map);
 		m.addAttribute("dta",dta);
-		m.addAttribute("mainCates",catService.getAllMainCategory());
+		m.addAttribute("mainCates",mainCatService.getAllMainCategory());
 		m.addAttribute("title","cteate new post for selling ");
 		m.addAttribute("keyword","cteate new post for selling ");
 		m.addAttribute("description","cteate new post for selling ");
@@ -387,7 +437,7 @@ public class PageController {
 		return "newpost";
 	}
 
-	@GetMapping("/{title}")
+	@GetMapping("/title/{title}")
 	public String singlePostPage(@PathVariable("title") String ttl,Model m) {
 		String url=blogService.getPageUrl(ttl);
 		System.out.println("url:"+url);

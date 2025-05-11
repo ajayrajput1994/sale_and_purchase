@@ -207,7 +207,7 @@ app.constant('config',{
   reqPostMethod:'POST'
 });
 
-app.controller('homeController',($scope,$http,$window,config)=>{
+app.controller('homeController',($scope,$compile,$http,$window,config)=>{
   $scope.loaderDom=$('#loaderDom');
   $scope.categoryDom=$("#categoryDom"),
   $scope.newProductDom=$("#newProductDom"),
@@ -216,8 +216,10 @@ app.controller('homeController',($scope,$http,$window,config)=>{
   $scope.RecentlyVisitDom=$("#RecentlyVisitDom");
   $scope.productList=[];
   $scope.categoryDict={};
+  $scope.mainCategoryDict={};
   $scope.subcatDict={};
   $scope.catSubcatDict={};
+  $scope.miniCatSubDict={};
   $scope.newproductList=[];
   $scope.topPickList=[];
   $scope.user={};
@@ -230,8 +232,16 @@ app.controller('homeController',($scope,$http,$window,config)=>{
       $scope.wishlist=JSON.parse(loadedDTA.wishlist);
     }
     $scope.productList=loadedDTA.productList;
+    angular.forEach(loadedDTA.mainCategory,(d,i)=>{
+      $scope.mainCategoryDict[d.title]=d; 
+    })
     angular.forEach(loadedDTA.category,(d,i)=>{
-      $scope.categoryDict[d.title]=d; 
+      $scope.categoryDict[d.title]=d;
+      if($scope.miniCatSubDict.hasOwnProperty(d.subCategory)){
+        $scope.miniCatSubDict[d.subCategory].push(d.title);
+      }else{
+        $scope.miniCatSubDict[d.subCategory]=[d.title];
+      }
     })
     angular.forEach(loadedDTA.subCategory,(d,i)=>{
       $scope.subcatDict[d.title]=d; 
@@ -246,8 +256,9 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     //   if(i>5)return false; 
     //   $scope.newproductList.push(p);
     // });
-    console.log($scope.categoryDict);
+    console.log($scope.mainCategoryDict);
     console.log($scope.catSubcatDict);
+    console.log($scope.miniCatSubDict);
     $scope.laodCategory();  
     $scope.loaderDom.addClass('loading');
     var dta={
@@ -258,17 +269,20 @@ app.controller('homeController',($scope,$http,$window,config)=>{
 
   $scope.laodCategory = () => {
     angular.forEach($scope.catSubcatDict,(d,title)=>{ 
-      $scope.categoryDom.append($scope.categoryHtml(title,d));
+      let compiledHtml = $compile($scope.categoryHtml(title, d))($scope);
+      $scope.categoryDom.append(compiledHtml);
     })
   };
   $scope.loadNewProducts = () => {
     $(".newProductDom").show(); 
-    $scope.newproductList=[]
+    // $scope.newproductList=[]
     $scope.productList.sort((a,b)=>b.id-a.id);
     angular.forEach($scope.productList,(p,i)=>{
       if(i>4)return false; 
-      p.image=p.image.split(',')[0];
-      $scope.newproductList.push(p);
+      // p.image=p.image.split(',')[0];
+      // $scope.newproductList.push(p);
+      let compiledHtml = $compile($scope.productHtml(p))($scope);
+      $scope.newProductDom.append(compiledHtml);
     })
     console.log("Loading new products...");
     // Add your logic here
@@ -279,7 +293,8 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     $scope.productList.sort((a,b)=>a.id-b.id);
     angular.forEach($scope.productList,(p,i)=>{
       if(i>4)return false; 
-      $scope.topPicksDom.append($scope.productHtml(p));
+      let compiledHtml = $compile($scope.productHtml(p))($scope);
+      $scope.topPicksDom.append(compiledHtml);
     })
   };
 
@@ -287,8 +302,10 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     console.log("Loading subcategories...");
     $(".subCatDom").show();
     $scope.subCatDom.show();
-    angular.forEach($scope.subcatDict,(p,k)=>{
-      $scope.subCatDom.append($scope.subcatHTML(p));
+    angular.forEach($scope.miniCatSubDict,(d,title)=>{
+      console.log(d);
+      let compiledHtml = $compile($scope.subcatHTML(d,title))($scope);
+      $scope.subCatDom.append(compiledHtml);
     });
     // Add your logic here
   };
@@ -298,7 +315,8 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     $scope.productList.sort((a,b)=>a.name-b.name);
     angular.forEach($scope.productList,(p,i)=>{
       if(i>4)return false; 
-      $scope.RecentlyVisitDom.append($scope.productHtml(p));
+      let compiledHtml = $compile($scope.productHtml(p))($scope);
+      $scope.RecentlyVisitDom.append(compiledHtml);
     })
   };
 
@@ -408,7 +426,7 @@ app.controller('homeController',($scope,$http,$window,config)=>{
   $scope.categoryHtml=(title,subList)=>{
     let img='no_img.jpg'; 
     let h= `<div class="">
-            <div class="card rounded-0" aria-hidden="true"> 
+            <div class="card rounded-0"> 
               <div class="card-body">
                 <h5 class="card-title">${title}</h5> 
                   <div class="categoryDomChild">`;
@@ -424,7 +442,7 @@ app.controller('homeController',($scope,$http,$window,config)=>{
                  h+=`</div> 
                 <div class="d-flex justify-content-end mt-3">
 
-                  <a class="my_btn" aria-disabled="true">see more</a>
+                  <a class="my_btn" ng-click="testing()">see more</a>
                 </div>
               </div>
             </div>
@@ -437,12 +455,12 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     <div class="card card-b rounded-0"><div class="card_img_parent"> 
       <img src="/image/${image}"  class="card-img-top" alt="...">
       </div><div class="card-body">
-        <a href="/${p.name}" class="card-title  card-title-line-limit"><h6>${p.name}</h6></a>
+        <a href="/${p.code}" target="_blank" class="card-title  card-title-line-limit"><h6>${p.name}</h6></a>
         <span class="card_price">${p.price} Rs/-</span><span class="cat_title">(${p.category})</span>
         <p class="card-text card-text-line-limit">${p.description}</p>
       </div>
       <div class="card-footer d-flex justify-content-between bg-white">
-          <div><i class="fa-regular fa-heart"></i></div>
+          <div><i class="fa-regular fa-heart" ng-click="addToWishlist(${p.id})"></i></div>
           <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(${p.id})"></i></div>
           <div><i class="fa-solid fa-share-nodes"></i></div>
           <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
@@ -450,29 +468,33 @@ app.controller('homeController',($scope,$http,$window,config)=>{
     </div>
     `;
   }
-  $scope.subcatHTML=(P)=>{
-    return `<div class="col-md-3 mt-2">
+  $scope.subcatHTML=(catlist,title)=>{
+    // <p class="card-text placeholder-glow row">
+    //   <span class="placeholder col-6 mx-auto card_img"></span>
+    // </p>
+    let h= `<div class="col-md-3 mt-2">
             <div class="card rounded-0" aria-hidden="true"> 
               <div class="card-body">
-                <h5 class="card-title placeholder-glow">
-                  <span class="placeholder col-12"></span>
-                </h5>
-                <p class="card-text placeholder-glow row">
-                  <span class="placeholder col-6 mx-auto card_img"></span>
-                </p>
-                <p class="card-text placeholder-glow row">
-                  <span class="placeholder col-2 mx-auto subcat2"></span>
-                  <span class="placeholder col-2 mx-auto subcat2"></span>
-                  <span class="placeholder col-2 mx-auto subcat2"></span>
-                  <span class="placeholder col-2 mx-auto subcat2"></span>
-                </p> 
-                <div class="placeholder-glow d-flex justify-content-end">
+                <h5 class="card-title ">${title}</h5>
+               <div class="card-text  minCatDomChild">`;
+               catlist.forEach((cat,i)=>{
+                    if(i>3)return false;
+                  if(cat in $scope.categoryDict){ 
+                   let d=$scope.categoryDict[cat];
+                    h+=  `<div class="subcat2"><img src="/image/${d.image==""?img:d.image}" />
+                    <span >${cat}</span>
+                    </div>`;
+                  }
+                }) 
+                h+=`</div> 
+                <div class=" d-flex justify-content-end">
 
-                  <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+                  <a class="my_btn" ng-click="testing()">see more</a>
                 </div>
               </div>
             </div>
           </div>`;
+          return h;
   }
   $scope.init();
 });

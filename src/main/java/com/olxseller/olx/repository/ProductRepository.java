@@ -19,6 +19,8 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
            "LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(p.price) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(p.mainCategory) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(p.subCategory) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(p.category) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     List<Product> searchProducts(@Param("searchTerm") String searchTerm);
 
@@ -35,4 +37,11 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Transactional
     @Query("delete from Product as p where p.id=:id")
     public void deleteProduct(@Param("id") int id);
+
+    @Query("from Product as p where p.code=:code")
+    public Product getProductByCode(@Param("code") String code);
+
+    // Method to check if a product code exists
+    @Query("SELECT COUNT(p) > 0 FROM Product p WHERE p.code = :code")
+    boolean existsByCode(@Param("code") String code);
 }

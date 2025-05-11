@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
+			<section id="myContent">
+				<div class="row">
+					<div class="col-md-12 mx-auto" id="categoryFromDom" style="display: none;">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="text-center">Create Main Category</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="recordDomOpen()">Back</button>
+								</div>
+								<form id="category_form" enctype="multipart/form-data">
+									<input type="hidden" name="id" id="mainId" value="0" style="display: none;"> 
+									<input type="hidden" name="image" id="image" value="no_img.jpg">
+									<input type="hidden" name="path" id="imagePath" value="def">
+									<div class="row"> 
+										<div class="form-group col-6">
+											<label for="title">Title</label>
+											<input type="text" name="title" class="form-control" id="title" placeholder="Enter title" />
+											<div class="invalid-feedback"></div>
+										</div>
+										
+										<div class="form-group col-2">
+											<label for="files">Images</label>
+											<input type="file" name="files" id="files"
+												class="form-control"accept="image/*" placeholder="Enter title" multiple/>
+											<div class="invalid-feedback"></div>
+										</div>
+										<div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
+									</div> 
+
+									<div class="d-flex justify-content-end">
+										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0" style="margin-right: 7px;">Reset</button>
+										<button type="button" onclick="createCategory()"
+											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 mx-auto" id="recordDom">
+						<div class="card rounded-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title text-center">All Main Catalogs</h4>
+									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+										onclick="formDomOpen(true)">Create</button>
+								</div>
+								<table class="table table-strip display" id="category_table">
+									<thead>
+										<tr> 
+											<th>Title</th>
+											<th>Image</th>
+											<th>Path</th> 
+											<th class="text-center">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="u : ${categories}">
+											<tr th:id="${u.id}"> 
+												<td th:text="${u.title}"></td>
+												<td th:text="${u.image}"></td>
+												<td th:text="${u.path}"></td> 
+												<td class="text-center " >
+													<i class="fas fa-trash red-text text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>
+												</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</section>
+
+		</div>
+	</body>
+	<th:block th:include="admin/adminbase_layout :: myscript">
+	</th:block>
+	<script>
+	var categoryDT;
+		$(document).ready(function () {
+			categoryDT=$('#category_table').DataTable({
+				"pageLength":50,
+				"layout": {
+					topStart: {
+						buttons: ['csvHtml5', 'excelHtml5']
+						// buttons:['copyHtml5','excelHtml5','csvHtml5','pdfHtml5','print']
+					}
+				},
+				columns: [ 
+                {"data": 'title'},
+                {"data": 'image'},
+                {"data": 'path'}, 
+                {"data": 'action'},
+                ],
+				columnDefs: [
+					{ visible: true, targets: [0, 3] },
+					{ visible: false, targets: ['_all'] },
+				]
+			});
+			$('#category_table tbody').on('click', 'tr td', function () {
+			if ($(this).index() == 3 ) {
+					return false;
+				}
+        var data = categoryDT.row( this ).data();
+				console.log(data);
+				formDomOpen(false);
+				$('#mainId').val(data.DT_RowId); 
+				$('#title').val(data.title);
+				$('#image').val(data.image);
+				$('#imagePath').val(data.path); 
+    } );
+		$('#loaderDom').hide();
+		});
+		function formDomOpen(v) {
+			if(v){
+				$('#mainId').val(0);  
+				$('#image').val("no_img.jpg");
+				$('#imagePath').val("def");
+				$("#category_form")[0].reset();
+			}
+			// console.log('creating on');
+			OpenHide('#categoryFromDom', '#recordDom');
+		}
+		function recordDomOpen() {
+			// console.log('creating on');
+			OpenHide('#recordDom', '#categoryFromDom');
+		}
+	async	function createCategory() {
+			if (formValidate('category_form')) {
+				// createPostRequest('category_form', '/admin/MainCategory/create', 'createCategoryCB');
+				await	createMultipartPost('category_form', '/admin/MainCategory/create', 'createCategoryCB');
+			}
+		}
+	function createCategoryCB(r) {
+			// console.log('callback', r);
+			recordDomOpen();
+			let d=r.data;
+			d['DT_RowId']=d.id;
+			d['action']='<i class="fas fa-trash red-text ml-5 text-danger" onclick="deleteCategory(this)" style="cursor: pointer;"></i>';
+			if (r.action == "UPDATE") {
+				categoryDT.row(`#${d.id}`).data(d).draw();
+			} else {
+				categoryDT.row.add(d).draw();
+			} 
+
+		}
+		function deleteCategory(btn) {
+			var id = btn.parentNode.parentNode.id;
+			console.log(id);
+			createGetRequest('category_form', '/admin/MainCategory/delete/' + id, 'deleteCategoryCB');
+		}
+		function deleteCategoryCB(r) {
+			console.log(r);
+			categoryDT.row(`#${r.data}`).remove().draw();
+		}
+		
+	</script>
+
+</html>
