@@ -6,6 +6,7 @@ var userInfo = {},
   addressDict = {},
   productList = [],
   productDict = {},
+  wishlistItemDict = {},
   reviewsDict = {},
   reviewsList = [];
 wishlistItems = {};
@@ -13,7 +14,7 @@ wishlistItems = {};
 $(function () {
   loadData();
 });
-function loadData() {
+async function loadData() {
   // console.log('user',loadedUserDTA.user);
   // addressList=loadedUserDTA.user.addresses;
   setUserInfo(loadedUserDTA.user, true);
@@ -34,9 +35,9 @@ function loadData() {
     }
   });
   wishlistItems = JSON.parse(loadedUserDTA.wishlistItems);
-  console.log(reviewsDict);
+  // console.log(reviewsDict);
   // console.log(blogDict);
-  renderWishlistItems();
+  await renderWishlistItems();
   renderOrders();
   renderAddresses();
 }
@@ -113,7 +114,7 @@ function setDefaultAddressCB(r) {
   console.log(r);
 }
 
-function renderWishlistItems() {
+async function renderWishlistItems() {
   let ids = [];
   $.each(wishlistItems, (name, codes) => {
     codes.forEach((c) => {
@@ -135,6 +136,7 @@ function getWishlistProducts(id) {
       JSON.parse(response).data.forEach((p) => {
         productList.push(p);
         wishlistItemDict[p.id] = p;
+        productDict[p.id] = p;
       });
       renderWishlistProducts(wishlistItemDict);
     })

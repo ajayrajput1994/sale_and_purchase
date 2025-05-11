@@ -270,9 +270,11 @@ function renderAddresses() {
 
 function renderWishlistProducts(items) {
   $(".wishlistItemsDom").html("");
+  $("#wishlistItemsDom").show();
   if (Object.keys(items).length == 0) {
     $("#wishlistItemsDom").hide();
     $("#emptyDom").show();
+    return;
   }
   let h = [];
   $.each(items, (c, p) => {
