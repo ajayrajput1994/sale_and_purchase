@@ -21,6 +21,9 @@ public class ResponseData {
     HashMap<String, Object> map = new HashMap<>();
     String data = "";
     ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
     map.put("responseText", status);
     map.put("message", msg);
     map.put("action", action);
@@ -90,6 +93,17 @@ public class ResponseData {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  public String getJsonStringFromObject(Object obj) {
+    String str = "";
+    try {
+      ObjectMapper objectMapper = new ObjectMapper();
+      str = objectMapper.writeValueAsString(obj);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return str;
   }
 
   public List<Integer> getIntKeysFromMap(String jsoString) {

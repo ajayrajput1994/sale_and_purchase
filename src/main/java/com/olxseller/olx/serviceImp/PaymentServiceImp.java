@@ -1,5 +1,6 @@
 package com.olxseller.olx.serviceImp;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -7,15 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.olxseller.olx.DTO.PaymentDTO;
-import com.olxseller.olx.model.Order;
+import com.olxseller.olx.model.CustomerOrder;
 import com.olxseller.olx.model.Payment;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.repository.OrderRepository;
 import com.olxseller.olx.repository.PaymentRepository;
 import com.olxseller.olx.repository.UserRepository;
 import com.olxseller.olx.service.PaymentService;
+
 @Service
-public class PaymentServiceImp implements PaymentService{
+public class PaymentServiceImp implements PaymentService {
   @Autowired
   private UserRepository userRepository;
   @Autowired
@@ -24,55 +26,73 @@ public class PaymentServiceImp implements PaymentService{
   private PaymentRepository paymentRepository;
 
   @Override
-  public PaymentDTO createPayment(PaymentDTO paymentDTO) { 
-    if(paymentRepository.paymentByOrderID(paymentDTO.getOrderId())==null){
-      return  toDTO(paymentRepository.save(toEntity(paymentDTO)));
-    }else{ 
+  public PaymentDTO createPayment(PaymentDTO paymentDTO) {
+    Payment existing = paymentRepository.paymentByOrderID(paymentDTO.getOrderId());
+    System.out.println("payment existing:" + existing.getId());
+    if (paymentRepository.paymentByOrderID(paymentDTO.getOrderId()) == null) {
+      return toDTO(paymentRepository.save(toEntity(paymentDTO)));
+    } else {
       return paymentDTO;
     }
-    }
+  }
 
   @Override
   public PaymentDTO updatePayment(PaymentDTO paymentDTO) {
-    Optional<Payment> existPayment=paymentRepository.findById(paymentDTO.getId());
-    if(existPayment.isPresent()){
-      Payment payment=existPayment.get();
-      BeanUtils.copyProperties(paymentDTO, payment, "id","userId","orderId","paymentDate","updatedAt");
+    Optional<Payment> existPayment = paymentRepository.findById(paymentDTO.getId());
+    if (existPayment.isPresent()) {
+      Payment payment = existPayment.get();
+      BeanUtils.copyProperties(paymentDTO, payment, "id", "userId", "rzpOrderId", "orderId", "paymentDate",
+          "updatedAt");
       return toDTO(paymentRepository.save(payment));
-    }else{
-      throw new RuntimeException("Payment not found with id: "+paymentDTO.getId());
+    } else {
+      return toDTO(paymentRepository.save(toEntity(paymentDTO)));
     }
   }
 
   @Override
-  public PaymentDTO updatePaymentStatus(int id, String status) {
-    if(paymentRepository.existsById(id)){
-      Payment payment=paymentRepository.findById(id).get();
+  public PaymentDTO updatePaymentStatus(int id, String status, String rzOrdId) {
+    if (paymentRepository.existsById(id)) {
+      Payment payment = paymentRepository.findById(id).get();
       payment.setStatus(status);
       return toDTO(paymentRepository.save(payment));
-    }else{
-      throw new RuntimeException("Payment not found with id"+id);
+    } else {
+      throw new RuntimeException("Payment not found with id" + id);
     }
   }
 
-  private Payment toEntity(PaymentDTO paymentDTO){
-    Payment payment=new Payment();
+  @Override
+  public PaymentDTO updatePaymentStatusAndPaymentID(int id, String status, String rzOrdId, String rzPayId) {
+    if (paymentRepository.existsById(id)) {
+      Payment payment = paymentRepository.findById(id).get();
+      payment.setStatus(status);
+      payment.setRzpPaymentId(rzPayId);
+      return toDTO(paymentRepository.save(payment));
+    } else {
+      throw new RuntimeException("Payment not found with id" + id);
+    }
+  }
+
+  private Payment toEntity(PaymentDTO paymentDTO) {
+    Payment payment = new Payment();
     // payment.setId(paymentDTO.getId());
     // payment.setAmount(paymentDTO.getAmount());
     // payment.setPaymentMethod(paymentDTO.getPaymentMethod());
     // payment.setStatus(paymentDTO.getStatus());
     BeanUtils.copyProperties(paymentDTO, payment);
-    Order order=orderRepository.findById(paymentDTO.getOrderId())
-    .orElseThrow(()-> new RuntimeException("Order Not Found with id"+paymentDTO.getOrderId()));
-    User user=userRepository.findById(paymentDTO.getUserId())
-    .orElseThrow(()-> new RuntimeException("User Not Found with id"+paymentDTO.getUserId()));
+    payment.setPaymentDate(LocalDateTime.now());
+    payment.setUpdatedAt(LocalDateTime.now());
+    CustomerOrder order = orderRepository.findById(paymentDTO.getOrderId())
+        .orElseThrow(() -> new RuntimeException("Order Not Found with id" + paymentDTO.getOrderId()));
+    User user = userRepository.findById(paymentDTO.getUserId())
+        .orElseThrow(() -> new RuntimeException("User Not Found with id" + paymentDTO.getUserId()));
     payment.setOrder(order);
     payment.setUser(user);
+    System.out.println("toEntity: " + payment.toString());
     return payment;
   }
 
-  private PaymentDTO toDTO(Payment payment){
-    PaymentDTO paymentDTO=new PaymentDTO();
+  private PaymentDTO toDTO(Payment payment) {
+    PaymentDTO paymentDTO = new PaymentDTO();
     // paymentDTO.setId(payment.getId());
     // paymentDTO.setAmount(payment.getAmount());
     // paymentDTO.setPaymentMethod(payment.getPaymentMethod());
@@ -82,5 +102,5 @@ public class PaymentServiceImp implements PaymentService{
     paymentDTO.setUserId(payment.getUser().getId());
     return paymentDTO;
   }
-  
+
 }

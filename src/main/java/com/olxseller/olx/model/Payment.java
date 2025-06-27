@@ -34,23 +34,25 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Payment implements Serializable {
-	private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
-    private Order order;
-    
+    private CustomerOrder order;
+
     @ManyToOne
     private User user;
-    
+
     @NotNull
     private double amount;
-    
+
     @NotBlank
     private String paymentMethod;
-    
+    private String rzpPaymentId;
+    private String rzpOrderId;
+
     @NotBlank
     private String status;
 

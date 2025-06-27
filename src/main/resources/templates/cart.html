@@ -1,135 +1,202 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
   <head>
     <th:block th:include="~{base_layout :: myhead}"></th:block>
     <title>Insert title here</title>
     <style>
       /* .cart_card{} */
-      .cart_img{
-          display: grid;
-          place-items: center; 
-          width: 200px;
-          padding: 5px;
+      svg {
+        width: 100%;
+        height: auto;
       }
-      .cart_img img{
-          height: 142px; 
+
+      .cart_img {
+        display: grid;
+        place-items: center;
+        width: 200px;
+        padding: 5px;
       }
+
+      .cart_img img {
+        height: 142px;
+      }
+
       .grid-container {
         display: grid;
         grid-template-columns: 200px 1fr;
         grid-gap: 5px;
       }
 
-    .grid-item { 
-        padding: 5px; 
-    }
-    .grid-item:nth-child(1) {
-      justify-content: center;
-      width: 200px;
-      overflow: hidden;
-      height: 160px;
-      display: flex;
-      align-items: center;
-    }
-    .grid-item img {
-    max-width: 100%; /* Restrict image width to the div's width */
-    max-height: 100%; /* Restrict image height to the div's height */
-    object-fit: contain; /* Ensure the image scales proportionally while staying within bounds */
-}
-.card_icon{
-  display: flex;
-  gap:5px;
-  margin-top: 8px;
-
-}
-.card_icon span{
-  font-size: 15px;
-  width: 45px;
-}
-.card_icon span i{
-  margin-top: 3px;
-  cursor: pointer;
-}
-
-.itemsDom{
-  height: 73vh;
-    overflow-y: scroll;
-    background: #ffff;
-    padding: 5px;
-    margin-left: 5px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-::-webkit-scrollbar {
-    display: none;
-}
-.price_icon{
-  margin-right: 5px;
-  font-size: 13px;
-}
-.price_btn{
-    color: #f60303;
-    font-size: 12px;
-    font-weight: 700;
-    margin-top: 11px;
-    margin-left: 20px;
-}
-.add_more_icon{
-  background: black;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 50px;
-  font-size: 12px;
-  cursor: pointer;
-}
-.add_more_icon:hover{
-  color: white;
-  background: green
-}
-.border-b{border-bottom: 1px solid gray;padding-bottom: 14px;}
-/*for tablet*/
-@media (min-width: 768px) and (max-width: 1024px) {
-  
-    
-}
-/*for mobile*/
-@media (max-width: 450px) {
-  .grid-container { 
-        grid-template-columns: 1fr;
-        grid-gap: 5px;
+      .grid-item {
+        padding: 5px;
       }
-    .grid-item:nth-child(1) { 
-      width: 100% !important; 
-      height: 100% !important; 
-    }
-}
-/* .loading{display: none !important;} */
-.footer section{display: none !important;}
-@keyframes rotate {
-  100% { transform: translateX(-50%) rotate(360deg)}
-}
-@keyframes move {
-  0% { transform: rotate(10deg)}
-  100% { transform: rotate(-10deg)}
-}
-      
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
+      .grid-item:nth-child(1) {
+        justify-content: center;
+        width: 200px;
+        overflow: hidden;
+        height: 160px;
+        display: flex;
+        align-items: center;
+      }
+
+      .grid-item img {
+        max-width: 100%;
+        /* Restrict image width to the div's width */
+        max-height: 100%;
+        /* Restrict image height to the div's height */
+        object-fit: contain;
+        /* Ensure the image scales proportionally while staying within bounds */
+      }
+
+      .card_icon {
+        display: flex;
+        gap: 5px;
+        margin-top: 8px;
+
+      }
+
+      .card_icon span {
+        font-size: 15px;
+        width: 45px;
+      }
+
+      .card_icon span i {
+        margin-top: 3px;
+        cursor: pointer;
+      }
+
+      .itemsDom {
+        height: 73vh;
+        overflow-y: scroll;
+        background: #ffff;
+        padding: 5px;
+        margin-left: 5px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      .price_icon {
+        margin-right: 5px;
+        font-size: 13px;
+      }
+
+      .price_btn {
+        color: #f60303;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 11px;
+        margin-left: 20px;
+      }
+
+      .add_more_icon {
+        background: black;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .add_more_icon:hover {
+        color: white;
+        background: green
+      }
+
+      .border-b {
+        border-bottom: 1px solid gray;
+        padding-bottom: 14px;
+      }
+
+      .address-container {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        background-color: #f9f9f9;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 5px 10px;
+      }
+
+      .btn-check:checked+label .address-container {
+        border-color: #0d6efd;
+        background-color: #e7f1ff;
+        box-shadow: 0 0 5px #0d6efd;
+      }
+
+      .btn-check {
+        display: none;
+      }
+
+      .active-address {
+        border: 2px solid #007bff;
+        background-color: #f0f8ff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      /*for tablet*/
+      @media (min-width: 768px) and (max-width: 1024px) {}
+
+      /*for mobile*/
+      @media (max-width: 450px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+          grid-gap: 5px;
+        }
+
+        .grid-item:nth-child(1) {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+
+      /* .loading{display: none !important;} */
+      .footer section {
+        display: none !important;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: translateX(-50%) rotate(360deg)
+        }
+      }
+
+      @keyframes move {
+        0% {
+          transform: rotate(10deg)
+        }
+
+        100% {
+          transform: rotate(-10deg)
+        }
+      }
+
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
+
   <body>
     <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
         <section class="row mt-2" ng-app="cartModule">
           <div ng-controller="cartController">
-            <div class="row"  id="cartDom" style="display: none;">
+            <div class="row" id="cartDom" style="display: none;">
               <div class="col-md-8 itemsDom">
                 <div class="card mb-3 rounded-0" ng-repeat="(code,p) in productDict">
                   <div class="grid-container">
@@ -139,27 +206,29 @@
                     <div class="grid-item">
                       <div class="card-body">
                         <h5 class="card-title">{{p.name}}</h5>
-                        <div class="card-text"><small class="text-body-secondary"><i class="fa-solid fa-rupee-sign price_icon"></i>{{p.total|number:2}}</small></div>
+                        <div class="card-text"><small class="text-body-secondary"><i
+                              class="fa-solid fa-rupee-sign price_icon"></i>{{p.total|number:2}}</small></div>
                         <div class="d-flex justify-content-start">
 
                           <span class="card_icon">
                             <span><i class="fa-solid fa-plus" ng-click="increaseQty(p.id)"></i></span>
                             <span>{{p.quantity}}</span>
-                            <span><i class="fa-solid fa-minus"  ng-click="decreaseQty(p.id)"></i></span>
+                            <span><i class="fa-solid fa-minus" ng-click="decreaseQty(p.id)"></i></span>
                           </span>
                           <a href="javascript:" class="price_btn" ng-click="removeFromCart(p.id)">REMOVE</a>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
               <div class="col-md-3 ml-10">
                 <div class="card rounded-0">
                   <div class="card-body">
                     <div class="d-flex justify-content-between border-b">
                       <span><strong>Missed something?</strong></span>
-                      <span class="add_more_icon" ng-click="goToHome()"><i class="fa-solid fa-plus price_icon"></i> Add more items</span>
+                      <span class="add_more_icon" ng-click="goToHome()"><i class="fa-solid fa-plus price_icon"></i> Add
+                        more items</span>
                     </div>
                     <div class=" border-b mt-3">PRICE DETAILS</div>
                     <div class="d-flex justify-content-between mt-3">
@@ -173,48 +242,49 @@
                     <div class="d-flex justify-content-between mt-3 border-b">
                       <span><strong>Delivery Charges:</strong></span>
                       <span><i class="fa-solid fa-rupee-sign price_icon"></i>{{deliveryCharges|number:2}}</span>
-                    </div> 
+                    </div>
                     <div class="d-flex justify-content-between mt-3 border-b">
                       <span><strong>Total Price:</strong></span>
                       <span><i class="fa-solid fa-rupee-sign price_icon"></i>{{grandTotal|number:2}}</span>
-                    </div> 
-                    <button class="btn btn-success btn-sm rounded-0 w-100 mt-5" ng-click="placeOrder()">Place Order</button>
+                    </div>
+                    <button class="btn btn-success btn-sm rounded-0 w-100 mt-5" ng-click="getAddress()">Place
+                      Order</button>
                   </div>
                 </div>
                 <!-- <pre>{{qty|json}}</pre> -->
               </div>
             </div>
-            <div class="row"  id="orderDetails" style="display: none;">
+            <div class="row" id="orderDetails" style="display: none;">
               <div class="col-md-8 itemsDom">
-                <div class="card mb-3 rounded-0" ng-repeat="(code,p) in productDict">
-                  <div class="grid-container">
-                    <div class="grid-item">
-                      <img src="{{getFirstImg(p.image)}}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="grid-item">
-                      <div class="card-body">
-                        <h5 class="card-title">{{p.name}}</h5>
-                        <div class="card-text"><small class="text-body-secondary"><i class="fa-solid fa-rupee-sign price_icon"></i>{{p.total|number:2}}</small></div>
-                        <div class="d-flex justify-content-start">
-
-                          <span class="card_icon">
-                            <span><i class="fa-solid fa-plus" ng-click="increaseQty(p.id)"></i></span>
-                            <span>{{p.quantity}}</span>
-                            <span><i class="fa-solid fa-minus"  ng-click="decreaseQty(p.id)"></i></span>
-                          </span>
-                          <a href="javascript:" class="price_btn" ng-click="removeFromCart(p.id)">REMOVE</a>
+                <div class="card mb-1 rounded-0" ng-repeat="(id,d) in addressDta"
+                  ng-class="{'active-address': id === selectedAddress}">
+                  <div ng-class="form-group">
+                    <label class="address-container" for="address_{{id}}">
+                      <input type="radio" class="btn-check" id="address_{{id}}" name="address"
+                        ng-model="$parent.selectedAddress" ng-value="id" autocomplete="off">
+                      <div>
+                        <div>{{d.n}}</div>
+                        <div>{{d.l}}</div>
+                        <div>{{d.c}} {{d.s}} ({{d.pc}}), {{d.r}}
                         </div>
+                        <div>{{d.t}}</div>
                       </div>
-                    </div>
+                      <div>
+                        <div>{{d.p}}</div>
+                        <div>{{d.a}}</div>
+                        <div>{{d.o}}</div>
+                      </div>
+                    </label>
                   </div>
-                </div> 
+                </div>
               </div>
               <div class="col-md-3 ml-10">
                 <div class="card rounded-0">
                   <div class="card-body">
                     <div class="d-flex justify-content-between border-b">
                       <span><strong>Missed something?</strong></span>
-                      <span class="add_more_icon" ng-click="goBack()"><i class="fa-solid fa-hand-point-left"></i> Go Back</span>
+                      <span class="add_more_icon" ng-click="goBack()"><i class="fa-solid fa-hand-point-left"></i> Go
+                        Back</span>
                     </div>
                     <div class=" border-b mt-3">PRICE DETAILS</div>
                     <div class="d-flex justify-content-between mt-3">
@@ -228,12 +298,13 @@
                     <div class="d-flex justify-content-between mt-3 border-b">
                       <span><strong>Delivery Charges:</strong></span>
                       <span><i class="fa-solid fa-rupee-sign price_icon"></i>{{deliveryCharges|number:2}}</span>
-                    </div> 
+                    </div>
                     <div class="d-flex justify-content-between mt-3 border-b">
                       <span><strong>Total Price:</strong></span>
                       <span><i class="fa-solid fa-rupee-sign price_icon"></i>{{grandTotal|number:2}}</span>
-                    </div> 
-                    <button class="btn btn-success btn-sm rounded-0 w-100 mt-5" ng-click="placeOrder()">Continue</button>
+                    </div>
+                    <button class="btn btn-success btn-sm rounded-0 w-100 mt-5"
+                      ng-click="placeOrder()">Continue</button>
                   </div>
                 </div>
                 <!-- <pre>{{qty|json}}</pre> -->
@@ -257,25 +328,28 @@
                   <div class="card-body text-center">
                     <img src="/image/empty-cart.jpg" class="img-fluid" style="width: 225px;" alt="">
                     <h5>Log in to view your cart!</h5>
-                    <p>It looks like you're not logged in. Log in to access your saved items, personalized recommendations, and special offers just for you!</p>
+                    <p>It looks like you're not logged in. Log in to access your saved items, personalized
+                      recommendations, and special offers just for you!</p>
                     <a class="btn btn-success btn-sm rounded-pill my-3 px-3" ng-click="redirectTo()">Login</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section> 
+        </section>
       </div>
     </div>
 
   </body>
   <th:block th:include="base_layout :: myscript">
   </th:block>
-  <div th:insert="~{base_layout :: myFooter}">
+  <!-- <div th:insert="~{base_layout :: myFooter}">
     <span>Footer Error</span>
-  </div>
+  </div> -->
   <script th:src="@{/js/angular.min.js}"></script>
   <script th:src="@{/js/api/cartApi.js}"></script>
+  <script th:src="@{https://checkout.razorpay.com/v1/checkout.js}"></script>
 
   <script></script>
+
 </html>

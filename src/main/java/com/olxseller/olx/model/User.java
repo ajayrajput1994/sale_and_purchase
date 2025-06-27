@@ -88,7 +88,7 @@ public class User implements Serializable {
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@BatchSize(size = 10)
-	private Set<Order> order = new HashSet<>();
+	private Set<CustomerOrder> order = new HashSet<>();
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@BatchSize(size = 10)

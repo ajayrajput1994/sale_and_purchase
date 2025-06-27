@@ -2,9 +2,17 @@ package com.olxseller.olx.controller;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +23,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.olxseller.olx.DTO.OrderDTO;
+import com.olxseller.olx.DTO.PaymentDTO;
+import com.olxseller.olx.DTO.ProductDTO;
 import com.olxseller.olx.DTO.UserAddressDTO;
 import com.olxseller.olx.config.MyConfig;
 import com.olxseller.olx.helper.ResponseData;
 import com.olxseller.olx.model.User;
 import com.olxseller.olx.model.UserAddress;
 import com.olxseller.olx.service.BlogService;
+import com.olxseller.olx.service.OrderService;
+import com.olxseller.olx.service.PaymentService;
+import com.olxseller.olx.service.ProductService;
 import com.olxseller.olx.service.UserAddressService;
 import com.olxseller.olx.service.UserService;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 @RestController
 @RequestMapping("/Api")
 public class ApiController {
+
 	@Autowired
 	public MyConfig myConfig;
 	@Autowired
@@ -37,6 +55,10 @@ public class ApiController {
 	private BlogService blogService;
 	@Autowired
 	private UserAddressService addressService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private PaymentService paymentService;
 
 	@GetMapping("/home")
 	public ResponseEntity<?> getHomeData() {
@@ -166,6 +188,21 @@ public class ApiController {
 		// return null;
 	}
 
+	@GetMapping("/User/Address/{uid}")
+	public ResponseEntity<?> getUserAddress(@PathVariable int uid) {
+		System.out.println("getUserAddress:" + uid);
+		try {
+			return new ResponseEntity<>(
+					responseData.jsonSimpleResponse("SUCCESS", "Successfuly LOADED", "LOADING",
+							addressService.getAllAddressByUserId(uid)),
+					HttpStatus.OK);
+
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		// return null;
+	}
+
 	@GetMapping("/Address/{id}")
 	public ResponseEntity<?> setDefaultAddress(@PathVariable("id") int id) {
 		System.out.println("setDefaultAddress:" + id);
@@ -178,5 +215,71 @@ public class ApiController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		// return null;
+	}
+
+	@PostMapping("/create-order")
+	public ResponseEntity<?> OrderCreate(@RequestBody Map<String, Object> requestDta) throws RazorpayException {
+		System.out.println("requestDta:" + requestDta);
+		try {
+			OrderDTO orderDTO = orderService.createOrder(requestDta);
+			PaymentDTO paymentDTO = new PaymentDTO();
+			paymentDTO.setUserId(orderDTO.getUserId());
+			paymentDTO.setOrderId(orderDTO.getId());
+			paymentDTO.setAmount(orderDTO.getGrandTotal());
+			paymentDTO.setPaymentMethod("PENDING");
+			paymentDTO.setRzpPaymentId("PENDING");
+			paymentDTO.setRzpOrderId(orderDTO.getRzpOrderId());
+			paymentDTO.setStatus("PENDING");
+			paymentDTO = paymentService.updatePayment(paymentDTO);
+			System.out.println("createPayment:" + paymentDTO.getId());
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS",
+					"Successfuly Create Order", "CREATED", paymentDTO),
+					HttpStatus.OK);
+
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/verify-payment")
+	public ResponseEntity<?> VerifyPayment(@RequestBody Map<String, Object> requestDta) throws RazorpayException {
+		System.out.println("requestDta:" + requestDta);
+		String userId = (String) requestDta.get("userId");
+		Integer payId = Integer.parseInt(requestDta.get("payId").toString());
+		String rzyPaymentID = (String) requestDta.get("paymentId");
+		String rzyOrderId = (String) requestDta.get("orderId");
+		try {
+			PaymentDTO paymentDTO = paymentService.updatePaymentStatusAndPaymentID(payId, "SUCCESS", rzyOrderId,
+					rzyPaymentID);
+			OrderDTO orderDTO = orderService.updateStatus(paymentDTO.getOrderId(), "CREATED");
+			System.out.println("update payment:" + paymentDTO.getId());
+			System.out.println("update ORDER:" + orderDTO.getId());
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS",
+					"Successfuly update Payment", "UPDATE", paymentDTO),
+					HttpStatus.OK);
+
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/payment-failed")
+	public ResponseEntity<?> PaymentFailed(@RequestBody Map<String, Object> requestDta) throws RazorpayException {
+		System.out.println("requestDta:" + requestDta);
+		Integer payId = Integer.parseInt(requestDta.get("payId").toString());
+		String rzyPaymentID = (String) requestDta.get("paymentId");
+		String rzyOrderId = (String) requestDta.get("orderId");
+		try {
+			PaymentDTO paymentDTO = paymentService.updatePaymentStatus(payId, "FAILED", rzyOrderId);
+			OrderDTO orderDTO = orderService.updateStatus(paymentDTO.getOrderId(), "FAILED");
+			System.out.println("update payment:" + paymentDTO.getId());
+			System.out.println("update ORDER:" + orderDTO.getId());
+			return new ResponseEntity<>(responseData.jsonSimpleResponse("SUCCESS",
+					"Successfuly update Payment FAILER", "UPDATE", paymentDTO),
+					HttpStatus.OK);
+
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 	}
 }

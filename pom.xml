@@ -101,6 +101,12 @@
 			<artifactId>spring-session-jdbc</artifactId>
 			<!-- <version>3.3.2</version> -->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.razorpay/razorpay-java -->
+		<dependency>
+				<groupId>com.razorpay</groupId>
+				<artifactId>razorpay-java</artifactId>
+				<version>1.4.8</version>
+		</dependency>
 		<!-- bellow dependancy for mapping entity to dto -->
 		<!-- <dependency>
 				<groupId>org.mapstruct</groupId>

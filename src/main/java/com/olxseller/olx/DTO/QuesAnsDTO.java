@@ -14,9 +14,9 @@ import com.olxseller.olx.helper.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class ReviewDTO {
+@Setter
+public class QuesAnsDTO {
   private int id;
   @NotNull(message = "User ID can't be null")
   private int userId;
@@ -24,12 +24,11 @@ public class ReviewDTO {
   @NotNull(message = "Order ID can't be null")
   private int productId;
 
-  @NotNull(message = "rating can't be null")
-  @Min(value = 1, message = "Rating must be greater than 0")
-  private float rating;
+  @NotNull(message = "question be null")
+  private String question;
 
-  @NotBlank(message = "User ID can't be null")
-  private String review;
+  @NotBlank(message = "answer be null")
+  private String answer;
 
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)

@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
   <head>
     <th:block th:include="~{base_layout :: myhead}"></th:block>
-    <title>Insert title here</title> 
+    <title>Insert title here</title>
     <style>
-      .domOne{
+      .domOne {
         display: grid;
         gap: 10px;
         grid-template-columns: 1fr 1fr;
       }
-      .imgDom{    height: 35rem;
-        background: #c9e2e7;}
-      .main-img{
+
+      .imgDom {
+        height: 35rem;
+        background: #c9e2e7;
+      }
+
+      .main-img {
         width: 100%;
         height: 66vh !important;
       }
-      .main-img img{
+
+      .main-img img {
         width: 100%;
-        height:100%;
+        height: 100%;
         object-fit: fill;
 
       }
+
       /* .p-images{
         height: 10vh !important;
         display: flex;
@@ -38,15 +45,16 @@
         width: 100%; 
         display: flex;
       } */
-      
+
       .p-images {
         position: relative;
         align-items: center;
         display: flex;
         overflow-x: scroll;
-        scroll-behavior: smooth; /* Smooth scrolling effect */
+        scroll-behavior: smooth;
+        /* Smooth scrolling effect */
         /* width: calc(100% - 80px);  */
-        width:100%; 
+        width: 100%;
         margin: 0 auto;
         scrollbar-width: none;
         /* margin-top: 3px; */
@@ -54,8 +62,10 @@
       }
 
       .p-images img {
-        height: 10vh; /* Adjust based on your need */
-        margin-right: 5px; /* Optional: Space between images */
+        height: 10vh;
+        /* Adjust based on your need */
+        margin-right: 5px;
+        /* Optional: Space between images */
         border-radius: 10px;
         width: 80px;
       }
@@ -80,43 +90,57 @@
       }
 
       /*==================*/
-      .detailDom{
+      .detailDom {
         padding: 10px;
         background: #eccbde;
         /* display: grid;
         grid-auto-rows: 30px 80px 30px 50px 50px;
         gap: 10px; */
       }
-      .p-cat{
+
+      .p-cat {
         font-size: 18px;
-        font-weight: 700; 
-        color:#ef6604;
+        font-weight: 700;
+        color: #ef6604;
       }
-      .p-title{
+
+      .p-title {
         min-height: 50px;
         font-size: 40px;
-        font-weight: 500; 
-      } 
-      .priceDom{display: flex;gap: 20px;}
-      .p-mrp{
-        font-size: 24px;  
+        font-weight: 500;
+      }
+
+      .priceDom {
+        display: flex;
+        gap: 20px;
+      }
+
+      .p-mrp {
+        font-size: 24px;
         text-decoration: line-through;
         color: gray;
         margin-top: 5px;
       }
-      .p-price{
+
+      .p-price {
         font-size: 31px;
         font-weight: 900;
         color: green;
       }
-      .p-qtyDom{
-        display: flex; 
+
+      .p-qtyDom {
+        display: flex;
         gap: 30px;
-        padding-top:8px;
+        padding-top: 8px;
         margin-top: 20px;
       }
-      .qty-plus,.qty-minus{font-size: 23px;}
-      .qty-count{
+
+      .qty-plus,
+      .qty-minus {
+        font-size: 23px;
+      }
+
+      .qty-count {
         background: #1a1919;
         /* width: 50px; */
         text-align: center;
@@ -126,23 +150,26 @@
         padding: 2px 25px;
         font-size: 21px;
       }
-      .colorDom{
-        display: flex; 
+
+      .colorDom {
+        display: flex;
         gap: 10px;
         margin-top: 45px;
       }
-      .p-color{
+
+      .p-color {
         height: 45px;
         width: 45px;
         background: red;
         border-radius: 45px;
         border: 3px solid #ffffff;
       }
-      
-      .btnDom{
-       margin-top: 45px;
+
+      .btnDom {
+        margin-top: 45px;
       }
-      .p-cart{
+
+      .p-cart {
         padding: 5px 9px;
         /* background: black; */
         color: red;
@@ -151,13 +178,15 @@
         cursor: pointer;
         margin-right: 35px;
       }
-      .my-btn{
+
+      .my-btn {
         padding: 5px 30px;
         color: red;
         border: 3px solid red;
         border-radius: 7px;
-      } 
-      .detailingDom{
+      }
+
+      .detailingDom {
         background: white;
         margin: 0px 1px;
         margin-top: 20px;
@@ -166,7 +195,8 @@
         grid-template-columns: 250px 1fr;
         padding: 5px;
       }
-      .detailingTabDom{
+
+      .detailingTabDom {
         background: white;
         margin: 0px 1px;
         /* margin-top: 8px; */
@@ -174,12 +204,14 @@
         padding-bottom: 15px;
         /* padding-top: 5px; */
       }
-      .detailingTabBody{
+
+      .detailingTabBody {
         height: 350px;
-        overflow-y: scroll;
+        overflow-y: auto;
         scrollbar-width: thin;
         padding: 3px 0px;
       }
+
       .tab-btn {
         background: red;
         padding: 5px 18px;
@@ -190,6 +222,7 @@
         margin-top: 8px;
         cursor: pointer;
       }
+
       /*==================*/
       .thumb {
         cursor: pointer;
@@ -197,106 +230,118 @@
       }
 
       .thumb:hover {
-        transform: scale(1.05); /* Slightly enlarge thumbnails on hover */
+        transform: scale(1.05);
+        /* Slightly enlarge thumbnails on hover */
         border: 1px solid gray;
       }
-      #mainImage { 
-      cursor: crosshair; /* Indicate zoom capability */
-    }
 
-    .zoomed-image {
-      width: 49%;
-      height: 77vh;
-      border: 1px solid #ddd;
-      background-repeat: no-repeat;
-      background-size: 250%;
-      background-position: center;
-      overflow: hidden;
-      position: absolute;
-      margin-left: -10px;
-      margin-top: -10px;
+      #mainImage {
+        cursor: crosshair;
+        /* Indicate zoom capability */
       }
+
+      .zoomed-image {
+        width: 49%;
+        height: 77vh;
+        border: 1px solid #ddd;
+        background-repeat: no-repeat;
+        background-size: 250%;
+        background-position: center;
+        overflow: hidden;
+        position: absolute;
+        margin-left: -10px;
+        margin-top: -10px;
+      }
+
       /*========start scroller products========*/
-      .slider-btn{
+      .slider-btn {
         background: black;
         color: white;
         padding: 0px 15px;
         cursor: pointer;
       }
-      .productParentDom{
+
+      .productParentDom {
         background: #f2c6ed;
         padding: 20px 5px;
         margin: 3rem 0px;
         width: 100%;
         margin-top: 20px;
-      } 
+      }
+
       .product-dom {
         display: flex;
-        flex-wrap: nowrap; 
-        overflow-x: scroll; 
+        flex-wrap: nowrap;
+        overflow-x: auto;
         scrollbar-width: none;
-        -ms-overflow-style: none; 
+        -ms-overflow-style: none;
         margin-top: 10px;
         height: 27rem;
-      } 
+      }
+
       .product-dom::-webkit-scrollbar {
-        display: none; 
-      } 
+        display: none;
+      }
+
       .product-child {
         width: 300px;
-        flex: none; 
-        margin-right: 10px;  
+        flex: none;
+        margin-right: 10px;
         /* background: #f0f0f0;   */
       }
+
       /*========end scroller products========*/
     </style>
   </head>
+
   <body>
     <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
-        <section class="domOne "> 
-            <div class=" imgDom">
-              <div class="main-img" >
-                <img id="mainImage" th:src="@{'/image/'+${@StringSpliter.split(product.image, ',')[0]}}" src="https://t4.ftcdn.net/jpg/03/21/42/87/360_F_321428779_l8oQrLjoqZM5TIW22IAapbpOg0wgKufw.jpg" class="img img-fluid"> 
-                
-              </div> 
-                <div class="p-images">
-                  <button class="scroll-btn left" onclick="customScrolling('left','.p-images',150)">&lt;</button>
-                  <th:block th:if="${product.image != null}" th:each="image : ${@StringSpliter.split(product.image, ',')}">
-                    <img  th:src="@{'/image/'+${image}}" src="" class="thumb img-fluid"> 
-                  </th:block>
-                <!-- <img src="https://www.shutterstock.com/image-vector/vector-realistic-yellow-armchair-3d-600nw-2239751635.jpg" class="thumb img-fluid">  -->
-                
-                <button class="scroll-btn right" onclick="customScrolling('right','.p-images',150)">&gt;</button>
-              </div> 
-            </div> 
-            <div class=" detailDom"> 
-              <div class="zoomed-image" id="zoomedImage"></div> 
-              <div class="p-cat" th:text="${product.subCategory}" >Furniture</div>
-              <div class="p-title" th:text="${product.name}">hello this is new pen</div> 
-              <div class="priceDom">
-                <div class="p-price" th:text="${product.price}">200</div> 
-                <div class="p-mrp">200</div> 
-              </div> 
-              <div class="p-desc" th:text="${product.description}"></div>
-              <div class="p-qtyDom">
-                <span class="qty-plus"><i class="fa-solid fa-plus"></i></span>
-                <span class="qty-count" th:text="${product.quantity}">3</span>
-                <span class="qty-minus"><i class="fa-solid fa-minus"></i></span>
-              </div>
-              <div class="colorDom">
-                <span class="p-color"></span>
-                <span class="p-color"></span>
-                <span class="p-color"></span>
-                <span class="p-color"></span>
-                <span class="p-color"></span>
-                <span class="p-color"></span>
-              </div>
-              <div class="d-flex justify-content-start btnDom">
-                <div class="p-cart"><i class="fa-solid fa-shopping-cart"></i></div>
-                <button class="btn my-btn btn-sm">Buy Now</button>
-              </div>
-            </div> 
+        <section class="domOne ">
+          <div class=" imgDom">
+            <div class="main-img">
+              <img id="mainImage" th:src="@{'/image/'+${@StringSpliter.split(product.image, ',')[0]}}"
+                src="https://t4.ftcdn.net/jpg/03/21/42/87/360_F_321428779_l8oQrLjoqZM5TIW22IAapbpOg0wgKufw.jpg"
+                class="img img-fluid">
+
+            </div>
+            <div class="p-images">
+              <button class="scroll-btn left" onclick="customScrolling('left','.p-images',150)">&lt;</button>
+              <th:block th:if="${product.image != null}" th:each="image : ${@StringSpliter.split(product.image, ',')}">
+                <img th:src="@{'/image/'+${image}}" src="" class="thumb img-fluid">
+              </th:block>
+              <!-- <img src="https://www.shutterstock.com/image-vector/vector-realistic-yellow-armchair-3d-600nw-2239751635.jpg" class="thumb img-fluid">  -->
+
+              <button class="scroll-btn right" onclick="customScrolling('right','.p-images',150)">&gt;</button>
+            </div>
+          </div>
+          <div class=" detailDom">
+            <div class="zoomed-image" id="zoomedImage"></div>
+            <div class="p-cat" th:text="${product.subCategory}">Furniture</div>
+            <div class="p-title" th:text="${product.name}">hello this is new pen</div>
+            <div class="priceDom">
+              <div class="p-price" th:text="${product.price}">200</div>
+              <div class="p-mrp">200</div>
+            </div>
+            <div class="p-desc" th:text="${product.description}"></div>
+            <div class="p-qtyDom">
+              <span class="qty-plus"><i class="fa-solid fa-plus"></i></span>
+              <span class="qty-count" th:text="${product.quantity}">3</span>
+              <span class="qty-minus"><i class="fa-solid fa-minus"></i></span>
+            </div>
+            <div class="colorDom">
+              <span class="p-color"></span>
+              <span class="p-color"></span>
+              <span class="p-color"></span>
+              <span class="p-color"></span>
+              <span class="p-color"></span>
+              <span class="p-color"></span>
+            </div>
+            <div class="d-flex justify-content-start btnDom">
+              <div class="p-cart"><i class="fa-solid fa-shopping-cart"></i></div>
+              <button class="btn my-btn btn-sm">Buy Now</button>
+            </div>
+          </div>
         </section>
         <section class="detailingDom">
           <div class="detailingTabDom ">
@@ -332,7 +377,8 @@
               Finish Type
               Powder Coated
               Care Instructions
-              Avoid synthetic liquid spills, excessive weight, direct sunlight, heat, water. Dust your Item regularly with a damp soft and clean cloth.
+              Avoid synthetic liquid spills, excessive weight, direct sunlight, heat, water. Dust your Item regularly
+              with a damp soft and clean cloth.
               Bush Included
               Yes
               Bend Direction
@@ -344,7 +390,14 @@
               Accessories Included
               Chair with All necessary accessories
               Other Features
-              Ergonomic Design: The mid-back design provides ample support to your lumbar region, promoting a healthy sitting posture and reducing discomfort., Tilting Mechanism: Equipped with a tilting mechanism, this chair allows you to recline comfortably, enhancing relaxation during breaks or brainstorming sessions., Adjustable Features: Customize your seating experience with adjustable height and armrests, allowing you to find the perfect position for maximum comfort and productivity., Heavy Duty Base: The sturdy black nylon base ensures stability and durability, making it suitable for users of various sizes and weights., Premium Upholstery: Upholstered in high-quality black fabric, the chair is both stylish and easy to maintain, resisting stains and spills for long-lasting cleanliness.
+              Ergonomic Design: The mid-back design provides ample support to your lumbar region, promoting a healthy
+              sitting posture and reducing discomfort., Tilting Mechanism: Equipped with a tilting mechanism, this chair
+              allows you to recline comfortably, enhancing relaxation during breaks or brainstorming sessions.,
+              Adjustable Features: Customize your seating experience with adjustable height and armrests, allowing you
+              to find the perfect position for maximum comfort and productivity., Heavy Duty Base: The sturdy black
+              nylon base ensures stability and durability, making it suitable for users of various sizes and weights.,
+              Premium Upholstery: Upholstered in high-quality black fabric, the chair is both stylish and easy to
+              maintain, resisting stains and spills for long-lasting cleanliness.
               Key Features
               Office & Study Chair
               Superior Comfort
@@ -353,10 +406,25 @@
               Ergonomic Design
               Net Quantity
               1
-              
+
             </div>
             <div class="tab-dom" id="quest" style="display: none;">Ques. & Ans.</div>
-            <div class="tab-dom" id="rating" style="display: none;">Ratings & Reviews</div>
+            <div class="tab-dom" id="rating" style="display: none;">
+              <div style="display: grid;grid-template-columns: 35% 64%;gap: 5px;">
+                <div id="ratingChild1">
+                  <div id="ratingViewDom"
+                    style="display: grid;grid-template-columns: 1fr 1fr;gap: 5px;margin-top: 15px;">
+                    <div class="text-center">
+                      <h2 id="avg_rating"></h2>
+                      <h5 id="total_rating"></h5>
+                    </div>
+                    <div id="reviewtableDom"></div>
+                  </div>
+                </div>
+                <div id="ratingChild2" style="height:332px;overflow-y: auto;scrollbar-width: thin; padding: 3px 0px;">
+                </div>
+              </div>
+            </div>
             <div class="tab-dom" id="publisher" style="display: none;overflow: hidden;">
               <form id="publisherForm">
                 <input type="hidden" name="postId" value="2">
@@ -377,44 +445,53 @@
                 </div>
                 <div class="md-form col-12 md-outline">
                   <label for="description">Enter Message</label>
-                  <textarea type="text" name="description" id="description" class="md-textarea form-control" rows="3" required=""></textarea>
+                  <textarea type="text" name="description" id="description" class="md-textarea form-control" rows="3"
+                    required=""></textarea>
                 </div>
                 <div class="d-flex justify-content-end">
 
-                  <button type="button" class="btn btn-success btn-sm rounded-pill my-2" onclick="submitPublisher()" fdprocessedid="h39wp">submit</button>
+                  <button type="button" class="btn btn-success btn-sm rounded-pill my-2" onclick="submitPublisher()"
+                    fdprocessedid="h39wp">submit</button>
                 </div>
               </form>
             </div>
             <div class="tab-dom" id="reply" style="display: none;overflow: hidden;">
               <form class="form " id="commentForm">
-                <input type="hidden" name="postid" id="postid" value="2"> 
-                <div class="row"> 
-                  <div class="col-md-5 col-md-12 mb-4"> 
+                <input type="hidden" name="postid" id="postid" value="2">
+                <div class="row">
+                  <div class="col-md-5 col-md-12 mb-4">
                     <div class=" md-form form-sm form-3 pl-0 md-outline">
-                      <input type="text" name="name" id="name" class="form-control mt-0 black-border rgba-white-strong" placeholder="Name" aria-describedby="basic-addon9" required="" fdprocessedid="7fxsf">
-                    </div> 
-                  </div> 
-                  <div class="col-md-5 col-md-6 mb-4"> 
+                      <input type="text" name="name" id="name" class="form-control mt-0 black-border rgba-white-strong"
+                        placeholder="Name" aria-describedby="basic-addon9" required="" fdprocessedid="7fxsf">
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-md-6 mb-4">
                     <div class="md-form form-sm form-3 pl-0 md-outline">
-                      <input type="text" name="email" id="email" class="form-control mt-0 black-border rgba-white-strong" placeholder="Email" aria-describedby="basic-addon9" required="" fdprocessedid="ifnhy">
-                    </div> 
-                  </div> 
-                  <div class="col-md-5  mb-4"> 
+                      <input type="text" name="email" id="email"
+                        class="form-control mt-0 black-border rgba-white-strong" placeholder="Email"
+                        aria-describedby="basic-addon9" required="" fdprocessedid="ifnhy">
+                    </div>
+                  </div>
+                  <div class="col-md-5  mb-4">
                     <div class=" md-form form-sm form-3 pl-0 md-outline">
-                      <input type="text" name="subject" id="subject" class="form-control mt-0 black-border rgba-white-strong" placeholder="Subject" aria-describedby="basic-addon9" required="" fdprocessedid="7ll1t">
-                    </div> 
-                  </div>  
-                </div> 
-                <div class="row"> 
+                      <input type="text" name="subject" id="subject"
+                        class="form-control mt-0 black-border rgba-white-strong" placeholder="Subject"
+                        aria-describedby="basic-addon9" required="" fdprocessedid="7ll1t">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-12 mt-1">
-                    <div class="form-group basic-textarea rounded-corners"> 
-                      <textarea class="form-control" name="description" id="description" rows="5" placeholder="Write something here..." required=""></textarea>
-                    </div> 
+                    <div class="form-group basic-textarea rounded-corners">
+                      <textarea class="form-control" name="description" id="description" rows="5"
+                        placeholder="Write something here..." required=""></textarea>
+                    </div>
                     <div class="d-flex justify-content-end">
-                      <button type="button" class="btn btn-success btn-sm rounded-pill" onclick="submitComment()" fdprocessedid="3atg4">Submit</button>
-                    </div> 
-                  </div> 
-                </div> 
+                      <button type="button" class="btn btn-success btn-sm rounded-pill" onclick="submitComment()"
+                        fdprocessedid="3atg4">Submit</button>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -422,223 +499,281 @@
         <section class="row mt-2 productParentDom" style="background: #c6f2d2;">
           <div class="d-flex justify-content-start">
             <h4 class="heading" style="margin-right: 5px;">Similar Produts</h4>
-            <button class="slider-btn" onclick="customScrolling('left','#relatedDom',253)"><i class="fa-solid fa-angle-left"></i></button>
-            <button class="slider-btn" onclick="customScrolling('right','#relatedDom',253)" style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button> 
+            <button class="slider-btn" onclick="customScrolling('left','#relatedDom',253)"><i
+                class="fa-solid fa-angle-left"></i></button>
+            <button class="slider-btn" onclick="customScrolling('right','#relatedDom',253)"
+              style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
           </div>
           <div class="product-dom" id="relatedDom">
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
           </div>
-        </section> 
+        </section>
         <section class="row mt-2 productParentDom">
           <div class="d-flex justify-content-start">
             <h4 class="heading" style="margin-right: 5px;">Recently viewed</h4>
-            <button class="slider-btn" onclick="customScrolling('left','#RecentlyVisitDom',253)"><i class="fa-solid fa-angle-left"></i></button>
-            <button class="slider-btn" onclick="customScrolling('right','#RecentlyVisitDom',253)" style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button> 
+            <button class="slider-btn" onclick="customScrolling('left','#RecentlyVisitDom',253)"><i
+                class="fa-solid fa-angle-left"></i></button>
+            <button class="slider-btn" onclick="customScrolling('right','#RecentlyVisitDom',253)"
+              style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
           </div>
           <div class="product-dom" id="RecentlyVisitDom">
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img
+                    src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
             <div class="product-child">
               <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent"> 
-                <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png" class="card-img-top" alt="...">
-                </div><div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit"><h6>Sample Product</h6></a>
+                <div class="card_img_parent">
+                  <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png"
+                    class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                  <a href="/Sample Product" class="card-title  card-title-line-limit">
+                    <h6>Sample Product</h6>
+                  </a>
                   <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
                   <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                    <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                    <div><i class="fa-solid fa-share-nodes"></i></div>
-                    <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
+                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
+                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
+                  <div><i class="fa-solid fa-share-nodes"></i></div>
+                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
                 </div>
-              </div> 
-            </div>  
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -650,82 +785,11 @@
   <div th:insert="~{base_layout :: myFooter}">
     <span>Footer Error</span>
   </div>
+  <script th:src="@{/js/api/productDetailApi.js}"></script>
   <!-- <script th:src="@{/js/angular.min.js}"></script>
   <script th:src="@{/js/frontLogic/homeApi.js}"></script> -->
   <script>
-     $(document).ready(function () {
-    // Change main image when hovering over thumbnails
-    $('.thumb').hover(function () {
-      const newSrc = $(this).attr('src'); // Get the thumbnail image source
-      $('#mainImage').attr('src', newSrc); // Update the main image
-    });
-
-    // Ensure the main image stays updated without resetting
-    $('.thumb').mouseleave(function () {
-      // No longer reverting the main image to prevent flashing
-    });
-
-    const mainImage = document.getElementById("mainImage");
-    const zoomedImage = document.getElementById("zoomedImage");
-
-    mainImage.addEventListener("mousemove", (e) => {
-      const rect = mainImage.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-      zoomedImage.style.backgroundImage = `url(${mainImage.src})`;
-      zoomedImage.style.backgroundPosition = `${x}% ${y}%`;
-    });
-
-    mainImage.addEventListener("mouseleave", () => {
-      zoomedImage.style.backgroundImage = "none";
-    });
-
-    console.log(loadedDTA.relatedList);
-    $("#relatedDom").html("");
-    loadedDTA.relatedList.forEach(e => {
-      $("#relatedDom").append(productHtml(e));
-    });
-  });
-    // function scrollImages(direction) {
-    //   customScrolling(direction,'.p-images',150); 
-    // }
-    // function scrollImages(direction) {
-    //   customScrolling(direction,'.p-images',150); 
-    // }
-    function customScrolling(direction,domId,size) {
-      const container = document.querySelector(domId);  
-      if (direction === 'left') {
-        container.scrollBy({ left: -size, behavior: 'smooth' });
-      } else if (direction === 'right') {
-        container.scrollBy({ left: size, behavior: 'smooth' });
-      }
-    }
-  
-  function detailingView(tabId){ 
-      $(".tab-dom").hide();
-      $(`#${tabId}`).show(); 
-  }
-  function productHtml(p){
-    let image=p.image.split(',')[0];
-    let h=`<div class="product-child">
-          <div class="card card-b rounded-0 ng-scope">
-            <div class="card_img_parent"> 
-            <img src="/image/${image}" class="card-img-top" alt="...">
-            </div><div class="card-body">
-              <a  href="/${p.code}" class="card-title  card-title-line-limit"><h6>${p.name}</h6></a>
-              <span class="card_price">${p.price} Rs/-</span><span class="cat_title">(${p.category})</span>
-              <p class="card-text card-text-line-limit">${p.description}</p>
-            </div>
-            <div class="card-footer d-flex justify-content-between bg-white">
-                <div><i class="fa-regular fa-heart"></i></div>
-                <div><i class="fa-solid fa-cart-arrow-down"></i></div>
-                <div><i class="fa-solid fa-share-nodes"></i></div>
-                <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-            </div>
-          </div> 
-        </div> `;
-      return h;
-  }
+    $(document).ready(() => preparingData());
   </script>
+
 </html>

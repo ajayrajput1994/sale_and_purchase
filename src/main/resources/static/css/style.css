@@ -382,3 +382,13 @@ background: #0d45a5;
   margin-top: 10px !important;
   border-radius: 0px;
 }
+.review_table tr td{
+ padding: 0px 5px 0px 0px;
+}
+.review_table tr td:nth-child(2){
+ width: 10rem;
+ padding-top: 4px;
+}
+.review_table tr td:nth-child(1){
+ width: 8px;
+}

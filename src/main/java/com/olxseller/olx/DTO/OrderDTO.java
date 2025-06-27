@@ -6,9 +6,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.olxseller.olx.helper.LocalDateTimeDeserializer;
+import com.olxseller.olx.helper.LocalDateTimeSerializer;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class OrderDTO {
 
   @NotBlank(message = "order ID cannot be null")
   private String orderId;
+  private String rzpOrderId = "";
 
   @NotNull(message = "User ID cannot be null")
   @Min(value = 1, message = "User ID must be greater than 0")
@@ -74,9 +76,14 @@ public class OrderDTO {
 
   @NotBlank(message = "Status is mandatory")
   private String status;
+  // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime orderDate;
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime deliveredAt;
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime updatedAt;
 }

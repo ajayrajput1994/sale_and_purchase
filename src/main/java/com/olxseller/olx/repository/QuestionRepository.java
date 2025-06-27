@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.olxseller.olx.model.CustomerOrder;
+import com.olxseller.olx.model.QuestionAnswers;
 
 @Repository
-public interface OrderRepository extends JpaRepository<CustomerOrder, Integer> {
+public interface QuestionRepository extends JpaRepository<QuestionAnswers, Integer> {
 
-	@Query("from CustomerOrder as b where b.user.id=:userId")
-	public List<CustomerOrder> AllOrdersByUserID(@Param("userId") int userId);
+  @Query("from QuestionAnswers as b where b.product.id=:productId")
+  public List<QuestionAnswers> allQuestionsByProductID(@Param("productId") int productId);
 }

@@ -62,6 +62,7 @@ public class CustomerController {
 		// map.put("productList", productService.getAllProducts());
 		WishlistDTO wish = wishlistService.getWishlist(user.getId());
 		List<Integer> ids = responseData.getIntKeysFromMap(wish.getItems());
+		System.out.println("wishlist product ids: " + ids);
 		for (OrderDTO order : orderService.getAllOrdersByUserID(user.getId())) {
 			responseData.getItemIdsFromOrdsetItemsString(order.getItemDta()).forEach((c) -> {
 				if (!ids.contains(c)) {
