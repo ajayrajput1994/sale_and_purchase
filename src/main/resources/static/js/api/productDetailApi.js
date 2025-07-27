@@ -5,11 +5,13 @@ function preparingData() {
   console.log("preparing screen data...");
   relatedList = loadedDTA.relatedList;
   reviewList = loadedDTA.reviews;
-  // console.log(loadedDTA.relatedList);
+  console.log(loadedDTA.relatedList);
   imageZoomer();
   $("#relatedDom").html("");
+  $("#RecentlyVisitDom").html("");
   loadedDTA.relatedList.forEach((e) => {
     $("#relatedDom").append(productHtml(e));
+    $("#RecentlyVisitDom").append(productHtml(e));
   });
   renderReviews();
   // localStorage.setItem("aj", "rajput ajay"); // Store data
@@ -52,14 +54,6 @@ function imageZoomer() {
 // function scrollImages(direction) {
 //   customScrolling(direction,'.p-images',150);
 // }
-function customScrolling(direction, domId, size) {
-  const container = document.querySelector(domId);
-  if (direction === "left") {
-    container.scrollBy({ left: -size, behavior: "smooth" });
-  } else if (direction === "right") {
-    container.scrollBy({ left: size, behavior: "smooth" });
-  }
-}
 
 function detailingView(tabId) {
   $(".tab-dom").hide();

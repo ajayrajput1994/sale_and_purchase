@@ -103,16 +103,28 @@ public class PageController {
 	@ModelAttribute
 	public void commondata(Model m, Principal principal) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("cats", mainCatService.getAllMainCategory());
+		map.put("cats", catService.getAllCategory());
+		map.put("mancats", mainCatService.AllCategories());
+		map.put("subcats", subcatService.allSubcats());
 		map.put("states", stateService.getAllStates());
 		map.put("cities", cityService.getAllCity());
-		map.put("subcats", subcatService.getAllSubcat());
-		map.put("blogs", blogService.getAllBlogs());
+		map.put("blogs", "");
+		map.put("productList", productService.getAllProducts());
 		var dta = responseData.jsonDataResponse("SUCCESS", "common data loaded", map);
 		m.addAttribute("dta", dta);
 		m.addAttribute("allstates", this.stateService.getAllStates());
 		m.addAttribute("social", socialService.getSocialLinks());
 		m.addAttribute("address", webaddressService.getAddress());
+		if (principal != null) {
+			UserDTO userDTO = uService.findUserByEmail2(principal.getName());
+			List<Integer> cartCount = responseData.getIntKeysFromMap(cartService.getCartItems(userDTO.getId()).getItems());
+			List<Integer> wishCount = responseData.getIntKeysFromMap(wishlistService.getWishlist(userDTO.getId()).getItems());
+			m.addAttribute("cartCount", cartCount.size());
+			m.addAttribute("wishCount", wishCount.size());
+		} else {
+			m.addAttribute("cartCount", 0);
+			m.addAttribute("wishCount", 0);
+		}
 		m.addAttribute("user", principal != null ? userService.findUserByEmail(principal.getName()) : new User());
 	}
 
@@ -231,7 +243,7 @@ public class PageController {
 		return "index";
 	}
 
-	@GetMapping("/{code}")
+	@GetMapping("/code/{code}")
 	public String productDetails(@PathVariable("code") String code, Model m) {
 		ProductDTO p = productService.getProductByCode(code);
 		System.out.println(p.toString());
@@ -244,6 +256,18 @@ public class PageController {
 		m.addAttribute("title", "this is home demo keep stay ");
 		m.addAttribute("disc", "this is home demo Description keep stay  ");
 		return "product_details";
+	}
+
+	@GetMapping("/{title}")
+	public String productFilter(@PathVariable("title") String title, Model m) {
+		System.out.println("product filter: " + title);
+		// Map<String, Object> map = new HashMap<>();
+		// map.put("productList", productService.searchProductsByTxt(title));
+		// var dta = responseData.jsonDataResponse("SUCCESS", "Home data loaded", map);
+		// m.addAttribute("dta", dta);
+		m.addAttribute("title", "this is home demo keep stay ");
+		m.addAttribute("disc", "this is home demo Description keep stay  ");
+		return "product_filter";
 	}
 
 	@GetMapping({ "", "/", "/home" })

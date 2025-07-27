@@ -18,24 +18,24 @@ import com.olxseller.olx.service.PaymentService;
 @RequestMapping("/payment")
 public class PaymentController {
 
-   @Autowired
-   private PaymentService paymentService;
+  @Autowired
+  private PaymentService paymentService;
 
-   @PostMapping
-   public ResponseEntity<PaymentDTO> createPayment(@RequestBody @Validated PaymentDTO paymentDTO){
+  @PostMapping
+  public ResponseEntity<PaymentDTO> createPayment(@RequestBody @Validated PaymentDTO paymentDTO) {
     return ResponseEntity.ok(paymentService.createPayment(paymentDTO));
-   }
- 
+  }
 
   @PutMapping("/{id}")
-  public ResponseEntity<PaymentDTO> updatePayment(@PathVariable int id,@Validated @RequestBody PaymentDTO paymentDTO) {
+  public ResponseEntity<PaymentDTO> updatePayment(@PathVariable int id, @Validated @RequestBody PaymentDTO paymentDTO) {
     paymentDTO.setId(id);
     PaymentDTO payment = paymentService.updatePayment(paymentDTO);
     return ResponseEntity.ok(payment);
   }
+
   @PutMapping("/{id}/{status}")
-  public ResponseEntity<PaymentDTO> updatePaymentStatus(@PathVariable int id,@PathVariable String status) {
-    PaymentDTO payment = paymentService.updatePaymentStatus(id,status);
+  public ResponseEntity<PaymentDTO> updatePaymentStatus(@PathVariable int id, @PathVariable String status) {
+    PaymentDTO payment = paymentService.updatePaymentStatus(id, status, "");
     return ResponseEntity.ok(payment);
   }
 }

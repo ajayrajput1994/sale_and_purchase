@@ -1,0 +1,39 @@
+
+/*========start scroller products========*/
+.slider-btn {
+  background: black;
+  color: white;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+
+.productParentDom {
+  background: #f2c6ed;
+  padding: 20px 5px;
+  margin: 3rem 0px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.product-dom {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-top: 10px;
+  height: 27rem;
+}
+
+.product-dom::-webkit-scrollbar {
+  display: none;
+}
+
+.product-child {
+  width: 300px;
+  flex: none;
+  margin-right: 10px;
+  /* background: #f0f0f0;   */
+}
+
+/*========end scroller products========*/

@@ -84,6 +84,312 @@ function infoForm(v) {
     OpenHide("#infoAddressDom,#infoEditBtn", "#userInfoForm, #infoBackBtn");
   }
 }
+function showOrderDetails(orderId, prodId) {
+  let orderRow = orderDict[orderId];
+  // console.log(orderRow, item);
+  OpenHide("#orderDetailsDom,#ordDetailBackBtn", "#orderItemsDom");
+  let billing = {};
+  let shipping = {};
+  let itemData = [];
+  let vouchers = [];
+
+  try {
+    billing = orderRow.billing ? JSON.parse(orderRow.billing) : {};
+  } catch (e) {
+    billing = {};
+  }
+
+  try {
+    shipping = orderRow.shipping ? JSON.parse(orderRow.shipping) : {};
+  } catch (e) {
+    shipping = {};
+  }
+
+  try {
+    itemData = orderRow.itemDta ? JSON.parse(orderRow.itemDta) : [];
+  } catch (e) {
+    itemData = [];
+  }
+
+  try {
+    vouchers =
+      orderRow.vouchers && orderRow.vouchers !== "pending"
+        ? JSON.parse(orderRow.vouchers)
+        : [];
+  } catch (e) {
+    vouchers = [];
+  }
+
+  // Format dates safely
+  let orderDate = "Invalid date";
+  try {
+    orderDate = new Date(orderRow.orderDate).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch (e) {}
+
+  let deliveredDate = "Pending";
+  if (orderRow.delivered_at) {
+    try {
+      deliveredDate = new Date(orderRow.deliveredAt).toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      );
+    } catch (e) {}
+  }
+
+  const voucherInfo =
+    Array.isArray(vouchers) && vouchers.length > 0 ? vouchers[0] : null;
+  const orderDateFormatted =
+    typeof orderDate === "string" && orderDate.includes(" at")
+      ? orderDate.split(" at")[0]
+      : orderDate || "Pending";
+  let statusClass = "status-created";
+  if (orderRow.status === "DELIVERED") statusClass = "status-delivered";
+  else if (orderRow.status === "ON_HOLD") statusClass = "status-hold";
+  else if (orderRow.status === "CANCELLED") statusClass = "status-cancelled";
+  let h = [];
+  h.push('<div class="container">');
+  h.push('<div class="header">');
+  h.push('<div class="header-content">');
+  h.push(`<div class="order-id">${orderRow.orderId}</div>`);
+  h.push(`<div class="order-date">Placed on ${orderDate}</div>`);
+  h.push(`<div class="status ${statusClass} pulse">${orderRow.status}</div>`);
+  h.push("</div>");
+  h.push("</div>");
+
+  h.push('<div class="content">');
+
+  // Order Information section
+  h.push('<div class="section">');
+  h.push('<div class="section-title">Order Information</div>');
+  h.push('<div class="order-info-container">');
+  h.push('<div class="info-row">');
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Order ID</div>');
+  h.push(`<div class="info-value">${orderRow.orderId}</div>`);
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Customer</div>');
+  h.push(`<div class="info-value">${orderRow.customerName}</div>`);
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Order Date</div>');
+  h.push(`<div class="info-value">${orderDateFormatted}</div>`);
+  h.push("</div>");
+  h.push("</div>");
+
+  h.push('<div class="info-row">');
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Total Items</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.totalPrice).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">GST</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.gst).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Delivery Fee</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.deliveryFee).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+
+  h.push('<div class="info-row">');
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Processing Fee</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(
+      orderRow.processingFee
+    ).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</div>`
+  );
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Handling Fee</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.handlingFee).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Surge Fee</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.surgeFee).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+
+  h.push('<div class="info-row">');
+  h.push('<div class="info-item">');
+  h.push('<div class="info-label">Discount Applied</div>');
+  h.push(
+    `<div class="info-value discount">-₹${parseFloat(
+      orderRow.voucherDiscount
+    ).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</div>`
+  );
+  h.push("</div>");
+  h.push('<div class="info-item grand-total">');
+  h.push('<div class="info-label">Grand Total</div>');
+  h.push(
+    `<div class="info-value">₹${parseFloat(orderRow.grandTotal).toLocaleString(
+      "en-IN",
+      { minimumFractionDigits: 2 }
+    )}</div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+
+  // Delivery Address section
+  h.push('<div class="section">');
+  h.push('<div class="section-title">Delivery Address</div>');
+  h.push('<div class="address-card">');
+  h.push(`<div class="address-line"><strong>${shipping.n}</strong></div>`);
+  h.push(`<div class="address-line">${shipping.a}</div>`);
+  h.push(`<div class="address-line">${shipping.c}, ${shipping.l}</div>`);
+  h.push(
+    `<div class="address-line">${shipping.s}, ${shipping.r} - ${shipping.pc}</div>`
+  );
+  h.push(
+    `<div class="address-line"><strong>Phone:</strong> ${shipping.p}</div>`
+  );
+  h.push(
+    `<div class="address-line"><strong>Type:</strong> ${
+      shipping.t.charAt(0).toUpperCase() + shipping.t.slice(1)
+    } Address</div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+
+  // Order Items section with product details
+  h.push('<div class="section">');
+  h.push('<div class="section-title">Order Items</div>');
+  h.push('<div class="items-table">');
+  h.push('<div class="table-header">');
+  h.push("<div>Product</div>");
+  h.push("<div>Item ID</div>");
+  h.push("<div>Quantity</div>");
+  h.push("<div>Unit Price</div>");
+  h.push("<div>Total</div>");
+  h.push("</div>");
+
+  // Generate items HTML with product details
+  let itemsTotal = 0;
+  itemData.forEach((item) => {
+    const unitPrice = parseFloat(item.a);
+    const quantity = parseInt(item.q);
+    const totalPrice = unitPrice * quantity;
+    itemsTotal += totalPrice;
+
+    const product = productDict[item.id] || {
+      name: "",
+      image: "",
+    };
+
+    h.push('<div class="table-row">');
+    h.push('<div class="product-cell">');
+    h.push(
+      `<img src="${getFirstImg(product.image)}" alt="${
+        product.name
+      }" class="product-image" />`
+    );
+    h.push(`<span class="product-name">${product.name}</span>`);
+    h.push("</div>");
+    h.push(`<div class="item-id">#${item.id}</div>`);
+    h.push(`<div class="quantity">${quantity}</div>`);
+    h.push(
+      `<div class="amount">₹${unitPrice.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+      })}</div>`
+    );
+    h.push(
+      `<div class="amount">₹${totalPrice.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+      })}</div>`
+    );
+    h.push("</div>");
+  });
+
+  h.push('<div class="table-row total-row">');
+  h.push("<div></div>");
+  h.push("<div></div>");
+  h.push("<div><strong>Total</strong></div>");
+  h.push("<div></div>");
+  h.push(
+    `<div class="amount"><strong>₹${itemsTotal.toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+    })}</strong></div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+
+  // Payment Details section
+  h.push('<div class="section">');
+  h.push('<div class="section-title">Payment Details</div>');
+  h.push('<div class="payment-info">');
+  h.push('<div class="payment-breakdown">');
+
+  if (voucherInfo) {
+    h.push('<div class="voucher-info">');
+    h.push('<div class="info-label">Voucher Applied</div>');
+    h.push(`<div class="voucher-code">${voucherInfo.code}</div>`);
+    h.push("</div>");
+  }
+
+  h.push('<div class="delivery-info">');
+  h.push('<div class="info-label">Delivery Status</div>');
+  h.push(`<div class="delivery-date">${deliveredDate}</div>`);
+  h.push("</div>");
+  h.push("</div>");
+  h.push('<div class="total-section">');
+  h.push("<div>Grand Total</div>");
+  h.push(
+    `<div class="total-amount">₹${parseFloat(
+      orderRow.grandTotal
+    ).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</div>`
+  );
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+  h.push("</div>");
+
+  $("#orderDetailsDom").html(h.join(""));
+}
+function closeOrderDetails() {
+  OpenHide("#orderItemsDom", "#orderDetailsDom,#ordDetailBackBtn");
+}
 // <img src="/image/Desert.jpg" class="img-fluid rounded-start article_absolute_img" alt="..." >
 function renderOrders() {
   OpenHide("#orderItemsDom", "#emptyDom2");
@@ -92,9 +398,8 @@ function renderOrders() {
     $.each(orderDict, (c, d) => {
       JSON.parse(d.itemDta).forEach((dta) => {
         let item = productDict[dta.id];
-        // console.log(item);
         h.push({
-          name: `<tr><td><div class="card">
+          name: `<tr><td ><div class="card">
               <div class="row g-0">
                 <div class="blog_img d-flex justify-content-center">
                   <img src="${getFirstImg(
@@ -103,7 +408,9 @@ function renderOrders() {
                 </div>
                 <div class="blog_detail">
                   <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
+                    <h5 class="card-title cursor"  onclick="showOrderDetails('${c}','${
+            dta.id
+          }')">${item.name} (${d.status})</h5>
                     <p class="card-text card-text-line-limit">${
                       item.description
                     }</p>

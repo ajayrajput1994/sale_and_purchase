@@ -1,185 +1,200 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
   <head>
     <th:block th:include="~{base_layout :: myhead}"></th:block>
     <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/../css/product-carousel.css}" />
     <style>
-    .cart-container {
-      position: relative;
-      display: inline-block;
-    }
-
-    .cart-count {
-    position: absolute;
-    top: -2px;
-    right: -3px;
-    background-color: red;
-    color: white;
-    font-size: 8px;
-    font-weight: bold;
-    width: 16px;
-    height: 17px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 16px;
-}
-
-
-      .previousIcon{
-          color: black;
-          font-size: 36px;
-          background-color: white !important;
-          padding: 10px 30px;
-          margin-left: -64%;
-          border-radius: 0px 35px 35px 0px;
+      .previousIcon {
+        color: black;
+        font-size: 36px;
+        background-color: white !important;
+        padding: 10px 30px;
+        margin-left: -64%;
+        border-radius: 0px 35px 35px 0px;
       }
-      .nextIcon{
-          color: black;
-          font-size: 36px;
-          background-color: white !important;
-          padding: 10px 30px;
-          margin-right: -64%;
-          border-radius: 35px 0px 0px 35px;
+
+      .nextIcon {
+        color: black;
+        font-size: 36px;
+        background-color: white !important;
+        padding: 10px 30px;
+        margin-right: -64%;
+        border-radius: 35px 0px 0px 35px;
       }
-      .categoryDom{
+
+      .categoryDom {
         display: grid;
         gap: 10px;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
-      .categoryDomChild{
+
+      .categoryDomChild {
         display: grid;
         gap: 10px;
         grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
       }
-      .categoryDomChild div{ 
+
+      .categoryDomChild div {
         display: grid;
       }
-      .minCatDomChild{
+
+      .minCatDomChild {
         display: flex;
         gap: 5px;
         margin-top: 30px;
         margin-bottom: 50px;
       }
-      
-      .subcat{height: 7rem;margin-bottom: 2px;}
-      .subcatImg{width: 9vw;}
-      .subcatTitle{font-size: 12px;}
-      .subcat2{height: 4rem;}
-      .subcat2 img{height: 4rem;}
-      .subcat2 span{font-size: 10px;}
-      .newProductDom{
+
+      .subcat {
+        height: 7rem;
+        margin-bottom: 2px;
+      }
+
+      .subcatImg {
+        width: 9vw;
+      }
+
+      .subcatTitle {
+        font-size: 12px;
+      }
+
+      .subcat2 {
+        height: 4rem;
+      }
+
+      .subcat2 img {
+        height: 4rem;
+      }
+
+      .subcat2 span {
+        font-size: 10px;
+      }
+
+      /* 
+      .newProductDom {
         background: #e0fffd;
         padding: 20px 5px;
         margin: 3rem 0px;
-      }
-      .topPicksDom{
+      } */
+
+      .topPicksDom {
         background: #e7ffe0;
         padding: 20px 5px;
         margin: 3rem 0px;
       }
-      .RecentlyVisitDom{
+
+      .RecentlyVisitDom {
         background: #f2c6ed;
         padding: 20px 5px;
         margin: 3rem 0px;
       }
-      .heading{
+
+      .heading {
         font-size: 25px;
         font-weight: 800;
         letter-spacing: 0.2px;
       }
-      .card_desc{
+
+      .card_desc {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
       }
-      .card_img_parent{
+
+      /* .card_img_parent {
         height: 16rem;
         display: grid;
         grid-template-columns: 58%;
         justify-content: center;
         padding-top: 5px;
-      }
-      .card_img{
+      } */
+
+      .card_img {
         /* height: 10rem; */
         width: 15vw;
       }
-      .my_btn{
+
+      .my_btn {
         background: #ff5707;
         border-radius: 50px;
         padding: 5px 15px 9px 15px;
         color: white;
-        font-size: 13px; 
+        font-size: 13px;
         cursor: pointer;
       }
-      .my_btn:hover{
-        background-color:#000;
+
+      .my_btn:hover {
+        background-color: #000;
       }
-      .card_img_parent{
-      height: 12rem;
-      display: grid;
-      justify-content: center;
-      padding-top: 6px;
-    }
-      .productDom{
-      display: grid;
-      gap: 5px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
+
+      /* .card_img_parent {
+        height: 12rem;
+        display: grid;
+        justify-content: center;
+        padding-top: 6px;
+      } */
+
+      .productDom {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
     </style>
   </head>
+
   <body>
     <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
-        <section class="row"> 
-            <div class="col-md-12">
-              <div class="card">
-                <div id="carouselOne" class="carousel carousel-dark slide">
-                  <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="0" class="active"
-                      aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="1"
-                      aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="2"
-                      aria-label="Slide 3"></button>
-                  </div>
-                  <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="10000">
-                      <img  th:src="${homebanner?.banner}" class="d-block w-100 card-img-top" alt="...">
-                      <div class="carousel-caption d-none d-md-block">
-                        <h5 th:text="${homebanner?.title}"></h5>
-                        <p></p>
-                      </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="2000">
-                      <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top"  alt="...">
-                      <div class="carousel-caption d-none d-md-block">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top" alt="...">
-                      <div class="carousel-caption d-none d-md-block">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselOne"
-                    data-bs-slide="prev">
-                    <span class="previousIcon" aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselOne"
-                    data-bs-slide="next">
-                    <span class="nextIcon" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
+        <section class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div id="carouselOne" class="carousel carousel-dark slide">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
                 </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active" data-bs-interval="10000">
+                    <img th:src="${homebanner?.banner}" class="d-block w-100 card-img-top" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5 th:text="${homebanner?.title}"></h5>
+                      <p></p>
+                    </div>
+                  </div>
+                  <div class="carousel-item" data-bs-interval="2000">
+                    <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Second slide label</h5>
+                      <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Third slide label</h5>
+                      <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselOne" data-bs-slide="prev">
+                  <span class="previousIcon" aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselOne" data-bs-slide="next">
+                  <span class="nextIcon" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
               </div>
-            </div> 
+            </div>
+          </div>
         </section>
         <!-- <section class="row mt-2" id="categoryDom"></section>
         <section class="row mt-2" id="newProductDom" style="display: none;"></section>
@@ -191,21 +206,39 @@
             <section>
               <div class="row mt-2 categoryDom" id="categoryDom"></div>
             </section>
-            <section class="newProductDom"  style="display: none;">
-              <h4 class="heading">Newly Added</h4>
-              <div class="mt-2 productDom" id="newProductDom">
-            </div>
+            <section class="newProductDom productParentDom" style="display: none;">
+              <div class="d-flex justify-content-start">
+                <h4 class="heading" style="margin-right: 5px;">Newly Added</h4>
+                <button class="slider-btn" onclick="customScrolling('left','#newProductDom',253)"><i
+                    class="fa-solid fa-angle-left"></i></button>
+                <button class="slider-btn" onclick="customScrolling('right','#newProductDom',253)"
+                  style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
+              </div>
+              <div class="product-dom" id="newProductDom">
+              </div>
             </section>
-            <section class="subCatDom"  style="display: none;"> 
+            <section class="subCatDom" style="display: none;">
               <div class="row mt-2" id="subCatDom"></div>
             </section>
-            <section class="topPicksDom"  style="display: none;">
-              <h4 class="heading">Hand picked</h4>
-              <div class="mt-2 productDom" id="topPicksDom"></div>
+            <section class="topPicksDom productParentDom" style="display: none;">
+              <div class="d-flex justify-content-start">
+                <h4 class="heading" style="margin-right: 5px;">Hand picked</h4>
+                <button class="slider-btn" onclick="customScrolling('left','#topPicksDom',253)"><i
+                    class="fa-solid fa-angle-left"></i></button>
+                <button class="slider-btn" onclick="customScrolling('right','#topPicksDom',253)"
+                  style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
+              </div>
+              <div class="product-dom" id="topPicksDom"></div>
             </section>
-            <section class="RecentlyVisitDom"  style="display: none;">
-              <h4 class="heading">Recently viewed</h4>
-              <div class="mt-2 productDom" id="RecentlyVisitDom" ></div>
+            <section class="RecentlyVisitDom productParentDom" style="display: none;">
+              <div class="d-flex justify-content-start">
+                <h4 class="heading" style="margin-right: 5px;">Recently viewed</h4>
+                <button class="slider-btn" onclick="customScrolling('left','#RecentlyVisitDom',253)"><i
+                    class="fa-solid fa-angle-left"></i></button>
+                <button class="slider-btn" onclick="customScrolling('right','#RecentlyVisitDom',253)"
+                  style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
+              </div>
+              <div class="product-dom" id="RecentlyVisitDom"></div>
             </section>
           </div>
         </div>
@@ -220,5 +253,7 @@
   </div>
   <script th:src="@{/js/angular.min.js}"></script>
   <script th:src="@{/js/frontLogic/homeApi.js}"></script>
+  <script th:src="@{/js/product-carousel.js}"></script>
   <script></script>
+
 </html>

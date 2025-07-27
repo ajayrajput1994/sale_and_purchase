@@ -2,6 +2,28 @@ header .navbar a{color:#fff!important;}header .navbar a:hover{color:orange !impo
 .bg-prime{background-color:#009999!important;}
 body{background:#e2e2e2!important;}.breadcrumb{background:#e2e2e2!important;font-size: 14px;text-transform: capitalize;}
 .navbar-brand img{font-size:1rem;}footer{background:#ffff!important;}
+.cursor{
+  cursor: pointer;
+}
+ .cart-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -2px;
+    right: -3px;
+    background-color: red;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+    width: 16px;
+    height: 17px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 16px;
+  }
 /*index page css*/
 .card-title,h1,h2{text-transform: capitalize;}
 .custom-scrollbar li{letter-spacing: 1.2px;border-bottom:1px solid grey;}
@@ -170,7 +192,7 @@ div.sticky{
   top: 75px;
 }
 ul.li_padding li{
-  padding-left: 25px;
+  padding-left: 14px;
 }
 .cat_title {
   font-size: 12px;
@@ -306,15 +328,64 @@ ul.li_padding li{
     margin-left: 54%;
     }
   .user-menu .dropdown-menu{margin-left: 0px;}
+  .minCatDomChild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px ;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
+  .categoryDomChild {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr !important;
+      }
 }
 
 /*  medium tablet  width style*/
 @media (479px <= width <= 767px) {
-  /* … */
+  .categoryDomChild {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr !important;
+      }
+  .minCatDomChild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px ;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
 }
 /*  large tablet  width style*/
 @media (767px <= width <= 991px) {
-  /* … */
+  .categoryDomChild {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr !important;
+      }
+  .minCatDomChild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px ;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
+}
+/*  small laptop tablet  width style*/
+@media (991px <= width <= 1549px) {
+  .categoryDomChild {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr !important;
+      }
+  .minCatDomChild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px ;
+        margin-top: 30px;
+        margin-bottom: 50px;
+      }
 }
 
 .wishlist{

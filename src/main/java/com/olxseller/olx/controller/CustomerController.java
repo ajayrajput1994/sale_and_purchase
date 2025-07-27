@@ -60,8 +60,11 @@ public class CustomerController {
 		User user = userservice.findUserByEmail(principal.getName());
 		Map<String, Object> map = new HashMap<>();
 		// map.put("productList", productService.getAllProducts());
+		List<Integer> cartCount = responseData.getIntKeysFromMap(cartService.getCartItems(user.getId()).getItems());
 		WishlistDTO wish = wishlistService.getWishlist(user.getId());
 		List<Integer> ids = responseData.getIntKeysFromMap(wish.getItems());
+		m.addAttribute("cartCount", cartCount.isEmpty() ? 0 : cartCount.size());
+		m.addAttribute("wishCount", ids.isEmpty() ? 0 : ids.size());
 		System.out.println("wishlist product ids: " + ids);
 		for (OrderDTO order : orderService.getAllOrdersByUserID(user.getId())) {
 			responseData.getItemIdsFromOrdsetItemsString(order.getItemDta()).forEach((c) -> {
@@ -71,7 +74,6 @@ public class CustomerController {
 			});
 		}
 		;
-		System.out.println("cart product ids: " + ids);
 		map.put("wishlistItems", wish.getItems());
 		if (ids.isEmpty()) {
 			map.put("productList", new ArrayList<>());

@@ -55,9 +55,9 @@
             </div>
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" aria-current="page" th:href="@{/new-post}">New Post</a>
-                </li>
+                </li> -->
                 <!-- <li class="nav-item dropdown ">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -75,7 +75,7 @@
                 <li class="nav-item">
                   <a class="nav-link cart-container" href="/wishlist">
                     <i class="fa-solid fa-heart"></i>
-                    <span id="cart-count" class="cart-count">0</span>
+                    <span id="cart-count" class="cart-count" th:text="${wishCount}">0</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -86,7 +86,7 @@
 
                   <a class="nav-link cart-container" href="/cart">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count" class="cart-count">0</span>
+                    <span id="cart-count" class="cart-count" th:text="${cartCount}">0</span>
                   </a>
                 </li>
                 <li class="nav-item" th:if="${user?.name==''}"><a class="nav-link" th:href="@{/signin}">Login</a></li>
@@ -96,7 +96,7 @@
 
                   </a>
                   <ul class="dropdown-menu p-0" th:if="${user?.role=='ROLE_ADMIN'}">
-                    <li><a class="dropdown-item" href="javascript:">Account</a></li>
+                    <li><a class="dropdown-item" href="/admin/">Account</a></li>
                     <li><a class="dropdown-item" href="javascript:">Settings</a></li>
                     <li>
                       <hr class="dropdown-divider">

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <th:block th:include="~{base_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
+
+  </head>
+
+  <body>
+    <div class="container-fluid" th:replace="~{base_layout :: contentDom}">
+      <div id="myContent">
+        <section>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div id="carouselOne" class="carousel carousel-dark slide">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="0" class="active"
+                      aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="1"
+                      aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselOne" data-bs-slide-to="2"
+                      aria-label="Slide 3"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                      <img th:src="${homebanner?.banner}" class="d-block w-100 card-img-top" alt="...">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h5 th:text="${homebanner?.title}"></h5>
+                        <p></p>
+                      </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                      <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top" alt="...">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img th:src="@{/image/banner.jpg}" class="d-block w-100 card-img-top" alt="...">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselOne"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselOne"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+        <section id="main" class="wraper">
+          <div id="box">
+            <div class="card card-f sticky">
+              <div class="card-header bg-white d-flex justify-content-between">
+                <h4>Filters</h4>
+                <i class="fa-solid fa-xmark" id="closebtn" onclick="tapOn(false)"></i>
+              </div>
+              <div class="card-body py-0">
+                <ul class="list-group list-group-flush li_padding" id="maincatDom">
+                  <!-- <li class="list-group-item" th:each="m : ${mainCates}">
+                    <a th:href="@{'/'+${m?.mainCatalog}}" class="collapsible-header waves-effect d-block">
+                      <span th:text="${m?.mainCatalog}"></span><i class="fas fa-angle-double-right float-right"></i></a>
+                    </li> -->
+                </ul>
+                <ul class="list-group list-group-flush li_padding" id="subcatDom"></ul>
+                <ul class="list-group list-group-flush li_padding" id="catDom"></ul>
+                <ul class="list-group list-group-flush li_padding" id="cityDom"></ul>
+                <ul class="list-group list-group-flush li_padding" id="statesDom"></ul>
+
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex justify-content-between " style="background: #fff;padding: 1px 5px;margin-bottom: 5px;">
+              <div class="d-flex justify-content-start shortBy">
+                <div id="result-count"></div>
+                <span class="active_sortby" data-name="" onclick="getShort(this)">Default</span>
+                <span class="d-flex justify-content-start" data-name="PRICELTH" onclick="getShort(this)"><span
+                    class="forDC">Low To Hight</span><i class="fa-solid fa-arrow-down-1-9 forMob"></i></span>
+                <span class="d-flex justify-content-start" data-name="PRICEHTL" onclick="getShort(this)"><span
+                    class="forDC">High To Low</span><i class="fa-solid fa-arrow-up-9-1 forMob"></i></span>
+                <span data-name="NEW" onclick="getShort(this)">New</span>
+              </div>
+              <i class="fa-solid fa-filter" id="filterbtn" onclick="tapOn(true)"></i>
+            </div>
+            <div class="d-flex justify-content-start" style="margin-bottom: 5px;">
+              <div id="allClearDom"></div>
+              <div id="selectedDom"></div>
+            </div>
+            <div id="recordDom">
+              <!-- <div class="col-md-4"  th:each="b : ${blogs}">
+                  <div class="card card-b">
+                    //<img th:src="@{'/image/'+${b?.image}}" class="card-img-top" alt="...">
+                    <img th:src="@{'/image/Desert.jpg'}"  class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <a th:href="@{'/'+${b?.title}}"  th:text="${b?.title}" class="card-title stretched-link">Card title</a>
+                      <p class="card-text">Some quick example text to build  bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between bg-white">
+                      <div href="#" class="card-link"><i class="fas fa-heart mr-2"></i></div>
+                      <div href="#" class="card-link"><span th:text="${b?.city}"></span> <i class="fas fa-map-marker-alt ml-1"></i></div>
+                    </div>
+                  </div>
+
+                </div> -->
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- <input type="hidden" th:value="${mainCat}" th:id="maincat"> -->
+  </body>
+  <style>
+    .searchBox {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      height: 100vh;
+      background-color: #ff5e57;
+      line-height: 2;
+      display: none;
+      overflow: hidden;
+      transition: all 1.5m ease-in;
+    }
+
+    #container {
+      width: 35vw;
+      height: auto;
+      background-color: #1e272e;
+      /*   margin: 20vh auto; */
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 4rem;
+      padding: 10px;
+    }
+
+    .search__box {
+      float: left;
+      width: 0;
+      height: 4rem;
+      /*   display: inline; */
+      background: none;
+      color: #f7f7f7;
+      font-size: 1.5rem;
+      border-radius: 2rem;
+      outline: none;
+      border: none;
+      position: relative;
+      opacity: 1;
+      transition: all .75s ease-in;
+      cursor: pointer;
+      /*   border: 2px solid tomato; */
+      /*   margin-top: 5px; */
+    }
+
+    /* .search__box:focus, .search__box:hover {
+  background-color: #f1f2f6;
+} */
+
+    .search__icon {
+      box-sizing: border-box;
+      float: right;
+      font-size: 2.5rem;
+      display: inline-block;
+      /*   justify-content: center;
+  align-items: center; */
+      margin-left: .8rem;
+      margin-top: 0;
+      cursor: pointer;
+      position: absolute;
+      color: #fa983a;
+      transition: all .25s ease-in;
+      padding: .7rem;
+      border-radius: 50%;
+    }
+
+    #container:hover>.search__box {
+      width: 85%;
+      padding: 0 1rem;
+    }
+
+    #container:hover>.search__icon {
+      background-color: #eee;
+    }
+
+    .show {
+      width: 85%;
+      border: 1px solid red;
+    }
+
+    .searchCloseBtn {
+      position: absolute;
+      right: 10px;
+      top: 4px;
+      color: white;
+      font-size: 30px;
+    }
+  </style>
+  <div class="searchBox">
+    <i class="fas fa-close searchCloseBtn" onclick="searchBox(false)"></i>
+    <div id="container">
+      <input type="text" id="box" placeholder="Search anything..." class="search__box">
+      <i class="fas fa-search search__icon" id="icon" onclick="toggleShow()"></i>
+    </div>
+    <img th:src="@{/image/no-bg-butterfly.png}" style="width: 100vw;height: 100vh;" />
+  </div>
+  <th:block th:include="base_layout :: myscript">
+  </th:block>
+  <div th:insert="~{base_layout :: myFooter}">
+    <span>Footer Error</span>
+  </div>
+  <script th:src="@{/js/api/productFilterApi.js}"></script>
+  <script>
+    function tapOn(v) {
+      if (v) {
+        $('#box').show();
+        $('#box').removeClass('slide-out');
+        $('#box').addClass('slide-in');
+      } else {
+        $('#box').hide();
+        $('#box').removeClass('slide-in');
+        $('#box').addClass('slide-out')
+      }
+      // $('#main').removeClass('wraper');
+
+    }
+  </script>
+
+</html>

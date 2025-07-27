@@ -4,6 +4,7 @@
   <head>
     <th:block th:include="~{customer/customerbase_layout :: myhead}"></th:block>
     <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/../css/order-detail.css}" />
     <style>
       /* .cart_card{} */
       .cart_img {
@@ -156,6 +157,9 @@
         }
       }
     </style>
+    <style>
+
+    </style>
   </head>
 
   <body>
@@ -191,8 +195,10 @@
                       class="list-group-item list-group-item-action "><i class="fa-solid fa-shield-halved"></i> Personal
                       Information</a>
                     <a href="javascript:" onclick="operDom('orders')" class="list-group-item list-group-item-action "><i
-                        class="fa-solid fa-shopping-cart"></i> Orders
+                        class="fa-solid fa-cart-arrow-down"></i> Orders
                     </a>
+                    <a href="/cart" class="list-group-item list-group-item-action "><i
+                        class="fa-solid fa-cart-shopping"></i> Cart</a>
                     <a href="javascript:" onclick="operDom('wishlist')"
                       class="list-group-item list-group-item-action "><i class="fa-regular fa-heart"></i> Wish List</a>
                     <a href="javascript:" onclick="operDom('address')"
@@ -378,12 +384,19 @@
                 </div>
               </div>
               <div class="card rounded-0" id="ordersDom" style="display: none;">
-                <div class="card-header text-bg-danger rounded-0">
+                <div class="card-header text-bg-danger  rounded-0 d-flex justify-content-between">
                   <h1>Orders</h1>
+                  <div class="mt-3">
+                    <a href="javascript:" id="ordDetailBackBtn" onclick="closeOrderDetails()"
+                      style="color: white;margin-top: 18px;display: none;">Back</a>
+                  </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="padding:0px 13px">
                   <div class="row" id="orderItemsDom" style="display:none ;">
                     <div id="OrderRowDom"></div>
+                  </div>
+                  <div class="row" id="orderDetailsDom" style="display:none ;">
+
                   </div>
                   <div id="emptyDom2  " style="display: none;">
                     <div class="col-8 mx-auto">

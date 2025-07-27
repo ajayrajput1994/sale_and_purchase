@@ -4,6 +4,7 @@
   <head>
     <th:block th:include="~{base_layout :: myhead}"></th:block>
     <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/../css/product-carousel.css}" />
     <style>
       .domOne {
         display: grid;
@@ -252,45 +253,6 @@
         margin-left: -10px;
         margin-top: -10px;
       }
-
-      /*========start scroller products========*/
-      .slider-btn {
-        background: black;
-        color: white;
-        padding: 0px 15px;
-        cursor: pointer;
-      }
-
-      .productParentDom {
-        background: #f2c6ed;
-        padding: 20px 5px;
-        margin: 3rem 0px;
-        width: 100%;
-        margin-top: 20px;
-      }
-
-      .product-dom {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        margin-top: 10px;
-        height: 27rem;
-      }
-
-      .product-dom::-webkit-scrollbar {
-        display: none;
-      }
-
-      .product-child {
-        width: 300px;
-        flex: none;
-        margin-right: 10px;
-        /* background: #f0f0f0;   */
-      }
-
-      /*========end scroller products========*/
     </style>
   </head>
 
@@ -527,113 +489,6 @@
                 </div>
               </div>
             </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img
-                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img
-                    src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
         <section class="row mt-2 productParentDom">
@@ -645,135 +500,6 @@
               style="margin-left: 10px;"><i class="fa-solid fa-angle-right"></i></button>
           </div>
           <div class="product-dom" id="RecentlyVisitDom">
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img
-                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/02-03-2025/869e1407-e2f2-483a-a4fe-a2a7f05bee2a_Concept-Car-PNG.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/05-03-2025/749a87bc-8792-40bd-b097-331123c07e8f_car-png-transparent.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img
-                    src="/image/05-03-2025/cde34d1e-f19e-4d3c-83eb-b2aa20ef780c_31510-9-car-transparent-background.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img
-                    src="/image/05-03-2025/8e2bf0c5-6a8a-4056-8b5b-468f3a2cedc6_Desk Mesh Computer Chair Support Institu Gaming chair Office chair Gaming desk - Copy.jpg"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="product-child">
-              <div class="card card-b rounded-0 ng-scope">
-                <div class="card_img_parent">
-                  <img src="/image/05-03-2025/d16860da-6b67-4c4b-abf9-172025174d92_purepng.com-black.png"
-                    class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                  <a href="/Sample Product" class="card-title  card-title-line-limit">
-                    <h6>Sample Product</h6>
-                  </a>
-                  <span class="card_price">350.99 Rs/-</span><span class="cat_title">(Fashion)</span>
-                  <p class="card-text card-text-line-limit">This is a sample product fadfasd f sd fds</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-white">
-                  <div><i class="fa-regular fa-heart" ng-click="addToWishlist(93)"></i></div>
-                  <div><i class="fa-solid fa-cart-arrow-down" ng-click="addToCart(93)"></i></div>
-                  <div><i class="fa-solid fa-share-nodes"></i></div>
-                  <div><span>4.5</span><i class="fa-solid fa-star"></i></div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </div>
@@ -786,8 +512,7 @@
     <span>Footer Error</span>
   </div>
   <script th:src="@{/js/api/productDetailApi.js}"></script>
-  <!-- <script th:src="@{/js/angular.min.js}"></script>
-  <script th:src="@{/js/frontLogic/homeApi.js}"></script> -->
+  <script th:src="@{/js/product-carousel.js}"></script>
   <script>
     $(document).ready(() => preparingData());
   </script>

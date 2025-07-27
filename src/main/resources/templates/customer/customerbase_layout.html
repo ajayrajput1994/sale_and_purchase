@@ -42,6 +42,24 @@
                 </li>
               </ul> -->
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+                <li class="nav-item">
+                  <a class="nav-link cart-container" href="/wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="cart-count" class="cart-count" th:text="${wishCount}">0</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <!-- <div class="cart-container">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                  </div> -->
+
+                  <a class="nav-link cart-container" href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="cart-count" th:text="${cartCount}">0</span>
+                  </a>
+                </li>
                 <li class="nav-item dropdown user-menu">
                   <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false" th:text="@{${user?.name}}">

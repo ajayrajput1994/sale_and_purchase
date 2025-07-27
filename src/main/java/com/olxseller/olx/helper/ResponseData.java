@@ -112,14 +112,19 @@ public class ResponseData {
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode jsonNode = objectMapper.readTree(jsoString);
       Map<String, Object> map = objectMapper.convertValue(jsonNode, Map.class);
-      for (String key : map.keySet()) {
-        // System.out.println("Key: " + key);
-        try {
-          Integer intKey = Integer.valueOf(key);
-          list.add(intKey);
-        } catch (NumberFormatException e) {
-          System.err.println("Invalid key format: " + key);
+      if (map.containsKey("default")) {
+        list = (List<Integer>) map.get("default");
+      } else {
+        for (String key : map.keySet()) {
+          // System.out.println("Key: " + key);
+          try {
+            Integer intKey = Integer.valueOf(key);
+            list.add(intKey);
+          } catch (NumberFormatException e) {
+            System.err.println("Invalid key format: " + key);
+          }
         }
+
       }
       // System.out.println("Final List: " + list);
     } catch (Exception e) {
