@@ -46,7 +46,9 @@ function onload() {
       { data: "userId" },
       { data: "name" },
       { data: "price" },
-      { data: "quantity" },
+      { data: "stock" },
+      { data: "taxRate" },
+      { data: "discount" },
       { data: "category" },
       { data: "subCategory" },
       { data: "mainCategory" },
@@ -56,7 +58,7 @@ function onload() {
       { data: "action" },
     ],
     columnDefs: [
-      { visible: true, targets: [0, 1, 3, 5, 6, 8, 9, 10] },
+      { visible: true, targets: [0, 1, 3, 5, 6, 7, 8, 9, 10] },
       { visible: false, targets: ["_all"] },
     ],
     initComplete: function () {
@@ -76,7 +78,9 @@ function onload() {
     $("#image").val(data.image);
     $("#name").val(data.name);
     $("#price").val(data.price);
-    $("#quantity").val(data.quantity);
+    $("#stock").val(data.stock);
+    $("#taxRate").val(data.taxRate);
+    $("#discount").val(data.discount);
     $("#mainCategory").val(data.mainCategory);
     loadSubCategory(data.mainCategory);
     $("#subCategory").val(data.subCategory);
@@ -235,8 +239,8 @@ function productValidate() {
     toastr.warning("Price can't be Empty.");
     return false;
   }
-  if (!$("#quantity").val()) {
-    toastr.warning("Quantity can't be Empty.");
+  if (!$("#stock").val()) {
+    toastr.warning("Stock can't be Empty.");
     return false;
   }
   if (!$("#mainCategory").val()) {

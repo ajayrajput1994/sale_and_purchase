@@ -72,8 +72,12 @@ function editAddress(v) {
   $("#state").val(address.state);
   $("#region").val(address.region);
   $("#other_phone").val(address.other_phone);
-  if (address.address_type == "work") {
-    $("#work").prop("checked", true);
+  if (address.address_type == "HOME") {
+    $("#HOME").prop("checked", true);
+  } else if (address.address_type == "OFFICE") {
+    $("#OFFICE").prop("checked", true);
+  } else if (address.address_type == "OTHER") {
+    $("#OTHER").prop("checked", true);
   }
 }
 function infoForm(v) {

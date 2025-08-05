@@ -1,146 +1,164 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
-		<title>Insert title here</title>
-	</head>
+  <head>
+    <th:block th:include="~{admin/adminbase_layout :: myhead}"></th:block>
+    <title>Insert title here</title>
+  </head>
 
-	<body>
-		<div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
-			<section id="myContent">
+  <body>
+    <div class="container-fluid" th:replace="~{admin/adminbase_layout :: contentDom}">
+      <section id="myContent">
 
-    <div id="items-container"></div>
-				<div class="row">
-					<div class="col-md-12 mx-auto" >
-						<div class="card rounded-0">
-							<div class="card-body" id="blogFormDom" style="display: none;">
-								<div class="d-flex justify-content-between">
-									<h4 class="text-center">Create Product</h4>
-									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
-										onclick="recordDomOpen()">Back</button>
-								</div> 
-								<!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
-								<form id="product_form" enctype="multipart/form-data">
-									<input type="hidden" name="id" id="product_id" style="display: none;">
-									<input type="hidden" name="userId" id="userId" th:value="${user.id}">
-									<input type="hidden" name="image" id="image" value="no_img.jpg">
-									<div class="row">
-										<div class="form-group col-md-6">
-											<label for="name">Title</label>
-											<input type="text" name="name" class="form-control" id="name" placeholder="Enter title" />
-											<div class="invalid-feedback"></div>
-										</div> 
-										<div class="form-group col-2">
-											<label for="files">Images</label>
-											<input type="file" name="files" id="files"
-												class="form-control"accept="image/*" placeholder="Enter title" multiple/>
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
+        <div id="items-container"></div>
+        <div class="row">
+          <div class="col-md-12 mx-auto">
+            <div class="card rounded-0">
+              <div class="card-body" id="blogFormDom" style="display: none;">
+                <div class="d-flex justify-content-between">
+                  <h4 class="text-center">Create Product</h4>
+                  <button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+                    onclick="recordDomOpen()">Back</button>
+                </div>
+                <!-- <form action="" th:action="@{/admin/create_maincategory}" method="post" th:object="${maincat}"> -->
+                <form id="product_form" enctype="multipart/form-data">
+                  <input type="hidden" name="id" id="product_id" style="display: none;">
+                  <input type="hidden" name="userId" id="userId" th:value="${user.id}">
+                  <input type="hidden" name="image" id="image" value="no_img.jpg">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label for="name">Title</label>
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter title" />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group col-2">
+                      <label for="files">Images</label>
+                      <input type="file" name="files" id="files" class="form-control" accept="image/*"
+                        placeholder="Enter title" multiple />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-4" id="imageDom" style="margin-top: 15px;"></div>
 
-									</div>
-									<div class="row">
-										<div class="form-group col">
-											<label for="price">Price</label>
-											<input type="number" name="price" class="form-control" id="price" placeholder="Enter Price" />
-											<div class="invalid-feedback"></div>
-										</div>
-										<div class="form-group col">
-											<label for="quantity">Quantity</label>
-											<input type="number" name="quantity" class="form-control" id="quantity" placeholder="Enter Price" />
-											<div class="invalid-feedback"></div>
-										</div> 
-									</div>
-									<div class="row">
-										<div class="form-group col">
-											<label for="mainCategory">Main Category</label>
-											<select name="mainCategory" id="mainCategory" class="form-select rounded-0 form-control " onchange="loadSubCategory(this.value)" required="">
-												<option disabled="" selected="">Select Main Category</option>
-												<option   th:each="m : ${mainCategories}" th:value="${m.title}" th:text="${m.title}"></option>
-											</select>
-										</div>
-										<div class="form-group col">
-											<label for="subCategory">Sub Category</label>
-											<select name="subCategory" id="subCategory" class="form-select rounded-0 form-control "  onchange="loadCategory(this.value)"  required="">
-												<option disabled="" selected="">Select Category</option>
-											</select>
-										</div>
-									</div>  
-									<div class="row">
-										<div class="form-group col">
-											<label for="category">Category</label>
-											<select name="category" id="category" class="form-select rounded-0 form-control " required="">
-												<option disabled="" selected="">Select Main Category</option> 
-											</select>
-										</div>
-										<div class="form-group col">
-											<label for="description">Description</label>
-											<textarea type="text" name="description" rows="2" class="form-control rounded-0" id="description"
-												placeholder="Seo Content"></textarea>
-											<div class="invalid-feedback"></div>
-										</div>
-									</div> 
-									<div class="d-flex justify-content-end">
-										<button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
-											style="margin-right: 7px;">Reset</button>
-										<button type="button" onclick="addProduct()"
-											class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
-									</div>
-								</form>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col">
+                      <label for="price">Price (per unit)</label>
+                      <input type="number" name="price" class="form-control" id="price" placeholder="Enter Price" />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group col">
+                      <label for="stock">Stock</label>
+                      <input type="number" name="stock" class="form-control" id="stock" placeholder="Enter Price" />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col">
+                      <label for="discount">Discount</label>
+                      <input type="number" name="discount" class="form-control" id="discount"
+                        placeholder="Enter Discount" />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group col">
+                      <label for="taxRate">Tax Rate</label>
+                      <input type="number" name="taxRate" value="18" class="form-control" id="taxRate"
+                        placeholder="Enter Tax Rate" />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col">
+                      <label for="mainCategory">Main Category</label>
+                      <select name="mainCategory" id="mainCategory" class="form-select rounded-0 form-control "
+                        onchange="loadSubCategory(this.value)" required="">
+                        <option disabled="" selected="">Select Main Category</option>
+                        <option th:each="m : ${mainCategories}" th:value="${m.title}" th:text="${m.title}"></option>
+                      </select>
+                    </div>
+                    <div class="form-group col">
+                      <label for="subCategory">Sub Category</label>
+                      <select name="subCategory" id="subCategory" class="form-select rounded-0 form-control "
+                        onchange="loadCategory(this.value)" required="">
+                        <option disabled="" selected="">Select Category</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col">
+                      <label for="category">Category</label>
+                      <select name="category" id="category" class="form-select rounded-0 form-control " required="">
+                        <option disabled="" selected="">Select Main Category</option>
+                      </select>
+                    </div>
+                    <div class="form-group col">
+                      <label for="description">Description</label>
+                      <textarea type="text" name="description" rows="2" class="form-control rounded-0" id="description"
+                        placeholder="Seo Content"></textarea>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="reset" class="btn btn-warning  btn-sm px-5 rounded-0"
+                      style="margin-right: 7px;">Reset</button>
+                    <button type="button" onclick="addProduct()"
+                      class="btn btn-primary  btn-sm px-5 rounded-0">Submit</button>
+                  </div>
+                </form>
 
-							</div>
-						</div>
-					</div>
+              </div>
+            </div>
+          </div>
 
-					<div class="col-md-12 mx-auto" id="recordDom" style="display: none;" >
-						<div class="card rounded-0">
-							<div class="card-body">
-								<div class="d-flex justify-content-between">
-									<h4 class="card-title text-center">Prodcuts</h4>
-									<button type="button" class="btn btn-info btn-sm rounded-0 text-white "
-										onclick="formDomOpen()">Create</button>
-								</div>
-								<table class="table table-strip display" id="states_table" style="width: 100% !important;">
-									<thead>
-										<tr>
-											<th>#ID</th>
-											<th>Code</th>
-											<th>Image Path</th>
-											<th>Image</th>
-											<th>userId</th>
-											<th>Title</th>
-											<th>price</th>
-											<th>Qty</th>
-											<th>Category</th> 
-											<th>Sub Category</th> 
-											<th>Main Category</th> 
-											<th>Desc</th>
-											<th>createdAt</th>
-											<th>updatedAt</th>  
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
+          <div class="col-md-12 mx-auto" id="recordDom" style="display: none;">
+            <div class="card rounded-0">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h4 class="card-title text-center">Prodcuts</h4>
+                  <button type="button" class="btn btn-info btn-sm rounded-0 text-white "
+                    onclick="formDomOpen()">Create</button>
+                </div>
+                <table class="table table-strip display" id="states_table" style="width: 100% !important;">
+                  <thead>
+                    <tr>
+                      <th>#ID</th>
+                      <th>Code</th>
+                      <th>Image Path</th>
+                      <th>Image</th>
+                      <th>userId</th>
+                      <th>Title</th>
+                      <th>price</th>
+                      <th>Stock</th>
+                      <th>Tax Rate</th>
+                      <th>Discount</th>
+                      <th>Category</th>
+                      <th>Sub Category</th>
+                      <th>Main Category</th>
+                      <th>Desc</th>
+                      <th>createdAt</th>
+                      <th>updatedAt</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
 
 
-							</div>
-						</div>
-					</div>
+              </div>
+            </div>
+          </div>
 
-				</div>
-			</section>
+        </div>
+      </section>
 
-		</div>
-	</body>
-	<th:block th:include="admin/adminbase_layout :: myscript">
-	</th:block> 
-	<script th:src="@{/../js/api/productApi.js}"></script>
-	<script th:inline="javascript">
-		//onload function
-    $(()=>onload());
-	</script>
+    </div>
+  </body>
+  <th:block th:include="admin/adminbase_layout :: myscript">
+  </th:block>
+  <script th:src="@{/../js/api/productApi.js}"></script>
+  <script th:inline="javascript">
+    //onload function
+    $(() => onload());
+  </script>
 
 </html>

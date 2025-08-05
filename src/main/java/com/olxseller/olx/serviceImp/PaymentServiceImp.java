@@ -61,11 +61,15 @@ public class PaymentServiceImp implements PaymentService {
   }
 
   @Override
-  public PaymentDTO updatePaymentStatusAndPaymentID(int id, String status, String rzOrdId, String rzPayId) {
+  public PaymentDTO updatePaymentStatusAndPaymentID(int id, String status, String rzOrdId, String rzPayId,
+      String method) {
     if (paymentRepository.existsById(id)) {
       Payment payment = paymentRepository.findById(id).get();
       payment.setStatus(status);
       payment.setRzpPaymentId(rzPayId);
+      if (!method.isEmpty()) {
+        payment.setPaymentMethod(method);
+      }
       return toDTO(paymentRepository.save(payment));
     } else {
       throw new RuntimeException("Payment not found with id" + id);

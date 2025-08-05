@@ -33,30 +33,37 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Product implements Serializable{
-  
-	private static final long serialVersionUID=1L;
-  
+public class Product implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
-  
+
   @NotBlank
   private String code;
-  
+
   @NotBlank
   private String name;
-  
+
   @NotBlank
   @Column(length = 3000)
   private String description;
-  
+
   @NotNull
   private double price;
-  
+
+  private double discount = 0.0;
+  private double offerAmount = 0.0;
+  private double taxRate = 18.0;
+  private double total = 0.0;// optional only for cart calculation
+
   @NotNull
-  private int quantity;
-  
+  private int stock;
+
+  private int quantity = 1;
+
   @NotBlank
   @Column(length = 1000)
   private String image;
@@ -69,7 +76,7 @@ public class Product implements Serializable{
 
   @NotBlank
   private String mainCategory;
-  
+
   @ManyToOne
   @JsonBackReference
   private User user;
@@ -77,12 +84,8 @@ public class Product implements Serializable{
   @CreatedDate
   @Column(updatable = false)
   private LocalDateTime createdAt;
-  
+
   @LastModifiedDate
   private LocalDateTime updatedAt;
 
-  
-  
-  
 }
-

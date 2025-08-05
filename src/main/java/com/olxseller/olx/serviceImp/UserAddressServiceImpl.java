@@ -52,11 +52,11 @@ public class UserAddressServiceImpl implements UserAddressService {
 
   @Override
   public void setDefaultAddress(int id) {
-    repo.findAll().forEach(e -> {
-      e.setActive("");
-      repo.save(e);
-    });
-    UserAddress address = repo.getReferenceById(id);
+    UserAddress address = repo.findById(id).get();
+    List<UserAddress> alist = repo.getAddressesByUserId(address.getUser().getId());
+    alist.stream()
+        .forEach(e -> e.setActive(""));
+    repo.saveAll(alist);
     address.setActive("yes");
     repo.save(address);
   }

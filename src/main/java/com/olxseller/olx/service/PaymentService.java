@@ -9,5 +9,5 @@ public interface PaymentService {
 
   PaymentDTO updatePaymentStatus(int id, String status, String rzOrdId);
 
-  PaymentDTO updatePaymentStatusAndPaymentID(int id, String status, String rzOrdId, String rzPayId);
+  PaymentDTO updatePaymentStatusAndPaymentID(int id, String status, String rzOrdId, String rzPayId, String method);
 }

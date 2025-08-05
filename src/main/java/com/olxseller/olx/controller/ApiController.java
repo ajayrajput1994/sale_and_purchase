@@ -373,8 +373,9 @@ public class ApiController {
     String rzyPaymentID = (String) requestDta.get("paymentId");
     String rzyOrderId = (String) requestDta.get("orderId");
     try {
+      String method = orderService.getPaymentMethod(rzyPaymentID);
       PaymentDTO paymentDTO = paymentService.updatePaymentStatusAndPaymentID(payId, "SUCCESS", rzyOrderId,
-          rzyPaymentID);
+          rzyPaymentID, method);
       OrderDTO orderDTO = orderService.updateStatus(paymentDTO.getOrderId(), "CREATED");
       System.out.println("update payment:" + paymentDTO.getId());
       System.out.println("update ORDER:" + orderDTO.getId());

@@ -8,8 +8,8 @@ var userInfo = {},
   productDict = {},
   wishlistItemDict = {},
   reviewsDict = {},
-  reviewsList = [];
-wishlistItems = {};
+  reviewsList = [],
+  wishlistItems = {};
 
 $(function () {
   loadData();
@@ -59,6 +59,8 @@ function addAddressCB(r) {
   d["city"] = dta.city;
   d["address"] = dta.address;
   d["address_type"] = dta.address_type;
+  d["id"] = dta.id;
+  d["active"] = dta.active;
   addressDict[dta.id] = d;
   $("#addressForm")[0].reset();
   renderAddresses();

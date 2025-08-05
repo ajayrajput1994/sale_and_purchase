@@ -12,13 +12,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.olxseller.olx.helper.LocalDateTimeDeserializer;
 import com.olxseller.olx.helper.LocalDateTimeSerializer;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
-@ToString
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
   private int id;
 
@@ -32,14 +34,27 @@ public class ProductDTO {
   @NotNull(message = "Price is mandatory")
   @Min(value = 1, message = "Price must be greater than 0")
   private double price;
+  @Builder.Default
+  private double discount = 0.0;
+  @Builder.Default
+  private double offerAmount = 0.0;
+  @Builder.Default
+  private double taxRate = 18.0;
+  @Builder.Default
+  private double total = 0.0;// optional only for cart calculation
 
   @NotNull(message = "User ID cannot be null")
   @Min(value = 1, message = "User ID must be greater than 0")
   private Integer userId;
 
-  @NotNull(message = "quantity is mandatory")
-  @Min(value = 1, message = "Quantity must be greater than 0")
-  private int quantity;
+  // @NotNull(message = "quantity is mandatory")
+  // @Min(value = 1, message = "Quantity must be greater than 0")
+  @Builder.Default
+  private int quantity = 1;
+
+  @NotNull(message = "Stock is mandatory")
+  @Min(value = 1, message = "Stock must be greater than 0")
+  private int stock;
 
   @NotBlank(message = "Image is mandatory")
   private String image;
@@ -60,5 +75,4 @@ public class ProductDTO {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   private LocalDateTime updatedAt;
-
 }
