@@ -8,18 +8,21 @@
   </head>
 
   <body>
-		<style>
-			.navbar{display: none;}
-		</style>
+    <style>
+      .navbar {
+        display: none;
+      }
+    </style>
     <div class="container" th:replace="~{base_layout :: contentDom}">
       <div id="myContent">
         <section>
-					<div class="row">
-						<div class="col-md-4 col-12 mx-auto">
-							<div class="card px-3 pb-5 pt-3">
-								<div class="text-center"> 
-									<a th:href="@{/}"><img th:src="@{/image/favicon.png}" class="img " style="width: 50px;height: 50px;text-align: center;"/></a>
-									<h2><span style="
+          <div class="row">
+            <div class="col-md-4 col-12 mx-auto">
+              <div class="card px-3 pb-5 pt-3">
+                <div class="text-center">
+                  <a th:href="@{/}"><img th:src="@{/image/favicon.png}" class="img "
+                      style="width: 50px;height: 50px;text-align: center;" /></a>
+                  <h2><span style="
 										color: #348e37;
 										font-weight: 700;
 								">Lo</span><span style="
@@ -31,54 +34,60 @@
 										font-weight: 700;
 										text-transform: lowercase;
 								">in</span></h2>
-								</div>
-							<div th:if="${param?.error}" class="alert alert-danger text-center"   >
-							Invalid Username and password !
-							</div>
-							<div th:if="${param?.logout}" class="alert alert-success text-center"  >
-							You have been logged out !
-							</div> 
-								<form th:action="@{/login_process}" method="post" th:object="${logindata}">
-								<input type="hidden" name="wishList" id="wishList" >
-									<!-- Email input -->
-								<div class="form-group">
-								<label class="form-label" for="email">Email address</label>
-								<!-- <input type="text" name="username" id="email"  class="form-control "  placeholder="Enter Email" /> -->
-									<input type="text" name="username" id="email" th:value="${logindata?.email}"  class="form-control " th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}" aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
-								</div>
-								<div th:each="e:${#fields.errors('email')}" th:text="${e}" id="validationServer05Feedback" class="invalid-feedback"></div>
-							
-								<!-- Password input -->
-								<div class="form-group ">
-								<label class="form-label" for="password">Password</label>
-								<!-- <input type="password" name="password" id="password" class="form-control"  placeholder="Enter Password" /> -->
-								<input type="password" name="password" id="password" th:value="${logindata?.password}"  class="form-control" th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}" aria-describedby="validationServer0"  placeholder="Enter Password" />
-									 </div>
-							 <div th:each="e:${#fields.errors('password')}" th:text="${e}" id="validationServer05" class="invalid-feedback"></div>
-								<!-- 2 column grid layout for inline styling -->
-								<div class=" mb-4 d-flex justify-content-between">
-									<div class="">
-										<!-- Checkbox -->
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" name="remember-me" id="remember-me" checked />
-											<label class="form-check-label" for="remember-me"> Remember me </label>
-										</div>
-										
-									</div>
-							
-									<div class="">
-										<!-- Simple link -->
-										<a href="javascript:">Forgot password?</a>
-									</div>
-								</div>
-							
-								<!-- Submit button -->
-								<button type="submit" class="btn btn-success col-12 rounded-pill mb-2 btn-sm ">Sign in</button>
-			
-							<!-- Register buttons -->
-							<div class="text-center">
-								<p>Not a member? <a href="/register">Register</a></p>
-								<!-- <p>or sign up with:</p>
+                </div>
+                <div th:if="${param?.error}" class="alert alert-danger text-center">
+                  Invalid Username and password !
+                </div>
+                <div th:if="${param?.logout}" class="alert alert-success text-center">
+                  You have been logged out !
+                </div>
+                <form th:action="@{/login_process}" method="post" th:object="${logindata}">
+                  <input type="hidden" name="wishList" id="wishList">
+                  <!-- Email input -->
+                  <div class="form-group">
+                    <label class="form-label" for="email">Email address</label>
+                    <!-- <input type="text" name="username" id="email"  class="form-control "  placeholder="Enter Email" /> -->
+                    <input type="text" name="username" id="email" th:value="${logindata?.email}" class="form-control "
+                      th:classappend="${#fields.hasErrors('email')? 'is-invalid':''}"
+                      aria-describedby="validationServer05Feedback" placeholder="Enter Email" />
+                  </div>
+                  <div th:each="e:${#fields.errors('email')}" th:text="${e}" id="validationServer05Feedback"
+                    class="invalid-feedback"></div>
+
+                  <!-- Password input -->
+                  <div class="form-group ">
+                    <label class="form-label" for="password">Password</label>
+                    <!-- <input type="password" name="password" id="password" class="form-control"  placeholder="Enter Password" /> -->
+                    <input type="password" name="password" id="password" th:value="${logindata?.password}"
+                      class="form-control" th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}"
+                      aria-describedby="validationServer0" placeholder="Enter Password" />
+                  </div>
+                  <div th:each="e:${#fields.errors('password')}" th:text="${e}" id="validationServer05"
+                    class="invalid-feedback"></div>
+                  <!-- 2 column grid layout for inline styling -->
+                  <div class=" mb-4 d-flex justify-content-between">
+                    <div class="">
+                      <!-- Checkbox -->
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember-me" id="remember-me" checked />
+                        <label class="form-check-label" for="remember-me"> Remember me </label>
+                      </div>
+
+                    </div>
+
+                    <div class="">
+                      <!-- Simple link -->
+                      <a href="javascript:">Forgot password?</a>
+                    </div>
+                  </div>
+
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-success col-12 rounded-pill mb-2 btn-sm ">Sign in</button>
+
+                  <!-- Register buttons -->
+                  <div class="text-center">
+                    <p>Not a member? <a href="/register">Register</a></p>
+                    <!-- <p>or sign up with:</p>
 								<button type="button" class="btn btn-primary btn-floating mx-1">
 									<i class="fab fa-facebook-f"></i>
 								</button>
@@ -94,11 +103,11 @@
 								<button type="button" class="btn btn-primary btn-floating mx-1">
 									<i class="fab fa-github"></i>
 								</button> -->
-							</div>
-						</form>
-							</div>
-						</div>
-					</div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>
@@ -106,11 +115,11 @@
   </body>
   <th:block th:include="base_layout :: myscript">
   </th:block>
-	<script th:inline="javascript">
-    $(function(){
-		 $('#wishList').val(JSON.stringify(getCookie('mywishlist')));
+  <script th:inline="javascript">
+    $(function () {
+      $('#wishList').val(JSON.stringify(getCookie('mywishlist')));
     });
   </script>
-  
+
 
 </html>

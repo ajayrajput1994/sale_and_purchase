@@ -1,6 +1,7 @@
 package com.olxseller.olx.config;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,55 +13,64 @@ import com.olxseller.olx.model.User;
 
 public class CustomUserDetails implements UserDetails {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	@Autowired
-	private User user;
+  @Autowired
+  private User user;
 
-	public CustomUserDetails(User user) {
-		super();
-		this.user = user;
-	}
+  public CustomUserDetails(User user) {
+    super();
+    this.user = user;
+  }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
-		HashSet<SimpleGrantedAuthority> hashSet = new HashSet<SimpleGrantedAuthority>();
-		hashSet.add(simpleGrantedAuthority);
-		return hashSet;
-	}
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    // SimpleGrantedAuthority simpleGrantedAuthority = new
+    // SimpleGrantedAuthority(user.getRole());
+    // HashSet<SimpleGrantedAuthority> hashSet = new
+    // HashSet<SimpleGrantedAuthority>();
+    // hashSet.add(simpleGrantedAuthority);
+    // return hashSet;
+    String role = user.getRole();
+    if (!role.startsWith("ROLE_")) {
+      role = "ROLE_" + role;
+    }
+    System.out.println("CustomUserDetails - Role being set: " + role);
+    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+    return Collections.singleton(authority);
+  }
 
-	@Override
-	public String getPassword() {
-		return user.getPassword();
-	}
+  @Override
+  public String getPassword() {
+    return user.getPassword();
+  }
 
-	@Override
-	public String getUsername() {
-		return user.getEmail();
-	}
+  @Override
+  public String getUsername() {
+    return user.getEmail();
+  }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 
 }

@@ -90,6 +90,7 @@ public class ApiController {
       map.put("address", addressService.getAllAddressByUserId(user.getId()));
       map.put("cart", cartService.getCartItems(user.getId()));
       map.put("wishlist", wishlistService.getWishlist(user.getId()));
+      map.put("orders", orderService.getAllOrdersByUserID(user.getId()));
       return new ResponseEntity<>(
           responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loading data", "LOADED",
               map),
@@ -115,6 +116,7 @@ public class ApiController {
       map.put("address", addressService.getAllAddressByUserId(user.getId()));
       map.put("cart", cartService.getCartItems(user.getId()));
       map.put("wishlist", wishlistService.getWishlist(user.getId()));
+      map.put("orders", orderService.getAllOrdersByUserID(user.getId()));
       return new ResponseEntity<>(
           responseData.jsonSimpleResponse("SUCCESS", "Successfuly Logged in", "LOADED",
               map),
