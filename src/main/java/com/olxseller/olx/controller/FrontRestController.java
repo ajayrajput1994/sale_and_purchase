@@ -36,80 +36,81 @@ public class FrontRestController {
   public ProductService productService;
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-	String date = sdf.format(new Date());
+  String date = sdf.format(new Date());
 
   @PostMapping("/comment/create")
-	public ResponseEntity<?> createUpdateComment(@RequestBody Comments comm) {
-		comm.setCreate_at(date);
+  public ResponseEntity<?> createUpdateComment(@RequestBody Comments comm) {
+    comm.setCreate_at(date);
     comm.setUpdate_at(date);
-		System.out.println("Comments:" + comm);
-		try {
-			if (comm.getCommentId() > 0) {
-				return new ResponseEntity<>(
-						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
-								commService.updateComment(comm, comm.getCommentId())),
-						HttpStatus.OK);
-			}
-			return new ResponseEntity<>(
-					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", commService.createComment(comm)),
-					HttpStatus.CREATED);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
-	}
+    System.out.println("Comments:" + comm);
+    try {
+      if (comm.getCommentId() > 0) {
+        return new ResponseEntity<>(
+            responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+                commService.updateComment(comm, comm.getCommentId())),
+            HttpStatus.OK);
+      }
+      return new ResponseEntity<>(
+          responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", commService.createComment(comm)),
+          HttpStatus.CREATED);
+    } catch (Exception ex) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // return null;
+  }
 
   @PostMapping("/publisher/create")
-	public ResponseEntity<?> createUpdatePublisher(@RequestBody ContactToPublisher pub) {
-		pub.setDate(date);
-		System.out.println("Comments:" + pub);
-		try {
-			if (pub.getId() > 0) {
-				return new ResponseEntity<>(
-						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
-								pubService.updatePublisher(pub, pub.getId())),
-						HttpStatus.OK);
-			}
-			return new ResponseEntity<>(
-					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", pubService.createPublisher(pub)),
-					HttpStatus.CREATED);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
-	}
+  public ResponseEntity<?> createUpdatePublisher(@RequestBody ContactToPublisher pub) {
+    pub.setDate(date);
+    System.out.println("Comments:" + pub);
+    try {
+      if (pub.getId() > 0) {
+        return new ResponseEntity<>(
+            responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+                pubService.updatePublisher(pub, pub.getId())),
+            HttpStatus.OK);
+      }
+      return new ResponseEntity<>(
+          responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", pubService.createPublisher(pub)),
+          HttpStatus.CREATED);
+    } catch (Exception ex) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // return null;
+  }
 
   @PostMapping("/contact/add")
-	public ResponseEntity<?> AddContact(@RequestBody ContactUs contact) {
-		contact.setDate(date);
-		System.out.println("Comments:" + contact);
-		try {
-			if (contact.getContactId() > 0) {
-				return new ResponseEntity<>(
-						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
-						contactService.updateContact(contact, contact.getContactId())),
-						HttpStatus.OK);
-			}
-			return new ResponseEntity<>(
-					responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE", contactService.addContact(contact)),
-					HttpStatus.CREATED);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
-	}
+  public ResponseEntity<?> AddContact(@RequestBody ContactUs contact) {
+    contact.setDate(date);
+    System.out.println("Comments:" + contact);
+    try {
+      if (contact.getContactId() > 0) {
+        return new ResponseEntity<>(
+            responseData.jsonSimpleResponse("SUCCESS", "Successfuly Update", "UPDATE",
+                contactService.updateContact(contact, contact.getContactId())),
+            HttpStatus.OK);
+      }
+      return new ResponseEntity<>(
+          responseData.jsonSimpleResponse("SUCCESS", "Successfuly Created", "CREATE",
+              contactService.addContact(contact)),
+          HttpStatus.CREATED);
+    } catch (Exception ex) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // return null;
+  }
 
   @GetMapping("/items/{Ids}")
-	public ResponseEntity<?> getProductListByIds(@PathVariable("Ids") List<Integer> Ids ) { 
-		System.out.println("Ids:" + Ids);
-		try { 
-				return new ResponseEntity<>(
-						responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loaded", "RETRIEVE",
-						productService.getAllProductsByIds(Ids)),
-						HttpStatus.OK); 
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		// return null;
-	}
+  public ResponseEntity<?> getProductListByIds(@PathVariable("Ids") List<Integer> Ids) {
+    System.out.println("Ids:" + Ids);
+    try {
+      return new ResponseEntity<>(
+          responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loaded", "RETRIEVE",
+              productService.getAllProductsByIds(Ids)),
+          HttpStatus.OK);
+    } catch (Exception ex) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // return null;
+  }
 }
