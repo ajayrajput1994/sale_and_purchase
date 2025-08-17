@@ -75,30 +75,39 @@ public class ApiController {
   @Autowired
   private WishlistService wishlistService;
 
-  @GetMapping("/home/{email}")
-  public ResponseEntity<?> getHomeData(@PathVariable("email") String email) {
-
+  @GetMapping("/home")
+  public ResponseEntity<?> getHomeData(@RequestParam(defaultValue = "example@gmail.com") String email) {
     System.out.println("Prepare home data....");
+    Map<String, Object> map = new HashMap<>();
+
     try {
       UserDTO user = userDtoService.findUserByEmail2(email);
-      Map<String, Object> map = new HashMap<>();
-      map.put("user", user);
+      System.out.println("user: " + user);
+
+      if (user != null && user.getId() != 0) {
+        map.put("user", user);
+        map.put("address", addressService.getAllAddressByUserId(user.getId()));
+        map.put("cart", cartService.getCartItems(user.getId()));
+        map.put("wishlist", wishlistService.getWishlist(user.getId()));
+        map.put("orders", orderService.getAllOrdersByUserID(user.getId()));
+      } else {
+        map.put("message", "User not found or ID is null");
+      }
+
+      // These are independent of user
       map.put("product", productService.getAllProducts());
       map.put("cats", catService.getAllCategory());
       map.put("subcat", subCatService.allSubcats());
       map.put("maincat", mainCatService.AllCategories());
-      map.put("address", addressService.getAllAddressByUserId(user.getId()));
-      map.put("cart", cartService.getCartItems(user.getId()));
-      map.put("wishlist", wishlistService.getWishlist(user.getId()));
-      map.put("orders", orderService.getAllOrdersByUserID(user.getId()));
+
       return new ResponseEntity<>(
-          responseData.jsonSimpleResponse("SUCCESS", "Successfuly Loading data", "LOADED",
-              map),
+          responseData.jsonSimpleResponse("SUCCESS", "Successfully loaded data", "LOADED", map),
           HttpStatus.OK);
+
     } catch (Exception ex) {
+      LOGGER.error("Error: " + ex.getMessage(), ex);
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    // return null;
   }
 
   @PostMapping("/MobLogin")
