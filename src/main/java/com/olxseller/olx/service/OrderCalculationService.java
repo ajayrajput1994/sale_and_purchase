@@ -59,7 +59,7 @@ public class OrderCalculationService {
 
     // Tax amount (based on subtotal after discount & offer)
     public double getTaxAmount() {
-      System.out.println("getTaxAmount:" + taxRate);
+      // System.out.println("getTaxAmount:" + taxRate);
       return (getSubTotal() - getTotalDiscount() - getTotalOffer()) * (taxRate / 100);
     }
 
